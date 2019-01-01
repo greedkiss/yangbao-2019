@@ -4,6 +4,7 @@
         <p>Guizhou Dongjun Organic Agriculture Technology Co., Ltd.</p>
         <p>软件著作编号：2018SR504492; 2018SR503550; 2018SR503571; 2018SR503580; 2018SR503575; 2018SR503564;2018SR504500; </p>
         <p><a href="http://www.miitbeian.gov.cn/">黔ICP备18003179号</a></p>
+
     </div>
 </template>
 
@@ -24,4 +25,5 @@ p
 p
     a
         color:#fff
+
 </style>

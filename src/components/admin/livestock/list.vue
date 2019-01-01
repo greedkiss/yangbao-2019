@@ -115,7 +115,6 @@
 				    <div class="name">{{ item }}</div>
 				  </template>
 				</el-autocomplete>
-
 				<span>栏号：</span>
 				 <el-autocomplete
 				  popper-class="my-autocomplete"
@@ -137,7 +136,6 @@
 				<el-button type="primary" @click="moveSheepFun" size="small">添 加</el-button>
 			</div>
 		</el-dialog>
-
 		<el-dialog :visible.sync="dialogDeadVisible" class="dead">
 			<el-form :model="form">
 				<span>商标耳牌号: {{this.currentRow.tradeMarkEartag}}</span><br/>
@@ -155,7 +153,6 @@
 				<el-button type="primary" @click="submitSheep" size="small">确 定</el-button>
 			</div>
 		</el-dialog>
-
 
 		<!-- 信息编辑 -->
 		<el-dialog :visible.sync="dialogUpdateVisible" class="dead">
@@ -429,7 +426,6 @@ export default {
                               [18,"其它"]
                             ])
 		}
-
 	},
 
 	methods: {
@@ -572,7 +568,6 @@ export default {
 			})
         },
 
-
         saleSheep(){
         	let array = this.multipleSelection
         	let {userFactory , factoryName } = this.user
@@ -610,6 +605,7 @@ export default {
       	},
      	createFilter1(queryString) {
 	        return (restaurant) => {
+
 	          return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
 	        }
 		},
@@ -776,7 +772,7 @@ export default {
 	          this.fetchData()
 	        })
       	},
-}
+	}
 }
 </script>
 

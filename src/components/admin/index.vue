@@ -164,7 +164,6 @@ export default {
                         {label: '购进管理', to: 'livestockBuy'},
                         {label: '死亡管理', to: 'livestockDead'},
                     ]},
-                    
                     {label: '卫生·疫控', to: 'health', children: [
                         {label: '专家咨询', to: 'chat'},
                         {label: '卫生与动物福利管理方案', to: 'welfareplan'},
@@ -346,13 +345,11 @@ export default {
         },
 
         clickTree (node, data) {
-            // console.dir(data)
-            // console.dir(node)
-            // console.log(node.to)
             if(node.to=='intelManage'){
                 this.module = {label: node.label, to: node.to}
                 this.$router.push({name: node.to})
             }
+
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
                     window.open('http://www.nubiangoat.biz/')

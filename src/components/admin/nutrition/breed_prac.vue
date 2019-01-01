@@ -22,6 +22,7 @@
 import dataCur from '@/components/admin/common/dataCUR'
 import { getBreeding, postBreeding, updateBreeding } from '@/util/getdata'
 import { getStages } from '@/util/dataselect'
+
 export default {
     components: {
         dataCur
@@ -48,6 +49,7 @@ export default {
 
                   
                 {label: '批次平均产羔时间', model: 'averageTime', type: 'time_2'}, 
+
                 {label: '移至待产栏/栋', model: 'buildingToBeRelocated' , type: 'selectOneCrowd'},                               
                 {label: '执行产期营养标准(产前一周)-序号', model: 'nutritionBeforeLambing', type: 'time_2'}, 
                 {label: '产羔时间', model: 'lambingTime', type: 'time_2'},

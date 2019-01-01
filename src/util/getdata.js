@@ -219,6 +219,7 @@ export const getCategory = data => fetch(`/var/getOne/${id}`, data, 'POST')
 export const deleteCategory = id =>fetch(`/var/delete/${id}`)
 
 
+
 // 修改密码
 export const updatePassword = (id, data) => fetch('/user/password/' + id, data, 'PATCH')
 
@@ -337,7 +338,6 @@ export const getTableDetail = (id , flag) => fetch('/client/' + id + '/role/' + 
 
 export const submitVisual = data => fetch('/uploadFile/productPic' , data , 'POST')
 
-
 // 存档档案
 
 // 栏栋管理
@@ -384,6 +384,7 @@ export const moveSheepPart = data => fetch('/bc/changeBC/ids', data , 'POST')
 export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
+
 //卫生疫控
 
 
@@ -412,5 +413,6 @@ export const getFiveDetail = id => fetch('/nim/' + id + '/145' , 'GET')
 
 export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + stage + '/' + type, 'GET')
 
-
-
+//搜索平台查询羊信息
+export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
+export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});

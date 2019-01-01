@@ -1,8 +1,8 @@
 <template>
     <div id="app">
-        <app-head v-show="isNotLogin && !isAdmin"></app-head>
-        <router-view/>
-        <app-foot v-show="!isAdmin"></app-foot>
+        <app-head v-show="isNotLogin && !isAdmin" ></app-head>
+        <router-view v-if='reloadFlag' @searchTo='reload' @closeHnF="closeHnF"/>
+        <app-foot v-show="!isAdmin" ></app-foot>
     </div>
 </template>
 
@@ -16,7 +16,18 @@ export default {
     components: {
         AppHead, AppFoot
     },
-
+    methods: {
+      closeHnF () {
+        this.isAdmin = !this.isAdmin
+      },
+      reload () {
+          console.log("12212");
+          this.reloadFlag = false;
+          this.$nextTick(() => {
+              this.reloadFlag = true;
+          })
+      }
+    },
     watch: {
         '$route' (to) {
             document.documentElement.scrollTop = 0
@@ -28,8 +39,10 @@ export default {
 
     data () {
         return {
+            searchFlag: true,
             isNotLogin: false,
-            isAdmin: false
+            isAdmin: false,
+            reloadFlag: true,
         }
     },
 

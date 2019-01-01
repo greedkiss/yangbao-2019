@@ -179,6 +179,7 @@ export default {
             let path = `/admin/${pathid}/intelManage/total`
             this.$router.push(path)
         },
+
         Spv (isPass) {
             // let sMap = {
             //     welfare: patchWelfare,

@@ -9,7 +9,8 @@ import FindPass from '@/components/login/findpass'
 import Genea from '@/components/genea/genealogic'
 import GeneaDetail from '@/components/genea/genea_detail'
 import Course from '@/components/course'
-const SearchRes = () => import('@/components/search_res')
+
+const SearchRes = () => import('@/components/search_res2')
 
 // 管理员模块首页
 const Admin = () => import('@/components/admin/index')
@@ -91,6 +92,7 @@ const Diagnose = () => import('@/components/admin/visual/diagnose')
 const DiagnoseList = () => import('@/components/admin/visual/diagnose_list')
 const ProductionVisual = () => import('@/components/admin/visual/production')
 const ProductionGlance = () => import('@/components/admin/visual/productionGlance')
+
 // 有机养殖环境追溯
 const TraceCharts = () => import('@/components/admin/trace/index')
 // 动物福利
@@ -181,6 +183,7 @@ export default new Router({
             {path: 'livestock/dead', name: 'livestockDead', component: LivestockDead},
             {path: 'livestock/add', name: 'livestockAdd', component: LivestockAdd},
             {path: 'livestock/buy', name: 'livestockBuy', component: LivestockBuy},
+
             // 智能管理
             {path: 'intelManage/total', name: 'intelManage', component: intelManage},
             {path: 'intelManage/shin', name: 'nonpregnantOne', component: NonpregnantOne},
@@ -229,6 +232,7 @@ export default new Router({
             {path: 'visual/diagnose/list', name: 'diagnose_list', component: DiagnoseList},
             {path: 'visual/production', name: 'production', component: ProductionVisual},
             {path: 'visual/productionSee', name: 'productionSee', component: ProductionGlance},
+
             // 追溯图表
             {path: 'trace', name: 'trace', component: TraceCharts},
             // 有机监管

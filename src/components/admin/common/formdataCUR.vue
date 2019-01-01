@@ -15,7 +15,7 @@
                 <el-button type="primary" :disabled="disableBtn" @click="submit()">提交/更新</el-button>
                 <el-button v-if="showr" type="primary" :disabled="disableBtn" @click="returnback">返回生产节点智能统计</el-button>
             </template>
-            
+
             <template v-else-if="!view">
                 <el-button type="primary" :disabled="disableBtn" @click="Spv(1)">通过</el-button>
                 <el-button type="primary" :disabled="disableBtn" @click="Spv(0)">拒绝</el-button>
@@ -69,6 +69,7 @@ export default {
             type: Function
         },
     },
+
     components: {
         BasicInfo
     },
@@ -91,6 +92,7 @@ export default {
         this.view = this.$route.query.view
         this.edit = this.$route.query.edit || this.$route.query.check || this.$route.query.supervise || this.view
         this.intel = this.$route.query.intel
+
         let id = this.$route.params.id
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
@@ -151,6 +153,7 @@ export default {
                 console.log("连接")
             }
         }
+
         if (this.edit) {
             this.getData(this.edit).then(res => {
                 if (isReqSuccessful(res)) {

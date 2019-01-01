@@ -69,8 +69,6 @@
 				</el-popover>	 
 				</div>
 				<el-button type="small" @click = "submitOne" style="margin-left: 10px">添加</el-button>
-
-
 			<div class="multiple">
 				<span>批量分配:</span>
 				<el-popover placement="bottom" width="350" trigger="click" popper-class="multiple-select">
@@ -236,7 +234,6 @@ export default {
                 })
 			}).then(this.fetchData)
 		},
-
 		async fetchData(){
 			let {userFactory } = this.user
 			this.factory= userFactory
@@ -371,6 +368,7 @@ export default {
 					}
 				},
 
+
 		initPopover() {
 			let p = this.$refs.tradeSelect.$refs.popper
 			setTimeout(()=> {
@@ -408,6 +406,7 @@ export default {
 			    ]
     			cb(style)
 			}
+
 	},
 
 	// 
@@ -426,6 +425,7 @@ export default {
 		selectStage(){
 			return this.checkStage[0]
 		},
+
 		tradeMarkEartag() {
 			let res = ''
 			this.tradeNList.forEach( ele => {
@@ -529,5 +529,4 @@ export default {
 			margin-left:0px
 	.el-checkbox
 		width 40px
-
 </style>

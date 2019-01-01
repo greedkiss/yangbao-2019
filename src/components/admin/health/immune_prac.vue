@@ -33,7 +33,7 @@ export default {
                 {label: '疫苗种类', model: 'immuneKind', type: 'select', fetchSuggestions: getImmuneTypes},
                 {label: '接种方法', model: 'immuneWay', type: 'select', fetchSuggestions: getInfectWays},
                 {label: '接种剂量(ml)', model: 'dose', type: 'select', fetchSuggestions: getDoses,mr: 1},
-                {label: '免疫期', model: 'immuneDuring', type: 'select', fetchSuggestions: getPeriods, mr: 1}               
+                {label: '免疫期', model: 'immuneDuring', type: 'select', fetchSuggestions: getPeriods, mr: 1}
             ],
             models: {
                 eartagFile: null,
@@ -45,7 +45,6 @@ export default {
                 immuneDuring: null,
                 remark: null,
                 period:null
-            }
         }
     }
 }

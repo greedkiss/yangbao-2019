@@ -26,6 +26,7 @@ export const getStyle = (q,cb)=>{
     cb(style)
 
 }
+
 export const getWays = (q, cb) => {
     let ways = [
         {value: '皮下注射', key: 0},

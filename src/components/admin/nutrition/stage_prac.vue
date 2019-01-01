@@ -208,7 +208,6 @@ export default {
                         }
                     })
                     this.models = obj
-                    // console.log(this.models, this.cards)
                 }
             })
         }

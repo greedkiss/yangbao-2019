@@ -8,6 +8,7 @@
             <el-progress v-for="(item, i) in captures" :text-inside="true" :stroke-width="18" :percentage="captures[i].per" style="margin-top: 10px" :key="i"></el-progress>
         </div>
         <div class="card">
+
             <p class="card-title">症状描述:</p>
             <el-input type="textarea" v-model="models.symptom"></el-input>
         </div>
@@ -15,7 +16,6 @@
             <p class="card-title">解决方法:</p>
             <el-input type="textarea" v-model="models.solution"></el-input>
         </div>
-         
         <div class="admin-send">
             <el-button type="primary" @click="submit()">提交/更新</el-button>
         </div>
@@ -30,6 +30,7 @@ import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit'
 import {config} from '@/util/config'
 const qiniu = require('qiniu-js')
+
 export default {
     components: {
         BasicInfo

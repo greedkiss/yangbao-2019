@@ -4,7 +4,6 @@
 
         <div class="border-main">
             <div class="form-summary">
-
                 <div class="time el-input-group select">
                     <span class="time-span ellipse"  v-text="'图片/视频类型：'"></span><el-autocomplete
                         size="small"
