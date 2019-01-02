@@ -131,7 +131,7 @@ export default {
             },
             // 设置出错图片
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
-            defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"',
+            // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"',
             condition: 'all',
             time: [],
             keyWords: '',

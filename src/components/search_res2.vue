@@ -1012,7 +1012,6 @@ export default {
           return
         }
         this.$router.push({name: 'search', query: { code: this.key }});
-        console.log("12121212");
         this.$emit("searchTo");
       },
       qrcode () {

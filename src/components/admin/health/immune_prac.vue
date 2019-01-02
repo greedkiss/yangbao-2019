@@ -45,6 +45,7 @@ export default {
                 immuneDuring: null,
                 remark: null,
                 period:null
+            }
         }
     }
 }
