@@ -196,7 +196,7 @@ export default {
                     {label: '专家课堂', to: 'course'},
                     {label: '有机养殖环境追溯', to: 'trace'},
                     {label: '有机·监管', to: 'supervise', children: [
-                        {label: '国家认证', to: 'nation'},
+                        {label: '认证证书', to: 'nation'},
                         {label: '企业监控认证', children: [
                             {label: '操作流程审核', to: 'audit'},
                             {label: '回收化验指标', to: 'recovery_index'}

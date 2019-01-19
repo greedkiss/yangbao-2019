@@ -1098,7 +1098,7 @@ export default {
 }
 </script>
 
-<style  lang="stylus">
+<style  lang="stylus" scoped>
 @import '../assets/css/color'
   .search-wrapper
     /*position: fixed*/
