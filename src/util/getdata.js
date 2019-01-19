@@ -415,4 +415,8 @@ export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + sta
 
 //搜索平台查询羊信息
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
+
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
+
+//认证证书
+export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')

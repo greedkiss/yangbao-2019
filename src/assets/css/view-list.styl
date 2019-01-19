@@ -1,0 +1,62 @@
+@import './color'
+.mod_production
+    .el-card__body
+        padding 10px
+        position: relative
+    .el-dialog__close
+        font-size: 25px
+    .el-dialog__body
+        padding-top: 40px    
+    .production-search
+        margin 10px auto 15px
+        .search-input
+            width 400px
+    .production-view
+        overflow hidden
+        .production-content
+            float left
+            width calc((100% - 30px)/4)
+            font-size 15px
+            margin 0 10px 10px 0
+            &:nth-of-type(4n)
+                margin-right 0
+            .video-icon 
+                font-size: 100px
+                color: #f5f7facf
+                position: absolute
+                top: 30px
+                left: 90px
+                cursor: pointer 
+                pointer-events:none    
+            .production-image
+                display block
+                width 100%
+                height 160px
+                cursor pointer
+            .production-video
+                width 100%
+            .production-info
+                overflow hidden
+                margin 0
+                width 100%
+                line-height 30px
+                white-space nowrap
+                text-overflow ellipsis
+        .show-detail
+            width 95%
+            margin 0 auto 20px
+            border 1px solid #ccc
+            .production-image-detail
+                display block
+                width 100%
+                cursor pointer
+        .show-list
+            width 90%
+            margin 0 auto
+            li
+                margin-top 10px
+            .el-tag
+                margin-right: 10px
+                font-size: 14px
+    .el-pagination
+        text-align right

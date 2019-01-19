@@ -6,7 +6,7 @@
 import Vue from 'vue'
 import { tokenStr } from './fetch'
 import { validateTelephone } from './validate'
-import qiniu from 'qiniu-js'
+// import qiniu from 'qiniu-js'
 
 let app = new Vue()
 export const jumpToLogin = r => {

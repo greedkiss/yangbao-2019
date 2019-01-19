@@ -42,6 +42,21 @@ export default {
     },
 
     data () {
+        let types = [
+            {value: '白'},
+            {value: '黄'},
+            {value: '黑'},
+            {value: '黑白花'},
+            {value: '白麻'},
+            {value: '黑麻'},
+            {value: '黄麻'},
+            {value: '黄白花'}
+        ]
+
+        let getType = (q, cb) => {
+            cb(types)
+        }
+
         return {
             getGeneaRec,
             postGeneaRec,
@@ -53,7 +68,7 @@ export default {
                 {label: '出生基地', model: 'breedingSheepBase'},
                 {label: '出生时间', model: 'birthTime', type: 'time', mr: 1},
                 {label: '初生体重(kg)', model: 'birthWeight'},
-                {label: '颜色', model: 'color'},
+                {label: '颜色', model: 'color', type: 'select' ,fetchSuggestions: getType},
                 {label: '品种名', model: 'typeName', mr: 1},
                 {label: '父号', model: 'eartagOfFather'},
                 {label: '父父号', model: 'eartagOfFathersFather'},

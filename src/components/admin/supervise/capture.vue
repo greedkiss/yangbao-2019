@@ -261,21 +261,23 @@ export default {
 
         getPictureStyle (q, cb) {
             let typeName = [
-                {value: '羊场生产环境图片', index: '0'},
-                {value: '羊场生产环境视频', index: '1'},
-                {value: '羊只生产环境图片', index: '2'},
-                {value: '羊只生产环境视频', index: '3'}
+                {value: '羊场生产图片', index: '0'},
+                {value: '羊场生产视频', index: '1'},
+                {value: '羊群生产图片', index: '2'},
+                {value: '羊群生产视频', index: '3'},
+                {value: '羊只生产图片', index: '4'},
+                {value: '羊只生产视频', index: '5'}
             ]
             cb(typeName)
         },
 
         selectStyle(item){
             this.pictureStyle = item.value
-            if(item.index == 0 || item.index == 1) {
-                this.disableAll = true
+            if(item.index == 4 || item.index == 5) {
+                this.disableAll = false
             }
             else{
-                this.disableAll = false
+                this.disableAll = true
             }
         },
     }
