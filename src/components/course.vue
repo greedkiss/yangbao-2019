@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { baseUrl } from '@/util/fetch.js'
+  import {baseUrl} from '@/util/fetch.js';
 import { getChannelList, getVideoUrl, getVideo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import '@/assets/TcPlayer-2.2.1.js'
