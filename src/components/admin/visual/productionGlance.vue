@@ -159,19 +159,6 @@ export default {
                 this.factory.buildingList = res.data.data
             })
         },
-        //  produceBuilding(q , cb){
-        //         let data = []
-        //         this.factory.buildingList.forEach((item) => {
-        //             console.log(item)
-        //             let obj = {value:item}
-        //             data.push(obj)
-        //         })
-        //         cb(data)
-        // },
-
-        // selectBuilding(item){
-        //     this.model.building = item.value
-        // },
 
         produceBuilding(q , cb){
                 let data = []
