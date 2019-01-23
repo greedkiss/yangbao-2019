@@ -26,7 +26,7 @@
                 <ul class="nav-tabs">
                   <li><button type="submit"><i class="el-icon-search"></i></button></li>
                   <li><router-link to="/contact">联系我们</router-link></li>
-                  <li><a href="http://vr.suliankj.cn/tour/e1a81ed75f880b06">AR全景</a></li>
+                  <li><a href="http://vr.suliankj.cn/tour/e1a81ed75f880b06" target="_blank">AR全景</a></li>
                   <el-dropdown class="drop">
                   <li><router-link to="/appDonload">APP下载</router-link></li>
                   <el-dropdown-menu slot="dropdown">
@@ -72,11 +72,11 @@ export default {
   width 100%
   .container
       height 10%
-      background rgba(0,71,125,0.4)
+      background rgba(0,71,125,0.2)
       padding 0 10%
   .contact-info
       overflow hidden
-      padding-top 20px
+      padding-top 10px
       padding-bottom 10px
       .logo
         float left

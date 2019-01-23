@@ -86,18 +86,10 @@ export default {
 
 <style lang="stylus">
 @import '../assets/css/color'
-img
-    max-width 100%
 .index-home
     height 100%
-    background url(../assets/imgs/background.png) no-repeat center
+    background url(http://qiniu.yunyangbao.cn/homepage.png) no-repeat center
     background-size cover
-    .headindex
-        height 15%
-    .bodyindex
-        height 75%
-    .footindex
-        // height 10%
 // .po-r
 //     position relative
 

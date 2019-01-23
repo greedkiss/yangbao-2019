@@ -1,20 +1,20 @@
 <template>
 <div>
 	<div class="mainPage">
-		<div class="mainTitle">“云·羊宝”（有机）山羊养殖生产管理追溯平台</div>
+		<div class="mainTitle">云·羊宝（有机）山羊养殖生产管理追溯平台</div>
         <div class="mainNav">
-        <router-link to="/search" class="retrospect">
-            <div class="box_first">
-                <img src="../assets/imgs/retrospect.png">
-                <div class="C_name">溯源平台</div>
-                <div class="E_name">SUYUAN PLATFORM</div>
-            </div>
-        </router-link>
         <router-link to="/login" class="organic">
             <div class="box_second">
                 <img src="../assets/imgs/findOrganic.png">
                 <div class="C_name">寻找有机</div>
                 <div class="E_name">SEARCH FOR ORGANIC</div>
+            </div>
+        </router-link>
+        <router-link to="/search" class="retrospect" target="_blank">
+            <div class="box_first">
+                <img src="../assets/imgs/retrospect.png">
+                <div class="C_name">溯源平台</div>
+                <div class="E_name">SUYUAN PLATFORM</div>
             </div>
         </router-link>
         <router-link to="/login" class="produce">
@@ -24,13 +24,13 @@
                 <div class="E_name">PRODUCTION MANAGEMENT</div>
             </div>
         </router-link>
-        <router-link to="/login" class="goods">
+        <a href="http://mall.yunyangbao.cn/" class="goods" target="_blank">
             <div class="box_four">
                 <img src="../assets/imgs/produceGoods.png">
                 <div class="C_name">生产物资</div>
                 <div class="E_name">PRODUCTION MATERIALS</div>
             </div>
-        </router-link>
+        </a>
         </div>
 	</div>
 </div>
@@ -43,19 +43,19 @@
 .mainPage
     text-align center
     heigth 70%
-    padding-top 80px
+    padding-top 5%
     padding-bottom 80px
     .mainTitle
         text-align center
         color #FFFFFF
-        font-size 28px
+        font-size 38px
         font-family: Arial,'Raleway', sans-serif
         font-weight bold
-        margin-bottom 60px
+        margin-bottom 8%
     .mainNav
         .retrospect, .organic, .produce, .goods
             color #FFFFFF
-            width 13%
+            width 10%
             .box_first, .box_second, .box_three, .box_four
                 background rgba(255,255,255,0)
                 border 1px solid white
@@ -66,7 +66,7 @@
                     padding-top 40px
                 .C_name
                     font-size 18px
-                    padding-top 50px
+                    padding-top calc(4vh)
                     padding-bottom 5px
                 .E_name
                     -webkit-text-size-adjust none
@@ -82,7 +82,7 @@
                 -moz-transition 1s /* Firefox 4 */
                 -webkit-transition 1s /* Safari 和 Chrome */
                 -o-transition 1s /* Opera */
-        .organic, .produce, .goods
+        .retrospect, .produce, .goods
             width 13%
             margin-left 6%
 </style>

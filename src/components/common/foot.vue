@@ -13,7 +13,7 @@
 <style lang="stylus">
 	.foot
 		height 10%
-		background rgba(0,71,125,0.8)
+		background rgba(0,71,125,0.2)
 		text-align center
 		padding-top 13px
 		// padding-bottom 20px

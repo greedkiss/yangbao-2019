@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div>
         <footer class="app-footer">
             <el-row :gutter="20">
@@ -317,3 +317,4 @@ export default {
     color #C9C9C9
     background-color color-main
 </style>
+ -->

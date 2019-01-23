@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="app-header">
         <section class="top-bar container">
             <div>
@@ -263,3 +263,4 @@ export default {
             &:last-of-type
                 margin-left 3px
 </style>
+ -->
