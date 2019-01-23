@@ -10,6 +10,8 @@ import Genea from '@/components/genea/genealogic'
 import GeneaDetail from '@/components/genea/genea_detail'
 import Course from '@/components/course'
 
+import Header from '@/components/common/oldhead'
+
 const SearchRes = () => import('@/components/search_res2')
 
 // 管理员模块首页
@@ -133,6 +135,7 @@ export default new Router({
     routes: [
         // 用户模块
         {path: '/', name: 'index', component: Index},
+        {path: '/header', name: 'Header', component: Header},
         {path: '/login', name: 'login', component: Login},
         {path: '/register', name: 'register', component: Register},
         {path: '/findpass', name: 'findpass', component: FindPass},

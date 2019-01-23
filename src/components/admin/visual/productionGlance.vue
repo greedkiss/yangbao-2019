@@ -259,6 +259,7 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag, 
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -294,6 +295,7 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag,
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -328,6 +330,7 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag,
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {

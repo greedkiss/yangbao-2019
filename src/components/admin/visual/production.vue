@@ -283,7 +283,8 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag,
-                    expert:this.user.userRealname
+                    expert:this.user.userRealname,
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -319,7 +320,8 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag,
-                    expert:this.user.userRealname
+                    expert:this.user.userRealname,
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -354,7 +356,8 @@ export default {
                     building:this.model.building,
                     colNum:this.model.colnum,
                     brand:this.model.earTag,
-                    expert:this.user.userRealname
+                    expert:this.user.userRealname,
+                    uploader:this.user.id
                 }).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {

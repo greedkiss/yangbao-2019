@@ -91,7 +91,6 @@ export default {
                 label: '上传图片：',
                 model: 'file',
                 type: 'file',
-                fetchSuggestions: getType
             }],
             models: {
                 type: null,
@@ -139,6 +138,7 @@ export default {
                 pageNumb: this.pageNumb - 1,
                 limit: this.limit,
                 factory:this.user.userFactory,
+                uploader:this.user.id,
                 filetype: 4
             }).then(res =>{
                 if(isReqSuccessful(res)) {
