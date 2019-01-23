@@ -1,5 +1,4 @@
 <template>
-<div>
 	<div class="mainPage">
 		<div class="mainTitle">云·羊宝（有机）山羊养殖生产管理追溯平台</div>
         <div class="mainNav">
@@ -21,7 +20,7 @@
             <div class="box_three">
                 <img src="../assets/imgs/produceManager.png">
                 <div class="C_name">生产管理</div>
-                <div class="E_name">PRODUCTION MANAGEMENT</div>
+                <div class="E_name" style="width:80px">PRODUCTION MANAGEMENT</div>
             </div>
         </router-link>
         <a href="http://mall.yunyangbao.cn/" class="goods" target="_blank">
@@ -33,7 +32,6 @@
         </a>
         </div>
 	</div>
-</div>
 </template>
 <script>
 </script>
@@ -41,10 +39,9 @@
 @import '../assets/css/color'
 
 .mainPage
+    height 75%
     text-align center
-    heigth 70%
-    padding-top 5%
-    padding-bottom 80px
+    padding-top 6%
     .mainTitle
         text-align center
         color #FFFFFF
@@ -60,18 +57,20 @@
                 background rgba(255,255,255,0)
                 border 1px solid white
                 border-radius 10%
+                width 100%
                 img
                     width 80px
                     heigth 80px
-                    padding-top 40px
+                    padding-top 20px
                 .C_name
                     font-size 18px
                     padding-top calc(4vh)
                     padding-bottom 5px
                 .E_name
+                    align center
                     -webkit-text-size-adjust none
                     font-size:9px 
-                    -webkit-transform:scale(0.75)
+                    -webkit-transform:scale(0.65)
                     padding-bottom 20px
                     white-space nowrap
             .box_first:hover, .box_second:hover, .box_three:hover, .box_four:hover
@@ -83,6 +82,5 @@
                 -webkit-transition 1s /* Safari 和 Chrome */
                 -o-transition 1s /* Opera */
         .retrospect, .produce, .goods
-            width 13%
             margin-left 6%
 </style>

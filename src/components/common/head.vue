@@ -3,7 +3,7 @@
     <header class="contact-info container">
       <div class="logo">
           <router-link to="/">
-              <img src="../../assets/imgs/header-logo2.png" alt="“云羊宝”-中国努比亚有机山羊品牌官方网"/>
+              <img class="indexlogo" src="../../assets/imgs/login-logo.png" alt="“云羊宝”-中国努比亚有机山羊品牌官方网"/>
           </router-link>
       </div>
       <div class="header-right-info">
@@ -79,9 +79,12 @@ export default {
       padding-top 10px
       padding-bottom 10px
       .logo
-        float left
-        width 20%
-        margin-top 8px
+        a 
+          display block
+        .indexlogo
+          float left
+          width 20%
+          margin-top 8px
   .header-right-info
         float right
         .info-item
@@ -114,7 +117,7 @@ export default {
                 margin-left 5px
     .navigation
       .nav-tabs        
-          margin-top 45px
+          margin-top 49px
           li
               float right
               line-height 43px

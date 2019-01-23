@@ -90,6 +90,12 @@ export default {
     height 100%
     background url(http://qiniu.yunyangbao.cn/homepage.png) no-repeat center
     background-size cover
+    .headindex
+        height 15%
+    .bodyindex
+        height 75%
+    .footindex
+        height 10%
 // .po-r
 //     position relative
 
