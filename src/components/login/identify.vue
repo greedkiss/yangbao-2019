@@ -54,11 +54,11 @@
       },
       contentWidth: {
         type: Number,
-        default: 112
+        default: 90
       },
       contentHeight: {
         type: Number,
-        default: 38
+        default: 30
       }
     },
     methods: {

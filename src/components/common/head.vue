@@ -3,7 +3,7 @@
     <header class="contact-info container">
       <div class="logo">
           <router-link to="/">
-              <img class="indexlogo" src="../../assets/imgs/login-logo.png" alt="“云羊宝”-中国努比亚有机山羊品牌官方网"/>
+              <img class="indexlogo" src="../../assets/imgs/login-logo.png" alt="云·羊宝（有机）山羊养殖生产管理追溯平台"/>
           </router-link>
       </div>
       <div class="header-right-info">
@@ -52,7 +52,7 @@ export default {
     data () {
         return {
             uid: null,
-            hasLoggedIn: false
+            hasLoggedIn: true
         }
     },
 

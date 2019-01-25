@@ -1,8 +1,8 @@
 <template>
-    <div class="login-main find-pass">
+    <div class="newlogin-main find-pass">
         <div class="head_title">
-            <router-link to="/login"><img src="../../assets/imgs/index/logo-input.png" alt="logo"></router-link>
-            <h3>东俊（有机）养殖生产管理追溯系统管理平台</h3>
+            <router-link to="/"><img src="../../assets/imgs/newlogo.png" alt="logo"></router-link>
+            <h3 style="color: #FFFFFF">云·羊宝（有机）山羊养殖生产管理追溯平台</h3>
         </div>
 
         <div class="box">
@@ -167,7 +167,11 @@ export default {
 
 <style lang="stylus">
 @import '~@/assets/css/login-common'
-
+.newlogin-main
+    background url(http://qiniu.yunyangbao.cn/login.jpg) no-repeat center
+    background-size cover
+    width 100%
+    height 100%
 .find-pass
     .el-form-item__label
         float none

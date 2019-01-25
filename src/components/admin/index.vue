@@ -124,7 +124,7 @@ export default {
                 ]
             },
             productionTree: {
-                label: '生产管理平台',
+                label: '养殖生产管理平台',
                 children: [
                 {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
@@ -204,6 +204,27 @@ export default {
                     ]}
                 ]
             },
+            slaughterTree: {
+                label: '屠宰加工管理平台',
+                children: [
+                    
+                ]
+            },
+            consumptionTree: {
+                label: '消费实体管理平台',
+                children: [
+
+                ]
+            },
+
+
+
+            // 屠宰加工生产管理平台
+            // slaughterProcess: {
+            //     label: '屠宰加工生产管理平台',
+            //     children: [
+            //     ]
+            // },
             options: [],
             search_key: null,
             showTree: true,
@@ -250,7 +271,7 @@ export default {
                 // flag: 2 普通用户
             }
         })
-        this.treedata.push(this.professorTree, this.adminTree, this.productionTree)
+        this.treedata.push(this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     },
 
     mounted () {
@@ -261,7 +282,7 @@ export default {
         let arr = [{text: '溯源管理'}]
         let mod
         let submod
-        let treeArr = [this.treedata[0], this.professorTree, this.adminTree, this.productionTree]
+        let treeArr = [this.treedata[0], this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree]
 
         let postfixArr = ['prac', 'list', 'plan']
         let idx = postfixArr.indexOf(child)

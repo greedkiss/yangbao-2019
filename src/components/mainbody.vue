@@ -16,7 +16,7 @@
                 <div class="E_name">SUYUAN PLATFORM</div>
             </div>
         </router-link>
-        <router-link to="/login" class="produce">
+        <router-link to="/login" class="produce" target="_blank">
             <div class="box_three">
                 <img src="../assets/imgs/produceManager.png">
                 <div class="C_name">生产管理</div>
