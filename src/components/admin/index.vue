@@ -191,12 +191,12 @@ export default {
                         {label: '诊断可视', to: 'diagnose'},
                         {label: '诊断可视一览', to: 'production'},
                         {label: '生产可视', to: 'capture'},
-                        {label: '生产可视一览', to: 'productionSee'}
+                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '认证证书', to: 'nation'}
                     ]},
                     {label: '专家课堂', to: 'course'},
                     {label: '有机养殖环境追溯', to: 'trace'},
                     {label: '有机·监管', to: 'supervise', children: [
-                        {label: '认证证书', to: 'nation'},
                         {label: '企业监控认证', children: [
                             {label: '操作流程审核', to: 'audit'},
                             {label: '回收化验指标', to: 'recovery_index'}
@@ -207,13 +207,39 @@ export default {
             slaughterTree: {
                 label: '屠宰加工管理平台',
                 children: [
-                    
+                    {label: '单位信息管理', to: ''},
+                    {label: '可视系统', to: 'visual', children: [
+                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '认证证书', to: 'nation'}
+                    ]},
+                    {label: '在栏羊只管理', to: '',
+                    children:[
+                            {label: '羊只管理', to: 'livestockList'},
+                            {label: '出售管理', to: 'livestockSale'},
+                            {label: '购进管理', to: 'livestockBuy'},
+                            {label: '死亡管理', to: 'livestockDead'}
+                        ]
+                    }
                 ]
             },
             consumptionTree: {
                 label: '消费实体管理平台',
                 children: [
-
+                    {label: '单位信息管理', to: ''},
+                    {label: '可视系统', to: 'visual', children: [
+                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '认证证书', to: 'nation'}
+                    ]},
+                    {label: '在栏羊只管理', to: '',
+                        children:[
+                            {label: '羊只管理', to: 'livestockList'},
+                            {label: '出售管理', to: 'livestockSale'},
+                            {label: '购进管理', to: 'livestockBuy'},
+                            {label: '死亡管理', to: 'livestockDead'}
+                        ]
+                    }
                 ]
             },
 

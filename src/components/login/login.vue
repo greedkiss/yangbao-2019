@@ -240,6 +240,7 @@ export default{
                 color #bab8c5
             .demo-ruleForm
                 margin-top 25px
+                width 100%
             .login-input-password
                 padding-left 16px
             .pass-input

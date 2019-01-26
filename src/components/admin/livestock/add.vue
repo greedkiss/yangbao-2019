@@ -125,7 +125,7 @@ export default {
 	data() {
 		return {
 			checkStyle:[],
-			crowdStyle:["种公羊","种母羊","后备种母羊","羔羊","商品羊","后备种公羊"],
+			crowdStyle:["种公羊","种母羊","后备种母羊","羔羊","商品羊","后备种公羊","可售羊只"],
 			checkStage:[],
 			crowdStage:['其它阶段',
 				'引种期应激期',

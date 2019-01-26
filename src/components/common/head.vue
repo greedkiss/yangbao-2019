@@ -3,7 +3,7 @@
     <header class="contact-info container">
       <div class="logo">
           <router-link to="/">
-              <img class="indexlogo" src="../../assets/imgs/login-logo.png" alt="云·羊宝（有机）山羊养殖生产管理追溯平台"/>
+              <img class="indexlogo" src="../../assets/imgs/newlogo.png" alt="云·羊宝（有机）山羊养殖生产管理追溯平台"/>
           </router-link>
       </div>
       <div class="header-right-info">
