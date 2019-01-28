@@ -251,9 +251,26 @@ export const getFarmByLocation = loc => fetch(`/factory/location`, {location: lo
 
 export const deleteFarm = id => fetch(`/factory/${id}`, null, 'DELETE')
 
+ //屠宰加工客户管理
+export const insertSlaughter = data => fetch(`/customer/insert`, data, 'POST')
+
+export const getSlaughter = (facid, data) => fetch(`/customer/${facid}`, data)
+
+export const getSlaughterById = id => fetch(`/customer/getOne/${id}`)
+
+export const deleteSlaughter = id => fetch(`/customer/delete/${id}`, null, 'DELETE')
+
+//消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
+export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
+
+export const getConsumer = (facid, data) => fetch(`/customer/${facid}`, data)
+
+export const deleteConsumer = id => fetch(`/customer/delete/${id}`, null, 'DELETE')
 /**
  * 动物福利
  */
+
+
 export const postWelfare = data => fetch('/of', data, 'POST')
 
 export const updateWelfare = (id, data) => fetch(`/of/${id}`, data, 'PUT')

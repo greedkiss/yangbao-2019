@@ -54,6 +54,8 @@ const LivestockSale = () => import('@/components/admin/livestock/sale')
 const LivestockDead = () => import('@/components/admin/livestock/dead')
 const LivestockAdd = () => import('@/components/admin/livestock/add')
 const LivestockBuy = () => import('@/components/admin/livestock/buy')
+//养殖客户基本信息管理
+const FarmUnit = () => import('@/components/admin/farmUnit/index')
 
 // 智能管理
 
@@ -109,6 +111,12 @@ const RecoveryIndex = () => import('@/components/admin/supervise/recovery_index'
 // 羊场管理
 const Farm = () => import('@/components/admin/farm/index')
 const FarmList = () => import('@/components/admin/farm/list')
+//屠宰加工管理
+const Slaughter = () => import('@/components/admin/slaughter/index')
+const SlaughterList = () => import('@/components/admin/slaughter/list')
+//消费实体管理
+const Consumer = () => import('@/components/admin/consumer/index')
+const ConsumerList = () => import('@/components/admin/consumer/list')
 // 代理管理
 const Agent = () => import('@/components/admin/agent/index')
 const AgentList = () => import('@/components/admin/agent/list')
@@ -128,6 +136,16 @@ const ProfessorCourseVideo = () => import('@/components/admin/professorCourseVid
 const NotFound = () => import('@/components/not_found')
 
 const TableFound = () => import('@/components/table/app')
+//屠宰加工管理平台
+const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
+const SlaughterUnitList = () => import('@/components/admin/slaughterUnit/list')
+const SlaughterUnitVisual = () => import('@/components/admin/SlaughterUnit/productionVisual')
+
+//消费实体管理平台
+const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
+const ConsumerUnitList = () => import('@/components/admin/consumerUnit/list')
+const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
+
 Vue.use(Router)
 
 /* eslint-disable object-property-newline */
@@ -186,7 +204,8 @@ export default new Router({
             {path: 'livestock/dead', name: 'livestockDead', component: LivestockDead},
             {path: 'livestock/add', name: 'livestockAdd', component: LivestockAdd},
             {path: 'livestock/buy', name: 'livestockBuy', component: LivestockBuy},
-
+            //养殖客户信息管理
+            {path: 'farmunit', name: 'farmUnit', component: FarmUnit},
             // 智能管理
             {path: 'intelManage/total', name: 'intelManage', component: intelManage},
             {path: 'intelManage/shin', name: 'nonpregnantOne', component: NonpregnantOne},
@@ -248,6 +267,11 @@ export default new Router({
             {path: 'agent/list', name: 'agentlist', component: AgentList},
             {path: 'farm', name: 'farm', component: Farm},
             {path: 'farm/list', name: 'farmlist', component: FarmList},
+            {path: 'slaughter', name: 'slaughter', component: Slaughter},
+            {path: 'slaughter/list', name: 'slaughterlist', component: SlaughterList},
+            
+            {path: 'consumer', name: 'consumer', component: Consumer},
+            {path: 'consumer/list', name: 'consumerlist', component: ConsumerList},
             {path: 'release', name: 'release', component: Release},
             {path: 'release/list', name: 'releaselist', component: ReleaseList},
 
@@ -258,7 +282,15 @@ export default new Router({
             {path: 'professorCourseVideo', name: 'professorCourseVideo', component: ProfessorCourseVideo},
             {path: 'courseintro', name: 'courseintro', component: CourseIntro},
             // 客户关系一览表
-            {path: 'table', name: 'table', component: TableFound}
+            {path: 'table', name: 'table', component: TableFound},
+            //屠宰加工管理平台
+            {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
+            {path: 'slaughterUnit/list', name: 'slaughterunitlist', component: SlaughterUnitList},
+            {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
+            //消费实体管理平台
+            {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
+            {path: 'consumerUnit/list', name: 'consumerunitlist', component: ConsumerUnitList},
+            {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
         ]},
         {path: '*', name: 'notfound', component: NotFound}
     ]

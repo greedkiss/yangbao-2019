@@ -1,6 +1,6 @@
 <template>
 	<mediaShow
-		:isDiagnose="false"
+		:isBreed="false"
 		:conditions="conditions"
 	>
 	</mediaShow>

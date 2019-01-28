@@ -66,7 +66,6 @@ export default {
     data () {
         return {
             checkMod: 'welfare',
-
             module: {label: '', to: ''},
             side_width: '18%',
             expanded_key: null,
@@ -94,7 +93,9 @@ export default {
                         children:[
                             {label: '客户关系一览表', to: 'table'},
                             {label: '代理管理', to: 'agent'},
-                            {label: '客户管理', to: 'farm'},
+                            {label: '养殖客户管理', to: 'farm'},
+                            {label: '屠宰加工客户管理', to: 'slaughter'},
+                            {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
                             {label: '发布系统', to: 'release'},
@@ -126,6 +127,7 @@ export default {
             productionTree: {
                 label: '养殖生产管理平台',
                 children: [
+                {label: '单位基本信息管理', to: 'farmUnit'},
                 {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
                             {label: '引种应激期' , to: 'nonpregnantOne'},
@@ -207,10 +209,10 @@ export default {
             slaughterTree: {
                 label: '屠宰加工管理平台',
                 children: [
-                    {label: '单位信息管理', to: ''},
+                    {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
                         {label: '生产可视', to: 'capture'},
-                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '生产可视一览', to: 'slaughterUnitVisual'},
                         {label: '认证证书', to: 'nation'}
                     ]},
                     {label: '在栏羊只管理', to: '',
@@ -226,10 +228,10 @@ export default {
             consumptionTree: {
                 label: '消费实体管理平台',
                 children: [
-                    {label: '单位信息管理', to: ''},
+                    {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
                         {label: '生产可视', to: 'capture'},
-                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '生产可视一览', to: 'consumerUnitVisual'},
                         {label: '认证证书', to: 'nation'}
                     ]},
                     {label: '在栏羊只管理', to: '',
@@ -242,15 +244,6 @@ export default {
                     }
                 ]
             },
-
-
-
-            // 屠宰加工生产管理平台
-            // slaughterProcess: {
-            //     label: '屠宰加工生产管理平台',
-            //     children: [
-            //     ]
-            // },
             options: [],
             search_key: null,
             showTree: true,
@@ -362,7 +355,7 @@ export default {
 
         isProdModule () {
             let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer', 'slaughterunit', 'consumerunit'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {

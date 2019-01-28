@@ -1,7 +1,6 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-
         <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
@@ -14,6 +13,14 @@
         <div class="card" v-if="hasRecommand">
             <p class="card-title">羊场介绍:</p>
             <el-input type="textarea" v-model="models.remark"></el-input>
+        </div>
+        <div class="card" v-if="hasUnitRecommand">
+            <p class="card-title">单位介绍:</p>
+            <el-input type="textarea" v-model="models.introduction"></el-input>
+        </div>
+        <div class="card" v-if="hasSuNe">
+            <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN" :update-submitter="updateSubmitter"></basic-info>
         </div>
         <div class="admin-send" v-if="canModify">
             <template v-if="!check && !view">
@@ -41,6 +48,10 @@ export default {
             type: Boolean,
             default: false
         },
+        isSuper: {
+            type: Boolean,
+            default: false
+        },
         modpath: {
             type: String
         },
@@ -48,6 +59,12 @@ export default {
             type: String
         },
         items: {
+            type: Array
+        },
+        itemsSN: {
+            type: Array
+        },
+        modelsSN: {
             type: Array
         },
         models: {
@@ -58,6 +75,14 @@ export default {
             default: true
         },
         hasRecommand: {
+            type: Boolean,
+            default: false
+        },
+        hasUnitRecommand: {
+            type: Boolean,
+            default: false
+        },
+        hasSuNe: {
             type: Boolean,
             default: false
         },
@@ -129,6 +154,10 @@ export default {
                     Object.keys(this.models).forEach(v => {
                         obj[v] = res.data.model[v]
                     })
+
+                    if('simpleAddress' in obj){
+                        obj.simpleAddress = addressToArray(obj.simpleAddress)
+                    }
 
                     if ('breedLocation' in obj) {
                         obj.breedLocation = addressToArray(obj.breedLocation)
@@ -213,7 +242,7 @@ export default {
         },
 
         submit ( checkFull ) {
-            if (!checkForm(this.models, checkFull)) {
+            if (! (this.models, checkFull)) {
                 return
             }
 
@@ -239,6 +268,10 @@ export default {
                 delete data.breedLocation
             }  
 
+            if ( data.simpleAddress ){
+                data.simpleAddress = data.simpleAddress.join('')
+            }
+
             let { userFactory, userRealname, id, factoryName } = this.user
             data.factoryNum = this.models.factoryNum || userFactory
             
@@ -246,6 +279,8 @@ export default {
                 data.operatorName = userRealname
                 data.operatorId = id
                 data.factoryName = factoryName
+            } else if(this.isSuper){
+                data.supAgentId = id 
             } else {
                 let area = data.breedLocation
                 if (Array.isArray(area)) {
