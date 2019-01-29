@@ -45,6 +45,17 @@
                 <el-form-item label="初始密码" :label-width="formLabelWidth">
                     <el-input size="small" v-model="form.password" auto-complete="off"></el-input>
                 </el-form-item>
+                <div style="padding-left: 49px">
+                    <span>角色名称</span>
+                    <el-select style="padding-left:10px;padding-bottom: 10px">
+                        <el-option
+                            v-for="(item, i) in roleOptions"
+                            :key="i"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
                 <el-form-item label="单位" :label-width="formLabelWidth">
                     <el-radio-group v-model="form.flag">
                         <el-radio :disabled="isAgentEmpty" :label="1">代理单位</el-radio>
@@ -71,7 +82,7 @@
                 </el-form-item>
             </el-form>
 
-            <div slot="footer" class="dialog-footer">
+            <div slot="footer" class="dialog-footer" style="text-align: center">
                 <el-button size="small" @click="cancle()">取消</el-button>
                 <el-button size="small" type="primary" @click="confirm()">确定</el-button>
             </div>
@@ -101,6 +112,64 @@ export default {
 
     data () {
         return {
+            roleOptions:[
+            {
+                value: "1",
+                label: '羊场技术员'
+            },
+            {
+                value: "1",
+                label: '羊场监督员'
+            },
+            {
+                value: "1",
+                label: '羊场管理监督员'
+            },
+            {
+                value: "1",
+                label: '羊场管理员'
+            },
+            {
+                value: "1",
+                label: '总部专家'
+            },
+            {
+                value: "1",
+                label: '县级专家'
+            },
+            {
+                value: "1",
+                label: '县级超级管理员'
+            },
+            {
+                value: "1",
+                label: '县级管理员'
+            },
+            {
+                value: "1",
+                label: '市级专家'
+            },
+            {
+                value: "1",
+                label: '市级超级管理员'
+            },
+            {
+                value: "1",
+                label: '市级管理员'
+            },
+            {
+                value: "1",
+                label: '省级专家'
+            },
+            {
+                value: "1",
+                label: '省级超级管理员'
+            },
+            {
+                value: "1",
+                label: '省级管理员'
+            }        
+            ],
             form: {
                 username: null,
                 realname: null,
@@ -307,9 +376,12 @@ export default {
         margin-bottom 15px
 
     .el-dialog
+        width 40%
         .el-input
             width 300px
         .el-select
             .el-input
                 width 300px
+    .el-input__inner
+        height 32px
 </style>

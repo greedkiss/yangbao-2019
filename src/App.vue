@@ -1,21 +1,14 @@
 <template>
-    <div id="app">
-        <app-head v-show="isNotLogin && !isAdmin" ></app-head>
+    <div id="app" style="height:100%">
         <router-view v-if='reloadFlag' @searchTo='reload' @closeHnF="closeHnF"/>
-        <app-foot v-show="!isAdmin" ></app-foot>
     </div>
 </template>
 
 <script>
-import AppHead from '@/components/common/head'
-import AppFoot from '@/components/common/foot'
 
 export default {
     name: 'app',
 
-    components: {
-        AppHead, AppFoot
-    },
     methods: {
       closeHnF () {
         this.isAdmin = !this.isAdmin
@@ -78,6 +71,7 @@ body, html
     min-width 1200px
     margin 0
     padding 0
+    height 100%
 ul
     list-style none
     padding 0

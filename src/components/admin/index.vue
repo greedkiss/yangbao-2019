@@ -66,7 +66,6 @@ export default {
     data () {
         return {
             checkMod: 'welfare',
-
             module: {label: '', to: ''},
             side_width: '18%',
             expanded_key: null,
@@ -94,7 +93,9 @@ export default {
                         children:[
                             {label: '客户关系一览表', to: 'table'},
                             {label: '代理管理', to: 'agent'},
-                            {label: '客户管理', to: 'farm'},
+                            {label: '养殖客户管理', to: 'farm'},
+                            {label: '屠宰加工客户管理', to: 'slaughter'},
+                            {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
                             {label: '发布系统', to: 'release'},
@@ -124,8 +125,9 @@ export default {
                 ]
             },
             productionTree: {
-                label: '生产管理平台',
+                label: '养殖生产管理平台',
                 children: [
+                {label: '单位基本信息管理', to: 'farmUnit'},
                 {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
                             {label: '引种应激期' , to: 'nonpregnantOne'},
@@ -191,17 +193,55 @@ export default {
                         {label: '诊断可视', to: 'diagnose'},
                         {label: '诊断可视一览', to: 'production'},
                         {label: '生产可视', to: 'capture'},
-                        {label: '生产可视一览', to: 'productionSee'}
+                        {label: '生产可视一览', to: 'productionSee'},
+                        {label: '认证证书', to: 'nation'}
                     ]},
                     {label: '专家课堂', to: 'course'},
                     {label: '有机养殖环境追溯', to: 'trace'},
                     {label: '有机·监管', to: 'supervise', children: [
-                        {label: '认证证书', to: 'nation'},
                         {label: '企业监控认证', children: [
                             {label: '操作流程审核', to: 'audit'},
                             {label: '回收化验指标', to: 'recovery_index'}
                         ]}
                     ]}
+                ]
+            },
+            slaughterTree: {
+                label: '屠宰加工管理平台',
+                children: [
+                    {label: '单位信息管理', to: 'slaughterunit'},
+                    {label: '可视系统', to: 'visual', children: [
+                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视一览', to: 'slaughterUnitVisual'},
+                        {label: '认证证书', to: 'nation'}
+                    ]},
+                    {label: '在栏羊只管理', to: '',
+                    children:[
+                            {label: '羊只管理', to: 'livestockList'},
+                            {label: '出售管理', to: 'livestockSale'},
+                            {label: '购进管理', to: 'livestockBuy'},
+                            {label: '死亡管理', to: 'livestockDead'}
+                        ]
+                    }
+                ]
+            },
+            consumptionTree: {
+                label: '消费实体管理平台',
+                children: [
+                    {label: '单位信息管理', to: 'consumerunit'},
+                    {label: '可视系统', to: 'visual', children: [
+                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视一览', to: 'consumerUnitVisual'},
+                        {label: '认证证书', to: 'nation'}
+                    ]},
+                    {label: '在栏羊只管理', to: '',
+                        children:[
+                            {label: '羊只管理', to: 'livestockList'},
+                            {label: '出售管理', to: 'livestockSale'},
+                            {label: '购进管理', to: 'livestockBuy'},
+                            {label: '死亡管理', to: 'livestockDead'}
+                        ]
+                    }
                 ]
             },
             options: [],
@@ -250,7 +290,7 @@ export default {
                 // flag: 2 普通用户
             }
         })
-        this.treedata.push(this.professorTree, this.adminTree, this.productionTree)
+        this.treedata.push(this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     },
 
     mounted () {
@@ -261,7 +301,7 @@ export default {
         let arr = [{text: '溯源管理'}]
         let mod
         let submod
-        let treeArr = [this.treedata[0], this.professorTree, this.adminTree, this.productionTree]
+        let treeArr = [this.treedata[0], this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree]
 
         let postfixArr = ['prac', 'list', 'plan']
         let idx = postfixArr.indexOf(child)
@@ -315,7 +355,7 @@ export default {
 
         isProdModule () {
             let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer', 'slaughterunit', 'consumerunit'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {

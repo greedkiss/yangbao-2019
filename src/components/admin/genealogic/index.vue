@@ -50,7 +50,7 @@ export default {
             {value: '白麻'},
             {value: '黑麻'},
             {value: '黄麻'},
-            {value: '黄白花'}·
+            {value: '黄白花'}
         ]
 
         let getType = (q, cb) => {

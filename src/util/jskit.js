@@ -144,7 +144,7 @@ export const checkForm = (form, checkFull) => {
         app.$message.warning(val)
         return false
     }
-    if (checkFull && Object.keys(form).some(v => (form[v] === null || form[v] === '') && v !== 'remark' && v !== 'nativeEartag')) {
+    if (checkFull && Object.keys(form).some(v => (form[v] === null || form[v] === '') && v !== 'remark' && v !== 'nativeEartag' && v !== 'introduction')) {
         console.log(form)
         app.$message.warning('请完善表单信息')
         return false
@@ -218,7 +218,7 @@ export const getPeriods = (q, cb) => {
 
 export const isReqSuccessful = (res) => {
     if (res === void 0) {
-        return
+        return true
     }
     if (!(res && res.meta)) {
         app.$message.error('请求失败')
@@ -263,11 +263,15 @@ export const addressToArray = place => {
     let index = 0
     if (place.indexOf('省') !== -1) {
         index = place.indexOf('省') + 1
-    } else if (place.indexOf('自治区')) {
+    } else if (place.indexOf('自治区') !== -1) {
         index = place.indexOf('自治区') + 3
     } else {
         // 直辖市
         index = 3
+        arr[0] = place.substr(0, index)
+        arr[1] = '市辖区'
+        arr[2] = place.substr(6, place.indexOf('区') + 1)
+        return arr
     }
     arr[0] = place.substr(0, index)
     if (place.indexOf('市') !== -1) {
@@ -276,7 +280,6 @@ export const addressToArray = place => {
     if (place.indexOf('县') !== -1 || place.indexOf('区') !== -1) {
         arr[2] = place.substr(place.indexOf('市') + 1)
     }
-    // console.log(arr)
     return arr
 }
 

@@ -256,6 +256,16 @@ export default {
         searchAddress: {
             type: Boolean,
             default: false
+        },
+        //判断是否是羊场
+        isUnit:{
+            type: Boolean,
+            default: false
+        },
+        //判断是否是屠宰加工
+        isSlaughter: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -473,6 +483,20 @@ export default {
                 page: this.page - 1,
                 size: 10
             }
+            if(this.isUnit == true && this.isSlaughter == true){
+                param = {
+                    page: this.page - 1,
+                    size: 10,
+                    type: 0
+                }
+            }
+            if(this.isUnit == true && this.isSlaughter == false){
+                param = {
+                    page: this.page - 1,
+                    size: 10,
+                    type: 1
+                }
+            }
             if (this.isPass !== null) {
                 param.ispassCheck = this.isPass
             }
@@ -491,6 +515,10 @@ export default {
             if (userFactory !== undefined) {
                 pathid = userFactory
             } else if (id !== undefined) {
+                pathid = id
+            }
+
+            if(this.isUnit == true){
                 pathid = id
             }
 
@@ -543,7 +571,7 @@ export default {
                                     'materialA',
                                     'materialM',
                                     'materialO',
-                                    'materialWM',
+                                    'materialWM',,
                                     'materialWO',
                                     'roughageP',
                                     'roughageD',
@@ -563,6 +591,17 @@ export default {
                             })
                         }
                         this.tableData = data.List
+                        if(this.isUnit == true){
+                            this.tableData.forEach((v, key) => {
+                                let unitLocation
+                                if(data.List[key].detailAddress == null)
+                                    unitLocation = data.List[key].simpleAddress
+                                else
+                                    unitLocation = data.List[key].simpleAddress + data.List[key].detailAddress
+                                let obj = {unitLocation}
+                                this.tableData[key] = Object.assign(this.tableData[key], obj)
+                            })
+                        }
                         this.total = data.size
                     }
                     this.load = false

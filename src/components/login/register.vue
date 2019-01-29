@@ -1,8 +1,8 @@
 <template>
-    <div class="login-main">
+    <div class="newlogin-main">
         <div class="head_title">
-            <router-link to="/"><img src="../../assets/imgs/index/logo-input.png" alt="logo"></router-link>
-            <h3>东俊（有机）养殖生产管理追溯系统管理平台</h3>
+            <router-link to="/"><img src="../../assets/imgs/newlogo.png" alt="logo"></router-link>
+            <h3 style="color: #FFFFFF">云·羊宝（有机）山羊养殖生产管理追溯平台</h3>
         </div>
 
         <div class="box reg-box">
@@ -230,7 +230,10 @@ export default {
 @import '~@/assets/css/color'
 @import '~@/assets/css/login-common'
 
-.login-main
+.newlogin-main
+    background url(http://qiniu.yunyangbao.cn/login.jpg) no-repeat center
+    background-size cover
+    width 100%
     .reg-box
         width 840px !important
         .el-input__inner

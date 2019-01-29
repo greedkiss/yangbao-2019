@@ -1,8 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-
-        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter"></basic-info>
+        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
             <el-input type="textarea" v-model="models.note"></el-input>
@@ -14,6 +13,14 @@
         <div class="card" v-if="hasRecommand">
             <p class="card-title">羊场介绍:</p>
             <el-input type="textarea" v-model="models.remark"></el-input>
+        </div>
+        <div class="card" v-if="hasUnitRecommand">
+            <p class="card-title">单位介绍:</p>
+            <el-input type="textarea" v-model="models.introduction"></el-input>
+        </div>
+        <div class="card" v-if="hasSuNe">
+            <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN"></basic-info>
         </div>
         <div class="admin-send" v-if="canModify">
             <template v-if="!check && !view">
@@ -41,6 +48,10 @@ export default {
             type: Boolean,
             default: false
         },
+        isSuper: {
+            type: Boolean,
+            default: false
+        },
         modpath: {
             type: String
         },
@@ -48,6 +59,12 @@ export default {
             type: String
         },
         items: {
+            type: Array
+        },
+        itemsSN: {
+            type: Array
+        },
+        modelsSN: {
             type: Array
         },
         models: {
@@ -58,6 +75,14 @@ export default {
             default: true
         },
         hasRecommand: {
+            type: Boolean,
+            default: false
+        },
+        hasUnitRecommand: {
+            type: Boolean,
+            default: false
+        },
+        hasSuNe: {
             type: Boolean,
             default: false
         },
@@ -87,6 +112,10 @@ export default {
         updateSubmitter: {
             type: Boolean,
             default: false
+        },
+        updateUnit: {
+            type: Boolean,
+            default:false
         }
     },
 
@@ -129,6 +158,10 @@ export default {
                     Object.keys(this.models).forEach(v => {
                         obj[v] = res.data.model[v]
                     })
+
+                    if('simpleAddress' in obj){
+                        obj.simpleAddress = addressToArray(obj.simpleAddress)
+                    }
 
                     if ('breedLocation' in obj) {
                         obj.breedLocation = addressToArray(obj.breedLocation)
@@ -213,7 +246,7 @@ export default {
         },
 
         submit ( checkFull ) {
-            if (!checkForm(this.models, checkFull)) {
+            if (! (this.models, checkFull)) {
                 return
             }
 
@@ -239,6 +272,10 @@ export default {
                 delete data.breedLocation
             }  
 
+            if ( data.simpleAddress ){
+                data.simpleAddress = data.simpleAddress.join('')
+            }
+
             let { userFactory, userRealname, id, factoryName } = this.user
             data.factoryNum = this.models.factoryNum || userFactory
             
@@ -246,7 +283,7 @@ export default {
                 data.operatorName = userRealname
                 data.operatorId = id
                 data.factoryName = factoryName
-            } else {
+            }  else if(data.breedLocation != null){
                 let area = data.breedLocation
                 if (Array.isArray(area)) {
                     if (!area.length) {
@@ -258,10 +295,15 @@ export default {
                 }
                 data.responsibleId = -1
                 data.agent = id
+            } else if(this.isSuper && this.edit){
+                data.supAgentId = parseInt(id)
+                data.id = this.edit
+            } else {
+                data.supAgentId = parseInt(id)
             }
 
             this.disableBtn = true
-            if (this.edit) {
+            if (this.edit && this.isSuper == false) {
                 this.updateData(this.edit, data).then(res => {
                     if (isReqSuccessful(res)) {
                         patchJump(this.modpath)
@@ -271,6 +313,17 @@ export default {
                     this.$message.error('修改失败')
                     this.disableBtn = false
                 })
+            } else if(this.edit && this.isSuper){
+                this.updateData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        patchJump(this.modpath)
+                    }
+                    this.disableBtn = false
+                }, _ => {
+                    this.$message.error('修改失败')
+                    this.disableBtn = false
+                })
+
             } else {
                 this.postData(data).then(res => {
                     if (isReqSuccessful(res)) {

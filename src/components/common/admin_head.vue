@@ -1,12 +1,12 @@
 <template>
     <div class="admin-head">
         <div class="logo">
-            <router-link to="/"><img src="~@/assets/imgs/index/logo-header.png"></router-link>
+            <router-link to="/"><img src="../../assets/imgs/newlogo.png"></router-link>
         </div>
 
         <div class="con">
             <div class="header">
-                <p><span>东骏</span>（有机）养殖生产管理追溯系统管理平台</p>
+                <p><span>云·羊宝</span>（有机）山羊养殖生产管理追溯平台</p>
                 <span>日期：{{ datestr }}</span>
             </div>
 
@@ -109,6 +109,7 @@ export default {
     overflow hidden
     color #fff
 .logo
+    // padding-top 10px
     width 18%
     min-width 100px
     text-align center
@@ -121,7 +122,7 @@ export default {
         margin 20px 0 0
         font-size 22px
         span
-            font-size 28px
+            font-size 22px
     >span
         margin-left 310px
 
