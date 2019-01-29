@@ -3,7 +3,6 @@
         <data-cur
             title="消费实体客户管理"
             modpath="consumer"
-            :update-submitter="$route.query.edit > 0"
             is-agent
             :models.sync="models"
             :isSuper="true"
@@ -11,9 +10,11 @@
             :hasRemark="false"
             :hasUnitRecommand="true"
             :post-data="insertConsumer"
+            :get-data="getConsumerById"
+            :update-data="updateConsumer"
+            :update-unit="$route.query.edit > 0"
             >
-            <!-- :get-data="getFarmById"
-            
+            <!-- 
             :update-data="updateFarm" -->
         </data-cur>
     </div>
@@ -21,7 +22,7 @@
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
-import { insertConsumer } from '@/util/getdata'
+import { insertConsumer, getConsumerById, updateConsumer } from '@/util/getdata'
 
 export default {
     components: {
@@ -40,9 +41,9 @@ export default {
             cb(types)
         }
         return {
-             insertConsumer,
-            // postFarm,
-            // updateFarm,
+            insertConsumer,
+            getConsumerById,
+            updateConsumer,
             items: [
                 {label: '单位类型', model: 'type', type: 'select', fetchSuggestions: getType},
                 {label: '单位名称', model: 'name'},

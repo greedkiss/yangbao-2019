@@ -260,12 +260,20 @@ export const getSlaughterById = id => fetch(`/customer/getOne/${id}`)
 
 export const deleteSlaughter = id => fetch(`/customer/delete/${id}`, null, 'DELETE')
 
+export const updateSlaughter = ( data) => fetch(`/customer/update`, data, 'POST')
+
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
 
 export const getConsumer = (facid, data) => fetch(`/customer/${facid}`, data)
 
 export const deleteConsumer = id => fetch(`/customer/delete/${id}`, null, 'DELETE')
+
+export const getConsumerById = id => fetch(`/customer/getOne/${id}`)
+
+export const updateConsumer = ( data) => fetch(`/customer/update`, data, 'POST')
+
+
 /**
  * 动物福利
  */

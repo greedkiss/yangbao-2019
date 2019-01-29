@@ -169,6 +169,19 @@
                     </el-option>
                 </el-select>
             </div>
+
+            <div v-if="updateUnit" class="time el-input-group select">
+                <span class="time-span ellipse">上级代理</span>
+                <el-select size="small" v-model="models.supAgentId">
+                    <el-option
+                        v-for="(item, i) in options"
+                        :label="item.label"
+                        :value="item.value"
+                        :key="i">
+                    </el-option>
+                </el-select>
+            </div>
+
         </div>
     </div>
 </template>
@@ -200,6 +213,10 @@ export default {
             default: 0
         },
         updateSubmitter: {
+            type: Boolean,
+            default: false
+        },
+        updateUnit: {
             type: Boolean,
             default: false
         }
@@ -247,7 +264,7 @@ export default {
     },
 
     mounted () {
-        if (this.updateSubmitter) {
+        if (this.updateSubmitter || this.updateUnit) {
             let id = this.$route.params.id
             getUserById(id).then(res => {
                 if (isReqSuccessful(res)) {

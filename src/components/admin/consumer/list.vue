@@ -12,9 +12,6 @@
             :getData="getConsumer"
             :deleteData="deleteConsumer"
             >
-            <!-- :getData="getFarms"
-            :deleteData="deleteFarm"
-             -->
         </admin-table>
     </div>
 </template>

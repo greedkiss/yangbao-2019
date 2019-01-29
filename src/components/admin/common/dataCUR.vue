@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter"></basic-info>
+        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
             <el-input type="textarea" v-model="models.note"></el-input>
@@ -20,7 +20,7 @@
         </div>
         <div class="card" v-if="hasSuNe">
             <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
-            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN" :update-submitter="updateSubmitter"></basic-info>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN"></basic-info>
         </div>
         <div class="admin-send" v-if="canModify">
             <template v-if="!check && !view">
@@ -112,6 +112,10 @@ export default {
         updateSubmitter: {
             type: Boolean,
             default: false
+        },
+        updateUnit: {
+            type: Boolean,
+            default:false
         }
     },
 
@@ -279,9 +283,7 @@ export default {
                 data.operatorName = userRealname
                 data.operatorId = id
                 data.factoryName = factoryName
-            } else if(this.isSuper){
-                data.supAgentId = id 
-            } else {
+            }  else if(data.breedLocation != null){
                 let area = data.breedLocation
                 if (Array.isArray(area)) {
                     if (!area.length) {
@@ -293,10 +295,15 @@ export default {
                 }
                 data.responsibleId = -1
                 data.agent = id
+            } else if(this.isSuper && this.edit){
+                data.supAgentId = parseInt(id)
+                data.id = this.edit
+            } else {
+                data.supAgentId = parseInt(id)
             }
 
             this.disableBtn = true
-            if (this.edit) {
+            if (this.edit && this.isSuper == false) {
                 this.updateData(this.edit, data).then(res => {
                     if (isReqSuccessful(res)) {
                         patchJump(this.modpath)
@@ -306,6 +313,17 @@ export default {
                     this.$message.error('修改失败')
                     this.disableBtn = false
                 })
+            } else if(this.edit && this.isSuper){
+                this.updateData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        patchJump(this.modpath)
+                    }
+                    this.disableBtn = false
+                }, _ => {
+                    this.$message.error('修改失败')
+                    this.disableBtn = false
+                })
+
             } else {
                 this.postData(data).then(res => {
                     if (isReqSuccessful(res)) {

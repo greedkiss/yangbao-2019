@@ -3,7 +3,6 @@
         <data-cur
             title="屠宰加工客户管理"
             modpath="slaughter"
-            :update-submitter="$route.query.edit > 0"
             is-agent
             :isSuper="true"
             :models.sync="models"
@@ -12,17 +11,16 @@
             :hasUnitRecommand="true"
             :post-data="insertSlaughter"
             :get-data="getSlaughterById"
+            :update-data="updateSlaughter"
+            :update-unit="$route.query.edit > 0"
             >
-            <!-- 
-            :update-data="updateFarm" -->
-
         </data-cur>
     </div>
 </template>
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
-import { insertSlaughter, getSlaughterById} from '@/util/getdata'
+import { insertSlaughter, getSlaughterById, updateSlaughter } from '@/util/getdata'
 
 export default {
     components: {
@@ -41,7 +39,7 @@ export default {
         return {
             getSlaughterById,
             insertSlaughter,
-            // updateFarm,
+            updateSlaughter,
             items: [
                 {label: '单位类型', model: 'type', type: 'select', fetchSuggestions: getType},
                 {label: '单位名称', model: 'name'},
