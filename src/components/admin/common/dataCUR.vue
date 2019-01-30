@@ -246,7 +246,7 @@ export default {
         },
 
         submit ( checkFull ) {
-            if (! (this.models, checkFull)) {
+            if (! checkForm(this.models, checkFull)) {
                 return
             }
 
@@ -296,11 +296,12 @@ export default {
                 data.responsibleId = -1
                 data.agent = id
             } else if(this.isSuper && this.edit){
-                data.supAgentId = parseInt(id)
+                data.supAgentId = parseInt(userFactory)
                 data.id = this.edit
             } else {
-                data.supAgentId = parseInt(id)
+                data.supAgentId = parseInt(userFactory)
             }
+
 
             this.disableBtn = true
             if (this.edit && this.isSuper == false) {
