@@ -67,7 +67,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 
             // 拦截请求, token失效时跳转到登录页面
             if (response.status === 401) {
-                //jumpToLogin()
+                jumpToLogin()
                 return
             }
             if (response.status === 403) {

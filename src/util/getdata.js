@@ -205,6 +205,8 @@ export const getAgentUnit = () => fetch('/agent/fr')
 
 export const getFactoryUnit = () => fetch('/factory/fr')
 
+export const getNameByType = (type) =>fetch('/customer/getAllByType', type , "POST")
+
 /**
  * 品种管理
  */
