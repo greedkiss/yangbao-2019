@@ -533,7 +533,7 @@ export default {
         margin-bottom 15px
 
     .el-dialog
-        width 40%
+        width 600px
         .el-input
             width 300px
         .el-select

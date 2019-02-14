@@ -138,13 +138,14 @@ const NotFound = () => import('@/components/not_found')
 const TableFound = () => import('@/components/table/app')
 //屠宰加工管理平台
 const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
-const SlaughterUnitList = () => import('@/components/admin/slaughterUnit/list')
 const SlaughterUnitVisual = () => import('@/components/admin/SlaughterUnit/productionVisual')
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
-const ConsumerUnitList = () => import('@/components/admin/consumerUnit/list')
 const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
+
+//寻找有机
+const FindOrganic = () => import('@/components/organic/index')
 
 Vue.use(Router)
 
@@ -175,6 +176,8 @@ export default new Router({
         {path: '/news', name: 'news', component: ReleaseIndex},
         // 联系我们
         {path: '/contact', name: 'contact', component: ReleaseIndex},
+        //寻找有机
+        {path: '/findOrganic', name: 'organic', component: FindOrganic},
 
         // 管理员模块
         {path: '/admin/:id', component: Admin, meta: {requireAuth: true}, children: [
@@ -285,13 +288,10 @@ export default new Router({
             {path: 'table', name: 'table', component: TableFound},
             //屠宰加工管理平台
             {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
-            {path: 'slaughterUnit/list', name: 'slaughterunitlist', component: SlaughterUnitList},
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
-            {path: 'consumerUnit/list', name: 'consumerunitlist', component: ConsumerUnitList},
-            {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
-        ]},
+            {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},        ]},
         {path: '*', name: 'notfound', component: NotFound}
     ]
 })

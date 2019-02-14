@@ -355,7 +355,7 @@ export default {
 
         isProdModule () {
             let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer', 'slaughterunit', 'consumerunit'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {

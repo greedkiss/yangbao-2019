@@ -65,7 +65,7 @@ export default {
             type: Array
         },
         modelsSN: {
-            type: Array
+            type: Object
         },
         models: {
             type: Object
@@ -116,6 +116,11 @@ export default {
         updateUnit: {
             type: Boolean,
             default:false
+        },
+        //屠宰加工消费实体 this.edit = false但是需要getmessage
+        isCustomer: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -149,6 +154,27 @@ export default {
         })
         if(this.intel == 4){
             this.intel_com = true
+        }
+        //屠宰加工 消费实体
+        if(this.isCustomer){
+            this.getData(this.$route.params.id).then(res => {
+                if(isReqSuccessful(res)) {
+                    let obj = {}
+                    let objSN = {}
+                    this.unitId = res.data.customer.id
+                    Object.keys(this.models).forEach(v => {
+                        obj[v] = res.data.customer[v]
+                    })
+                    if('simpleAddress' in obj){
+                        obj.simpleAddress = addressToArray(obj.simpleAddress)
+                    }
+                    Object.keys(this.modelsSN).forEach(v => {
+                        objSN[v] = res.data.customer[v]
+                    })
+                    this.$emit('update:models', obj)
+                    this.$emit('update:modelsSN', objSN)
+                }
+            })
         }
         if (this.edit) {
             this.getData(this.edit).then(res => {
@@ -198,7 +224,7 @@ export default {
             supervise: false,
             view: false,
             canModify: true,
-
+            unitId: null,
             disableBtn: false,
             map: ['', '省级代理', '市级代理', '县级代理'],
             intel:0,
@@ -260,6 +286,10 @@ export default {
 
             let data = Object.assign({}, this.models)
 
+            if(this.isCustomer){
+                data = Object.assign(data, this.modelsSN)
+            }
+
             if ( data.prenatalImmunityType ) {
                 data.prenatalImmunityType = ArrayToString(data.prenatalImmunityType);
             }
@@ -298,7 +328,11 @@ export default {
             } else if(this.isSuper && this.edit){
                 data.supAgentId = parseInt(userFactory)
                 data.id = this.edit
-            } else {
+            } else if(this.isCustomer){
+                //屠宰加工 消费实体完善信息
+                data.id = this.unitId
+            }
+            else {
                 data.supAgentId = parseInt(userFactory)
             }
 
@@ -324,7 +358,15 @@ export default {
                     this.$message.error('修改失败')
                     this.disableBtn = false
                 })
-
+            } else if(this.isCustomer){
+                this.postData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('修改成功')
+                    }
+                }, _ => {
+                    this.$message.error('录入失败')
+                })
+                this.disableBtn = false
             } else {
                 this.postData(data).then(res => {
                     if (isReqSuccessful(res)) {

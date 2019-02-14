@@ -145,7 +145,6 @@ export const checkForm = (form, checkFull) => {
         return false
     }
     if (checkFull && Object.keys(form).some(v => (form[v] === null || form[v] === '') && v !== 'remark' && v !== 'nativeEartag' && v !== 'introduction')) {
-        console.log(form)
         app.$message.warning('请完善表单信息')
         return false
     }

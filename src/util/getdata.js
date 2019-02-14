@@ -447,3 +447,8 @@ export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarT
 
 //认证证书
 export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
+
+//屠宰加工管理平台
+export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
+
+export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
