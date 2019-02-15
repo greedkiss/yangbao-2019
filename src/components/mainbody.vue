@@ -68,12 +68,12 @@
                     padding-bottom 5px
                 .E_name
                     align center
-                    -webkit-text-size-adjust none··
-                    font-size:9px
+                    -webkit-text-size-adjust none
+                    font-size:9px 
                     -webkit-transform:scale(0.65)
                     padding-bottom 20px
                     white-space nowrap
-            .box_second:hover, .box_three:hover, .box_four:hover，.box_first:hover
+            .box_first:hover, .box_second:hover, .box_three:hover, .box_four:hover
                 background rgba(255,255,255,0.3)
                 box-shadow 0 3px 3px rgba(255,255,255,0.1),
                 0 3px 0 #bbb, 0 4px 0 #aaa,0 5px 5px #444
