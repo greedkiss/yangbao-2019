@@ -28,7 +28,7 @@ export default {
             items: [
                 {label: '日期', model: 'disinfectTime', type: 'time'},
                 {label: '消毒栏/栋', model: 'place', mr: true , type: 'selectCrowd'},
-                {label: '商标耳牌号', model: 'eartagFile' , type : 'select3'},
+                {label: '商标耳牌号', model: 'eartagFile' , type : 'selectEartag'},
                 {label: '消毒药名称', model: 'disinfectName'},
                 {label: '用药剂量', model: 'dose', placeholder: '请注明单位'},
             ],

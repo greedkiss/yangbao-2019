@@ -64,23 +64,34 @@
                 </div>
 
 
-                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'select3'" class="time el-input-group select">
+
+
+
+
+
+
+
+
+
+
+
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
                         <el-checkbox-group v-model="ilist">
                         <el-checkbox v-for="city in immtag" :label="city" :key="city" @change="checkimmtag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" style="width: 194px" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" ></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" style="width: calc(100% - 140px)"></el-input>
                     </el-popover>
                 </div>
 
-                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'select2'" class="time el-input-group select">
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectImmunetag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
                         <el-checkbox-group v-model="elist">
                         <el-checkbox v-for="city in eartag" :label="city" :key="city" @change="checkeartag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" style="width: 194px" v-model="models[item.model]" placeholder="请选择" @focus="getEarTag()" ></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" @focus="getEarTag()" ></el-input>
                     </el-popover>
                 </div>
 
@@ -95,7 +106,7 @@
                         <el-radio-group v-model="checkColList" :v-if="tradeDList">
                             <el-radio v-for="(d, index) in crowdL" :label="d" :key="index"  @change="getlc(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" style="width: 194px ;height:30px ; margin-bottom: 5px;" v-model="models[item.model]" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
 
@@ -129,7 +140,7 @@
                         <el-radio-group v-model="checktag" :v-if="tradeEarTag">
                             <el-radio v-for="(d, index) in crowdtag" :label="d" :key="index"  @change="geteartag(item.model)">{{d}}</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" style="width: 195px " v-model="models[item.model]" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" style="width: calc(100% - 140px)" v-model="models[item.model]" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
 
@@ -469,4 +480,9 @@ export default {
             margin-left:0px
         .el-checkbox
             width 200px
+.el-input__inner
+    height 32px
+    line-height 32px
+.el-input
+    width 100%
 </style>

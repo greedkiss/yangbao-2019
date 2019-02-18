@@ -114,6 +114,30 @@
             </el-select>
         </div>
         <el-button size="small" type="primary" @click="updateEmployee()">提交/更新</el-button>
+        <h3>角色合并</h3>
+        <div class="employee">
+            角色一
+            <el-select size="small" v-model="user.userOldOne" placeholder="请选择">
+                <el-option
+                    v-for="(item, i) in roleOptions"
+                    :key="i"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
+            角色二
+            <el-select size="small" v-model="user.userOldTwo" placeholder="请选择">
+                <el-option
+                    v-for="(item, i) in roleOptions"
+                    :key="i"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
+            新角色名称
+            <el-input v-model="user.userNew" placeholder="输入角色名称" class="newRole"></el-input>
+        </div>
+        <el-button size="small" type="primary" @click="updateEmployee()">合并/提交</el-button>
     </div>
 </template>
 
@@ -138,6 +162,11 @@ export default {
             userrole: null,
             empOptions: [],
             roleOptions: [],
+            user: {
+                userOldOne: null,
+                userOldTwo: null,
+                userNew: null
+            },
 
             typeName: '',
             roleDescription: '',
@@ -369,6 +398,10 @@ export default {
         &+.el-button
             background-color c=#f78989
             border-color c
+        .newRole
+            width 20%
+            .el-input__inner
+                height 32px
 
     .role-dialogue
         .el-dialog__body
