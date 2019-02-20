@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 用户模块
-import Index from '@/components/Index'
+import Index from '@/components/index'
 import Login from '@/components/login/login'
 import Register from '@/components/login/register'
 import FindPass from '@/components/login/findpass'
@@ -33,6 +33,7 @@ const AcountComment = () => import('@/components/admin/comment/accountComment')
 const CommentResult = () => import('@/components/admin/comment/commentResults')
 // 用户权限
 const AuthRole = () => import('@/components/admin/auth/role')
+const AuthRoleInput = () => import('@/components/admin/auth/input')
 const Account = () => import('@/components/admin/account/index')
 // 系谱档案
 const Genealogic = () => import('@/components/admin/genealogic/index')
@@ -198,6 +199,7 @@ export default new Router({
             {path: 'welfare/list', name: 'welfarelist', component: WelfareList},
             {path: 'welfare/plan', name: 'welfareplan', component: WelfarePlan},
             {path: 'authrole', name: 'authrole', component: AuthRole},
+            {path: 'authrole/input', name: 'authroleInput', component: AuthRoleInput},
             {path: 'genealogic/prac', name: 'genealogic', component: Genealogic},
             {path: 'genealogic/list', name: 'genealogiclist', component: GenealogicList},
             // 存栏档案

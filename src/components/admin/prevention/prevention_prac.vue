@@ -31,7 +31,7 @@ export default {
             items: [
                 {label: '日期', type: 'time', model: 'diagnosisTime'},
                 {label: '栏/栋', model: 'buildingNum', type: 'selectCrowd'},
-                {label: '商标耳牌号', model: 'earTag',type:'selectEartag',mr: 1},
+                {label: '商标耳牌号', model: 'earTag',type:'selectEar',mr: 1},
                 {label: '观察检测分析症状',model: 'symptom'},
                 {label: '诊断结果', model: 'diagnosisResult' ,type: 'select' ,fetchSuggestions: getDieaseTypes },
 

@@ -28,7 +28,7 @@ export default {
             items: [    
                 {label: '阶段名称', model: 'period', type: 'select', fetchSuggestions: getStages},
                 {label: '接种栏/栋', model: 'crowdNum', type: 'selectCrowd'},
-                {label: '免疫耳牌号', model: 'eartagFile' , type : 'select2' },
+                {label: '免疫耳牌号', model: 'eartagFile' , type : 'selectImmunetag' },
                 {label: '接种时间', model: 'immuneTime', type: 'time', mr: 1},
                 {label: '疫苗种类', model: 'immuneKind', type: 'select', fetchSuggestions: getImmuneTypes},
                 {label: '接种方法', model: 'immuneWay', type: 'select', fetchSuggestions: getInfectWays},

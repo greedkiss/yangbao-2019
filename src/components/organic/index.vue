@@ -81,7 +81,7 @@
 				</div>
 			</div>
 			<div class="o_map">
-				<OMap address="贵州省铜仁市沿河县努比亚山羊养殖场" class="map_detail"></OMap>
+				<OMap class="map_detail"></OMap>
 			</div>
 		</div>
 		<div class="o_middle">
@@ -109,7 +109,7 @@
 					</tr>
 				</table>
 				<table class="o_snDetail">
-					<caption class="table_head">实时供求发布</caption>
+					<tr><th colspan="9" class="table_head">实时供求发布</th></tr>
 					<tr>
 						<td></td>
 						<td></td>
@@ -358,7 +358,7 @@ export default {
 				padding-left 20px
 				.map_detail
 					width 90%
-					height 400px
+					height 40vh
 		.o_middle
 			img
 				float left
@@ -371,32 +371,44 @@ export default {
 				float right
 				padding-right 10px
 				.o_sune
+					margin-top -10px
 					background-color #002e72 
 					font-size 12px
+					-webkit-transform scale(0.9)
 					border-collapse collapse
 					tr
 						td, th
 							border 1px solid #0090d4
-							width 103px
-							height 25px
+							width 9vw
+							min-width 48px
+							height 4vh
 				.o_snDetail
-					margin-top 10px
+					// margin-top 5px
 					background-color #002e72 
 					font-size 12px
+					-webkit-transform scale(0.9)
 					border-collapse collapse
-					.table_head
-						color #040d2a
-						width 427px
-						height 40px
-						background-color #2c9aef
-						line-height 40px
-						font-size 20px
-						font-weight bold
+					// .table_head
+					// 	color #040d2a
+					// 	width 34.65vw
+					// 	height 30px
+					// 	background-color #2c9aef
+					// 	line-height 30px
+					// 	font-size 16px
+					// 	font-weight bold
 					tr
+						.table_head
+							color #040d2a
+							height 30px
+							background-color #2c9aef
+							line-height 30px
+							font-size 16px
+							font-weight bold
 						td, th
 							border 1px solid #0090d4
-							width 44px
-							height 25px
+							width 3.85vw
+							// min-width 46.2px
+							height 3.5vh
 				.o_total
 					background-color #eb6100
 				.left_sheep, .left_meet, .left_sn, .left_factory

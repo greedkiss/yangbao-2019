@@ -48,16 +48,17 @@
         font-size 38px
         font-family: Arial,'Raleway', sans-serif
         font-weight bold
-        margin-bottom 8%
+        margin-bottom 13vh
     .mainNav
         .retrospect, .organic, .produce, .goods
             color #FFFFFF
-            width 10%
+            width 130px
             .box_first, .box_second, .box_three, .box_four
                 background rgba(255,255,255,0)
                 border 1px solid white
                 border-radius 10%
                 width 100%
+                heigth 180px
                 img
                     width 80px
                     heigth 80px
@@ -70,7 +71,9 @@
                     align center
                     -webkit-text-size-adjust none
                     font-size:9px 
-                    -webkit-transform:scale(0.65)
+                    -webkit-transform:scale(0.60)
+                    // transform scale(0.75)
+                    // font-size 12px
                     padding-bottom 20px
                     white-space nowrap
             .box_first:hover, .box_second:hover, .box_three:hover, .box_four:hover
