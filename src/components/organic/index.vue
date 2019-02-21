@@ -92,18 +92,32 @@
 				<table class="o_sune">
 					<tr>
 						<th rowspan="3" style="color: #01ffff;font-size: 16px ">可对外</th>
-						<th style="width: 50px">供求</th>
-						<th style="width: 50px">品类</th>
+						<th>  
+				        <div class="o_cline">  
+				          <table>  
+				            <thead>  
+				              <tr class="o_sn">  
+				                <th></th>  
+				                <th>品类</th>  
+				              </tr>  
+				              <tr class="o_kind">  
+				                <th>供求</th>  
+				                <th></th>  
+				              </tr>  
+				            </thead>  
+				          </table>  
+				        </div>  
+				      </th>  
 						<th>活羊（只）</th>
 						<th>肉/产品（公斤）</th>
 					</tr>
 					<tr>
-						<td colspan="2">供</td>
+						<td>供</td>
 						<td></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td colspan="2">求</td>
+						<td>求</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -282,7 +296,7 @@ export default {
 			.area_info
 				font-size 15px
 				span
-					padding-left 25px
+					padding-left 3.4%
 				.el-select
 					width 16%
 					.el-input .el-select__caret
@@ -356,9 +370,10 @@ export default {
 						cursor pointer
 			.o_map
 				padding-left 20px
+				padding-top 10px
 				.map_detail
 					width 90%
-					height 40vh
+					height 57vh
 		.o_middle
 			img
 				float left
@@ -372,19 +387,27 @@ export default {
 				padding-right 10px
 				.o_sune
 					margin-top -10px
-					background-color #002e72 
+					background-color #001e85 
 					font-size 12px
-					-webkit-transform scale(0.9)
+					-webkit-transform scale(0.8)
 					border-collapse collapse
+					.o_cline
+						background url(../../assets/imgs/tableBack.png) no-repeat center
+						background-size 105% 105%
+						tr
+							th
+								border 0px
+								width 4.5vw
+								height 2vh				
 					tr
 						td, th
-							border 1px solid #0090d4
+							border 2px solid #0090d4
 							width 9vw
 							min-width 48px
 							height 4vh
 				.o_snDetail
 					// margin-top 5px
-					background-color #002e72 
+					background-color #001e85 
 					font-size 12px
 					-webkit-transform scale(0.9)
 					border-collapse collapse

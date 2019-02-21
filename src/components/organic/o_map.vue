@@ -11,7 +11,7 @@ export default {
 	},
 	mounted() {
 		var map = new window.BMap.Map(this.$refs.omap) // 创建Map实例
-		map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5)  // 初始化地图,设置中心点坐标和地图级别
+		map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 4)  // 初始化地图,设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 
         map.setMapStyle({
