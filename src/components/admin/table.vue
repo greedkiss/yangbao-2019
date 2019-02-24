@@ -161,7 +161,9 @@ import {
     patchProDisinfect,
     patchProImmune,
     patchProAntiscolic,
-    patchProStage
+    patchProStage,
+//判断是否是监督员和专家
+    judgeSupervisor
 } from '@/util/getdata'
 
 
@@ -285,9 +287,20 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
-                this.isSpv = res.data.model.userRole === 20
+                // this.isSpv = res.data.model.userRole === 20
             }
-        }).then(this.fetchData)
+        })
+        judgeSupervisor().then(res => {
+            this.isSpv = res.data.model[1]
+            this.isProName = res.data.model[2]
+            if(!this.isSpv && !this.isProName){
+                this.load = true
+                this.$message.error("您不是专家或者监督员！")
+            }
+            if(this.isSpv || this.isProName){
+                this.fetchData()
+            }
+        })
     },
 
     data () {
@@ -425,8 +438,8 @@ export default {
                     name: this.user.userRealname
                 }
 
-                // userRole 20羊场监督员
-                if (this.user.userRole == 20) {
+                // isSpv为是否是监督员
+                if (this.isSpv) {
                     if (ispassSup === '执行') {
                         this.$message.warning('该条记录已检查')
                         return

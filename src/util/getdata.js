@@ -344,6 +344,8 @@ export const patchProImmune = (id, data) => fetch('/ip/p/' + id, data, 'PATCH')
 export const patchProAntiscolic = (id, data) => fetch('/rp/p/' + id, data, 'PATCH')
 export const patchProStage = (id, data) => fetch('/nutrition/p/' + id, data, 'PATCH')
 
+export const judgeSupervisor = ()=> fetch('/judge/supervisor', "GET")
+
 // 可视系统
 export const getImmuneEarTag = data =>fetch('/s/getImmuneEarTag', data, 'POST')
 
