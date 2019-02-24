@@ -1,5 +1,5 @@
 <template>
-<div class="organic">
+<div class="o_organic">
 	<header class="head">
 		<div class="o_logo">
 			<router-link to="/">
@@ -81,18 +81,45 @@
 				</div>
 			</div>
 			<div class="o_map">
-				<OMap class="map_detail"></OMap>
+				<div class="o_boxOut">
+					<OMap class="map_detail"></OMap>
+				</div>
+			</div>
+			<div class="o_introduce">
+				<div>
+				<div class="o_red"></div>
+				<span>养殖场</span>
+				</div>
+				<div>
+				<div class="o_blue"></div>
+				<span>屠宰加工厂</span>
+				</div>
+				<div>
+				<div class="o_yellow"></div>
+				<span>消费店</span>
+				</div>
 			</div>
 		</div>
 		<div class="o_middle">
 			<img src="../../assets/imgs/o_middle.png">
 		</div>
 		<div class="right">
-			<div class="o_message">
-				<table class="o_sune">
+			<div class="o_sune">
+				<table class="outTable">
 					<tr>
-						<th rowspan="3" style="color: #01ffff;font-size: 16px ">可对外</th>
-						<th>  
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+					</tr>
+					<tr>
+						<th rowspan="3" style="color: #01ffff; font-size: 16px;background: #001e85" colspan="3">可对外</th>
+						<th colspan="2">  
 				        <div class="o_cline">  
 				          <table>  
 				            <thead>  
@@ -108,23 +135,26 @@
 				          </table>  
 				        </div>  
 				      </th>  
-						<th>活羊（只）</th>
-						<th>肉/产品（公斤）</th>
+						<th colspan="2" style="background: #001e85">活羊(只)</th>
+						<th colspan="2" style="background: #001e85">肉/产品(公斤)</th>
 					</tr>
 					<tr>
-						<td>供</td>
-						<td></td>
-						<td></td>
+						<td colspan="2" style="background: #001e85">供</td>
+						<td colspan="2" style="background: #001e85"></td>
+						<td colspan="2" style="background: #001e85"></td>
 					</tr>
 					<tr>
-						<td>求</td>
-						<td></td>
-						<td></td>
+						<td colspan="2" style="background: #001e85">求</td>
+						<td colspan="2" style="background: #001e85"></td>
+						<td colspan="2" style="background: #001e85"></td>
 					</tr>
 				</table>
+				</div>
+				<div class="o_message">
 				<table class="o_snDetail">
-					<tr><th colspan="9" class="table_head">实时供求发布</th></tr>
+					<tr><th class="o_noBack"></th><th colspan="9" class="table_head">实时供求发布</th></tr>
 					<tr>
+						<td class="o_noBack">活羊(只)</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -136,6 +166,7 @@
 						<td></td>
 					</tr>
 					<tr>
+						<td class="o_noBack">肉/产品(公斤)</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -147,26 +178,29 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td>供</td>
-						<td>供</td>
-						<td>求</td>
-						<td>供</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
+						<td class="o_noBack">供求</td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
 					</tr>
 					<tr>
-						<td>养殖厂</td>
-						<td colspan="2" class="o_double">屠宰厂</td>
-						<td colspan="2" class="o_double">加工厂</td>
-						<td>餐饮</td>
-						<td>鲜肉</td>
-						<td>熟食</td>
-						<td>商超</td>
+						<td class="o_noBack">厂家(个)</td>
+						<td><div class="o_font">养殖厂</div></td>
+						<td colspan="2" class="o_double"><div class="o_font">屠宰厂</div></td>
+						<td colspan="2" class="o_double"><div class="o_font">加工厂</div></td>
+						<td><div class="o_font">餐饮</div></td>
+						<td><div class="o_font">鲜肉</div></td>
+						<td><div class="o_font">熟食</div></td>
+						<td><div class="o_font">商超</div></td>
 					</tr>
 					<tr>
+						<td class="o_noBack"></td>
 						<td class="o_total"></td>
 						<td colspan="2" class="o_total"></td>
 						<td colspan="2" class="o_total"></td>
@@ -176,44 +210,28 @@
 						<td class="o_total"></td>
 					</tr>
 				</table>
-				<span class="left_sheep">活羊(只)</span>
-				<span class="left_meet">肉/产品(公斤)</span>
-				<span class="left_sn">供求</span>
-				<span class="left_factory">厂家(个)</span>
+				</div>
+			<div class="o_detail">
+			<div class="o_inside">
+				<div class="o_aside">
+					<div class="o_company">1.贵州省东骏有机农业科技有限公司</div>
+					<div class="o_company">2.贵州省东骏有机农业科技有限公司</div>
+					<div class="o_company">3.贵州省东骏有机农业科技有限公司</div>
+					<div class="o_company">4.贵州省东骏有机农业科技有限公司</div>
+					<div class="o_company">5.贵州省东骏有机农业科技有限公司</div>
+				</div>
+				<div class="containerHead">
+					<p>管理联系人：蔡女士</p>
+					<p>电话：17612345678</p>
+				</div>
+				<div class="o_container">
+					<p>M121311，M121311，M121311</p>
+					<p>M121311，M121311，M121311</p>
+					<p>M121311，M121311，M121311</p>
+					<p>M121311，M121311，M121311</p>
+				</div>
 			</div>
-				<el-container style="height: 200px; border: 1px solid #021e86; width: 450px" class="o_detail">
-				  <el-aside width="200px" style="background-color: #021e86">
-				  	<el-menu>
-				  	<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			</el-menu>
-				  </el-aside>
-				  <el-container>
-				    <el-header style="text-align: left; font-size: 14px; padding-top:20px">
-				      <div>管理联系人：John Snow</div>
-				      <div>电话： 911</div>
-				    </el-header>
-				    <el-main>
-				      	XXXXXXXXXX
-				    </el-main>
-				  </el-container>
-				</el-container>
-				<img src="../../assets/imgs/o_detail.png" class="o_border">
-			<!-- <div class="o_detail">
-				<div class="o_aside"></div>
-				<div class="containerHead"></div>
-				<div class="o_container"></div>
-			</div> -->
+			</div>
 		</div>
 	</div>
 	<footer class="o_foot">
@@ -262,7 +280,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.organic
+.o_organic
 	overflow hidden
 	height 100%
 	background url(http://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
@@ -306,7 +324,6 @@ export default {
 					background-color #002e72
 					border 1px solid #01ffff
 					border-radius 0px
-					// color #01ffff
 				span
 					vertical-align middle
 				.area_select
@@ -371,54 +388,98 @@ export default {
 			.o_map
 				padding-left 20px
 				padding-top 10px
-				.map_detail
-					width 90%
-					height 57vh
+				.o_boxOut
+					padding-top 2.5vh
+					width 91%
+					height calc(90vh - 250px)
+					height -moz-calc(90vh - 250px)
+					height -webkit-calc(90vh - 250px)
+					height calc(90vh - 250px)
+					background url(../../assets/imgs/mapBack.png) no-repeat center
+					background-size 100% 100%
+					.map_detail
+						width 94%
+						height 96%
+						margin 0 auto
+			.o_introduce
+				width 80px
+				height 60px
+				background white
+				position relative
+				top -80px
+				left 40px
+				color black
+				.o_red
+					margin-left 4px
+					display inline-block
+					width 10px
+					height 10px
+					background red
+					border-radius 50%
+				.o_blue
+					margin-left 4px
+					display inline-block
+					width 10px
+					height 10px
+					background blue
+					border-radius 50%
+				.o_yellow
+					margin-left 4px
+					display inline-block
+					width 10px
+					height 10px
+					background yellow
+					border-radius 50%
+				span
+					font-size 10px
+					webkit-transform scale(0.83)
 		.o_middle
 			img
 				float left
 				margin-left -35px
-				height 530px
+				height calc(80vh - 50px)
+				height -moz-calc(80vh - 50px)
+				height -webkit-calc(80vh - 50px)
+				height calc(80vh - 50px)
 		.right
+			float right
 			color #00c5dd
 			text-align center
-			.o_message
+			width 40%
+			.o_sune
 				float right
-				padding-right 10px
-				.o_sune
-					margin-top -10px
-					background-color #001e85 
-					font-size 12px
-					-webkit-transform scale(0.8)
+				margin-right 3.2vw
+				margin-top -25px
+				font-size 12px
+				.outTable
+					table-layout fixed
 					border-collapse collapse
+					.o_none
+						background-color rgba(0,0,0,0)
+						border 1px solid rgba(0,0,0,0)
+						border-bottom 1px solid #0090d4
+					tr
+						width 100%
+						td, th
+							border 1px solid #0090d4
+							width 3vw
+							height 19px
+							// min-width 67.5px
 					.o_cline
 						background url(../../assets/imgs/tableBack.png) no-repeat center
-						background-size 105% 105%
+						background-size 106% 106%
 						tr
 							th
 								border 0px
-								width 4.5vw
-								height 2vh				
-					tr
-						td, th
-							border 2px solid #0090d4
-							width 9vw
-							min-width 48px
-							height 4vh
+								height 14px		
+			.o_message
+				float right
 				.o_snDetail
-					// margin-top 5px
-					background-color #001e85 
+					table-layout fixed
+					margin-top 10px
+					margin-right 3.2vw
 					font-size 12px
-					-webkit-transform scale(0.9)
 					border-collapse collapse
-					// .table_head
-					// 	color #040d2a
-					// 	width 34.65vw
-					// 	height 30px
-					// 	background-color #2c9aef
-					// 	line-height 30px
-					// 	font-size 16px
-					// 	font-weight bold
 					tr
 						.table_head
 							color #040d2a
@@ -428,75 +489,75 @@ export default {
 							font-size 16px
 							font-weight bold
 						td, th
+							background-color #001e85 
 							border 1px solid #0090d4
-							width 3.85vw
-							// min-width 46.2px
-							height 3.5vh
-				.o_total
-					background-color #eb6100
-				.left_sheep, .left_meet, .left_sn, .left_factory
-					font-size 12px
-					color #00c5dd
-				.left_sheep
-					position relative
-					top -135px
-					left -165px
-				.left_meet
-					position relative
-					top -110px
-					left -242px
-				.left_sn
-					position relative
-					top -80px
-					left -273px
-				.left_factory
-					position relative
-					top -50px
-					left -320px
-			.o_detail
-				float right
-				margin-top 20px
-				margin-right 20px
-				.el-menu
-					background-color #021e86
-					border-right 0px
-				.el-menu-item
-					color #00b8ee
-					height 30px
-					line-height 30px
-				.el-menu-item:hover
-					background-color #00b8ee
-				.el-menu-item.is-active
-					background-color #00b8ee
-					color #00459e
-			.o_border
-				float right
-				position relative
-				width 500px
-				top -235px
+							width 3vw
+							height 19px
+							// min-width 30px
+						.o_font
+							font-size 10px
+							-webkit-transform scale(0.83)
+						.o_noBack
+							font-size 10px
+							-webkit-transform scale(0.83)
+							border 0px
+							background-color rgba(0,0,0,0)
+							width 6vw
+							text-align right
+							padding-right 10px
+						.o_total
+							background-color #eb6100
 				
-			// .o_detail
-			// 	float right
-			// 	width 450px
-			// 	height 200px
-			// 	margin-right 10px
-			// 	background-color white
-			// 	.o_aside
-			// 		float left
-			// 		width 200px
-			// 		height 200px
-			// 		background orange
-			// 	.containerHead
-			// 		float left
-			// 		width 250px
-			// 		height 50px
-			// 		background black
-			// 	.o_container
-			// 		float left
-			// 		width 250px
-			// 		height 150px
-			// 		background red
-					
+			.o_detail
+				font-size 12px
+				margin-top 10px
+				float right
+				width 90%
+				margin-right 5%
+				height calc(85vh - 350px)
+				height -moz-calc(85vh - 350px)
+				height -webkit-calc(85vh - 350px)
+				height calc(85vh - 350px)
+				background url(../../assets/imgs/mapBack.png) no-repeat center
+				background-size 100% 100%
+				padding-top 4%
+				.o_inside
+					margin 0 auto
+					height 92%
+					width 92%
+					border 2px solid #021e86
+					.containerHead
+						float left
+						width 60%
+						height 94px 
+						background rgba(255,255,255,0.01)
+						p
+							font-size 16px
+							text-align left
+							padding-left 20px
+					.o_container
+						overflow auto
+						float left
+						width 60%
+						height calc(100%- 94px)
+						background rgba(255,255,255,0.01)
+					.o_aside
+						overflow-x scroll
+						white-space nowrap
+						overflow auto
+						float left
+						width 40%
+						height 100%
+						background-color #021e86
+						text-align left
+						.o_company
+							cursor pointer
+							height 20px
+							line-height 20px
+							background-color #021e86
+						.o_company:hover
+							background-color #00b8ee
+							color #00459e	
 	.o_foot
 		height 40px
 		background rgba(0,0,0,0)

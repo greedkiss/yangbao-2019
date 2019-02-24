@@ -211,9 +211,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'slaughterMedia'},
                         {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'slaughterCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                     children:[
@@ -230,9 +230,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'consumerUnitMedia'},
                         {label: '生产可视一览', to: 'consumerUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'consumerCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                         children:[

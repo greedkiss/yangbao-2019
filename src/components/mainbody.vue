@@ -20,7 +20,7 @@
             <div class="box_three">
                 <img src="../assets/imgs/produceManager.png">
                 <div class="C_name">生产管理</div>
-                <div class="E_name" style="width:80px">PRODUCTION MANAGEMENT</div>
+                <div class="E_name">PRODUCTION MANAGE</div>
             </div>
         </router-link>
         <a href="http://mall.yunyangbao.cn/" class="goods" target="_blank">
@@ -68,10 +68,10 @@
                     padding-top calc(4vh)
                     padding-bottom 5px
                 .E_name
-                    align center
+                    text-align center
                     -webkit-text-size-adjust none
-                    font-size:9px 
-                    -webkit-transform:scale(0.60)
+                    font-size:10px 
+                    -webkit-transform:scale(0.70)
                     // transform scale(0.75)
                     // font-size 12px
                     padding-bottom 20px

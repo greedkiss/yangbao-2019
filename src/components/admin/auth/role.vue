@@ -57,32 +57,13 @@
             </el-input>
             <div class="rules" v-for="(item, i) in items" :key="i">
                 <el-checkbox v-model="checkAll[i]" @change="handleCheckAllChange(item, i)">
-                    <span v-text="item.text"></span>
+                    <span v-text="i"></span>
                 </el-checkbox>
                 <el-checkbox-group v-model="rules">
-                    <template v-if="item.msg">
-                        <el-checkbox :label="i + '-' + 0">发送短信</el-checkbox>
-                        <el-checkbox :label="i + '-' + 1">编辑短信</el-checkbox>
-                    </template>
-                    <template v-else-if="item.downloadExcel">
-                        <el-checkbox :label="i + '-' + 0">下载数据库表格</el-checkbox>
-                    </template>
-                    <template v-else-if="item.file">
-                        <el-checkbox :label="i + '-' + 0">下载文件</el-checkbox>
-                    </template>
-                    <template v-else-if="item.note">
-                        <el-checkbox :label="i + '-' + 0">查看留言</el-checkbox>
-                    </template>
-                    <template v-else>
-                        <el-checkbox :label="i + '-' + 0">增加</el-checkbox>
-                        <el-checkbox :label="i + '-' + 1">删除</el-checkbox>
-                        <el-checkbox :label="i + '-' + 2">查询</el-checkbox>
-                        <el-checkbox :label="i + '-' + 3">修改</el-checkbox>
-                        <template v-if="item.supervise">
-                            <el-checkbox :label="i + '-' + 4">监督</el-checkbox>
-                            <el-checkbox :label="i + '-' + 5">审核</el-checkbox>
-                        </template>
-                        <el-checkbox :label="i + '-' + 6" v-if="item.totalScore">查看总评分</el-checkbox>
+                    <template>
+                        <el-checkbox v-for="(info, j) in item" :label="changeType(info.permitId)" :key="j">
+                            <span v-text="info.permitName"></span>
+                        </el-checkbox>
                     </template>
                 </el-checkbox-group>
             </div>
@@ -117,33 +98,33 @@
         <h3>角色合并</h3>
         <div class="employee">
             角色一
-            <el-select size="small" v-model="user.userOldOne" placeholder="请选择">
+            <el-select size="small" v-model="roleFirst" placeholder="请选择">
                 <el-option
                     v-for="(item, i) in roleOptions"
                     :key="i"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item">
                 </el-option>
             </el-select>
             角色二
-            <el-select size="small" v-model="user.userOldTwo" placeholder="请选择">
+            <el-select size="small" v-model="roleSecond" placeholder="请选择">
                 <el-option
                     v-for="(item, i) in roleOptions"
                     :key="i"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item">
                 </el-option>
             </el-select>
             新角色名称
-            <el-input v-model="user.userNew" placeholder="输入角色名称" class="newRole"></el-input>
+            <el-input v-model="roleNew" placeholder="输入角色名称" class="newRole"></el-input>
         </div>
-        <el-button size="small" type="primary" @click="updateEmployee()">合并/提交</el-button>
+        <el-button size="small" type="primary" @click="mergeEmployee()">合并/提交</el-button>
     </div>
 </template>
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById, getRoles, getUsers, getRoleDetail, getFactoryUsers, postRole, deleteRole, updateRole, updateUserRole } from '@/util/getdata'
+import { getUserById, getRoles, getUsers, getRoleDetail, getFactoryUsers, postRole, deleteRole, updateRole, updateUserRole, getPermit, mergeRole } from '@/util/getdata'
 
 export default {
     watch: {
@@ -160,13 +141,12 @@ export default {
 
             userid: null,
             userrole: null,
+            roleNew: null,
             empOptions: [],
             roleOptions: [],
-            user: {
-                userOldOne: null,
-                userOldTwo: null,
-                userNew: null
-            },
+
+            roleFirst: null,
+            roleSecond: null,
 
             typeName: '',
             roleDescription: '',
@@ -175,36 +155,7 @@ export default {
             tableData: [],
             addUserVisible: false,
             checkAll: [],
-            items: [
-                {text: '配种产子档案', supervise: 1},
-                {text: '疾病防治档案', supervise: 1},
-                {text: '卫生消毒档案', supervise: 1},
-                {text: '免疫实施档案', supervise: 1},
-                {text: '阶段营养档案', supervise: 1},
-                {text: '卫生动物福利档案', supervise: 1},
-                {text: '驱虫实施档案', supervise: 1},
-                {text: '专家评价', totalScore: 1},
-                {text: '方案'},
-                {text: '代理'},
-                {text: '客户'},
-                {text: '直播'},
-                // {text: '社区活动'},
-                {text: '信息发布'},
-                {text: '系谱档案'},
-                {text: '视频'},
-                {text: '图片'},
-                {text: '用户'},
-                {text: '专家'},
-                {text: '技术员'},
-                {text: '管理员'},
-                // {text: '拓展模块信息查询'},
-                {text: '角色管理'},
-                {text: '短信', msg: 1},
-                {text: '下载', downloadExcel: 1},
-                {text: '羊品种'},
-                {text: '文件', file: 1},
-                {text: '留言', note: 1}
-            ]
+            items: []
         }
     },
 
@@ -238,7 +189,11 @@ export default {
                     }
                 }
             })
-        }).then(this.fetchRoles)
+        }).then(this.fetchRoles).then(_ => {
+            getPermit().then(res =>{
+                this.items = res.data.List
+            })
+        })
     },
 
     methods: {
@@ -286,12 +241,20 @@ export default {
                 if (isReqSuccessful(res)) {
                     this.tableData = res.data.List
                     this.total = res.data.size
+                    this.roleOptions= []
+                    for (let v of res.data.List) {
+                        this.roleOptions.push({
+                            label: v.typeName,
+                            value: v.id
+                        })
+                    }
                 }
                 this.load = false
             }, _ => {
                 this.$message.error('获取角色失败')
                 this.load = false
             })
+
         },
 
         submit () {
@@ -362,23 +325,34 @@ export default {
         },
 
         handleCheckAllChange (item, idx) {
-            let len = 4
-            if (item.supervise) {
-                len += 2
-            }
-            if (item.totalScore) {
-                len++
-            }
-            while (--len >= 0) {
-                let str = `${idx}-${len}`
-                if (!this.rules.includes(str)) {
-                    if (this.checkAll[idx]) {
-                        this.rules.push(str)
+            item.forEach((info, i) => {
+                let value = info.permitId.toString()
+                if(!this.rules.includes(value)){
+                    if(this.checkAll[idx])
+                        this.rules.push(value)
+                 }
+                if (!this.checkAll[idx]) 
+                    this.rules.splice(this.rules.indexOf(value), 1)
+            })
+        },
+
+        mergeEmployee(){
+            if(this.roleFirst == null || this.roleSecond == null){
+                this.$message.warning('填写完整信息!')
+            }else{
+                let merge = this.roleFirst.label + '-' +this.roleSecond.label
+                let data = {'roleName': this.roleNew, 'roleDescription': merge}
+                mergeRole(this.roleFirst.value, this.roleSecond.value, data).then(res=> {
+                    if(isReqSuccessful(res)){
+                        this.$message.success("角色合并成功")
+                        this.fetchRoles()
                     }
-                } else if (!this.checkAll[idx]) {
-                    this.rules.splice(this.rules.indexOf(str), 1)
-                }
+                })
             }
+        },
+
+        changeType(item){
+            return item.toString()
         }
     }
 }

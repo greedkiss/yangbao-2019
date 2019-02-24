@@ -309,6 +309,10 @@ export const getFactoryUsers = (facid, data) => fetch('/user/' + facid, data)
 
 export const updateUserRole = (uid, roleid) => fetch('/user/role/' + uid, {role: roleid}, 'PATCH')
 
+export const getPermit = () => fetch('/permit/find', 'GET')
+
+export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + '/' + second, data, 'POST')
+
 /**
  * 短信平台
  */

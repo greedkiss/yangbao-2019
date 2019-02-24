@@ -139,11 +139,15 @@ const NotFound = () => import('@/components/not_found')
 const TableFound = () => import('@/components/table/app')
 //屠宰加工管理平台
 const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
-const SlaughterUnitVisual = () => import('@/components/admin/SlaughterUnit/productionVisual')
+const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
+const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
+const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
 const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
+const ConsumerUnitMedia = () => import('@/components/admin/consumerunit/media')
+const ConsumerCertification = () => import('@/components/admin/consumerunit/certification')
 
 //寻找有机
 const FindOrganic = () => import('@/components/organic/index')
@@ -291,9 +295,16 @@ export default new Router({
             //屠宰加工管理平台
             {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
+            {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
+            {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
+            
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
-            {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},        ]},
+            {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
+            {path: 'cmedia', name: 'consumerUnitMedia', component: ConsumerUnitMedia}, 
+            {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
+
+        ]},
         {path: '*', name: 'notfound', component: NotFound}
     ]
 })

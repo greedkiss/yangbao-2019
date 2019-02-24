@@ -73,17 +73,17 @@
                       center>
                         <!-- FIXME: video 标签兼容性处理 -->
                         <div class="show-detail">
-                            <video v-if="item.filetype === 1" :src="item.urlSpecific" class="production-video" controls="controls"></video>
+                            <video v-if="item.filetype === 1 || item.filetype === 6" :src="item.urlSpecific" class="production-video" controls="controls"></video>
                             <img v-else class="production-image-detail" :src="item.url" :onerror="defaultImg">
                         </div>
                         <div class="show-list">
                             <ul>
-                                <li><el-tag>商标耳牌</el-tag> {{ item.brand }}</li>
-                                <li><el-tag>检疫耳牌</el-tag> {{ item.vaccine }}</li>
-                                <li><el-tag>畜牧性别</el-tag> {{ item.sex }}</li>
-                                <li><el-tag type="warning">症状描述</el-tag> {{ item.symptom }}</li>
-                                <li><el-tag type="danger">解决方案</el-tag> {{ item.solution }}</li>
-                                <li><el-tag type="success">就诊专家</el-tag> {{ item.expert }}</li>
+                                <li v-if="isDiagnose"><el-tag>商标耳牌</el-tag> {{ item.brand }}</li>
+                                <li v-if="isDiagnose"><el-tag>检疫耳牌</el-tag> {{ item.vaccine }}</li>
+                                <li v-if="isDiagnose"><el-tag>畜牧性别</el-tag> {{ item.sex }}</li>
+                                <li v-if="isDiagnose"><el-tag type="warning">症状描述</el-tag> {{ item.symptom }}</li>
+                                <li v-if="isDiagnose"><el-tag type="danger">解决方案</el-tag> {{ item.solution }}</li>
+                                <li v-if="isDiagnose"><el-tag type="success">就诊专家</el-tag> {{ item.expert }}</li>
                                 <li><el-tag>上传日期</el-tag> {{ item.udate }}</li>
                             </ul>
                         </div>
@@ -123,6 +123,16 @@ export default {
         },
 
         isDiagnose: {
+            type: Boolean,
+            default: false
+        },
+
+        isSlaughter: {
+            type: Boolean,
+            default: false
+        },
+
+        isConsumer: {
             type: Boolean,
             default: false
         }
@@ -258,30 +268,51 @@ export default {
         },
         getPicture(){
             this.pageNumb = 1
-            this.getProList(0)
+            if(this.isBreed)
+                this.getProList(0)
+            else
+                this.getProList(5)
         },
         getVeido(){
             this.pageNumb = 1
-            this.getProList(1)
+            if(this.isBreed)
+                this.getProList(1)
+            else
+                this.getProList(6)
         },
         // 0 只获取图片
         // 1 只获取视频
         // 2 获取全部（默认值）
         getProList (style = 2) {
             this.isImg = style
+            if(this.isBreed == false && this.isImg == 2){
+                this.isImg = 3
+            }
             if(this.condition === 'all') { // 查询所有数据
                 let data = {
                     pageNumb: this.pageNumb - 1,
                     limit: this.limit,
                     filetype: this.isImg,
-                    factory:this.user.userFactory,
-                    building:this.model.building,
-                    colNum:this.model.colnum,
-                    brand:this.model.earTag,
-                    uploader:this.user.id
+                    factory: this.user.userFactory,
+                    building: this.model.building,
+                    colNum: this.model.colnum,
+                    brand: this.model.earTag,
+                    uploader: this.user.id,
                 }
                 if(this.isDiagnose == true){
                     let obj = {expert:this.user.userRealname}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isSlaughter){
+                    let obj = {factoryType: 1}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isConsumer){
+                    let obj = {factoryType: 2}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isBreed){
+                    let obj = {factoryType: 0}
                     data = Object.assign(data, obj)
                 }
                 diaSearchAll(data).then(res => {
@@ -297,7 +328,7 @@ export default {
                             item.url = item.address
                             item.time = item.udate
                             item.urlSpecific= item.address
-                            if(item.filetype == 1){
+                            if(item.filetype == 1 || item.filetype == 6){
                                 item.url = getThumbPicture(item.filename)
                             }
                         })
@@ -325,6 +356,18 @@ export default {
                     let obj = {expert:this.user.userRealname}
                     data = Object.assign(data, obj)
                 }
+                if(this.isSlaughter){
+                    let obj = {factoryType: 1}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isConsumer){
+                    let obj = {factoryType: 2}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isBreed){
+                    let obj = {factoryType: 0}
+                    data = Object.assign(data, obj)
+                }
                 diaSearchByDate(data).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -336,9 +379,9 @@ export default {
                         let arr = []
                         res.data.List.forEach((item) => {
                             item.url = item.address
-                            item.time = item.update
+                            item.time = item.udate
                             item.urlSpecific= item.address
-                            if(item.filetype == 1){
+                            if(item.filetype == 1 || item.filetype == 6){
                                 item.url = getThumbPicture(item.filename)
                             }
                         })
@@ -365,6 +408,18 @@ export default {
                     let obj = {expert:this.user.userRealname}
                     data = Object.assign(data, obj)
                 }
+                if(this.isSlaughter){
+                    let obj = {factoryType: 1}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isConsumer){
+                    let obj = {factoryType: 2}
+                    data = Object.assign(data, obj)
+                }
+                if(this.isBreed){
+                    let obj = {factoryType: 0}
+                    data = Object.assign(data, obj)
+                }
                 this.diaSearch[this.condition](data).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.List.length) {
@@ -376,9 +431,9 @@ export default {
                         let arr = []
                         res.data.List.forEach((item) => {
                             item.url = item.address
-                            item.time = item.update
+                            item.time = item.udate
                             item.urlSpecific= item.address
-                            if(item.filetype == 1){
+                            if(item.filetype == 1 || item.filetype == 6){
                                 item.url = getThumbPicture(item.filename)
                             }
                         })

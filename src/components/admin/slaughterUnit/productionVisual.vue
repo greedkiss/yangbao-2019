@@ -2,7 +2,8 @@
 	<mediaShow
 		:isBreed="false"
 		:conditions="conditions"
-	>
+        :isSlaughter="true"
+    >
 	</mediaShow>
 </template>
 <script>
