@@ -25,6 +25,7 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
+                        <span @click="changeUser(scope.$index)">编辑</span>
                         <span @click="deleteUser(scope.$index)">删除</span>
                     </div>
                 </template>
@@ -117,36 +118,34 @@
                         </el-option>
                 </el-select>
                 </div>
-
-                <!-- <el-form-item label="单位" :label-width="formLabelWidth">
-                    <el-radio-group v-model="form.flag">
-                        <el-radio :disabled="isAgentEmpty" :label="1">代理单位</el-radio>
-                        <el-radio :disabled="isFactoryEmpty" :label="0">羊场单位</el-radio>
-                        <el-radio :label="2" v-if="isAdmin">系统管理员</el-radio>
-                        <el-radio :label="3">本单位用户</el-radio>
-                    </el-radio-group><br/>
-                    <el-select v-if="form.flag === 1" size="small" v-model="form.factoryId" filterable placeholder="选择代理单位">
-                        <el-option
-                            v-for="(item, i) in agentOptions"
-                            :key="i + 'factory'"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                     </el-select>
-                     <el-select v-if="form.flag === 0" size="small" v-model="form.factoryId" filterable placeholder="选择羊场单位">
-                        <el-option
-                            v-for="(item, i) in factoryOptions"
-                            :key="i + 'farm'"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                     </el-select>
-                </el-form-item> -->
             </el-form>
 
             <div slot="footer" class="dialog-footer" style="text-align: center">
                 <el-button size="small" @click="cancle()">取消</el-button>
                 <el-button size="small" type="primary" @click="confirm()">确定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="编辑用户" :visible.sync="changeVisible">
+            <el-form :model="formChange">
+                <el-form-item label="手机号" :label-width="formLabelWidth">
+                    <el-input size="small" v-model="formChange.telephone" auto-complete="off"></el-input>
+                </el-form-item>
+                <div style="padding-left: 49px">
+                    <span>角色名称</span>
+                    <el-select style="padding-left:10px;padding-bottom: 30px" v-model="formChange.roleId" placeholder="选择角色名称">
+                        <el-option
+                            v-for="(item, i) in roleOptions"
+                            :key="i"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-form>
+            <div slot="footer" class="dialog-footer" style="text-align: center">
+                <el-button size="small" @click="cancleChange()">取消</el-button>
+                <el-button size="small" type="primary" @click="confirmChange()">确定</el-button>
             </div>
         </el-dialog>
 
@@ -162,7 +161,7 @@
 
 <script>
 import AdminTable from '@/components/admin/table'
-import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType } from '@/util/getdata'
+import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType, getRoleName } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import { validatePassword, validateTelephone, validateUsername } from '@/util/validate'
 import md5 from 'md5'
@@ -242,8 +241,13 @@ export default {
                 unitName: null,
                 roleName: null
             },
+            formChange: {
+                telephone: null,
+                roleName: null
+            },
             formLabelWidth: '120px',
             dialogVisible: false,
+            changeVisible: false,
             headers: [
                 {label: '单位', prop: 'factoryName'},
                 {label: '用户名', prop: 'pkUserid'},
@@ -378,6 +382,11 @@ export default {
             this.dialogVisible = false
         },
 
+        cancleChange () {
+            this.formChange = {}
+            this.changeVisible = false
+        },
+
         async fetchData () {
             this.load = true
             let res = await getFactoryUsers(this.user.userFactory, {page: this.page - 1})
@@ -402,16 +411,41 @@ export default {
             })
         },
 
+//编辑用户
+        changeUser(index){
+            this.changeVisible = true
+            getRoleName().then(res => {
+                if (isReqSuccessful(res)) {
+                    for (let v of res.data.model) {
+                        this.roleOptions.push({
+                            label: v.roleName,
+                            value: v.roleId
+                        })
+                    }
+                }
+            })
+            if(this.isAdmin){
+                let obj = {
+                            label: "系统管理员",
+                            options: [{
+                                label: "系统管理员",
+                                value: "9"
+                                }]
+                        }
+                this.unitOptions.push(obj)
+            }
+        },
+
         // 添加用户
         addUser () {
             this.dialogVisible = true
             this.roleOptions = []
-            getRoles(this.agentRank, {size: 100}).then(res => {
+            getRoleName(this.agentRank, {size: 100}).then(res => {
                 if (isReqSuccessful(res)) {
-                    for (let v of res.data.List) {
+                    for (let v of res.data.model) {
                         this.roleOptions.push({
-                            label: v.typeName,
-                            value: v.id
+                            label: v.roleName,
+                            value: v.roleId
                         })
                     }
                 }

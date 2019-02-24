@@ -124,7 +124,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById, getRoles, getUsers, getRoleDetail, getFactoryUsers, postRole, deleteRole, updateRole, updateUserRole, getPermit, mergeRole } from '@/util/getdata'
+import { getUserById, getRoles, getUsers, getRoleDetail, getFactoryUsers, postRole, deleteRole, updateRole, updateUserRole, getPermit, mergeRole, getRoleName} from '@/util/getdata'
 
 export default {
     watch: {
@@ -167,12 +167,12 @@ export default {
                 this.user.agentRank = res.data.agentRank
             }
         }).then(_ => {
-            getRoles(this.user.agentRank, {size: 100}).then(res => {
+            getRoleName().then(res => {
                 if (isReqSuccessful(res)) {
-                    for (let v of res.data.List) {
+                    for (let v of res.data.model) {
                         this.roleOptions.push({
-                            label: v.typeName,
-                            value: v.id
+                            label: v.roleName,
+                            value: v.roleId
                         })
                     }
                 }
@@ -237,7 +237,7 @@ export default {
 
         fetchRoles () {
             this.load = true
-            getRoles(this.user.agentRank, {page: this.page - 1}).then(res => {
+            getRoles().then(res => {
                 if (isReqSuccessful(res)) {
                     this.tableData = res.data.List
                     this.total = res.data.size

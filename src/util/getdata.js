@@ -313,6 +313,8 @@ export const getPermit = () => fetch('/permit/find', 'GET')
 
 export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + '/' + second, data, 'POST')
 
+export const getRoleName = () => fetch('/role/name/get', 'GET')
+
 /**
  * 短信平台
  */
