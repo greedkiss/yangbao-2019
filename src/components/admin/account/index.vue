@@ -416,6 +416,7 @@ export default {
             this.changeVisible = true
             getRoleName().then(res => {
                 if (isReqSuccessful(res)) {
+                    this.roleOptions = []
                     for (let v of res.data.model) {
                         this.roleOptions.push({
                             label: v.roleName,

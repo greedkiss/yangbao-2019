@@ -237,7 +237,7 @@ export default {
 
         fetchRoles () {
             this.load = true
-            getRoles().then(res => {
+            getRoles(this.user.agentRank, {page: this.page - 1}).then(res => {
                 if (isReqSuccessful(res)) {
                     this.tableData = res.data.List
                     this.total = res.data.size
@@ -331,8 +331,8 @@ export default {
                     if(this.checkAll[idx])
                         this.rules.push(value)
                  }
-                if (!this.checkAll[idx]) 
-                    this.rules.splice(this.rules.indexOf(value), 1)
+                // if (!this.checkAll[idx]) 
+                //     this.rules.splice(this.rules.indexOf(value), 1)
             })
         },
 
