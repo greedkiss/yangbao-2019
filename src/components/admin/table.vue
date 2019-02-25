@@ -169,6 +169,11 @@ import {
 
 export default {
     props: {
+        //判断是不是监督界面
+        isReview: {
+            type: Boolean,
+            default: false
+        },
         // 隐藏操作栏的查看功能
         hideView: {
             type: Boolean,
@@ -293,11 +298,14 @@ export default {
         judgeSupervisor().then(res => {
             this.isSpv = res.data.model[1]
             this.isProName = res.data.model[2]
-            if(!this.isSpv && !this.isProName){
-                this.load = true
-                this.$message.error("您不是专家或者监督员！")
+            if(this.isReview){
+                if(!this.isSpv && !this.isProName){
+                    this.load = true
+                    this.$message.error("您不是专家或者监督员！")
+                }
             }
-            if(this.isSpv || this.isProName){
+            if(this.isSpv || this.isProName || !this.isReview){
+                console.log(!this.isReview)
                 this.fetchData()
             }
         })

@@ -292,42 +292,6 @@ export default {
                 this.agentRank = res.data.agentRank
             }
         }).then(this.fetchData)
-        // 获取代理单位
-        getAgentUnit().then(res => {
-            if (isReqSuccessful(res)) {
-                if (res.data.List && !res.data.List.length) {
-                    this.isAgentEmpty = true
-                    return
-                }
-                res.data.List.forEach((item) => {
-                    let option = {
-                        value: item.id,
-                        label: item.agentName
-                    }
-                    this.agentOptions.push(option)
-                })
-            }
-        }, _ => {
-            this.$message.error('获取代理单位失败')
-        })
-        // 获取羊场单位
-        getFactoryUnit().then(res => {
-            if (isReqSuccessful(res)) {
-                if (res.data.List && !res.data.List.length) {
-                    this.isFactoryEmpty = true
-                    return
-                }
-                res.data.List.forEach((item) => {
-                    let option = {
-                        value: item.id,
-                        label: item.breedName
-                    }
-                    this.factoryOptions.push(option)
-                })
-            }
-        }, _ => {
-            this.$message.error('获取羊场单位失败')
-        })
     },
 
 
@@ -348,6 +312,24 @@ export default {
                 this.show.consumer = false
                 this.show.farm = true
                 this.show.self = false
+                // 获取羊场单位
+                getFactoryUnit().then(res => {
+                    if (isReqSuccessful(res)) {
+                        if (res.data.List && !res.data.List.length) {
+                            this.isFactoryEmpty = true
+                            return
+                        }
+                        res.data.List.forEach((item) => {
+                            let option = {
+                                value: item.id,
+                                label: item.breedName
+                            }
+                            this.factoryOptions.push(option)
+                        })
+                    }
+                }, _ => {
+                    this.$message.error('获取羊场单位失败')
+                })
             }
             else if(item.value ==1 || item.value == 2){
                 this.show.farm = false
@@ -368,6 +350,24 @@ export default {
                 this.show.slaughter = false
                 this.show.consumer = false
                 this.show.self = true
+                // 获取代理单位
+                getAgentUnit().then(res => {
+                    if (isReqSuccessful(res)) {
+                        if (res.data.List && !res.data.List.length) {
+                            this.isAgentEmpty = true
+                            return
+                        }
+                        res.data.List.forEach((item) => {
+                            let option = {
+                                value: item.id,
+                                label: item.agentName
+                            }
+                            this.agentOptions.push(option)
+                        })
+                    }
+                }, _ => {
+                    this.$message.error('获取代理单位失败')
+                })
             }
             else if(item.value == 8){
                 this.show.farm =false

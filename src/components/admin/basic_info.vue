@@ -219,6 +219,11 @@ export default {
         updateUnit: {
             type: Boolean,
             default: false
+        },
+        //判断是否为个人信息修改部分，如果是就不需要请栏栋信息
+        isInfomChange: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -282,7 +287,8 @@ export default {
                 })
             })
         }
-        let id = this.$route.params.id
+        if(!this.isInfomChange){
+            let id = this.$route.params.id
             getUserById(id).then(res => {
                 if (isReqSuccessful(res)) {
                     this.user = res.data.model
@@ -294,6 +300,7 @@ export default {
                     this.crowdOneD = ds
                 })
             })
+        }
     },
 
     methods:{
