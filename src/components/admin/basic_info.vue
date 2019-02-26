@@ -63,7 +63,6 @@
                     </el-autocomplete>
                 </div>
 
-
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">

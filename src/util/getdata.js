@@ -212,7 +212,7 @@ export const getNameByType = (type) =>fetch('/customer/getAllByType', type , "PO
  */
 export const postCategory = data => fetch('/var/add', data, 'POST')
 
-export const getCategorys = (id, data) => fetch('/var/getAll', data, 'POST')
+export const getCategorys = () => fetch('/var/getAll', 'GET')
 
 export const updateCategory = (id, data) => fetch(`/var/update/${id}`, data, 'POST')
 

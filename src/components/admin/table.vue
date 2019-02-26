@@ -80,7 +80,7 @@
                     prop="operatorName"
                     label="操作人员">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     align='center'
                     width="150"
                     :prop="isProName ? 'professorName' : 'professor'"
@@ -91,13 +91,25 @@
                     width="150"
                     :prop="isProName ? 'supervisorName' : 'supervisor'"
                     label="监督执行">
+                </el-table-column> -->
+                <el-table-column
+                    align='center'
+                    width="150"
+                    prop="professorName"
+                    label="技术审核">
+                </el-table-column>
+                <el-table-column
+                    align='center'
+                    width="150"
+                    prop="supervisorName"
+                    label="监督执行">
                 </el-table-column>
             </template>
             <el-table-column
                 width="150"
                 align='center'
                 v-if="hasUnpass"
-                prop="upassReason"
+                prop="unpassReason"
                 label="审核拒绝原因">
             </el-table-column>
             <el-table-column
@@ -297,15 +309,16 @@ export default {
         })
         judgeSupervisor().then(res => {
             this.isSpv = res.data.model[1]
-            this.isProName = res.data.model[2]
+            this.isProfession = res.data.model[2]
+            // this.isProfession = true
+            // console.log(this.isProfession)
             if(this.isReview){
-                if(!this.isSpv && !this.isProName){
+                if(!this.isSpv && !this.isProfession){
                     this.load = true
                     this.$message.error("您不是专家或者监督员！")
                 }
             }
-            if(this.isSpv || this.isProName || !this.isReview){
-                console.log(!this.isReview)
+            if(this.isSpv || this.isProfession || !this.isReview){
                 this.fetchData()
             }
         })

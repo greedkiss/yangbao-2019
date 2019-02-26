@@ -4,7 +4,7 @@
         <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
-            <el-input type="textarea" v-model="models.note"></el-input>
+            <el-input type="textarea" v-model="models.description"></el-input>
         </div>
         <div class="card" v-if="hasRemark">
             <p class="card-title">备注:</p>

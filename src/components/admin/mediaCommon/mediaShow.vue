@@ -181,14 +181,14 @@ export default {
               this.user = res.data.model
            }).then(this.getProList).then(this.fetchData)
     },
-
     methods: {
         fetchData(){
-            getSheepBuilding(this.user.userFactory).then(res => {
-                this.factory.buildingList = res.data.data
-            })
+            if(this.isBreed){
+                    getSheepBuilding(this.user.userFactory).then(res => {
+                    this.factory.buildingList = res.data.data
+                })
+            }
         },
-
         produceBuilding(q, cb){
                 let data = []
                 this.factory.buildingList.forEach((item) => {
