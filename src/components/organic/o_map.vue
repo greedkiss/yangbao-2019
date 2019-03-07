@@ -187,8 +187,6 @@ export default {
 
         var mapvLayer = new mapv.baiduMapLayer(map, dataSet, options)
         
-
-        document.body.appendChild(legend);
 	},
 	methods: {
 		 

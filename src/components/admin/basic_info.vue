@@ -223,6 +223,11 @@ export default {
         isInfomChange: {
             type: Boolean,
             default: false
+        },
+        //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
+        isProduce: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -286,7 +291,7 @@ export default {
                 })
             })
         }
-        if(!this.isInfomChange){
+        if(!this.isInfomChange && this.isProduce){
             let id = this.$route.params.id
             getUserById(id).then(res => {
                 if (isReqSuccessful(res)) {

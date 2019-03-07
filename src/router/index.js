@@ -304,7 +304,9 @@ export default new Router({
             {path: 'cmedia', name: 'consumerUnitMedia', component: ConsumerUnitMedia}, 
             {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
 
+            
         ]},
         {path: '*', name: 'notfound', component: NotFound}
+        
     ]
 })

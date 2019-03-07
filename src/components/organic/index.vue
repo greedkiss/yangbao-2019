@@ -17,41 +17,49 @@
 		<div class="o_left">
 			<div class="area_info">
 				<span>省</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.province" placeholder=" " @change="provinceChoose">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.province"
 			      :key="item.value"
 			      :label="item.label"
-			      :value="item.value">
+			      :value="item"
+			      >
 			    </el-option>
 				</el-select>
 			    <span>市</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.city" placeholder=" " @change="cityChoose">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.city"
 			      :key="item.value"
 			      :label="item.label"
-			      :value="item.value">
+			      :value="item">
 			    </el-option>
 				</el-select>
 			    <span>县</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.country" placeholder=" ">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.country"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+			  </el-select>
+			  	<!-- <span>乡镇</span>
+				<el-select v-model="value.town" placeholder=" ">
+			    <el-option
+			      v-for="item in area.town"
 			      :key="item.value"
 			      :label="item.label"
 			      :value="item.value">
 			    </el-option>
-			  </el-select>
-			  	<span>乡镇</span>
-				<el-select v-model="value2" placeholder=" ">
-			    <el-option
-			      v-for="item in options2"
-			      :key="item.value"
-			      :label="item.label"
-			      :value="item.value">
-			    </el-option>
-			  </el-select>
+			  </el-select> -->
+			  <span class="sub-title">乡镇</span>
+			    <el-autocomplete
+			      class="inline-input"
+			      v-model="value.town"
+			      :fetch-suggestions="querySearch"
+			      placeholder=" "
+			    ></el-autocomplete>
 			</div>
 			<div class="o_check">
 				<div class="o_farm">
@@ -77,7 +85,7 @@
 					</div>
 				</div>
 				<div class="o_search">
-					<img src="../../assets/imgs/o_search.png" alt="search">
+					<img src="../../assets/imgs/o_search.png" alt="search"  @click="search">
 				</div>
 			</div>
 			<div class="o_map">
@@ -246,6 +254,8 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
+import getArea from './method.js'
+import {getCustomerByAddress} from '@/util/getdata'
 export default {
 	components: {
 		OMap,
@@ -258,11 +268,6 @@ export default {
 				level: 0,
 				model: null
 			},
-			types: [
-				{value: "省", index: 0},
-				{value: "市", index: 1},
-				{value: "区", index: 2}
-			],
 			style: {
 				checked1: false,
 				checked2: false,
@@ -271,305 +276,121 @@ export default {
 				checked5: false,
 				checked6: false,
 				checked7: false,
+			},
+			area: {
+				province: [],
+				city: [],
+				country: [],
+				town: []
+			},
+			value: {
+				province: '',
+				city: '',
+				country: '',
+				town: ''
 			}
 		}
 	},
+	mounted() {
+		getArea().then(res => {
+			res.result.forEach((item) =>{
+				item.forEach((ipv)=>{
+					this.area.province.push({
+						label: ipv.fullname,
+						value: ipv.id
+					})
+				})
+			})
+		})
+	},
 	methods: {
-		
+		provinceChoose(item){
+			this.value.city = ''
+			this.value.country = ''
+			this.value.town = ''
+			if(item.label.indexOf('市') == -1){
+				getArea(item.value).then(res => {
+					this.area.city = []
+					res.result.forEach((item) =>{
+						item.forEach((ipv)=>{
+							this.area.city.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}else{
+					this.value.city = '直辖市'
+					getArea(item.value).then(res => {
+					this.area.country = []
+					res.result.forEach((item) => {
+						item.forEach((ipv)=>{
+							this.area.country.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}
+		},
+		cityChoose(item){
+			this.value.country = ''
+			this.value.town = ''
+			getArea(item.value).then(res => {
+				this.area.country = []
+				res.result.forEach((item) =>{
+					item.forEach((ipv)=>{
+						this.area.country.push({
+							label: ipv.fullname,
+							value: ipv.id
+						})
+					})
+				})
+			})
+		},
+		querySearch(qs, cb){
+			cb([{
+				"value": "暂无数据请输入"
+			}])
+		},
+		search(){
+			let simpleAddress = ''
+			if(this.value.province != ''){
+				simpleAddress += this.value.province.label
+				if(simpleAddress.indexOf('市') != -1)
+					simpleAddress += this.value.city
+				else if(this.value.city != '')
+					simpleAddress += this.value.city.label
+			}
+			if(this.value.country != '')
+				simpleAddress += this.value.country.label
+			let detailAddress = this.value.town
+			let type = ''
+			if(this.style.checked1)
+			 	type += '养殖厂,'
+			if(this.style.checked2)
+				type += '屠宰厂,'
+			if(this.style.checked3)
+				type += '加工厂,'
+			if(this.style.checked4)
+				type += '鲜肉,'
+			if(this.style.checked5)
+				type += '餐饮,'
+			if(this.style.checked6)
+				type += '熟食,'
+			if(this.style.checked7)
+				type += '商超'
+			type = type.substring(0, type.lastIndexOf(','))
+			let data = {type, simpleAddress ,detailAddress}
+			getCustomerByAddress(data).then(res => {
+
+			})
+		}
 	}
 }
 </script>
 <style lang="stylus">
-.o_organic
-	overflow hidden
-	height 100%
-	background url(http://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
-	background-size cover
-	color #01ffff
-	.head
-		padding-top 20px
-		text-align center
-		.o_logo
-			display inline
-			.logo_info
-				vertical-align middle
-				height 60px
-		.o_title
-			display inline
-			line-height 20px
-			color #01ffff
-			font-size 1.675em
-			font-weight bold
-		.o_bottom
-			position relative
-			top -40px
-	.organic_body
-		color #00c5dd
-		font-size 15px
-		width 100%
-		margin-top -30px
-		.o_left
-			width 59%
-			float left
-			.area_info
-				font-size 15px
-				span
-					padding-left 3.4%
-				.el-select
-					width 16%
-					.el-input .el-select__caret
-						color #01ffff
-				.el-input__inner
-					height 26px
-					background-color #002e72
-					border 1px solid #01ffff
-					border-radius 0px
-				span
-					vertical-align middle
-				.area_select
-					display inline-block
-			.o_check
-				font-size 14px
-				margin-top 20px
-				margin-left 20px
-				.el-checkbox+.el-checkbox
-					margin-left 15px
-				.el-checkbox
-					color #9cdbe1
-				.el-checkbox__inner
-					background-color rgba(0,0,0,0)
-				.el-checkbox__label
-					font-size 12px
-				.o_farm
-					padding-left 10px
-					width 13%
-					height 60px
-					float left
-					text-align center
-					background url(../../assets/imgs/farm.png) no-repeat center
-					background-size 100% 50px
-					.f_top
-						position relative
-						top -10px
-						p
-							line-height 6px
-				.o_slaughter
-					width 23%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/slaughter.png) no-repeat center
-					background-size 100% 50px
-					.s_top
-						position relative
-						top -10px
-						p
-							line-height 8px
-				.o_customer
-					width 38%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/customer.png) no-repeat center
-					background-size 100% 50px
-					.c_top
-						position relative
-						top -7px
-						p
-							line-height 5px
-				.o_search
-					img
-						padding-left 10px
-						padding-top 7px
-						width 87px
-						cursor pointer
-			.o_map
-				padding-left 20px
-				padding-top 10px
-				.o_boxOut
-					padding-top 2.5vh
-					width 91%
-					height calc(90vh - 250px)
-					height -moz-calc(90vh - 250px)
-					height -webkit-calc(90vh - 250px)
-					height calc(90vh - 250px)
-					background url(../../assets/imgs/mapBack.png) no-repeat center
-					background-size 100% 100%
-					.map_detail
-						width 94%
-						height 96%
-						margin 0 auto
-			.o_introduce
-				width 80px
-				height 60px
-				background white
-				position relative
-				top -80px
-				left 40px
-				color black
-				.o_red
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background red
-					border-radius 50%
-				.o_blue
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background blue
-					border-radius 50%
-				.o_yellow
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background yellow
-					border-radius 50%
-				span
-					font-size 10px
-					webkit-transform scale(0.83)
-		.o_middle
-			img
-				float left
-				margin-left -35px
-				height calc(80vh - 50px)
-				height -moz-calc(80vh - 50px)
-				height -webkit-calc(80vh - 50px)
-				height calc(80vh - 50px)
-		.right
-			float right
-			color #00c5dd
-			text-align center
-			width 40%
-			.o_sune
-				float right
-				margin-right 3.2vw
-				margin-top -25px
-				font-size 12px
-				.outTable
-					table-layout fixed
-					border-collapse collapse
-					.o_none
-						background-color rgba(0,0,0,0)
-						border 1px solid rgba(0,0,0,0)
-						border-bottom 1px solid #0090d4
-					tr
-						width 100%
-						td, th
-							border 1px solid #0090d4
-							width 3vw
-							height 19px
-							// min-width 67.5px
-					.o_cline
-						background url(../../assets/imgs/tableBack.png) no-repeat center
-						background-size 106% 106%
-						tr
-							th
-								border 0px
-								height 14px		
-			.o_message
-				float right
-				.o_snDetail
-					table-layout fixed
-					margin-top 10px
-					margin-right 3.2vw
-					font-size 12px
-					border-collapse collapse
-					tr
-						.table_head
-							color #040d2a
-							height 30px
-							background-color #2c9aef
-							line-height 30px
-							font-size 16px
-							font-weight bold
-						td, th
-							background-color #001e85 
-							border 1px solid #0090d4
-							width 3vw
-							height 19px
-							// min-width 30px
-						.o_font
-							font-size 10px
-							-webkit-transform scale(0.83)
-						.o_noBack
-							font-size 10px
-							-webkit-transform scale(0.83)
-							border 0px
-							background-color rgba(0,0,0,0)
-							width 6vw
-							text-align right
-							padding-right 10px
-						.o_total
-							background-color #eb6100
-				
-			.o_detail
-				font-size 12px
-				margin-top 10px
-				float right
-				width 90%
-				margin-right 5%
-				height calc(85vh - 350px)
-				height -moz-calc(85vh - 350px)
-				height -webkit-calc(85vh - 350px)
-				height calc(85vh - 350px)
-				background url(../../assets/imgs/mapBack.png) no-repeat center
-				background-size 100% 100%
-				padding-top 4%
-				.o_inside
-					margin 0 auto
-					height 92%
-					width 92%
-					border 2px solid #021e86
-					.containerHead
-						float left
-						width 60%
-						height 94px 
-						background rgba(255,255,255,0.01)
-						p
-							font-size 16px
-							text-align left
-							padding-left 20px
-					.o_container
-						overflow auto
-						float left
-						width 60%
-						height calc(100%- 94px)
-						background rgba(255,255,255,0.01)
-					.o_aside
-						overflow-x scroll
-						white-space nowrap
-						overflow auto
-						float left
-						width 40%
-						height 100%
-						background-color #021e86
-						text-align left
-						.o_company
-							cursor pointer
-							height 20px
-							line-height 20px
-							background-color #021e86
-						.o_company:hover
-							background-color #00b8ee
-							color #00459e	
-	.o_foot
-		height 40px
-		background rgba(0,0,0,0)
-		text-align center
-		width 100%
-		position absolute
-		bottom 10px
-		font-size 10px
-		border-top 1px #01ffff solid
-		color #028ca5
-		.foot_mess
-			margin 0
-		    line-height 15px
-		    text-align center
+@import './organic'
 </style>

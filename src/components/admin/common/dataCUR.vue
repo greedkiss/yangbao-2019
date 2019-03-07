@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit"></basic-info>
+        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :is-produce="isProduce"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
             <el-input type="textarea" v-model="models.description"></el-input>
@@ -121,6 +121,11 @@ export default {
         isCustomer: {
             type: Boolean,
             default: false
+        },
+        //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
+        isProduce: {
+            type: Boolean,
+            default: true
         }
     },
 

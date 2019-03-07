@@ -309,6 +309,8 @@ export const getFactoryUsers = (facid, data) => fetch('/user/' + facid, data)
 
 export const updateUserRole = (uid, roleid) => fetch('/user/role/' + uid, {role: roleid}, 'PATCH')
 
+export const updateUserMessage = (uid, data) => fetch('/user/role/'+ uid, data, 'PATCH')
+
 export const getPermit = () => fetch('/permit/find', 'GET')
 
 export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + '/' + second, data, 'POST')
@@ -460,3 +462,6 @@ export const getCertification = (data) => fetch(`/searchfile/certification`, dat
 export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
 
 export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
+
+//寻找有机
+export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')

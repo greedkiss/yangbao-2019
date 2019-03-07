@@ -25,7 +25,7 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <span @click="changeUser(scope.$index)">编辑</span>
+                        <span @click="changeUser(scope.row)">编辑</span>
                         <span @click="deleteUser(scope.$index)">删除</span>
                     </div>
                 </template>
@@ -133,7 +133,7 @@
                 </el-form-item>
                 <div style="padding-left: 49px">
                     <span>角色名称</span>
-                    <el-select style="padding-left:10px;padding-bottom: 30px" v-model="formChange.roleId" placeholder="选择角色名称">
+                    <el-select style="padding-left:10px;padding-bottom: 30px" v-model="formChange.roleName" placeholder="选择角色名称">
                         <el-option
                             v-for="(item, i) in roleOptions"
                             :key="i"
@@ -161,7 +161,7 @@
 
 <script>
 import AdminTable from '@/components/admin/table'
-import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType, getRoleName } from '@/util/getdata'
+import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType, getRoleName, updateUserMessage } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import { validatePassword, validateTelephone, validateUsername } from '@/util/validate'
 import md5 from 'md5'
@@ -242,6 +242,7 @@ export default {
                 roleName: null
             },
             formChange: {
+                userId: null,
                 telephone: null,
                 roleName: null
             },
@@ -412,7 +413,8 @@ export default {
         },
 
 //编辑用户
-        changeUser(index){
+        changeUser(row){
+            this.formChange.userId = row.id
             this.changeVisible = true
             getRoleName().then(res => {
                 if (isReqSuccessful(res)) {
@@ -556,6 +558,28 @@ export default {
                 // 添加成功后置空密码
                 this.form.password = ''
                 this.$message.error('添加用户失败')
+            })
+        },
+        //编辑用户
+        confirmChange(){
+            let phone = this.formChange.telephone
+            let valPh = validateTelephone(phone)
+            if (phone && valPh !== true) {
+                warn(valPh)
+                return
+            }
+            console.log(this.formChange.roleName)
+            let role = this.formChange.roleName
+            let obj = {phone, role}
+            updateUserMessage(this.formChange.userId, obj).then(res => {
+                if (isReqSuccessful(res)) {
+                    this.$message.success('编辑用户成功')
+                    this.fetchData()
+                    this.changeVisible = false
+                }
+            }, _ => {
+                this.$message.error('编辑用户失败')
+                this.changeVisible = false
             })
         }
     }

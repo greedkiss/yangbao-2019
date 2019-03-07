@@ -392,7 +392,7 @@ export default {
 
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
-                    window.open('http://www.nubiangoat.biz/')
+                    window.open('http://mall.yunyangbao.cn/index2')
                     return
                 }
                 // if chat open another page
