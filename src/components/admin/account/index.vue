@@ -128,7 +128,7 @@
 
         <el-dialog title="编辑用户" :visible.sync="changeVisible">
             <el-form :model="formChange">
-                <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-form-item label="办公电话" :label-width="formLabelWidth">
                     <el-input size="small" v-model="formChange.telephone" auto-complete="off"></el-input>
                 </el-form-item>
                 <div style="padding-left: 49px">

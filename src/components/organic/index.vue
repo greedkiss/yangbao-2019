@@ -85,12 +85,12 @@
 					</div>
 				</div>
 				<div class="o_search">
-					<img src="../../assets/imgs/o_search.png" alt="search"  @click="search">
+					<img src="../../assets/imgs/o_search.png" alt="search"  @click="search(0)">
 				</div>
 			</div>
 			<div class="o_map">
 				<div class="o_boxOut">
-					<OMap class="map_detail"></OMap>
+					<OMap class="map_detail" :data="data" :mapCenter="mapCenter"></OMap>
 				</div>
 			</div>
 			<div class="o_introduce">
@@ -148,13 +148,13 @@
 					</tr>
 					<tr>
 						<td colspan="2" style="background: #001e85">供</td>
-						<td colspan="2" style="background: #001e85"></td>
-						<td colspan="2" style="background: #001e85"></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_output_sheep"></span></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_output_meat"></span></td>
 					</tr>
 					<tr>
 						<td colspan="2" style="background: #001e85">求</td>
-						<td colspan="2" style="background: #001e85"></td>
-						<td colspan="2" style="background: #001e85"></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_demand_sheep"></span></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_demand_meat"></span></td>
 					</tr>
 				</table>
 				</div>
@@ -163,27 +163,27 @@
 					<tr><th class="o_noBack"></th><th colspan="9" class="table_head">实时供求发布</th></tr>
 					<tr>
 						<td class="o_noBack">活羊(只)</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><span v-text="detail.breed_sheep_supply"></span></td>
+						<td><span v-text="detail.slaughter_sheep_supply"></span></td>
+						<td><span v-text="detail.slaughter_sheep_demand"></span></td>
+						<td><span v-text="detail.process_sheep_supply"></span></td>
+						<td><span v-text="detail.process_sheep_demand"></span></td>
+						<td><span v-text="detail.dining_sheep_demand"></span></td>
+						<td><span v-text="detail.meat_sheep_demand"></span></td>
+						<td><span v-text="detail.cook_sheep_demand"></span></td>
+						<td><span v-text="detail.market_sheep_demand"></span></td>
 					</tr>
 					<tr>
 						<td class="o_noBack">肉/产品(公斤)</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><span v-text="detail.breed_meat_supply"></span></td>
+						<td><span v-text="detail.slaughter_meat_supply"></span></td>
+						<td><span v-text="detail.slaughter_meat_demand"></span></td>
+						<td><span v-text="detail.process_meat_supply"></span></td>
+						<td><span v-text="detail.process_meat_demand"></span></td>
+						<td><span v-text="detail.dining_meat_demand"></span></td>
+						<td><span v-text="detail.meat_meat_demand"></span></td>
+						<td><span v-text="detail.cook_meat_demand"></span></td>
+						<td><span v-text="detail.market_meat_demand"></span></td>
 					</tr>
 					<tr>
 						<td class="o_noBack">供求</td>
@@ -222,21 +222,21 @@
 			<div class="o_detail">
 			<div class="o_inside">
 				<div class="o_aside">
-					<div class="o_company">1.贵州省东骏有机农业科技有限公司</div>
-					<div class="o_company">2.贵州省东骏有机农业科技有限公司</div>
-					<div class="o_company">3.贵州省东骏有机农业科技有限公司</div>
-					<div class="o_company">4.贵州省东骏有机农业科技有限公司</div>
-					<div class="o_company">5.贵州省东骏有机农业科技有限公司</div>
+					<div class="o_company" v-for="(item, i) in items" :key="i" @click="handleClick(item.id, item.style)">
+						<span>{{i+1}}.&nbsp</span>
+						<span v-text='item.name'></span>
+					</div>
 				</div>
 				<div class="containerHead">
-					<p>管理联系人：蔡女士</p>
-					<p>电话：17612345678</p>
+					<p>管理联系人：{{corpation.chargeMan}}</p>
+					<p>电话：{{corpation.phone}}</p>
 				</div>
 				<div class="o_container">
-					<p>M121311，M121311，M121311</p>
-					<p>M121311，M121311，M121311</p>
-					<p>M121311，M121311，M121311</p>
-					<p>M121311，M121311，M121311</p>
+					<p v-for="(item, i) in eartagList" :key="i">
+						<span v-for="(info, i) in item" :key="i">
+							{{info}},&nbsp
+						</span>
+					</p>
 				</div>
 			</div>
 			</div>
@@ -255,7 +255,7 @@
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
 import getArea from './method.js'
-import {getCustomerByAddress} from '@/util/getdata'
+import { getCustomerByAddress, getFactoryInformation, getCustomerInformation } from '@/util/getdata'
 export default {
 	components: {
 		OMap,
@@ -288,7 +288,52 @@ export default {
 				city: '',
 				country: '',
 				town: ''
-			}
+			},
+			data: [],
+			 // {
+    			// geometry: {
+    //                 type: 'Point', // 点类型
+    //                 coordinates: [经,纬度] 
+    //             },
+    //             count: null 权重
+	   //      },
+	        mapCenter: {
+	        	lon: 105.403119,
+	        	lan: 34.028658,
+	        	level: 4
+	        },
+	        detail: {
+	        	breed_sheep_supply: null,
+	        	slaughter_sheep_supply: null,
+	        	slaughter_sheep_demand: null,
+	        	process_sheep_supply: null,
+	        	process_sheep_demand: null,
+	        	dining_sheep_demand: null,
+	        	meat_sheep_demand: null,
+	        	cook_sheep_demand: null,
+	        	market_sheep_demand: null,
+	        	breed_meat_supply: null,
+	        	slaughter_meat_supply: null,
+	        	slaughter_meat_demand: null,
+	        	process_meat_supply: null,
+	        	process_meat_demand: null,
+	        	dining_meat_demand: null,
+	        	meat_meat_demand: null,
+	        	cook_meat_demand: null,
+	        	market_meat_demand: null
+	        },
+	        total: {
+	        	total_demand_meat: null,
+	        	total_demand_sheep: null,
+	        	total_output_meat: null,
+	        	total_output_sheep: null
+	        },
+	        items: [],
+	        corpation: {
+	        	chargeMan: null,
+	        	phone: null
+	        },
+	        eartagList: []
 		}
 	},
 	mounted() {
@@ -302,6 +347,7 @@ export default {
 				})
 			})
 		})
+		this.search(1)
 	},
 	methods: {
 		provinceChoose(item){
@@ -321,7 +367,7 @@ export default {
 					})
 				})
 			}else{
-					this.value.city = '直辖市'
+					this.value.city = '市辖区'
 					getArea(item.value).then(res => {
 					this.area.country = []
 					res.result.forEach((item) => {
@@ -355,37 +401,189 @@ export default {
 				"value": "暂无数据请输入"
 			}])
 		},
-		search(){
-			let simpleAddress = ''
-			if(this.value.province != ''){
-				simpleAddress += this.value.province.label
-				if(simpleAddress.indexOf('市') != -1)
-					simpleAddress += this.value.city
-				else if(this.value.city != '')
-					simpleAddress += this.value.city.label
+		handleClick(id, type){
+			// console.log(id)
+			this.eartagList= []
+			if(type){
+				getFactoryInformation(id).then(res => {
+					let list = []
+					res.data.sheeps.forEach((item) => {
+						list.push(item.trademarkEarTag)
+					})
+					for(let i = 0; i < list.length;){
+						let child = []
+						for(let j = 0; j<2, i < list.length; j++, i++){
+							child.push(list[i])
+						}
+						this.eartagList.push(child)
+					}
+					console.log(this.eartagList)
+					this.corpation.chargeMan = res.data.responsiblePerson
+				})
+			}else{
+				getCustomerInformation(id).then(res => {
+					this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
+					this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
+				})
 			}
-			if(this.value.country != '')
-				simpleAddress += this.value.country.label
-			let detailAddress = this.value.town
-			let type = ''
-			if(this.style.checked1)
-			 	type += '养殖厂,'
-			if(this.style.checked2)
-				type += '屠宰厂,'
-			if(this.style.checked3)
-				type += '加工厂,'
-			if(this.style.checked4)
-				type += '鲜肉,'
-			if(this.style.checked5)
-				type += '餐饮,'
-			if(this.style.checked6)
-				type += '熟食,'
-			if(this.style.checked7)
-				type += '商超'
-			type = type.substring(0, type.lastIndexOf(','))
-			let data = {type, simpleAddress ,detailAddress}
-			getCustomerByAddress(data).then(res => {
-
+		},
+		search(start){
+			let message = {}
+			if(start){
+				let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超"
+				message = {type, 'simpleAddress': '' ,'detailAddress': ''}
+			}else{
+				let simpleAddress = ''
+				if(this.value.province != ''){
+					this.mapCenter.level = 5
+					simpleAddress += this.value.province.label
+					if(simpleAddress.indexOf('市') != -1){
+						this.mapCenter.level = 6
+						simpleAddress += this.value.city
+					}
+					else if(this.value.city != ''){
+						this.mapCenter.level = 7
+						simpleAddress += this.value.city.label
+					}
+				}
+				if(this.value.country != '')
+					simpleAddress += this.value.country.label
+				let detailAddress = this.value.town
+				let type = ''
+				if(this.style.checked1)
+				 	type += '养殖厂,'
+				if(this.style.checked2)
+					type += '屠宰厂,'
+				if(this.style.checked3)
+					type += '加工厂,'
+				if(this.style.checked4)
+					type += '鲜肉,'
+				if(this.style.checked5)
+					type += '餐饮,'
+				if(this.style.checked6)
+					type += '熟食,'
+				if(this.style.checked7)
+					type += '商超,'
+				if(!this.style.checked1 && !this.style.checked2 && !this.style.checked3 && !this.style.checked4 && !this.style.checked5 && !this.style.checked6 && !this.style.checked7)
+					type = '养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,'
+				type = type.substring(0, type.lastIndexOf(','))
+				message = {type, simpleAddress ,detailAddress}
+			}
+			this.data = []
+			this.items = []
+			getCustomerByAddress(message).then(res => {
+				if(res.data.factories.length != 0){
+						res.data.factories.forEach((item)=>{
+						let coordinates = []
+						let type = "Point"
+						if(item.longitude != null){
+							this.mapCenter.lon = item.longitude
+							coordinates.push(item.longitude)
+						}
+						if(item.latitude != null){
+							this.mapCenter.lan = item.latitude
+							coordinates.push(item.latitude)
+						}
+						let geometry = {type, coordinates}
+						let count = 3
+						this.data.push({geometry, count})
+						let id = item.id
+						let name = item.breedName
+						let style = 1//1表示羊场
+						this.items.push({id, name, style})
+					})
+				}
+				if(res.data.customers.length != 0){
+						res.data.customers.forEach((item) => {
+						let coordinates = []
+						let type = "Point"
+						if(item.longitude != null){
+							this.mapCenter.lon = item.longitude
+							coordinates.push(item.longitude)
+						}
+						if(item.latitude != null){
+							this.mapCenter.lan = item.latitude
+							coordinates.push(item.latitude)
+						}
+						let geometry = {type, coordinates}
+						let count
+						if(item.type == "屠宰厂" || item.type == "加工厂"){
+							count = 1
+						}else{
+							count = 2
+						}
+						this.data.push({geometry, count})
+						let id = item.id
+						let name = item.name
+						let style = 0//0表示屠宰加工消费
+						this.items.push({id, name, style})
+					})
+				}
+				this.detail = {}
+				if(res.data.total_output_sheep != 0){
+					this.total.total_output_sheep = res.data.total_output_sheep
+				}
+				if(res.data.total_demand_sheep != 0){
+					this.total.total_demand_sheep = res.data.total_demand_sheep
+				}
+				if(res.data.total_output_meat != 0){
+					this.total.total_output_meat = res.data.total_output_meat
+				}
+				if(res.data.total_demand_meat != 0){
+					this.total.total_demand_meat = res.data.total_demand_meat
+				}
+				console.log(res.data.statistics["养殖厂"])
+				if(res.data.statistics["养殖厂"].output != 0){
+					this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output
+				}
+				if(res.data.statistics["屠宰厂"].output_sheep != 0){
+					this.detail.slaughter_sheep_supply = res.data.statistics["屠宰厂"].output_sheep
+				}
+				if(res.data.statistics["屠宰厂"].demand_sheep != 0){
+					this.detail.slaughter_sheep_demand = res.data.statistics["屠宰厂"].demand_sheep
+				}
+				if(res.data.statistics["加工厂"].output_sheep != 0){
+					this.detail.process_sheep_supply = res.data.statistics["加工厂"].output_sheep
+				}
+				if(res.data.statistics["加工厂"].demand_sheep != 0){
+					this.detail.process_sheep_demand = res.data.statistics["加工厂"].demand_sheep
+				}
+				if(res.data.statistics["餐饮"].demand_sheep != 0){
+					this.detail.dining_sheep_demand = res.data.statistics["餐饮"].demand_sheep
+				}
+				if(res.data.statistics["鲜肉"].demand_sheep != 0){
+					this.detail.meat_sheep_demand = res.data.statistics["鲜肉"].demand_sheep
+				}
+				if(res.data.statistics["熟食"].demand_sheep != 0){
+					this.detail.cook_sheep_demand = res.data.statistics["鲜肉"].demand_sheep
+				}
+				if(res.data.statistics["商超"].demand_sheep != 0){
+					this.detail.market_sheep_demand = res.data.statistics["商超"].demand_sheep
+				}
+				if(res.data.statistics["屠宰厂"].output_meat != 0){
+					this.detail.slaughter_meat_supply = res.data.statistics["屠宰厂"].output_meat
+				}
+				if(res.data.statistics["屠宰厂"].demand_meat != 0){
+					this.detail.slaughter_meat_demand = res.data.statistics["屠宰厂"].demand_meat
+				}
+				if(res.data.statistics["加工厂"].output_meat != 0){
+					this.detail.process_meat_supply = res.data.statistics["加工厂"].output_meat
+				}
+				if(res.data.statistics["加工厂"].demand_meat != 0){
+					this.detail.process_meat_demand = res.data.statistics["加工厂"].demand_meat
+				}
+				if(res.data.statistics["餐饮"].demand_meat != 0){
+					this.detail.dining_meat_demand = res.data.statistics["餐饮"].demand_meat
+				}
+				if(res.data.statistics["鲜肉"].demand_meat != 0){
+					this.detail.meat_meat_demand = res.data.statistics["鲜肉"].demand_meat
+				}
+				if(res.data.statistics["熟食"].demand_meat != 0){
+					this.detail.cook_meat_demand = res.data.statistics["鲜肉"].demand_meat
+				}
+				if(res.data.statistics["商超"].demand_meat != 0){
+					this.detail.market_meat_demand = res.data.statistics["商超"].demand_meat
+				}
 			})
 		}
 	}

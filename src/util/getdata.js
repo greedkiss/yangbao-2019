@@ -465,3 +465,7 @@ export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'P
 
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')
+
+export const getFactoryInformation = ( id ) => fetch('/factory/getFactoryFullInformation/' + id , 'GET')
+
+export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomerInformation/' + id , 'GET')

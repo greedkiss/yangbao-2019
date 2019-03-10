@@ -9,13 +9,8 @@ export default async(id = '', method = 'getArea') => {
 	}else{
 		url = url + '?' + 'id=' + id + '&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 	}
-	// id = parseInt(id);
 	let requestConfig = {
 		method: 'GET',
-		// headers: {
-		// 	'Origin': 'https://localhost'
-		// } 
-
 	}
 	try {
             const response = await fetch(url, requestConfig);

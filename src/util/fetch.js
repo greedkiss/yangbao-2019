@@ -7,10 +7,10 @@ import md5 from 'md5'
 export const wsUrl = 'ws://180.76.180.95:9010/websocket'
 // const baseUrl = 'http://180.76.180.95:9010'
 // const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
-// const baseUrl = 'http://192.168.1.103:9020'//akun
+const baseUrl = 'http://192.168.1.107:9020'//akun
 // const baseUrl = 'http://192.168.1.102:9020'//bobo
 // const baseUrl = 'http://192.168.1.110:9010'//测试
-const baseUrl = 'http://120.79.79.43:9010' // 生产服务器
+// const baseUrl = 'http://120.79.79.43:9010' // 生产服务器
 // export const wsUrl = 'ws://192.168.1.107:9030/websocket'
 // const baseUrl = 'http://218.199.68.33:9010' // 啊风
 //const baseUrl = 'http://192.168.1.108:9010' // 老猪
