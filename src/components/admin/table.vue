@@ -294,7 +294,19 @@ export default {
         },
 
         getData (newV) {
-            this.fetchData()
+            judgeSupervisor().then(res => {
+                this.isSpv = res.data.model[1]
+                this.isProfession = res.data.model[2]
+                if(this.isReview){
+                    if(!this.isSpv && !this.isProfession){
+                        this.load = true
+                        this.$message.error("您不是专家或者监督员！")
+                    }
+                }
+                if(this.isSpv || this.isProfession || !this.isReview){
+                    this.fetchData()
+                }
+            })
         }
     },
 
@@ -310,8 +322,6 @@ export default {
         judgeSupervisor().then(res => {
             this.isSpv = res.data.model[1]
             this.isProfession = res.data.model[2]
-            // this.isProfession = true
-            // console.log(this.isProfession)
             if(this.isReview){
                 if(!this.isSpv && !this.isProfession){
                     this.load = true
