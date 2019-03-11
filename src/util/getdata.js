@@ -469,3 +469,5 @@ export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAd
 export const getFactoryInformation = ( id ) => fetch('/factory/getFactoryFullInformation/' + id , 'GET')
 
 export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomerInformation/' + id , 'GET')
+
+export const getPlace = (data) => fetch('/customer/cors', data , 'POST')

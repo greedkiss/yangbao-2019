@@ -234,7 +234,7 @@
 				<div class="o_container">
 					<p v-for="(item, i) in eartagList" :key="i">
 						<span v-for="(info, i) in item" :key="i">
-							{{info}},&nbsp
+							{{info}}，
 						</span>
 					</p>
 				</div>
@@ -254,8 +254,8 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
-import getArea from './method.js'
-import { getCustomerByAddress, getFactoryInformation, getCustomerInformation } from '@/util/getdata'
+// import getPlace from './method.js'
+import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace} from '@/util/getdata'
 export default {
 	components: {
 		OMap,
@@ -290,13 +290,6 @@ export default {
 				town: ''
 			},
 			data: [],
-			 // {
-    			// geometry: {
-    //                 type: 'Point', // 点类型
-    //                 coordinates: [经,纬度] 
-    //             },
-    //             count: null 权重
-	   //      },
 	        mapCenter: {
 	        	lon: 105.403119,
 	        	lan: 34.028658,
@@ -337,7 +330,9 @@ export default {
 		}
 	},
 	mounted() {
-		getArea().then(res => {
+		let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+		let obj = {url}
+		getPlace(obj).then(res => {
 			res.result.forEach((item) =>{
 				item.forEach((ipv)=>{
 					this.area.province.push({
@@ -351,11 +346,14 @@ export default {
 	},
 	methods: {
 		provinceChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			console.log(url)
 			this.value.city = ''
 			this.value.country = ''
 			this.value.town = ''
 			if(item.label.indexOf('市') == -1){
-				getArea(item.value).then(res => {
+				getPlace(obj).then(res => {
 					this.area.city = []
 					res.result.forEach((item) =>{
 						item.forEach((ipv)=>{
@@ -368,7 +366,7 @@ export default {
 				})
 			}else{
 					this.value.city = '市辖区'
-					getArea(item.value).then(res => {
+					getPlace(obj).then(res => {
 					this.area.country = []
 					res.result.forEach((item) => {
 						item.forEach((ipv)=>{
@@ -382,9 +380,11 @@ export default {
 			}
 		},
 		cityChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
 			this.value.country = ''
 			this.value.town = ''
-			getArea(item.value).then(res => {
+			getPlace(obj).then(res => {
 				this.area.country = []
 				res.result.forEach((item) =>{
 					item.forEach((ipv)=>{
@@ -532,7 +532,6 @@ export default {
 				if(res.data.total_demand_meat != 0){
 					this.total.total_demand_meat = res.data.total_demand_meat
 				}
-				console.log(res.data.statistics["养殖厂"])
 				if(res.data.statistics["养殖厂"].output != 0){
 					this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output
 				}

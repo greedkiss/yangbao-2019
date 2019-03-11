@@ -182,7 +182,6 @@ export default {
                         {label: '阶段营养实施档案', to: 'stageprac'},
                         {label: '配种产子管理方案', to: 'breedplan'},
                         {label: '配种产子实施档案', to: 'breedprac'},
-                        {label: '配种产', to: 'breedprac'}
                     ]},
                     {label: '疾病防治', to: 'prevention', children: [
                         {label: '专家咨询', to: 'chat'},
