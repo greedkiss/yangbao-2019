@@ -232,11 +232,9 @@
 					<p>电话：{{corpation.phone}}</p>
 				</div>
 				<div class="o_container">
-					<p v-for="(item, i) in eartagList" :key="i">
-						<span v-for="(info, i) in item" :key="i">
-							{{info}}，
-						</span>
-					</p>
+					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px" v-for="(item, i) in eartagList" :key="i">
+						<span>{{item}}</span>
+					</div>
 				</div>
 			</div>
 			</div>
@@ -402,23 +400,14 @@ export default {
 			}])
 		},
 		handleClick(id, type){
-			// console.log(id)
 			this.eartagList= []
 			if(type){
 				getFactoryInformation(id).then(res => {
-					let list = []
 					res.data.sheeps.forEach((item) => {
-						list.push(item.trademarkEarTag)
+						this.eartagList.push(item.trademarkEarTag)
 					})
-					for(let i = 0; i < list.length;){
-						let child = []
-						for(let j = 0; j<2, i < list.length; j++, i++){
-							child.push(list[i])
-						}
-						this.eartagList.push(child)
-					}
-					console.log(this.eartagList)
 					this.corpation.chargeMan = res.data.responsiblePerson
+					this.corpation.phone = res.data.responsiblePersonPhone
 				})
 			}else{
 				getCustomerInformation(id).then(res => {
@@ -519,6 +508,7 @@ export default {
 						this.items.push({id, name, style})
 					})
 				}
+				this.handleClick(this.items[0].id, this.items[0].style)
 				this.detail = {}
 				if(res.data.total_output_sheep != 0){
 					this.total.total_output_sheep = res.data.total_output_sheep

@@ -126,6 +126,11 @@ export default {
         isProduce: {
             type: Boolean,
             default: true
+        },
+        //判断是否是养殖端
+        isBreed: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -155,6 +160,7 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
+                this.fetchBreedData(this.user.userFactory)
             }
         })
         if(this.intel == 4){
@@ -233,11 +239,34 @@ export default {
             disableBtn: false,
             map: ['', '省级代理', '市级代理', '县级代理'],
             intel:0,
-            intel_com:false
+            intel_com:false,
+            user: null
         }
     },
 
     methods: {
+        fetchBreedData(id){
+            if(this.isBreed){
+                this.getData(id).then(res => {
+                    if(isReqSuccessful(res)){
+                        let obj = {}
+                        let objSN = {}
+                        Object.keys(this.models).forEach(v => {
+                            obj[v] = res.data.model[v]
+                        })
+                        if('breedLocation' in obj){
+                             obj.breedLocation = addressToArray(obj.breedLocation)
+                        }
+                        Object.keys(this.modelsSN).forEach(v => {
+                            objSN[v] = res.data.model[v]
+                        })
+                        this.$emit('update:models', obj)
+                        this.$emit('update:modelsSN', objSN)
+                    }
+                })
+            }
+        },
+
         returnback(){
             let pathid = this.$route.params.id
             let path = `/admin/${pathid}/intelManage/total`
@@ -291,7 +320,8 @@ export default {
 
             let data = Object.assign({}, this.models)
 
-            if(this.isCustomer){
+            //养殖 屠宰 加工
+            if(this.isCustomer || this.isBreed){
                 data = Object.assign(data, this.modelsSN)
             }
 
@@ -343,7 +373,7 @@ export default {
 
 
             this.disableBtn = true
-            if (this.edit && this.isSuper == false) {
+            if (this.edit && this.isSuper == false ) {
                 this.updateData(this.edit, data).then(res => {
                     if (isReqSuccessful(res)) {
                         patchJump(this.modpath)
@@ -363,7 +393,7 @@ export default {
                     this.$message.error('修改失败')
                     this.disableBtn = false
                 })
-            } else if(this.isCustomer){
+            } else if(this.isCustomer || this.isBreed){
                 this.postData(data).then(res => {
                     if (isReqSuccessful(res)) {
                         this.$message.success('修改成功')

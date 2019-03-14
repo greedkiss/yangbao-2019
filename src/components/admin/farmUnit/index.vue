@@ -12,17 +12,17 @@
             :hasSuNe="true"
             :itemsSN="itemsSN"
             :modelsSN="modelsSN"
+            :isBreed = "true"
+            :get-data = "getFactoryOne"
+            :post-data="updateFactory"
             >
-            <!-- :get-data="getFarmById"
-            :post-data="postFarm"
-            :update-data="updateFarm" -->
         </data-cur>
     </div>
 </template>
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
-// import { postFarm, updateFarm, getFarmById } from '@/util/getdata'
+import {  getFactoryOne , updateFactory} from '@/util/getdata'
 
 export default {
     components: {
@@ -39,9 +39,8 @@ export default {
             cb(types)
         }
         return {
-            // getFarmById,
-            // postFarm,
-            // updateFarm,
+            getFactoryOne,
+            updateFactory,
             items: [
                 {label: '羊场编号', model: 'pkNumber'},
                 {label: '羊场名称', model: 'breedName'},
@@ -50,10 +49,10 @@ export default {
                 {label: '羊场负责人', model: 'responsiblePersonId'},
                 // {label: '消毒场所', model: 'disinfectP'},
                 {label: '加入时间', model: 'createTime', type: 'time'},
-                {label: '单位负责人', model: 'unitResponsible'},
-                {label: '单位负责人电话', model: 'unitResponsiblePhone'},
-                {label: '单位联系人', model: 'unitLinkman'},
-                {label: '单位联系人电话', model: 'unitLinkmanPhone'},
+                {label: '单位负责人', model: 'responsiblePersonName'},
+                {label: '单位负责人电话', model: 'responsiblePersonPhone'},
+                {label: '单位联系人', model: 'contactPersonName'},
+                {label: '单位联系人电话', model: 'contactPersonPhone'},
             ],
             itemsSN: [
                 {label: '当前供应', model: 'nowSupply'},
@@ -62,12 +61,10 @@ export default {
                 {label: '需求单位', model: 'needUnits', type: 'select',fetchSuggestions: getType}
             ],
             models: {
-                unitResponsible: null,
-                unitResponsiblePhone: null,
-                unitLinkman: null,
-                unitLinkmanPhone: null,
-                nowSupply: null,
-                nowNeed: null,
+                responsiblePersonName: null,
+                responsiblePersonPhone: null,
+                contactPersonName: null,
+                contactPersonPhone: null,
                 pkNumber: null,
                 breedName: null,
                 breedLocation: null,
@@ -78,8 +75,10 @@ export default {
                 remark: null
             },
             modelsSN: {
+                nowSupply: null,
                 supplyUnits: null,
-                needUnits: null
+                needUnits: null,
+                nowNeed: null
             }
         }
     }
