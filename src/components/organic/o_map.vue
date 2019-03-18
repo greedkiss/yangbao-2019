@@ -193,7 +193,7 @@ export default {
             var options = {
                 splitList: { 
                     other: 'yellow',
-                    1: 'blue',
+                    1: 'green',
                     2: 'yellow',
                     3: 'red'
                 },
