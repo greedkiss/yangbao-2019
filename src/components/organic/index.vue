@@ -406,8 +406,8 @@ export default {
 					res.data.sheeps.forEach((item) => {
 						this.eartagList.push(item.trademarkEarTag)
 					})
-					this.corpation.chargeMan = res.data.responsiblePerson
-					this.corpation.phone = res.data.responsiblePersonPhone
+					this.corpation.chargeMan = res.data.factory.responsiblePersonName
+					this.corpation.phone = res.data.factory.responsiblePersonPhone
 				})
 			}else{
 				getCustomerInformation(id).then(res => {
@@ -431,7 +431,7 @@ export default {
 						simpleAddress += this.value.city
 					}
 					else if(this.value.city != ''){
-						this.mapCenter.level = 7
+						this.mapCenter.level = 11
 						simpleAddress += this.value.city.label
 					}
 				}

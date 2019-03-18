@@ -475,4 +475,4 @@ export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
 
-export const updateFactory= (data) => fetch('/factory/update', data , 'POST')
+export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')

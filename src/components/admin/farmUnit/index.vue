@@ -55,10 +55,10 @@ export default {
                 {label: '单位联系人电话', model: 'contactPersonPhone'},
             ],
             itemsSN: [
-                {label: '当前供应', model: 'nowSupply'},
-                {label: '供应单位', model: 'supplyUnits', type: 'select',fetchSuggestions: getType},
-                {label: '当前需求', model: 'nowNeed'},
-                {label: '需求单位', model: 'needUnits', type: 'select',fetchSuggestions: getType}
+                {label: '当前供应', model: 'output'},
+                {label: '供应单位', model: 'outputUnit', type: 'select',fetchSuggestions: getType},
+                {label: '当前需求', model: 'demand'},
+                {label: '需求单位', model: 'demandUnit', type: 'select',fetchSuggestions: getType}
             ],
             models: {
                 responsiblePersonName: null,
@@ -75,10 +75,10 @@ export default {
                 remark: null
             },
             modelsSN: {
-                nowSupply: null,
-                supplyUnits: null,
-                needUnits: null,
-                nowNeed: null
+                output: null,
+                outputUnit: null,
+                demand: null,
+                demandUnit: null
             }
         }
     }

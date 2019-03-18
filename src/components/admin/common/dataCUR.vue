@@ -344,6 +344,9 @@ export default {
             let { userFactory, userRealname, id, factoryName } = this.user
             data.factoryNum = this.models.factoryNum || userFactory
             
+            if(this.isBreed){
+                data.id = data.factoryNum
+            }
             if (!this.isAgent) {
                 data.operatorName = userRealname
                 data.operatorId = id
