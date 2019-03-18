@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 用户模块
-import Index from '@/components/Index'
+import Index from '@/components/index'
 import Login from '@/components/login/login'
 import Register from '@/components/login/register'
 import FindPass from '@/components/login/findpass'
@@ -33,6 +33,7 @@ const AcountComment = () => import('@/components/admin/comment/accountComment')
 const CommentResult = () => import('@/components/admin/comment/commentResults')
 // 用户权限
 const AuthRole = () => import('@/components/admin/auth/role')
+const AuthRoleInput = () => import('@/components/admin/auth/input')
 const Account = () => import('@/components/admin/account/index')
 // 系谱档案
 const Genealogic = () => import('@/components/admin/genealogic/index')
@@ -138,13 +139,18 @@ const NotFound = () => import('@/components/not_found')
 const TableFound = () => import('@/components/table/app')
 //屠宰加工管理平台
 const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
-const SlaughterUnitList = () => import('@/components/admin/slaughterUnit/list')
-const SlaughterUnitVisual = () => import('@/components/admin/SlaughterUnit/productionVisual')
+const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
+const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
+const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
-const ConsumerUnitList = () => import('@/components/admin/consumerUnit/list')
 const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
+const ConsumerUnitMedia = () => import('@/components/admin/consumerunit/media')
+const ConsumerCertification = () => import('@/components/admin/consumerunit/certification')
+
+//寻找有机
+const FindOrganic = () => import('@/components/organic/index')
 
 Vue.use(Router)
 
@@ -175,6 +181,8 @@ export default new Router({
         {path: '/news', name: 'news', component: ReleaseIndex},
         // 联系我们
         {path: '/contact', name: 'contact', component: ReleaseIndex},
+        //寻找有机
+        {path: '/findOrganic', name: 'organic', component: FindOrganic},
 
         // 管理员模块
         {path: '/admin/:id', component: Admin, meta: {requireAuth: true}, children: [
@@ -195,6 +203,7 @@ export default new Router({
             {path: 'welfare/list', name: 'welfarelist', component: WelfareList},
             {path: 'welfare/plan', name: 'welfareplan', component: WelfarePlan},
             {path: 'authrole', name: 'authrole', component: AuthRole},
+            {path: 'authrole/input', name: 'authroleInput', component: AuthRoleInput},
             {path: 'genealogic/prac', name: 'genealogic', component: Genealogic},
             {path: 'genealogic/list', name: 'genealogiclist', component: GenealogicList},
             // 存栏档案
@@ -285,13 +294,19 @@ export default new Router({
             {path: 'table', name: 'table', component: TableFound},
             //屠宰加工管理平台
             {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
-            {path: 'slaughterUnit/list', name: 'slaughterunitlist', component: SlaughterUnitList},
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
+            {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
+            {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
+            
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
-            {path: 'consumerUnit/list', name: 'consumerunitlist', component: ConsumerUnitList},
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
+            {path: 'cmedia', name: 'consumerUnitMedia', component: ConsumerUnitMedia}, 
+            {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
+
+            
         ]},
         {path: '*', name: 'notfound', component: NotFound}
+        
     ]
 })

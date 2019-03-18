@@ -21,6 +21,9 @@
 		position absolute
 		bottom 0px
 		.foot_mess
+			white-space nowrap
+			overflow hidden
+			font-size 14px
 			margin 0
 		    // height h=50px
 		    line-height 30px

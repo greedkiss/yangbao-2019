@@ -205,12 +205,14 @@ export const getAgentUnit = () => fetch('/agent/fr')
 
 export const getFactoryUnit = () => fetch('/factory/fr')
 
+export const getNameByType = (type) =>fetch('/customer/getAllByType', type , "POST")
+
 /**
  * 品种管理
  */
 export const postCategory = data => fetch('/var/add', data, 'POST')
 
-export const getCategorys = (id, data) => fetch('/var/getAll', data, 'POST')
+export const getCategorys = () => fetch('/var/getAll', 'GET')
 
 export const updateCategory = (id, data) => fetch(`/var/update/${id}`, data, 'POST')
 
@@ -307,6 +309,14 @@ export const getFactoryUsers = (facid, data) => fetch('/user/' + facid, data)
 
 export const updateUserRole = (uid, roleid) => fetch('/user/role/' + uid, {role: roleid}, 'PATCH')
 
+export const updateUserMessage = (uid, data) => fetch('/user/role/'+ uid, data, 'PATCH')
+
+export const getPermit = () => fetch('/permit/find', 'GET')
+
+export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + '/' + second, data, 'POST')
+
+export const getRoleName = () => fetch('/role/name/get', 'GET')
+
 /**
  * 短信平台
  */
@@ -337,6 +347,8 @@ export const patchProDisinfect = (id, data) => fetch('/df/p/' + id, data, 'PATCH
 export const patchProImmune = (id, data) => fetch('/ip/p/' + id, data, 'PATCH')
 export const patchProAntiscolic = (id, data) => fetch('/rp/p/' + id, data, 'PATCH')
 export const patchProStage = (id, data) => fetch('/nutrition/p/' + id, data, 'PATCH')
+
+export const judgeSupervisor = ()=> fetch('/judge/supervisor', "GET")
 
 // 可视系统
 export const getImmuneEarTag = data =>fetch('/s/getImmuneEarTag', data, 'POST')
@@ -445,3 +457,22 @@ export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarT
 
 //认证证书
 export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
+
+//屠宰加工管理平台
+export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
+
+export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
+
+//寻找有机
+export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')
+
+export const getFactoryInformation = ( id ) => fetch('/factory/getFactoryFullInformation/' + id , 'GET')
+
+export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomerInformation/' + id , 'GET')
+
+export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
+
+//养殖客户管理
+export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
+
+export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')

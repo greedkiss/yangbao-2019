@@ -181,7 +181,7 @@ export default {
                         {label: '阶段营养方案', to: 'stageplan'},
                         {label: '阶段营养实施档案', to: 'stageprac'},
                         {label: '配种产子管理方案', to: 'breedplan'},
-                        {label: '配种产子实施档案', to: 'breedprac'}
+                        {label: '配种产子实施档案', to: 'breedprac'},
                     ]},
                     {label: '疾病防治', to: 'prevention', children: [
                         {label: '专家咨询', to: 'chat'},
@@ -211,9 +211,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'slaughterMedia'},
                         {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'slaughterCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                     children:[
@@ -230,9 +230,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'consumerUnitMedia'},
                         {label: '生产可视一览', to: 'consumerUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'consumerCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                         children:[
@@ -355,7 +355,7 @@ export default {
 
         isProdModule () {
             let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer', 'slaughterunit', 'consumerunit'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {
@@ -392,7 +392,7 @@ export default {
 
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
-                    window.open('http://www.nubiangoat.biz/')
+                    window.open('http://mall.yunyangbao.cn/index2')
                     return
                 }
                 // if chat open another page

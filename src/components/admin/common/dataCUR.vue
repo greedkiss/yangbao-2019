@@ -1,10 +1,10 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit"></basic-info>
+        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :is-produce="isProduce"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
-            <el-input type="textarea" v-model="models.note"></el-input>
+            <el-input type="textarea" v-model="models.description"></el-input>
         </div>
         <div class="card" v-if="hasRemark">
             <p class="card-title">备注:</p>
@@ -65,7 +65,7 @@ export default {
             type: Array
         },
         modelsSN: {
-            type: Array
+            type: Object
         },
         models: {
             type: Object
@@ -116,6 +116,21 @@ export default {
         updateUnit: {
             type: Boolean,
             default:false
+        },
+        //屠宰加工消费实体 this.edit = false但是需要getmessage
+        isCustomer: {
+            type: Boolean,
+            default: false
+        },
+        //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
+        isProduce: {
+            type: Boolean,
+            default: true
+        },
+        //判断是否是养殖端
+        isBreed: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -145,10 +160,32 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
+                this.fetchBreedData(this.user.userFactory)
             }
         })
         if(this.intel == 4){
             this.intel_com = true
+        }
+        //屠宰加工 消费实体
+        if(this.isCustomer){
+            this.getData(this.$route.params.id).then(res => {
+                if(isReqSuccessful(res)) {
+                    let obj = {}
+                    let objSN = {}
+                    this.unitId = res.data.customer.id
+                    Object.keys(this.models).forEach(v => {
+                        obj[v] = res.data.customer[v]
+                    })
+                    if('simpleAddress' in obj){
+                        obj.simpleAddress = addressToArray(obj.simpleAddress)
+                    }
+                    Object.keys(this.modelsSN).forEach(v => {
+                        objSN[v] = res.data.customer[v]
+                    })
+                    this.$emit('update:models', obj)
+                    this.$emit('update:modelsSN', objSN)
+                }
+            })
         }
         if (this.edit) {
             this.getData(this.edit).then(res => {
@@ -198,15 +235,38 @@ export default {
             supervise: false,
             view: false,
             canModify: true,
-
+            unitId: null,
             disableBtn: false,
             map: ['', '省级代理', '市级代理', '县级代理'],
             intel:0,
-            intel_com:false
+            intel_com:false,
+            user: null
         }
     },
 
     methods: {
+        fetchBreedData(id){
+            if(this.isBreed){
+                this.getData(id).then(res => {
+                    if(isReqSuccessful(res)){
+                        let obj = {}
+                        let objSN = {}
+                        Object.keys(this.models).forEach(v => {
+                            obj[v] = res.data.model[v]
+                        })
+                        if('breedLocation' in obj){
+                             obj.breedLocation = addressToArray(obj.breedLocation)
+                        }
+                        Object.keys(this.modelsSN).forEach(v => {
+                            objSN[v] = res.data.model[v]
+                        })
+                        this.$emit('update:models', obj)
+                        this.$emit('update:modelsSN', objSN)
+                    }
+                })
+            }
+        },
+
         returnback(){
             let pathid = this.$route.params.id
             let path = `/admin/${pathid}/intelManage/total`
@@ -246,7 +306,7 @@ export default {
         },
 
         submit ( checkFull ) {
-            if (! (this.models, checkFull)) {
+            if (! checkForm(this.models, checkFull)) {
                 return
             }
 
@@ -259,6 +319,11 @@ export default {
             }
 
             let data = Object.assign({}, this.models)
+
+            //养殖 屠宰 加工
+            if(this.isCustomer || this.isBreed){
+                data = Object.assign(data, this.modelsSN)
+            }
 
             if ( data.prenatalImmunityType ) {
                 data.prenatalImmunityType = ArrayToString(data.prenatalImmunityType);
@@ -279,6 +344,9 @@ export default {
             let { userFactory, userRealname, id, factoryName } = this.user
             data.factoryNum = this.models.factoryNum || userFactory
             
+            if(this.isBreed){
+                data.id = data.factoryNum
+            }
             if (!this.isAgent) {
                 data.operatorName = userRealname
                 data.operatorId = id
@@ -296,14 +364,19 @@ export default {
                 data.responsibleId = -1
                 data.agent = id
             } else if(this.isSuper && this.edit){
-                data.supAgentId = parseInt(id)
+                data.supAgentId = parseInt(userFactory)
                 data.id = this.edit
-            } else {
-                data.supAgentId = parseInt(id)
+            } else if(this.isCustomer){
+                //屠宰加工 消费实体完善信息
+                data.id = this.unitId
+            }
+            else {
+                data.supAgentId = parseInt(userFactory)
             }
 
+
             this.disableBtn = true
-            if (this.edit && this.isSuper == false) {
+            if (this.edit && this.isSuper == false ) {
                 this.updateData(this.edit, data).then(res => {
                     if (isReqSuccessful(res)) {
                         patchJump(this.modpath)
@@ -323,7 +396,15 @@ export default {
                     this.$message.error('修改失败')
                     this.disableBtn = false
                 })
-
+            } else if(this.isCustomer || this.isBreed){
+                this.postData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('修改成功')
+                    }
+                }, _ => {
+                    this.$message.error('录入失败')
+                })
+                this.disableBtn = false
             } else {
                 this.postData(data).then(res => {
                     if (isReqSuccessful(res)) {

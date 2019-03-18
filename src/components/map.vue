@@ -21,7 +21,7 @@ export default {
 		map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 	},
 	methods: {
-		getCity(address) {
+		 getCity(address) {
 			if (!address) {
 				return "北京市"
 			} else if (~this.address.indexOf("区") || ~this.address.indexOf("县")) {

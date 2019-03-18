@@ -13,6 +13,7 @@
             :get-data="getSlaughterById"
             :update-data="updateSlaughter"
             :update-unit="$route.query.edit > 0"
+            :isProduce= "false"
             >
         </data-cur>
     </div>

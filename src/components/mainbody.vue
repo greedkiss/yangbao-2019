@@ -1,8 +1,8 @@
 <template>
 	<div class="mainPage">
-		<div class="mainTitle">云·羊宝（有机）山羊养殖生产管理追溯平台</div>
+    <div class="mainTitle">云·羊宝（有机）山羊养殖生产管理追溯平台</div>
         <div class="mainNav">
-        <router-link to="/login" class="organic">
+        <router-link to="/findOrganic" class="organic" target="_blank">
             <div class="box_second">
                 <img src="../assets/imgs/findOrganic.png">
                 <div class="C_name">寻找有机</div>
@@ -20,7 +20,7 @@
             <div class="box_three">
                 <img src="../assets/imgs/produceManager.png">
                 <div class="C_name">生产管理</div>
-                <div class="E_name" style="width:80px">PRODUCTION MANAGEMENT</div>
+                <div class="E_name">PRODUCTION MANAGE</div>
             </div>
         </router-link>
         <a href="http://mall.yunyangbao.cn/" class="goods" target="_blank">
@@ -31,7 +31,7 @@
             </div>
         </a>
         </div>
-	</div>
+  </div>
 </template>
 <script>
 </script>
@@ -48,16 +48,17 @@
         font-size 38px
         font-family: Arial,'Raleway', sans-serif
         font-weight bold
-        margin-bottom 8%
+        margin-bottom 13vh
     .mainNav
         .retrospect, .organic, .produce, .goods
             color #FFFFFF
-            width 10%
+            width 130px
             .box_first, .box_second, .box_three, .box_four
                 background rgba(255,255,255,0)
                 border 1px solid white
                 border-radius 10%
                 width 100%
+                heigth 180px
                 img
                     width 80px
                     heigth 80px
@@ -67,10 +68,12 @@
                     padding-top calc(4vh)
                     padding-bottom 5px
                 .E_name
-                    align center
+                    text-align center
                     -webkit-text-size-adjust none
-                    font-size:9px 
-                    -webkit-transform:scale(0.65)
+                    font-size:10px 
+                    -webkit-transform:scale(0.70)
+                    // transform scale(0.75)
+                    // font-size 12px
                     padding-bottom 20px
                     white-space nowrap
             .box_first:hover, .box_second:hover, .box_three:hover, .box_four:hover

@@ -118,7 +118,7 @@ export default {
         },
         submit () {
             if ( !this.beforeUpload ( this.models.file ) ) {
-                return false;
+                return false
             }
             let form = new FormData()
             form.append('userId', this.$route.params.id)
@@ -127,6 +127,7 @@ export default {
             form.append('sex', this.models.sex)
             form.append('expert', this.models.expert)
             form.append('file[]', this.models.file)
+            form.append('fileType', 0)
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
             window.fetch(baseUrl + '/uploadFile/productPic', {

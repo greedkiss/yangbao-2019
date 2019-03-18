@@ -11,18 +11,18 @@
             :hasUnitRecommand="true"
             :hasSuNe="true"
             :itemsSN="itemsSN"
-            :modelsSN="modelsSN"
+            :modelsSN.sync="modelsSN"
+            :get-data="getSlaughterUnit"
+            :isCustomer="true"
+            :post-data="updateSlaughterUnit"
             >
-            <!-- :get-data="getFarmById"
-            :post-data="postFarm"
-            :update-data="updateFarm" -->
         </data-cur>
     </div>
 </template>
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
-// import { postFarm, updateFarm, getFarmById } from '@/util/getdata'
+import { getSlaughterUnit, updateSlaughterUnit} from '@/util/getdata'
 
 export default {
     components: {
@@ -50,45 +50,44 @@ export default {
             cb(types)
         }
         return {
-            // getFarmById,
-            // postFarm,
+            getSlaughterUnit,
+            updateSlaughterUnit,
             // updateFarm,
             items: [
-                {label: '单位类型', model: 'unitStyle', type: 'select', fetchSuggestions: getType},
-                {label: '单位名称', model: 'unitName'},
-                {label: '单位负责人', model: 'responsiblePerson'},
-                {label: '加入时间', model: 'createTime', type: 'time'},
-                {label: '单位地址', model: 'unitLocation', type: 'address'},
-                {label: '单位详细地址', model: 'unitaddress'},
-                {label: '单位负责人', model: 'unitResponsible'},
-                {label: '单位负责人电话', model: 'unitResponsiblePhone'},
-                {label: '单位联系人', model: 'unitLinkman'},
-                {label: '单位联系人电话', model: 'unitLinkmanPhone'},
+                {label: '单位类型', model: 'type', type: 'select', fetchSuggestions: getType},
+                {label: '单位名称', model: 'name'},
+                {label: '加入时间', model: 'inDate', type: 'time'},
+                {label: '单位地址', model: 'simpleAddress', type: 'address'},
+                {label: '单位详细地址', model: 'detailAddress'},
+                {label: '单位负责人', model: 'chargePerson'},
+                {label: '单位负责人电话', model: 'chargePersonPhone'},
+                {label: '单位联系人', model: 'contactPerson'},
+                {label: '单位联系人电话', model: 'contactPersonPhone'},
             ],
             itemsSN: [
-                {label: '当前供应', model: 'nowSupply'},
-                {label: '供应单位', model: 'supplyUnits', type: 'select',fetchSuggestions: getTypeUnits},
-                {label: '当前需求', model: 'nowNeed'},
-                {label: '需求单位', model: 'needUnits', type: 'select',fetchSuggestions: getTypeUnits}
+                {label: '当前供应', model: 'output'},
+                {label: '供应单位', model: 'outputUnit', type: 'select',fetchSuggestions: getTypeUnits},
+                {label: '当前需求', model: 'demand'},
+                {label: '需求单位', model: 'demandUnit', type: 'select',fetchSuggestions: getTypeUnits}
             ],
             models: {
+                type: null,
+                name: null,
+                simpleAddress: null,
+                chargePerson: null,
+                inDate: null,
+                remark: null,
                 unitResponsible: null,
-                unitaddress: null,
-                unitResponsiblePhone: null,
-                unitLinkman: null,
-                unitLinkmanPhone: null,
-                nowSupply: null,
-                nowNeed: null,
-                unitStyle: null,
-                unitName: null,
-                unitLocation: null,
-                responsiblePerson: null,
-                createTime: null,
-                remark: null
+                detailAddress: null,
+                chargePersonPhone: null,
+                contactPerson: null,
+                contactPersonPhone: null,
             },
             modelsSN: {
-                supplyUnits: null,
-                needUnits: null
+                output: null,
+                demand: null,
+                outputUnit: null,
+                demandUnit: null
             }
         }
     }

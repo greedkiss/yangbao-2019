@@ -28,7 +28,7 @@ export default {
             getAntiscolic,
             items: [
                 {label: '驱虫栏/栋', model: 'crowdNum', type: 'selectCrowd'},
-                {label: '商标耳牌号', model: 'eartagFile' ,type : 'select3'},
+                {label: '商标耳牌号', model: 'eartagFile' ,type : 'selectEartag'},
                 {label: '驱虫时间', model: 'repellentTime', type: 'time',mr: 1},
                 {label: '药物名称', model: 'repellentName', type: 'select', fetchSuggestions: getMedicines},
                 {label: '给药途径', model: 'repellentWay', type: 'select', fetchSuggestions: getWays},

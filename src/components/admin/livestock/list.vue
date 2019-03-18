@@ -187,6 +187,10 @@
 				    <div class="name">{{ item }}</div>
 				  </template>
 				</el-autocomplete>
+				<span>羊&nbsp只&nbsp体&nbsp重&nbsp:</span>
+				<el-input v-model="upda.weight" size="small"></el-input><br/>
+				<span>羊&nbsp只&nbsp年&nbsp龄&nbsp:</span>
+				<el-input v-model="upda.year" size="small"></el-input><br/>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogUpdateVisible  = false" size="small">取 消</el-button>
@@ -368,7 +372,9 @@ export default {
 				earTag:'',
 				immuTag:'',
 				style:'',
-				stage:''
+				stage:'',
+				weight:'',
+				year:''
 			},
 			currentRow: {},
 			updateData:{
@@ -530,7 +536,8 @@ export default {
 			        '后备种母羊', 
 			        '羔羊', 
 			        '商品羊', 
-			        '后备种公羊'
+			        '后备种公羊',
+			        '可售羊只'
 			    ]
     			cb(style)
 		},
