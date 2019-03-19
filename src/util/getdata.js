@@ -474,7 +474,7 @@ export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
 
 //搜索平台查询羊信息
 
-export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag})
+export const getSheepInfo = (tag = 'G111527') => fetch('/tr',{trademarkEarTag:tag})
 
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag})
 
