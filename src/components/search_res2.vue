@@ -1,15 +1,11 @@
 <template>
   <div class="search-wrapper">
     <div class="header">
+      <div class="img-wrapper">
+        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
+      </div>
       <div class="name-wrapper">
         <span class="name">云·羊宝可视化溯源平台</span>
-      </div>
-      <div class="img-wrapper">
-        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="86px">
-      </div>
-      <div class="search">
-        <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
-        <el-button size="medium" @click="search">搜索</el-button>
       </div>
     </div>
     <div class="container">
@@ -17,55 +13,80 @@
         <video  src="/i/movie.ogg" controls="controls" height="400px" width="auto">
         </video>
         <div class="pro-manage">生产管理</div>
-        <div class="mod">
-          <div v-for="(v, i) in modules.slice(0,8)" :key="i">
-            <el-button @click="open(v.name,v.id)"  size="small" type="primary">{{v.text}}</el-button>
+        <div class='mod-wrapper'>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="left">
         <el-collapse v-model="activeNames">
           <el-collapse-item title="基本信息" name="1">
-              <div class="t-item">
-                <div>
-                  <span class="color-gr">品种:</span>
-                  <span v-text="sheepInfo.name"></span>
-                </div>
-                <div>
-                  <span class="color-gr">养殖场:</span>
-                  <span v-text="sheepInfo.breedLocation"></span>
-                </div>
-                <div>
-                  <span class="color-gr">出栏时间:</span>
-                  <span v-text="sheepInfo.leftTime"></span>
-                </div>
-                <div>
-                  <span class="color-gr">屠宰加工场:</span>
-                  <span v-text="sheepInfo.slaughterLocation"></span>
-                </div>
-                <div>
-                  <span class="color-gr">屠宰时间:</span>
-                  <span v-text="sheepInfo.slaughterTime"></span>
-                </div>
-                <div>
-                  <span class="color-gr">消费点:</span>
-                  <span v-text="sheepInfo.consumeLocation"></span>
-                </div>
-                <div>
-                  <span class="color-gr">到店时间:</span>
-                  <span v-text="sheepInfo.arriveTime"></span>
-                </div>
-                <!-- <el-collapse class="expand-wrapper">
-                  <el-collapse-item title="产品简介" class="expand">
-                    <span v-text="item['intro']"></span>
-                  </el-collapse-item>
-                </el-collapse> -->
-                <!-- <el-collapse class="expand-wrapper">
-                  <el-collapse-item title="单位简介" class="expand">
-                    <span v-text="item.company['intro']"></span>
-                  </el-collapse-item>
-                </el-collapse> -->
-              </div>
+            <el-tabs type="card" v-model="currentName">
+              <el-tab-pane label="养殖场" name="first">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                      <span v-text="sheepInfo.name"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">养殖场:</span>
+                      <span v-text="sheepInfo.breedLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">出栏时间:</span>
+                      <span v-text="sheepInfo.leftTime"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰加工场:</span>
+                      <span v-text="sheepInfo.slaughterLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰时间:</span>
+                      <span v-text="sheepInfo.slaughterTime"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费点:</span>
+                      <span v-text="sheepInfo.consumeLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">到店时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div>
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="产品简介" class="expand">
+                        <span v-text="item['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="单位简介" class="expand">
+                        <span v-text="item.company['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="屠宰加工厂" name="second"></el-tab-pane>
+              <el-tab-pane label="消费店" name="third"></el-tab-pane>
+            </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
             <!--<div class="t-item" v-for="(v, i) in  companyInfo.slice(0,companyInfo.length-1)" :key="i">-->
@@ -82,24 +103,124 @@
           </el-collapse-item>
           <el-collapse-item title="有机环境" name="4">
             <div class="organicEnvironment">
-              <el-button size="small" type="primary" @click="open('air',9)">空气</el-button>
-              <el-button size="small" type="primary" @click="open('wat',10)">水质</el-button>
-              <el-button size="small" type="primary" @click="open('soi',11)">土壤</el-button>
+              <div class='air' @click="open('air',9)">
+                <img src='../assets/imgs/circle1.png'/>
+                <div class='echeck'>点击查看</div>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
+                <div class='echeck'>点击查看</div>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='echeck'>点击查看</div>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
             </div>
           </el-collapse-item>
         </el-collapse>
       </div>
       <div class="right">
+        <div class="search">
+          <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
+          <el-button size="medium" @click="search">搜索</el-button>
+        </div>
         <el-collapse v-model="activeNames2">
           <el-collapse-item title="二维码" name="1">
+            <div class='qrleft'>
+              <div class='qrhead'>用户评级
+                
+              </div>
+              <div class="qrcontent">
+                <span class='ratingContent'>养殖端评级</span>
+                <el-rate
+                  v-model="value5"
+                  disabled
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div class="good">
+                <span>点赞</span>
+              </div>
+              <div class="bad" @click="openissue">
+                <span>投诉</span>
+              </div>
+            </div>
             <div class="qrcode" ref="qrcode"></div>
           </el-collapse-item>
           <el-collapse-item title="产品地址" name="2">
             <b-map address="贵州省铜仁市沿河县努比亚山羊养殖场"></b-map>
           </el-collapse-item>
         </el-collapse>
+        <div class='certificate-wrapper'>
+          <div class='cer-name'>国家认证</div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+        </div>
+        <div class='platform-rating'>
+          <span class='prating'>平台评级</span>
+          <span class='pau'>/品质认证</span>
+          <el-rate
+            v-model="value5"
+            disabled
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+        </div>
       </div>
     </div>
+    <el-dialog
+      class='issue'
+      custom-class="mod_search_dialog"
+      :visible.sync="issue"
+      width="800px"
+      :show-close="true">
+      <div class='ihead'>——————投诉——————</div>
+      <div class='ibody'>
+        <div class='ihead1'>
+          <span>投诉对象</span>
+          <input type='text'/>
+        </div>
+        <div class='ihead2'>
+          <span>投诉人</span>
+          <input type='text'/>
+          <span>联系电话</span>
+          <input type='text'/>
+        </div>
+          <div class='ihead3'>
+          <span>投诉事项</span>
+          <input type='text'/>
+        </div>
+      </div>
+    </el-dialog>
     <!-- 系谱 -->
     <el-dialog
       custom-class="mod_search_dialog"
@@ -827,9 +948,15 @@ import RecordTable from './table'
 import QRCode from 'qrcodejs2'
 import { getSheepInfo } from '@/util/getdata'
 import {getTraceInfo} from '@/util/getdata'
+import {getRating} from '@/util/getdata'
+import {getAuPicture} from '@/util/getdata'
 export default {
     data (){
       return {
+        auPicture:[],
+        issue: false,
+        value5: 3.7,
+        currentName:'first',
         //商品羊信息
         sheepInfo:{
           name:'',
@@ -986,7 +1113,14 @@ export default {
           info.arriveTime = data.model.createTime.slice(0,10);
         }
       })
-
+      getRating('G111527').then((re) => {
+        this.value5 = re.data.modules;
+      })
+      getAuPicture('M854127').then((re) => {
+        re.data.list.forEach((item) => {
+          this.auPicture.push(item.address);
+        })
+      })
     },
     mounted () {
       this.qrcode()
@@ -1003,6 +1137,9 @@ export default {
       RecordTable
     },
     methods: {
+      openissue() {
+        this.issue = true;
+      },
       search () {
         if (!this.key) {
           this.$message({
@@ -1054,7 +1191,6 @@ export default {
             }
       },
       open (name,id) {
-        console.log(this.dialog, name);
         this.$set(this.dialog, name, true);
         getTraceInfo(id,this.code).then((res) => {
           let data = res.data;
@@ -1098,45 +1234,30 @@ export default {
 }
 </script>
 
-<style  lang="stylus" scoped>
+<style  lang="stylus">
 @import '../assets/css/color'
   .search-wrapper
-    /*position: fixed*/
-    /*left: 0*/
-    /*top: 0*/
-    /*bottom: 0*/
-    /*z-index: 30*/
-    /*width: 100%*/
-    /*background: #fff*/
-    /*overflow scroll*/
+    background-image url(../assets/imgs/background.jpg)
+    background-repeat no-repeat
+    background-size cover
     .header
       text-align center
-      height 120px
+      height 100px
+      background-image url(../assets/imgs/bottomLine.png)
+      background-repeat no-repeat
+      background-size 100% 50%
+      background-position 50% 70%
       .name-wrapper
+        display inline-block
+        position relative
+        top -25px
         .name
           color color-main
           font-size 20px
           font-weight 600
       .img-wrapper
         display inline-block
-        float left
-        margin-left 30px
-      .search
-        display inline-block
-        float right
-        height 86px
-        line-height 86px
-        .el-input
-          width 250px
-          vertical-align top
-        .el-button
-          width 70px
-          min-width 70px
-          margin-left 10px
-          margin-bottom 50px
-          background-color color-main
-          border-color color-main
-          color #fff
+        margin-top 10px
 
   .container
     display flex
@@ -1150,12 +1271,13 @@ export default {
         text-align center
         color color-main
     .left
-      flex 0 1 300px
+      flex 0 1 340px
       order 0
       .el-collapse-item__header
         margin-left 5px
         color #2891d1
         font-weight 600
+        background-color rgba(0,0,0,0)
       .expand//规范展开样式
         margin-left 5px
         .el-collapse-item__header
@@ -1170,14 +1292,12 @@ export default {
         margin-left 10px
         color color-green
     .right
-      flex 0 1 300px
+      flex 0 1 340px
       order 2
     .el-collapse-item__header
       margin-left 5px
       color #2891d1
       font-weight 600
-    .qrcode
-      margin 0px 0px 40px 66px
   .expand-wrapper//规范展开样式
     border none
   .el-collapse-item__content//规范展开样式
@@ -1193,25 +1313,6 @@ export default {
       border none
       text-align center
       background-color color-green
-
-  .mod//中间生产管理
-    width 100%
-    display inline-flex
-    vertical-align top
-    >div
-      width 20%
-      border none
-      >*
-        display block
-        text-align center
-        margin 10px
-      >button
-        margin 10px auto 10px
-        color #fff
-        background-color color-green
-        border none
-      i
-        font-size 40px
 
   .mod_search_dialog
     padding 0 30px
@@ -1234,4 +1335,206 @@ export default {
 
 .el-table thead.is-group th
     background: #2891d1;
+
+.el-collapse-item__wrap
+  background-color rgba(0,0,0,0)
+
+.el-collapse-item__header
+  background-color rgba(0,0,0,0)
+  border none
+.el-collapse
+  border none
+.el-collapse-item
+  border 10px solid transparent
+  border-image url(../assets/imgs/border.png)
+  border-image-slice 30
+  border-image-width 2.6
+
+.el-collapse-item__wrap
+  border none
+
+ .container
+  .el-input--medium 
+    width 150px
+    .el-input__inner
+      height 25px
+      line-height 36px
+      background-color rgba(0,0,0,0)
+
+.container
+  .el-button--medium
+    padding 5px
+    font-size 14px
+    border-radius 4px
+    background-color rgba(0,0,0,0)
+
+.mod-wrapper
+  border 10px solid transparent
+  border-image url(../assets/imgs/border.png)
+  border-image-slice 30
+  border-image-width 2.6
+.mod
+  font-size 9px
+  display flex
+  background-color: rgba(255,255,255,0.1)
+  padding: 0px 20px 0px 20px
+  >div
+    flex 1
+.mod:last-child
+  padding-bottom 10px
+.swrapper
+  border: 0.5px solid #00a0ea
+  padding: 8px
+  background-color: rgba(0,160,234,0.3)
+  margin 10px 7px 0px 0px 
+.swrapper:last-child
+  margin-right 0px
+.sleft,.sright
+  display inline-block
+  color rgb(183,251,250)
+  margin-left 10px
+.sleft
+  position relative
+  top -2px
+  border-radius 50%
+  background-color rgb(0,160,234)
+  padding 8px 10px 8px 10px
+  color rgb(128,194,107)
+  font-size 20px
+.sright>div:first-child
+  font-size 17px
+
+.air,.water,.solid
+  display inline-block
+  position relative
+.echeck
+  position: absolute;
+  top: 24%
+  font-size: 1px
+  left: 25%
+  color: rgb(128,194,106)
+.equality
+  text-align: center
+  font-size: 20px
+  color: rgb(229,168,87)
+.equality2
+    text-align: center
+    font-size: 10px
+    color: rgb(133,197,206)
+.el-tabs__item
+  height 30px
+  line-height 30px
+  padding 0px 10px
+  color rgb(5,187,191)
+.el-tabs--top.el-tabs--card .el-tabs__item:nth-child(2)
+  padding-left 10px
+.el-tabs--top.el-tabs--card .el-tabs__item:last-child
+  padding-right 10px
+.el-tabs--card>.el-tabs__header .el-tabs__item.is-active
+  border-bottom-color rgb(199,126,85)
+  color rgb(199,126,85)
+.el-tabs--card>.el-tabs__header .el-tabs__item
+  border-bottom-color rgb(199,126,85)
+  border-left-color rgb(199,126,85)
+.el-tabs--card>.el-tabs__header .el-tabs__nav
+  border-color rgb(199,126,85)
+.el-tabs__item:hover
+  color rgb(5,187,191)
+.qrcode,.qrleft
+  display inline-block
+.qrleft
+  width 50%
+  position: relative
+  top: -5px
+  margin-left 5px
+  margin-bottom 10px
+.el-rate__icon
+ font-size 11px
+.el-rate
+ display inline-block
+.el-rate__item
+  width 11px
+.ratingContent
+  font-size 5px
+.qrhead
+  color rgb(0,255,255)
+  font-weight 700
+.ratingContent
+  color rgb(0,255,255)
+.qrcode
+  padding-left: 10px;
+  border-left: 1px solid rgb(50,78,99);
+.good,.bad
+  border: 1px solid #eb6001
+  color: #eb6001
+  margin-top: 5px
+  font-size: 4px
+  text-align: center
+.certificate-wrapper
+  margin 0px 5px
+  border 10px solid transparent
+  border-image url(../assets/imgs/border.png)
+  border-image-slice 30
+  border-image-width 2.6
+  .cer-name
+    color: #2891d1;
+    font-weight: 600;
+    margin: 16px 0px 0px 5px;
+    font-size: 14px;
+  .certificate
+    display inline-block
+    text-align center
+    margin: 0px 4px;
+    .cer-picture
+      display block
+      width 40px
+      height 80px
+      background-color rgb(0,46,144)
+    .cer-description
+      font-size: 5px;
+      color: white;
+
+.platform-rating
+  border 10px solid transparent
+  border-image url(../assets/imgs/border.png)
+  border-image-slice 30
+  border-image-width 2.6
+  text-align: center
+  padding: 30px 0
+  .prating,.pau
+    color rgb(7,255,255)
+  .prating
+    font-weight 600
+  .pau
+    font-size 10px
+
+
+.ihead
+  text-align center
+.ibody
+  border: 1px rgb(183,251,252) solid;
+  border-radius: 10%;
+  background-color: rgb(183,251,252);
+  color: black;
+  text-align: center;
+  .ihead1,.ihead2,.ihead3
+    margin-bottom 10px
+  .ihead1
+    span
+      color rgb(0,46,144)
+    input
+      width 50%
+  .ihead2
+    span
+      color rgb(0,46,144)
+    input
+      width 20%
+    input:first-of-type
+      margin-right 50px
+  .ihead3
+    span
+      color rgb(0,46,144)
+    input
+      width 50%
+      height 100px
 </style>

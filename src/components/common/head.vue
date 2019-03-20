@@ -1,6 +1,6 @@
 <template>
   <div class="app-header">
-    <header class="contact-info container">
+    <header class="contact-info container_top">
       <div class="logo">
           <router-link to="/">
               <img class="indexlogo" src="../../assets/imgs/newlogo.png" alt="云·羊宝（有机）山羊养殖生产管理追溯平台"/>
@@ -70,7 +70,7 @@ export default {
 .app-header
   overflow hidden
   width 100%
-  .container
+  .container_top
       height 10%
       background rgba(0,71,125,0.2)
       padding 0 10%

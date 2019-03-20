@@ -450,11 +450,6 @@ export const getFiveDetail = id => fetch('/nim/' + id + '/145' , 'GET')
 
 export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + stage + '/' + type, 'GET')
 
-//搜索平台查询羊信息
-export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
-
-export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
-
 //认证证书
 export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 
@@ -476,3 +471,13 @@ export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
 
 export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
+
+//搜索平台查询羊信息
+
+export const getSheepInfo = (tag = 'G111527') => fetch('/tr',{trademarkEarTag:tag})
+
+export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag})
+
+export const  getRating= (tag) => fetch(`/re/star`,{earTag:tag})
+
+export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST')
