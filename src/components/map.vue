@@ -21,7 +21,7 @@ export default {
 		map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 	},
 	methods: {
-		 getCity(address) {
+		getCity(address) {
 			if (!address) {
 				return "北京市"
 			} else if (~this.address.indexOf("区") || ~this.address.indexOf("县")) {
@@ -47,5 +47,5 @@ export default {
 <style lang="stylus">
 .mod_map
 	width 100%
-	height 200px
+	height 175px
 </style>

@@ -474,10 +474,14 @@ export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
 
 //搜索平台查询羊信息
 
-export const getSheepInfo = (tag = 'G111527') => fetch('/tr',{trademarkEarTag:tag})
+export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
-export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag})
+export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
 
-export const  getRating= (tag) => fetch(`/re/star`,{earTag:tag})
+export const  getRating= (tag) => fetch(`/re/star`,{earTag:tag});
 
-export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST')
+export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST');
+
+export const  getSheepVideo= (type, tag) => fetch(`/sheepVideo/${type}/${tag}`)
+
+export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag}`)

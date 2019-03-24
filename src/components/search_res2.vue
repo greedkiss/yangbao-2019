@@ -10,8 +10,10 @@
     </div>
     <div class="container">
       <div class="main">
-        <video  src="/i/movie.ogg" controls="controls" height="400px" width="auto">
-        </video>
+        <div class='video-wrapper'>
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" height="400px" width="auto">
+          </video>
+        </div>
         <div class="pro-manage">生产管理</div>
         <div class='mod-wrapper'>
           <div class="mod">
@@ -52,11 +54,19 @@
                       <span class="color-gr">养殖场:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    <div>
+                    <div class='leftT'>
                       <span class="color-gr">出栏时间:</span>
                       <span v-text="sheepInfo.leftTime"></span>
                     </div>
-                    <div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                      <span v-text="sheepInfo.telNumber"></span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                      <span v-text="sheepInfo.address"></span>
+                    </div>
+                    <!-- <div>
                       <span class="color-gr">屠宰加工场:</span>
                       <span v-text="sheepInfo.slaughterLocation"></span>
                     </div>
@@ -71,7 +81,7 @@
                     <div>
                       <span class="color-gr">到店时间:</span>
                       <span v-text="sheepInfo.arriveTime"></span>
-                    </div>
+                    </div> -->
                     <!-- <el-collapse class="expand-wrapper">
                       <el-collapse-item title="产品简介" class="expand">
                         <span v-text="item['intro']"></span>
@@ -97,17 +107,17 @@
           <el-collapse-item title="可视化视频" name="3">
             <el-carousel height="150px">
               <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <img :src="pics[index]">
+                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%'></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
-          <el-collapse-item title="有机环境" name="4">
+          <el-collapse-item title="生产环境" name="4">
             <div class="organicEnvironment">
               <div class='air' @click="open('air',9)">
                 <img src='../assets/imgs/circle1.png'/>
                 <div class='echeck'>点击查看</div>
                 <div class='equality'>优</div>
-                <div class='equality2'>空气质量</div>
+                <div class='equality2'>土壤质量</div>
               </div>
               <div class="water" type="primary" @click="open('wat',10)">
                 <img src='../assets/imgs/circle2.png'/>
@@ -119,7 +129,7 @@
                 <img src='../assets/imgs/circle3.png'/>
                 <div class='echeck'>点击查看</div>
                 <div class='equality'>优</div>
-                <div class='equality2'>空气质量</div>
+                <div class='equality2'>水质量</div>
               </div>
             </div>
           </el-collapse-item>
@@ -131,11 +141,11 @@
           <el-button size="medium" @click="search">搜索</el-button>
         </div>
         <el-collapse v-model="activeNames2">
-          <el-collapse-item title="二维码" name="1">
+          <el-collapse-item title="用户评级" name="1">
             <div class='qrleft'>
-              <div class='qrhead'>用户评级
+              <!-- <div class='qrhead'>用户评级
                 
-              </div>
+              </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>养殖端评级</span>
                 <el-rate
@@ -146,20 +156,24 @@
                 </el-rate>
               </div>
               <div class="good">
-                <span>点赞</span>
+                <!-- <span>点赞</span> -->
+                <img src='../assets/imgs/like.jpg'/>
               </div>
               <div class="bad" @click="openissue">
-                <span>投诉</span>
+                <!-- <span>投诉</span> -->
+                <img src='../assets/imgs/complain.png'/>
               </div>
             </div>
             <div class="qrcode" ref="qrcode"></div>
           </el-collapse-item>
           <el-collapse-item title="产品地址" name="2">
-            <b-map address="贵州省铜仁市沿河县努比亚山羊养殖场"></b-map>
+            <div class='bmap'></div>
+            <b-map height='188px' address="贵州省铜仁市沿河县努比亚山羊养殖场"></b-map>
           </el-collapse-item>
         </el-collapse>
         <div class='certificate-wrapper'>
           <div class='cer-name'>国家认证</div>
+          <div class='certificate-inner'>
           <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
@@ -170,19 +184,20 @@
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">放疫合格证</span>
           </div>
           <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">检疫合格证</span>
           </div>
           <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">品质认证</span>
+          </div>
           </div>
         </div>
         <div class='platform-rating'>
@@ -402,10 +417,6 @@
           :data="immData"
           style="width: 100%">
           <el-table-column
-            prop="crowdNum"
-            label="接种栏栋">
-          </el-table-column>
-          <el-table-column
             prop="immuneTime"
             label="接种时间"
             width="180">
@@ -473,11 +484,6 @@
           :data="expData"
           style="width: 100%">
           <el-table-column
-            prop="crowdNum"
-            label="驱虫栏栋"
-            width="180">
-          </el-table-column>
-          <el-table-column
             prop="repellentTime"
             label="驱虫时间">
           </el-table-column>
@@ -539,11 +545,6 @@
         <el-table
           :data="nutData"
           style="width: 100%">
-          <el-table-column
-            prop="building"
-            label="栏栋号"
-            width="140">
-          </el-table-column>
           <el-table-column
             prop="nutritionT"
             label="营养时间"
@@ -650,10 +651,6 @@
             prop="diagnosisTime"
             label="记录时间"
             width='180'>
-          </el-table-column>
-          <el-table-column
-            prop="buildingNum"
-            label="栏栋编号">
           </el-table-column>
           <el-table-column
             prop="symptom"
@@ -950,6 +947,8 @@ import { getSheepInfo } from '@/util/getdata'
 import {getTraceInfo} from '@/util/getdata'
 import {getRating} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
+import {getSheepVideo} from '@/util/getdata'
+import {getFactoryVideo} from '@/util/getdata'
 export default {
     data (){
       return {
@@ -965,10 +964,12 @@ export default {
           consumeLocation:'北京市市辖区东城区',
           leftTime:'2018-12-01',
           slaughterTime:'2018-12-01',
-          arriveTime:''
+          arriveTime:'',
+          telNumber:'12345678910',
+          address:''
         },
         //走马灯图片
-        pics: ["/static/chang1.png","/static/chang1.png"],
+        pics: [],
         //左侧展开的选项
         activeNames: ['1','2','3','4'],
         //右侧展开的选项
@@ -1102,7 +1103,7 @@ export default {
     },
     created (){
       this.$emit('closeHnF');
-      this.code = this.$route.query.code || '';
+      this.code = this.$route.query.code || 'G001554';
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;
         let data = re.data;
@@ -1120,6 +1121,20 @@ export default {
         re.data.list.forEach((item) => {
           this.auPicture.push(item.address);
         })
+      })
+      getSheepVideo('breeding','M121121').then((re) => {
+        this.pics.push(re.data.url);
+      })
+      getFactoryVideo('breeding','M121121').then((re) => {
+        var video = document.getElementById('factoryVideo');
+        video.src=re.data.url;
+        video.play().then(()=>{
+        console.log('可以自动播放');
+        }).catch((err)=>{
+            console.log(err);
+            console.log("不允许自动播放");
+            video.muted=true;
+        });
       })
     },
     mounted () {
@@ -1265,7 +1280,6 @@ export default {
       flex 1
       order 1
       video
-        margin 0px 40px 20px 40px
         width 700px
       .pro-manage
         text-align center
@@ -1289,7 +1303,6 @@ export default {
           line-height 25px
           margin-right auto
       .color-gr
-        margin-left 10px
         color color-green
     .right
       flex 0 1 340px
@@ -1355,7 +1368,8 @@ export default {
 
  .container
   .el-input--medium 
-    width 150px
+    width 186px
+    margin-left 9px
     .el-input__inner
       height 25px
       line-height 36px
@@ -1373,6 +1387,7 @@ export default {
   border-image url(../assets/imgs/border.png)
   border-image-slice 30
   border-image-width 2.6
+  margin 0px 20px 20px 20px
 .mod
   font-size 9px
   display flex
@@ -1409,9 +1424,9 @@ export default {
   position relative
 .echeck
   position: absolute;
-  top: 24%
+  top: 28px
   font-size: 1px
-  left: 25%
+  left: 20px
   color: rgb(128,194,106)
 .equality
   text-align: center
@@ -1464,14 +1479,7 @@ export default {
 .qrcode
   padding-left: 10px;
   border-left: 1px solid rgb(50,78,99);
-.good,.bad
-  border: 1px solid #eb6001
-  color: #eb6001
-  margin-top: 5px
-  font-size: 4px
-  text-align: center
 .certificate-wrapper
-  margin 0px 5px
   border 10px solid transparent
   border-image url(../assets/imgs/border.png)
   border-image-slice 30
@@ -1484,7 +1492,7 @@ export default {
   .certificate
     display inline-block
     text-align center
-    margin: 0px 4px;
+    margin: 0px 8px;
     .cer-picture
       display block
       width 40px
@@ -1500,7 +1508,7 @@ export default {
   border-image-slice 30
   border-image-width 2.6
   text-align: center
-  padding: 30px 0
+  padding: 5px 0 3px 0
   .prating,.pau
     color rgb(7,255,255)
   .prating
@@ -1512,11 +1520,11 @@ export default {
 .ihead
   text-align center
 .ibody
-  border: 1px rgb(183,251,252) solid;
-  border-radius: 10%;
-  background-color: rgb(183,251,252);
-  color: black;
-  text-align: center;
+  border: 1px rgb(183,251,252) solid
+  border-radius: 10px
+  background-color: rgb(183,251,252)
+  color: black
+  text-align: center
   .ihead1,.ihead2,.ihead3
     margin-bottom 10px
   .ihead1
@@ -1530,11 +1538,31 @@ export default {
     input
       width 20%
     input:first-of-type
-      margin-right 50px
+      margin-right 6px
+      width 100px
   .ihead3
     span
       color rgb(0,46,144)
     input
       width 50%
       height 100px
+.video-wrapper
+  border 10px solid transparent
+  border-image url(../assets/imgs/border.png)
+  border-image-slice 30
+  border-image-width 2.6
+  margin 0px 20px 20px 20px
+.t-item
+  font-size 12px
+  >div
+    border-bottom 0.5px green solid
+.certificate-inner
+  display flex
+.container .el-button--medium
+  color white
+.el-dialog__body
+  padding 30px 60px
+.issue
+  >div
+    background-color rgb(0,46,114)
 </style>
