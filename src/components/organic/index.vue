@@ -228,8 +228,14 @@
 					</div>
 				</div>
 				<div class="containerHead">
-					<p>管理联系人：{{corpation.chargeMan}}</p>
+					<p>联系人：{{corpation.chargeMan}}</p>
 					<p>电话：{{corpation.phone}}</p>
+					<!-- <span>联系人：{{corpation.chargeMan}}</span>
+					<span>电话：{{corpation.phone}}</span>
+					<span>羊只总数：</span>
+					<el-button round>总存栏</el-button>
+					<el-button round>可销售</el-button> -->
+
 				</div>
 				<div class="o_container">
 					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px" v-for="(item, i) in eartagList" :key="i">
@@ -404,7 +410,9 @@ export default {
 			if(type){
 				getFactoryInformation(id).then(res => {
 					res.data.sheeps.forEach((item) => {
-						this.eartagList.push(item.trademarkEarTag)
+						if(item != null){
+							this.eartagList.push(item.trademarkEarTag)
+						}
 					})
 					this.corpation.chargeMan = res.data.factory.responsiblePersonName
 					this.corpation.phone = res.data.factory.responsiblePersonPhone
