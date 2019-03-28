@@ -939,7 +939,8 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<!-- <script type="text/ecmascript-6"> -->
+<script>
 import BMap from './map'
 import RecordTable from './table'
 import QRCode from 'qrcodejs2'
@@ -1122,10 +1123,11 @@ export default {
           this.auPicture.push(item.address);
         })
       })
-      getSheepVideo('breeding','M121121').then((re) => {
+      //G001554
+      getSheepVideo('breeding','G400457').then((re) => {
         this.pics.push(re.data.url);
       })
-      getFactoryVideo('breeding','M121121').then((re) => {
+      getFactoryVideo('breeding','G400457').then((re) => {
         var video = document.getElementById('factoryVideo');
         video.src=re.data.url;
         video.play().then(()=>{
