@@ -63,45 +63,50 @@
                     </el-autocomplete>
                 </div>
 
+
+                <!-- 选择操作单位 全厂 整栋 整栏 羊只-->
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectStyle'" class="time el-input-group select">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
+                        :disabled="disableAll"
+                        size="small"
+                        v-model="models[item.model]"
+                        :fetch-suggestions="operateStyle"
+                        @select="judgeDisable(item.model)">
+                    </el-autocomplete>
+                </div>
+
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect" :disabled="select.eartag">
                         <el-checkbox-group v-model="ilist">
                         <el-checkbox v-for="city in immtag" :label="city" :key="city" @change="checkimmtag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" style="width: calc(100% - 140px)"></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" style="width: calc(100% - 140px)" :disabled="select.eartag"></el-input>
                     </el-popover>
                 </div>
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectImmunetag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect" :disabled="select.immunetag">
                         <el-checkbox-group v-model="elist">
                         <el-checkbox v-for="city in eartag" :label="city" :key="city" @change="checkeartag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" @focus="getEarTag(item.model)" ></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" @focus="getEarTag()" :disabled="select.immunetag"></el-input>
                     </el-popover>
                 </div>
 
 
-
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectCrowd'" class="time el-input-group select">
-                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect" @hide ="propHide">
+                   <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect" @hide ="propHide" :disabled="select.building">
                         <el-radio-group v-model="checkList">
-                            <el-radio v-for="(d, index) in crowdD" :label="d" :key="index" @change="getls(d, item.model)">{{d}}</el-radio>
+                            <el-radio v-for="(d, index) in crowdD" :label="d" :key="index" @change="getls(d,item.model)">{{d}}栋</el-radio>
                         </el-radio-group>
-                        <div v-if="tradeDList">
-                        <el-radio-group v-model="checkColList" >
+                        <!-- :v-if="tradeDList && select.col" -->
+                        <el-radio-group v-model="checkColList" :disabled="select.col" >
                             <el-radio v-for="(d, index) in crowdL" :label="d" :key="index"  @change="getlc(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        </div>
-                        <div v-else>
-                        <el-radio-group v-model="checkColList">
-                            <el-radio v-for="(d, index) in crowdL" :label="d" :key="index"  @change="getlc(item.model)">{{d}}栋</el-radio>
-                        </el-radio-group>
-                        </div>
-                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" :disabled="select.crowd"></el-input>
                     </el-popover>
                 </div>
 
@@ -255,7 +260,6 @@ export default {
             crowdOneD:[],
             checkOneList: '',
             user:null,
-            tradeDList:false,
             tradeDListOne:false,
             crowdD: [],
             crowdL:[],
@@ -270,7 +274,13 @@ export default {
             immlist:"",
             tradeEarTag:false,
             tradeDListThree:false,
-            selectType: null
+            select:{
+                eartag: false,
+                immunetag: false,
+                crowd: false,
+                col: false,
+                building: false
+            }
         }
     },
 
@@ -306,11 +316,9 @@ export default {
                     this.user = res.data.model
                 }
             }).then(_ =>{
-                this.crowdOneD = []
                 getSheepBuilding(this.user.userFactory).then(res => {
-                    let ds=res.data.data
-                    this.crowdD = ["全厂","全栋"]
-                    this.crowdD = this.crowdD.concat(ds)
+                    let ds=res.data.data  
+                    this.crowdD = ds
                     this.crowdOneD = ds
                 })
             })
@@ -318,58 +326,43 @@ export default {
     },
 
     methods:{
-        getEarTag(info){
-            if(this.selectType == 2){
-                // this.elist = "全厂"
-                this.models[info] = "全厂"
-            }else if(this.selectType == 1){
-                // this.elist = "全栋"
-                console.log(111)
-                this.models[info] = "全栋"
-            }else{
-                this.buildings = []
-                let factory = this.user.userFactory
-                let arr = this.selectD.split(';')
-                arr.forEach((item) => {
-                if(item !==""){
-                  let building = item.substring(item.indexOf("/") + 1 , item.indexOf("栋"))
-                  let col =item.substring(0 , item.indexOf("栏"))
-                  let column =parseInt(col)
-                  let obj = {building , column }
-                  this.buildings.push(obj)
-                }
-                })
-                let buildings = this.buildings
-                let data = {factory , buildings}
-                getSheepimmTag(data).then(res =>{
-                    this.eartag = res.data.models 
-                })
+        getEarTag(){
+            this.buildings = []
+            let factory = this.user.userFactory
+            let arr = this.selectD.split(';')
+            arr.forEach((item) => {
+            if(item !==""){
+              let building = item.substring(item.indexOf("/") + 1 , item.indexOf("栋"))
+              let col =item.substring(0 , item.indexOf("栏"))
+              let column =parseInt(col)
+              let obj = {building , column }
+              this.buildings.push(obj)
             }
+            })
+            let buildings = this.buildings
+            let data = {factory , buildings}
+            getSheepimmTag(data).then(res =>{
+                this.eartag = res.data.models 
+            })
         },
         getimmTag(){
-            if(this.selectType == 2){
-                this.ilist = "全厂"
-            }else if(this.selectType == 1){
-                this.ilist = "全栋"
-            }else{
-                this.buildings=[]
-                let factory = this.user.userFactory
-                let arr = this.selectD.split(';')
-                arr.forEach((item) => {
-                if(item !==""){
-                  let building = item.substring(item.indexOf("/") + 1 , item.indexOf("栋"))
-                  let col =item.substring(0 , item.indexOf("栏"))
-                  let column =parseInt(col)
-                  let obj = {building , column }
-                  this.buildings.push(obj)
-                }
-                })
-                let buildings = this.buildings
-                let data = {factory , buildings}
-                getSheepEarTag(data).then(res =>{
-                    this.immtag = res.data.models 
-                })
+            this.buildings=[]
+            let factory = this.user.userFactory
+            let arr = this.selectD.split(';')
+            arr.forEach((item) => {
+            if(item !==""){
+              let building = item.substring(item.indexOf("/") + 1 , item.indexOf("栋"))
+              let col =item.substring(0 , item.indexOf("栏"))
+              let column =parseInt(col)
+              let obj = {building , column }
+              this.buildings.push(obj)
             }
+            })
+            let buildings = this.buildings
+            let data = {factory , buildings}
+            getSheepEarTag(data).then(res =>{
+                this.immtag = res.data.models 
+            })
         },
         propHide(){
             this.checkList = null
@@ -389,56 +382,51 @@ export default {
         checkimmtag(d){
             this.models[d] = this.ilist.join(",")
         },
-        getls(d, item) {
-            this.tradeDList= false
-            this.crowdL = []
-            if(d == "全厂"){
-                this.models[item] = "全厂"
-                this.selectType = 2
-            }else if(d == "全栋"){
-                this.crowdL = this.crowdD.slice(2, this.crowdD.length)
-                this.selectType = 1
+        getls (d, item) {
+            this.checkColList = null
+            if(this.select.col){
+                let res = this.checkList + "栋;"
+                if(this.models[item] == null){
+                    this.models[item] = res
+                    this.selectD = res
+                }else{
+                    this.models[item] = this.models[item] + res
+                    this.selectD = this.selectD + res
+                }
             }else{
-                getSheepCol(this.user.userFactory , d).then(res =>{
-                    this.crowdL = res.data.data                    
+                getSheepCol(this.user.userFactory , d ).then(res =>{                     
+                    let ls = res.data.data
+                    this.crowdL = ls                    
                 })
-                this.tradeDList= true
-                this.selectType = 0
-            }
+            }       
         },
-        getlc(d) {
-            if(this.checkList == "全栋"){
-                let res = this.checkColList + "栋;"
-                if(this.models[d] == null){
-                    this.models[d] = res
-                    this.selectD = res
-                }else{
-                    this.models[d] = this.models[d] + res
-                    this.selectD = this.selectD + res
-                }
+        getlc (d) { 
+            let res = this.checkColList + "栏/" + this.checkList + "栋;"
+            if(this.models[d] == null){
+                this.models[d] = res
+                this.selectD = res
             }else{
-                let res = this.checkColList + "栏/" + this.checkList + "栋;"
-                if(this.models[d] == null){
-                    this.models[d] = res
-                    this.selectD = res
-                }else{
-                    this.models[d] = this.models[d] + res
-                    this.selectD = this.selectD + res
-                }
+                this.models[d] = this.models[d] + res
+                this.selectD = this.selectD + res
             }
         },
         getlsOne(d) {
-            getSheepCol(this.user.userFactory , d).then(res =>{                     
-                this.crowdOneL = res.data.data
+             getSheepCol(this.user.userFactory , d).then(res =>{                     
+                    let ls = res.data.data
+                    this.crowdOneL = ls                    
             })
-            this.tradeDListOne= true     
+            this.tradeDListOne= true          
         },
         getlcOne (d) { 
-            this.models[d] = this.checkColListOne + "栏/" + this.checkOneList + "栋"
+            let res = this.checkColListOne + "栏/" + this.checkOneList + "栋"
+            this.models[d] = res
+            this.checkColListOne = null
+            this.checkOneList = null
         },
         getlsThree(d){
-            getSheepCol(this.user.userFactory , d).then(res =>{
-                this.crowdOneL = res.data.data                   
+            getSheepCol(this.user.userFactory , d).then(res =>{                     
+                    let ls = res.data.data
+                    this.crowdOneL = ls                    
             })
             this.tradeDListThree= true 
         },
@@ -480,8 +468,41 @@ export default {
                 this.count = 4;
             }
             this.count -= 2 ;              
+        },
+
+        operateStyle(q, cb){
+            let style =[
+                {value: '整厂'},
+                {value: '整栋'},
+                {value: '整栏'},
+                {value: "羊只"}
+            ]
+            cb(style)
+        },
+
+        judgeDisable(item){
+            let type = this.models[item]
+            this.select.crowd = true
+            this.select.immunetag = true
+            this.select.eartag = true
+            this.select.building = true
+            if(type == "整栋"){
+                this.select.crowd = false
+                this.select.col = true
+                this.select.building = false
+            }else if(type == "整栏"){
+                this.select.col = false
+                this.select.building = false
+                this.select.crowd = false
+            }else if(type == "羊只"){
+                this.select.col = false
+                this.select.building = false
+                this.select.crowd = false
+                this.select.immunetag = false
+                this.select.eartag = false
+            }
         }
-    },
+    }
 } 
 </script>
 
