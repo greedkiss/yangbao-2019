@@ -66,6 +66,7 @@
                 <el-card>
                     <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
                     <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
+                    <p class="production-info" v-if="!isDiagnose">商标耳牌：{{ item.brand }}</p>
                     <p class="production-info">时间：{{ item.time }}</p>
                     <el-dialog
                       :visible.sync="productionShow[i]"

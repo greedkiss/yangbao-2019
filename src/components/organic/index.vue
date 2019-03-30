@@ -238,7 +238,7 @@
 
 				</div>
 				<div class="o_container">
-					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px" v-for="(item, i) in eartagList" :key="i">
+					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px; cursor: pointer;" v-for="(item, i) in eartagList" :key="i" @click = "jump(item);">
 						<span>{{item}}</span>
 					</div>
 				</div>
@@ -423,6 +423,9 @@ export default {
 					this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
 				})
 			}
+		},
+		jump(item){
+			this.$router.push({path: '/search', query: {code: item}})
 		},
 		search(start){
 			let message = {}

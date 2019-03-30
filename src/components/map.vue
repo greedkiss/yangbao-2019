@@ -8,6 +8,12 @@ export default {
 		address: {
 			type: String,
 			default: "北京市"
+		},
+		longitude: {
+			type: String
+		},
+		latitude: {
+			type: String
 		}
 	},
 	data() {
@@ -15,10 +21,12 @@ export default {
 			city: ""
 		}
 	},
+    watch: {
+        longitude() {
+            this.repaint()
+        }
+    },
 	mounted() {
-		var map = new window.BMap.Map(this.$refs.bmap) // 创建Map实例
-		map.centerAndZoom(this.getCity(this.address), 11) // 用城市名设置地图中心点
-		map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 	},
 	methods: {
 		getCity(address) {
@@ -39,6 +47,11 @@ export default {
 				})
 				return "北京市"
 			}
+		},
+		repaint() {
+			var map = new window.BMap.Map(this.$refs.bmap) // 创建Map实例
+			map.centerAndZoom(new BMap.Point(this.longitude, this.latitude), 11) // 用城市名设置地图中心点
+			map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 		}
 	}
 }

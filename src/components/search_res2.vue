@@ -52,11 +52,11 @@
                     </div>
                     <div>
                       <span class="color-gr">养殖场:</span>
-                      <span v-text="sheepInfo.breedLocation"></span>
+                      <span v-text="sheepInfo.breedName"></span>
                     </div>
                     <div class='leftT'>
                       <span class="color-gr">出栏时间:</span>
-                      <span v-text="sheepInfo.leftTime"></span>
+                      <span v-text="sheepInfo.arriveTime"></span>
                     </div>
                     <div class='telNumber'>
                       <span class="color-gr">联系电话:</span>
@@ -64,7 +64,7 @@
                     </div>
                     <div class=''>
                       <span class="color-gr">地址:</span>
-                      <span v-text="sheepInfo.address"></span>
+                      <span v-text="sheepInfo.breedLocation"></span>
                     </div>
                     <!-- <div>
                       <span class="color-gr">屠宰加工场:</span>
@@ -168,7 +168,7 @@
           </el-collapse-item>
           <el-collapse-item title="产品地址" name="2">
             <div class='bmap'></div>
-            <b-map height='188px' address="贵州省铜仁市沿河县努比亚山羊养殖场"></b-map>
+            <b-map height='188px' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
         <div class='certificate-wrapper'>
@@ -939,8 +939,7 @@
   </div>
 </template>
 
-<!-- <script type="text/ecmascript-6"> -->
-<script>
+<script type="text/ecmascript-6">
 import BMap from './map'
 import RecordTable from './table'
 import QRCode from 'qrcodejs2'
@@ -960,14 +959,12 @@ export default {
         //商品羊信息
         sheepInfo:{
           name:'',
-          breedLocation:'',
-          slaughterLocation:'北京市市辖区东城区',
-          consumeLocation:'北京市市辖区东城区',
-          leftTime:'2018-12-01',
-          slaughterTime:'2018-12-01',
+          breedName:'',
           arriveTime:'',
-          telNumber:'12345678910',
-          address:''
+          telNumber:'',
+          breedLocation:'',
+          longitude:'',
+          latitude:'',
         },
         //走马灯图片
         pics: [],
@@ -1104,39 +1101,49 @@ export default {
     },
     created (){
       this.$emit('closeHnF');
-      this.code = this.$route.query.code || 'G001554';
+      this.code = this.$route.query.code || 'G400457';
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;
         let data = re.data;
         console.log(this.code,data);
         if(data != null){
           info.name = data.model.varietyName;
-          info.breedLocation = data.model.breedLocation;
+          info.breedName = data.model.breedName;
           info.arriveTime = data.model.createTime.slice(0,10);
+          info.telNumber = data.model.phone;
+          info.breedLocation = data.model.breedLocation + data.model.breedLocationDetail;
+          info.longitude = data.model.longitude;
+          info.latitude = data.model.latitude;
+          console.log('long',info.longitude)
+          console.log('latitude',info.latitude)
+          getRating(this.code).then((re) => {
+            this.value5 = re.data.models;
+          })
+          getAuPicture(this.code).then((re) => {
+            re.data.list.forEach((item) => {
+              this.auPicture.push(item.address);
+            })
+          })
+          getSheepVideo('breeding',this.code).then((re) => {
+            this.pics.push(re.data.url);
+          })
+          getFactoryVideo('breeding',this.code).then((re) => {
+            var video = document.getElementById('factoryVideo');
+            video.src=re.data.url;
+            video.play().then(()=>{
+            console.log('可以自动播放');
+            }).catch((err)=>{
+                console.log(err);
+                console.log("不允许自动播放");
+                video.muted=true;
+            });
+          })
+        }else{
+            this.$notify.info({
+              title: '消息',
+              message: '没有该羊信息'
+            });
         }
-      })
-      getRating('G111527').then((re) => {
-        this.value5 = re.data.modules;
-      })
-      getAuPicture('M854127').then((re) => {
-        re.data.list.forEach((item) => {
-          this.auPicture.push(item.address);
-        })
-      })
-      //G001554
-      getSheepVideo('breeding','G400457').then((re) => {
-        this.pics.push(re.data.url);
-      })
-      getFactoryVideo('breeding','G400457').then((re) => {
-        var video = document.getElementById('factoryVideo');
-        video.src=re.data.url;
-        video.play().then(()=>{
-        console.log('可以自动播放');
-        }).catch((err)=>{
-            console.log(err);
-            console.log("不允许自动播放");
-            video.muted=true;
-        });
       })
     },
     mounted () {
@@ -1254,6 +1261,7 @@ export default {
 <style  lang="stylus">
 @import '../assets/css/color'
   .search-wrapper
+    height 100%
     background-image url(../assets/imgs/background.jpg)
     background-repeat no-repeat
     background-size cover
