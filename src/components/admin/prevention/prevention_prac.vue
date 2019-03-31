@@ -30,15 +30,17 @@ export default {
             updatePrevention,
             items: [
                 {label: '日期', type: 'time', model: 'diagnosisTime'},
+                {label: '单位选择', model: 'style', type: 'selectStyle',mr: 1},
                 {label: '栏/栋', model: 'buildingNum', type: 'selectCrowd'},
-                {label: '商标耳牌号', model: 'earTag',type:'selectEartag',mr: 1},
-                {label: '观察检测分析症状',model: 'symptom'},
+                {label: '商标耳牌号', model: 'earTag',type:'selectEartag'},
+                {label: '观察检测分析症状',model: 'symptom',mr: 1},
                 {label: '诊断结果', model: 'diagnosisResult' ,type: 'select' ,fetchSuggestions: getDieaseTypes },
-                {label: '治疗方案及用药剂量', model: 'diagnosisMethod',mr: 1},
-                {label: '总用药量',model: 'dose'},
-                {label: '治疗效果', model: 'treatEffect', mr: 1}
+                {label: '治疗方案及用药剂量', model: 'diagnosisMethod'},
+                {label: '总用药量',model: 'dose', mr: 1},
+                {label: '治疗效果', model: 'treatEffect'}
             ],
             models: {
+                style: null,
                 diagnosisMethod: null,
                 buildingNum: null,
                 diagnosisResult: null,
