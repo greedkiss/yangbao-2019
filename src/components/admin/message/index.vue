@@ -65,8 +65,9 @@ export default {
       }
 
       postMessage({
-        mobile: this.mobile,
-        message: this.message
+        isGroupMessage: 1,
+        telephone: this.mobile,
+        content: this.message
       }).then(res => {
         if (isReqSuccessful(res)) {
           this.$message({
@@ -81,9 +82,9 @@ export default {
     // 提交信息
     postWarningInfo () {
       postWarningInfo({
-        expireTime: this.expireTime,
-        pressureTips: this.pressureTips,
-        message: this.template
+        messageLimit: this.expireTime,
+        dayLimit: this.pressureTips,
+        msgTemplate: this.template
       }).then(res => {
         if (isReqSuccessful(res)) {
           this.$message({
