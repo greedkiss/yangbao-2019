@@ -83,7 +83,8 @@ export default {
                     {label: '客户评价', to: 'comment'},
                     {label: '专家在线课堂', to: 'courseintro'},
                     {label: '生产档案审核', to: 'review'},
-                    {label: '在线诊断', to: 'prochat'}
+                    {label: '在线诊断', to: 'prochat'},
+                    {label: '发布系统', to: 'release'},
                 ]
             },
             adminTree: {
@@ -98,7 +99,6 @@ export default {
                             {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
-                            {label: '发布系统', to: 'release'},
                             {label: '专家课堂视频发布', to: 'professorCourseVideo'},
                             {label: '短信平台', to: 'message'},
                             {label: '留言统计', to: 'commentsum'},

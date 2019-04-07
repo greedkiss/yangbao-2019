@@ -467,6 +467,12 @@ export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomer
 
 export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
 
+export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
+
+export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
+
+export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
+
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
 

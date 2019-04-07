@@ -209,13 +209,13 @@
 					</tr>
 					<tr>
 						<td class="o_noBack"></td>
-						<td class="o_total"></td>
-						<td colspan="2" class="o_total"></td>
-						<td colspan="2" class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
+						<td class="o_total">{{sum.breed}}</td>
+						<td class="o_total">{{sum.slaughter}}</td>
+						<td colspan="2" class="o_total">{{sum.process}}</td>
+						<td colspan="2" class="o_total">{{sum.dining}}</td>
+						<td class="o_total">{{sum.meat}}</td>
+						<td class="o_total">{{sum.cook}}</td>
+						<td class="o_total">{{sum.market}}</td>
 					</tr>
 				</table>
 				</div>
@@ -228,14 +228,19 @@
 					</div>
 				</div>
 				<div class="containerHead">
-					<p>联系人：{{corpation.chargeMan}}</p>
-					<p>电话：{{corpation.phone}}</p>
-					<!-- <span>联系人：{{corpation.chargeMan}}</span>
-					<span>电话：{{corpation.phone}}</span>
-					<span>羊只总数：</span>
-					<el-button round>总存栏</el-button>
-					<el-button round>可销售</el-button> -->
-
+					<div class="chargeTitle">
+						<div class="chargeman" ><span>联系人：{{corpation.chargeMan}}</span></div>
+						<div class="chargephone" ><span>电话：{{corpation.phone}}</span></div>
+					</div>
+					<div style="background: #2c9aef">
+						<div style="width: 100%;float: left">
+						    <div class="choseStyleOne" @click="changeColor(0)" ref="one"><span>可销售</span></div>
+						    <div class="choseStyleTwo" @click="changeColor(1)" ref="two"><span>总存栏</span></div>
+						</div>
+						<div class= "total_num">
+							<span style="padding-left:13px">总数：{{countAll}}</span>
+						</div>
+					</div>
 				</div>
 				<div class="o_container">
 					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px; cursor: pointer;" v-for="(item, i) in eartagList" :key="i" @click = "jump(item);">
@@ -259,13 +264,26 @@
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
 // import getPlace from './method.js'
-import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace} from '@/util/getdata'
+import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace, getAllSaleable, gelAllSheep, getSalableSheep} from '@/util/getdata'
 export default {
 	components: {
 		OMap,
 	},
 	data(){
 		return{
+			sum: {
+				market: '',
+				meat: '',
+				slaughter: '',
+				breed: '',
+				dining: '',
+				cook: '',
+				process: ''
+			},
+			countAll: 0,
+			factoryId: -1,
+			factoryType: 1,
+			radio: '可销售',
 			pcaa,
 			item: {
 				area: [],
@@ -347,6 +365,7 @@ export default {
 			})
 		})
 		this.search(1)
+		this.changeColor(0, 0)
 	},
 	methods: {
 		provinceChoose(item){
@@ -406,26 +425,75 @@ export default {
 			}])
 		},
 		handleClick(id, type){
-			this.eartagList= []
-			if(type){
-				getFactoryInformation(id).then(res => {
-					res.data.sheeps.forEach((item) => {
-						if(item != null){
-							this.eartagList.push(item.trademarkEarTag)
-						}
-					})
-					this.corpation.chargeMan = res.data.factory.responsiblePersonName
-					this.corpation.phone = res.data.factory.responsiblePersonPhone
-				})
-			}else{
-				getCustomerInformation(id).then(res => {
-					this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
-					this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
-				})
-			}
+			this.factoryId = id
+			this.factoryType = type
+			this.changeColor(0, type)
 		},
 		jump(item){
 			this.$router.push({path: '/search', query: {code: item}})
+		},
+		changeColor(id){
+			this.eartagList= []
+			if(id){
+				//总存栏
+				this.$refs.two.style.color = 'black'
+				this.$refs.two.style.background = '#7fcdf4'
+				this.$refs.one.style.color = '#2c9aef'
+				this.$refs.one.style.background = 'rgba(255,255,255,0.01)'
+				if(this.factoryId == -1){
+					gelAllSheep().then(res => {
+						this.eartagList = res.data.sheep
+						this.corpation.chargeMan = ''
+						this.corpation.phone = ''
+						this.countAll= res.data.count
+					})
+				}else{
+					if(this.factoryType){
+						getFactoryInformation(id).then(res => {
+							res.data.sheeps.forEach((item) => {
+								if(item != null){
+									this.eartagList.push(item.trademarkEarTag)
+								}
+							})
+								this.countAll = res.data.count
+								if(res.data.factory !== null){
+									this.corpation.chargeMan = res.data.factory.responsiblePersonName
+									this.corpation.phone = res.data.factory.responsiblePersonPhone
+								}
+							})
+						}
+						else{
+							getCustomerInformation(id).then(res => {
+								if(res.data.factory !== null){
+									this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
+									this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
+								}
+								this.countAll = res.data.count
+						})
+					}
+				}
+			}else{
+				//可销售羊只
+				this.$refs.one.style.color = 'black'
+				this.$refs.one.style.background = '#7fcdf4'
+				this.$refs.two.style.color = '#2c9aef'
+				this.$refs.two.style.background = 'rgba(255,255,255,0.01)'
+				if(this.factoryId == -1){
+					getAllSaleable().then(res => {
+						this.eartagList = res.data.sheep
+						this.corpation.chargeMan = ''
+						this.corpation.phone = ''
+						this.countAll= res.data.count
+					})
+				}else{
+					getSalableSheep(this.factoryId).then( res=> {
+						this.eartagList = res.data.sheep
+						this.countAll = res.data.count
+						this.corpation.chargeMan = res.data.factory.responsiblePersonName
+						this.corpation.phone = res.data.factory.responsiblePersonPhone
+					})
+				}
+			}
 		},
 		search(start){
 			let message = {}
@@ -519,7 +587,6 @@ export default {
 						this.items.push({id, name, style})
 					})
 				}
-				this.handleClick(this.items[0].id, this.items[0].style)
 				this.detail = {}
 				if(res.data.total_output_sheep != 0){
 					this.total.total_output_sheep = res.data.total_output_sheep
@@ -584,6 +651,28 @@ export default {
 				if(res.data.statistics["商超"].demand_meat != 0){
 					this.detail.market_meat_demand = res.data.statistics["商超"].demand_meat
 				}
+				if(res.data.statistics["商超"].count != 0){
+					this.sum.market = res.data.statistics["商超"].count
+				}
+				if(res.data.statistics["熟食"].count != 0){
+					this.sum.cook = res.data.statistics["熟食"].count
+				}
+				if(res.data.statistics["鲜肉"].count != 0){
+					this.sum.meat = res.data.statistics["鲜肉"].count
+				}
+				if(res.data.statistics["餐饮"].count != 0){
+					this.sum.dining = res.data.statistics["餐饮"].count
+				}
+				if(res.data.statistics["加工厂"].count != 0){
+					this.sum.process = res.data.statistics["加工厂"].count
+				}
+				if(res.data.statistics["屠宰厂"].count != 0){
+					this.sum.slaughter = res.data.statistics["屠宰厂"].count
+				}
+				if(res.data.statistics["养殖厂"].count != 0){
+					this.sum.breed = res.data.statistics["养殖厂"].count
+				}
+
 			})
 		}
 	}

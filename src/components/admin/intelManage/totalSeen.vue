@@ -1,9 +1,94 @@
 <template>
     <div>
-    <el-card>
-      <span style="color:#2891d1;padding-right: 10px">提示：</span>
-      <span style="color:#2891d1">点击该列所在表头跳转具体生产环节界面</span>
-    </el-card>
+    <el-table
+    @header-click = "jumpSpecific"
+    style="width: 100%">
+        <el-table-column
+        label="常规操作"
+        align="center"
+        label-class-name="bigsize">
+          <el-table-column
+          label="驱虫档案(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="动物福利(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="消毒档案(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="系谱档案(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="阶段营养(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="配种产子(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="育种选育(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="疾病档案(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="可视环节(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="存栏管理"
+        align="center"
+        label-class-name="bigsize">
+          <el-table-column
+          label="栏栋管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="新增管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="羊只管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="出售管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="购进管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="死亡管理(点击进入)"
+          width="90"
+          align="center">
+        </el-table-column>
+      </el-table-column>
+    </el-table>
     <el-table
     v-loading="load"
     @header-click = "tononpregnantOne"
@@ -21,12 +106,14 @@
         prop="nonpregnantOne"
         label="引种应激期（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="nonpregnantTwo"
         label="体况调理期（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
     </el-table-column>
@@ -35,18 +122,21 @@
         prop="pregnantStageOne"
         label="妊娠前三月（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="pregnantStageTwo"
         label="妊娠第四月（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="pregnantStageThree"
         label="妊娠第五月（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
     </el-table-column>
@@ -55,42 +145,49 @@
         prop="produceStageOne"
         label="产羔0-5日（点击进入）"
         width="110"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageTwo"
         label="产羔6-10日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageThree"
         label="产羔11-20日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageFour"
         label="产羔21-30日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageFive"
         label="产羔31-40日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageSix"
         label="产羔41-50日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
       <el-table-column
         prop="produceStageSeven"
         label="产羔51-60日（点击进入）"
         width="120"
+        show-overflow-tooltip
         align="center">
       </el-table-column>
     </el-table-column>
@@ -98,6 +195,7 @@
             prop="growStage"
             label="生长阶段(点击进入)"
             width="90"
+            show-overflow-tooltip
             align="center">
     </el-table-column>
     <el-table-column label="种羊育种阶段" width="180" align="center" label-class-name="bigsize">
@@ -105,12 +203,14 @@
             prop="breedStageOne"
             label="育种一期(点击进入)"
             width="90"
+            show-overflow-tooltip
             align="center">
           </el-table-column>
           <el-table-column
             prop="breedStageTwo"
             label="育种二期(点击进入)"
             width="90"
+            show-overflow-tooltip
             align="center">
           </el-table-column>
     </el-table-column>
@@ -119,12 +219,14 @@
             prop="unfatStage"
             label="育肥前期(点击进入)"
             width="90"
+            show-overflow-tooltip
             align="center">
           </el-table-column>
           <el-table-column
             prop="growfatStage"
             label="直线育肥期（点击进入）"
             width="120"
+            show-overflow-tooltip
             align="center">
           </el-table-column>
     </el-table-column>
@@ -177,6 +279,69 @@ export default {
         }
     },
     methods:{
+        jumpSpecific(column, event){
+            let pathid = this.$route.params.id
+            if(column.label=="驱虫档案(点击进入)"){           
+              let path = `/admin/${pathid}/health/antiscolic/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="动物福利(点击进入)"){           
+              let path = `/admin/${pathid}/welfare/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="消毒档案(点击进入)"){           
+              let path = `/admin/${pathid}/health/disinfect/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="系谱档案(点击进入)"){           
+              let path = `/admin/${pathid}/genealogic/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="阶段营养(点击进入)"){           
+              let path = `/admin/${pathid}/nutrition/stage/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="配种产子(点击进入)"){           
+              let path = `/admin/${pathid}/nutrition/breed/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="育种选育(点击进入)"){           
+              let path = `/admin/${pathid}/health/antiscolic/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="疾病档案(点击进入)"){           
+              let path = `/admin/${pathid}/prevention/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="可视环节(点击进入)"){           
+              let path = `/admin/${pathid}/supervise/capture`
+              this.$router.push(path)
+            }
+            if(column.label=="栏栋管理(点击进入)"){           
+              let path = `/admin/${pathid}/livestock/prac`
+              this.$router.push(path)
+            }
+            if(column.label=="新增管理(点击进入)"){           
+              let path = `/admin/${pathid}/health/livestock/add`
+              this.$router.push(path)
+            }
+            if(column.label=="羊只管理(点击进入)"){           
+              let path = `/admin/${pathid}/livestock/list`
+              this.$router.push(path)
+            }
+            if(column.label=="出售管理(点击进入)"){           
+              let path = `/admin/${pathid}/livestock/sale`
+              this.$router.push(path)
+            }
+            if(column.label=="购进管理(点击进入)"){           
+              let path = `/admin/${pathid}/livestock/buy`
+              this.$router.push(path)
+            }
+            if(column.label=="死亡管理(点击进入)"){           
+              let path = `/admin/${pathid}/livestock/dead`
+              this.$router.push(path)
+            }
+        },
         tononpregnantOne(column, event){
           let pathid = this.$route.params.id
           if(column.label=="引种应激期（点击进入）"){           
@@ -266,7 +431,7 @@ export default {
                   if(res.data.result=="true"){
                       status="完成"
                   }else{
-                    status="未完成"
+                      status="未完成"
                   }
                   let num = {[propName]: status}
                   let obj2 = Object.assign(this.tableData[2],num)
@@ -289,5 +454,9 @@ export default {
     cursor pointer
 .bigsize
     font-size 17px
+.el-table__empty-text
+    display none
+.el-table__empty-block
+    min-height 1px
 </style>
 

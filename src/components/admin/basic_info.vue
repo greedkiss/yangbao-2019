@@ -345,6 +345,7 @@ export default {
                 this.eartag = res.data.models 
                 if(flag){
                     this.models[item] = this.eartag.join(";")
+                    this.models['earTag'] = this.eartag.join(";")
                 }
             })          
         },
@@ -367,6 +368,7 @@ export default {
                 this.immtag = res.data.models
                 if(flag){
                     this.models[item] = this.immtag.join(";")
+                    this.models['earTag'] = this.immtag.join(";")
                 }
             })
         },

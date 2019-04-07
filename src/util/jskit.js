@@ -144,7 +144,7 @@ export const checkForm = (form, checkFull) => {
         app.$message.warning(val)
         return false
     }
-    if (checkFull && Object.keys(form).some(v => (form[v] === null || form[v] === '') && v !== 'remark' && v !== 'nativeEartag' && v !== 'introduction' && v !== 'crowdNum' && v !== 'eartagFile')) {
+    if (checkFull && Object.keys(form).some(v => (form[v] === null || form[v] === '') && v !== 'remark' && v !== 'nativeEartag' && v !== 'introduction' && v !== 'crowdNum' && v !== 'eartagFile' && v!=='buildingNum' && v!== 'earTag')) {
         app.$message.warning('请完善表单信息')
         return false
     }
