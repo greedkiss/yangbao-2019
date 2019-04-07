@@ -449,7 +449,7 @@ export default {
 					})
 				}else{
 					if(this.factoryType){
-						getFactoryInformation(id).then(res => {
+						getFactoryInformation(this.factoryId).then(res => {
 							res.data.sheeps.forEach((item) => {
 								if(item != null){
 									this.eartagList.push(item.trademarkEarTag)
@@ -463,7 +463,7 @@ export default {
 							})
 						}
 						else{
-							getCustomerInformation(id).then(res => {
+							getCustomerInformation(this.factoryId).then(res => {
 								if(res.data.factory !== null){
 									this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
 									this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
