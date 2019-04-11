@@ -210,9 +210,9 @@
 					<tr>
 						<td class="o_noBack"></td>
 						<td class="o_total">{{sum.breed}}</td>
-						<td class="o_total">{{sum.slaughter}}</td>
+						<td colspan="2" class="o_total">{{sum.slaughter}}</td>
 						<td colspan="2" class="o_total">{{sum.process}}</td>
-						<td colspan="2" class="o_total">{{sum.dining}}</td>
+						<td class="o_total">{{sum.dining}}</td>
 						<td class="o_total">{{sum.meat}}</td>
 						<td class="o_total">{{sum.cook}}</td>
 						<td class="o_total">{{sum.market}}</td>

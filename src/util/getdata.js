@@ -320,9 +320,9 @@ export const getRoleName = () => fetch('/role/name/get', 'GET')
 /**
  * 短信平台
  */
-export const postMessage = data => fetch('/msg/psend', data, 'GET')
+export const postMessage = data => fetch('/msg/send_group', data, 'POST')
 
-export const postWarningInfo = data => fetch('/msg/setconfig', data, 'GET')
+export const postWarningInfo = data => fetch('/msg/setconfig', data, 'POST')
 
 /**
  * 专家课堂视频发布
