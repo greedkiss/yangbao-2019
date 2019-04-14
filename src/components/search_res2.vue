@@ -1100,7 +1100,6 @@ export default {
       }
     },
     created (){
-      this.$emit('closeHnF');
       this.code = this.$route.query.code || 'G400457';
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;

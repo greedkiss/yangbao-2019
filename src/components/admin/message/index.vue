@@ -23,12 +23,12 @@
         <el-input-number v-model="pressureTips" controls-position="right" :min=1 size="small"></el-input-number> 条记录未审核
         <el-input-number v-model="expireTime" controls-position="right" :min=1 size="small"></el-input-number>  天内不再发送
       </div>
-      <div class="card">
+      <!-- <div class="card"> -->
         <!-- <p class="card-title">短信内容模板</p> -->
-        <el-input v-model="template" type="textarea" placeholder="请输入短信内容模板"></el-input>
-      </div>
+        <!-- <el-input v-model="template" type="textarea" placeholder="请输入短信内容模板"></el-input>
+      </div> -->
       <div class="admin-send">
-        <el-button type="primary" @click="postWarningInfo">提交信息</el-button>
+        <el-button type="primary" @click="postWarningInfo">设置</el-button>
       </div>
     </div>
   </div>
@@ -69,12 +69,10 @@ export default {
         telephone: this.mobile,
         content: this.message
       }).then(res => {
-        if (isReqSuccessful(res)) {
           this.$message({
               type: 'success',
               message: '短信发送成功'
           })
-        }
       }).catch(() => {
         this.$message.error('短信发送失败')
       })

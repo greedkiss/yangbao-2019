@@ -6,8 +6,8 @@ import md5 from 'md5'
 
 export const wsUrl = 'ws://120.79.79.43:9010/websocket'
 // const baseUrl = 'http://180.76.180.95:9010'
-const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
-// const baseUrl = 'http://192.168.1.107:9020'//akun
+// const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
+const baseUrl = 'http://192.168.1.107:9020'//akun
 // const baseUrl = 'http://192.168.1.104:9010'//bobo
 // const baseUrl = 'http://120.79.79.43:9010' // 生产服务器
 // export const wsUrl = 'ws://192.168.1.107:9030/websocket'
