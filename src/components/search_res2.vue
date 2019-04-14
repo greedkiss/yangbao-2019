@@ -1,5 +1,5 @@
 <template>
-  <div class="search-wrapper">
+  <div class="search-wrapper" ref='searchWrapper'>
     <div class="header">
       <div class="img-wrapper">
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
@@ -11,7 +11,7 @@
     <div class="container">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" height="400px" width="auto">
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -41,8 +41,8 @@
         </div>
       </div>
       <div class="left">
-        <el-collapse v-model="activeNames">
-          <el-collapse-item title="基本信息" name="1">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
               <el-tab-pane label="养殖场" name="first">
                   <div class="t-item">
@@ -94,8 +94,44 @@
                     </el-collapse> -->
                   </div>
               </el-tab-pane>
-              <el-tab-pane label="屠宰加工厂" name="second"></el-tab-pane>
-              <el-tab-pane label="消费店" name="third"></el-tab-pane>
+              <el-tab-pane label="屠宰加工厂" name="second">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰厂:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">屠宰时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="消费店" name="third">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费店:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">加工时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -104,44 +140,41 @@
               <!--<span v-text="item.company[v.model]"></span>-->
             <!--</div>-->
           <!--</el-collapse-item>-->
-          <el-collapse-item title="可视化视频" name="3">
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
             <el-carousel height="150px">
               <el-carousel-item v-for="(item,index) in pics.length" :key="item">
                 <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%'></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
-          <el-collapse-item title="生产环境" name="4">
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
             <div class="organicEnvironment">
               <div class='air' @click="open('air',9)">
                 <img src='../assets/imgs/circle1.png'/>
-                <div class='echeck'>点击查看</div>
-                <div class='equality'>优</div>
-                <div class='equality2'>土壤质量</div>
-              </div>
-              <div class="water" type="primary" @click="open('wat',10)">
-                <img src='../assets/imgs/circle2.png'/>
-                <div class='echeck'>点击查看</div>
                 <div class='equality'>优</div>
                 <div class='equality2'>空气质量</div>
               </div>
-              <div class="solid" type="primary" @click="open('soi',11)">
-                <img src='../assets/imgs/circle3.png'/>
-                <div class='echeck'>点击查看</div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
                 <div class='equality'>优</div>
                 <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
               </div>
             </div>
           </el-collapse-item>
         </el-collapse>
       </div>
-      <div class="right">
+      <div class="right rightC">
         <div class="search">
           <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
           <el-button size="medium" @click="search">搜索</el-button>
         </div>
-        <el-collapse v-model="activeNames2">
-          <el-collapse-item title="用户评级" name="1">
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
                 
@@ -166,12 +199,12 @@
             </div>
             <div class="qrcode" ref="qrcode"></div>
           </el-collapse-item>
-          <el-collapse-item title="产品地址" name="2">
+          <el-collapse-item title="产品地址" name="2" class='classD'>
             <div class='bmap'></div>
-            <b-map height='188px' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
-        <div class='certificate-wrapper'>
+        <div class='certificate-wrapper rightC2' >
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
           <div class='certificate'>
@@ -319,7 +352,7 @@
             label="车辆进出是否消毒">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -332,7 +365,7 @@
             width='140'>
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -603,7 +636,7 @@
             label="粗饲料用量（体重%）其他">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -615,7 +648,7 @@
             label="审核拒绝原因">
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -682,7 +715,7 @@
             label="羊场id">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -695,7 +728,7 @@
             width='140'>
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -859,16 +892,19 @@
           :data="airData"
           style="width: 100%">
           <el-table-column
-            prop="date"
-            label="日期">
+            prop="time"
+            label="日期"
+            width='205px'>
           </el-table-column>
           <el-table-column
-            prop="PM"
-            label="PM2.5">
+            prop="pm"
+            label="PM2.5"
+            width='205px'>
           </el-table-column>
           <el-table-column
-            prop="state"
-            label="状态">
+            prop="pmReturn"
+            label="状态"
+            width='205px'>
           </el-table-column>
         </el-table>
       <div class="dialog_btn">
@@ -885,15 +921,15 @@
           :data="watData"
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="time"
             label="日期">
           </el-table-column>
           <el-table-column
-            prop="PH"
+            prop="ph"
             label="PH值">
           </el-table-column>
           <el-table-column
-            prop="PHState"
+            prop="phReturn"
             label="PH值状态">
           </el-table-column>
         </el-table>
@@ -911,24 +947,29 @@
           :data="soiData"
           style="width: 100%">
           <el-table-column
-            prop="date"
-            label="日期">
+            prop="time"
+            label="日期"
+            width='120px'>
           </el-table-column>
           <el-table-column
-            prop="temp"
-            label="温度">
+            prop="tempSoil"
+            label="温度"
+            width='120px'>
           </el-table-column>
           <el-table-column
-            prop="tempState"
-            label="温度状态">
+            prop="tempSoilReturn"
+            label="温度状态"
+            width='120px'>
           </el-table-column>
           <el-table-column
-            prop="wet"
-            label="湿度">
+            prop="humSoil"
+            label="湿度"
+            width='120px'>
           </el-table-column>
           <el-table-column
-            prop="wetState"
-            label="湿度状态">
+            prop="humSoilReturn"
+            label="湿度状态"
+            width='120px'>
           </el-table-column>
         </el-table>
       <div class="dialog_btn">
@@ -1041,25 +1082,14 @@ export default {
         ],
         airData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            PM: 4,
-            state: '优'
           }
         ],
         watData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            PH: 35,
-            PHState: '极强酸性'
           }
         ],
         soiData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            temp: 35,
-            tempState: '土壤温度过高',
-            wet: 35,
-            wetState: '土壤湿度过高'
           }
         ],
         item: {
@@ -1108,7 +1138,7 @@ export default {
         if(data != null){
           info.name = data.model.varietyName;
           info.breedName = data.model.breedName;
-          info.arriveTime = data.model.createTime.slice(0,10);
+          info.arriveTime = data.model.createTime&&data.model.createTime.slice(0,10);
           info.telNumber = data.model.phone;
           info.breedLocation = data.model.breedLocation + data.model.breedLocationDetail;
           info.longitude = data.model.longitude;
@@ -1146,7 +1176,8 @@ export default {
       })
     },
     mounted () {
-      this.qrcode()
+      this.qrcode();
+      this.screenFit();
     },
     qrcode () {
       let qrcode = new QRCode(this.$refs.qrcode, {
@@ -1160,6 +1191,13 @@ export default {
       RecordTable
     },
     methods: {
+      screenFit() {
+      console.log(this.$refs.searchWrapper.style.height)
+      if(window.screen.width!=1920){
+      this.$refs.searchWrapper.style.height='100%'
+      console.log('sd',this.$refs.searchWrapper.style.height)
+    }
+    },
       openissue() {
         this.issue = true;
       },
@@ -1191,7 +1229,6 @@ export default {
                 else if(info[i][j] == 0){
                   info[i][j] = '否';
                 }
-                console.log('a',info[i]);
                 if(j == 'ispassSup'){
                   if(info[i][j] == '0'){
                     info[i][j] = '未通过监督';
@@ -1247,7 +1284,16 @@ export default {
             this.breData = data.lists;
             this.transfer(this.breData);
             console.log(this.deaData);
-          }
+          }else if(id == '9'){
+            this.soiData = data.lists;
+            console.log(this.soiData);
+          }else if(id == '10'){
+            this.watData = data.lists;
+            console.log(this.watData);
+          }else if(id == '11'){
+            this.airData = data.lists;
+            console.log(this.airData);
+        }
         })
       },
       close (name) {
@@ -1260,13 +1306,14 @@ export default {
 <style  lang="stylus">
 @import '../assets/css/color'
   .search-wrapper
-    height 100%
+    display flex
+    flex-direction column
     background-image url(../assets/imgs/background.jpg)
     background-repeat no-repeat
     background-size cover
     .header
+      flex 0 0 100px
       text-align center
-      height 100px
       background-image url(../assets/imgs/bottomLine.png)
       background-repeat no-repeat
       background-size 100% 50%
@@ -1284,17 +1331,28 @@ export default {
         margin-top 10px
 
   .container
+    flex 1
     display flex
+    background-image url(../assets/imgs/background.jpg)
+    background-repeat no-repeat
+    background-size cover
     .main
+      display flex
+      flex-direction column
       flex 1
       order 1
-      video
-        width 700px
+      .video-wrapper
+        flex 1
+        video
+          width 100%
+          height 100%
       .pro-manage
         text-align center
         color color-main
+      .mod-wrapper
+        flex 0 1 180px
     .left
-      flex 0 1 340px
+      flex 0 1 400px
       order 0
       .el-collapse-item__header
         margin-left 5px
@@ -1314,7 +1372,7 @@ export default {
       .color-gr
         color color-green
     .right
-      flex 0 1 340px
+      flex 0 1 400px
       order 2
     .el-collapse-item__header
       margin-left 5px
@@ -1326,6 +1384,9 @@ export default {
     padding 0 0 0 5px
   .organicEnvironment//规范详样式
     display flex
+    .air,.water,.solid
+      flex 1
+      text-align center
     .el-button
       flex 1
       padding 10px
@@ -1431,12 +1492,6 @@ export default {
 .air,.water,.solid
   display inline-block
   position relative
-.echeck
-  position: absolute;
-  top: 28px
-  font-size: 1px
-  left: 20px
-  color: rgb(128,194,106)
 .equality
   text-align: center
   font-size: 20px
@@ -1504,7 +1559,6 @@ export default {
     margin: 0px 8px;
     .cer-picture
       display block
-      width 40px
       height 80px
       background-color rgb(0,46,144)
     .cer-description
@@ -1567,6 +1621,8 @@ export default {
     border-bottom 0.5px green solid
 .certificate-inner
   display flex
+  .certificate
+    flex 1
 .container .el-button--medium
   color white
 .el-dialog__body
@@ -1574,4 +1630,41 @@ export default {
 .issue
   >div
     background-color rgb(0,46,114)
+    
+.leftC
+  display flex
+  flex-direction column
+  height 100%
+  .leftC2
+    flex 1
+  .leftC1
+    flex 1
+  .leftC3 
+    flex 1
+    position relative
+    .el-collapse-item__wrap
+      position absolute
+      width 100%
+      top 30%
+.rightC
+  display flex
+  flex-direction column
+  .rightC1
+    flex 2
+    display flex
+    flex-direction column
+    .classD
+      flex 1
+      position relative
+      .el-collapse-item__wrap
+        position relative
+        width 100%
+        top 5%
+  .rightC2
+    flex 1
+    position relative
+    .certificate-inner
+      position absolute
+      width 100%
+      top 40%
 </style>

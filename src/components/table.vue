@@ -32,11 +32,6 @@
       <li><img class="grid_img" src="//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525432634333&di=56a587a615bcc4956589aa66650e5a15&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3Db9c8ebb8ae0f4bfb98dd96176b261285%2Ffaedab64034f78f0ccfc1ed473310a55b3191c25.jpg" alt=""></li>
       <li><img class="grid_img" src="//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525432634333&di=56a587a615bcc4956589aa66650e5a15&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3Db9c8ebb8ae0f4bfb98dd96176b261285%2Ffaedab64034f78f0ccfc1ed473310a55b3191c25.jpg" alt=""></li> -->
     </ul>
-    <div class="table_footer">
-        <span class="footer_item">操作员：田飞扬</span>
-      <span class="footer_item">技术审核：专家技术审核</span>
-      <span class="footer_item">监督执行：舒建忠</span>
-    </div>
   </div>
 </template>
 
