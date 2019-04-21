@@ -501,3 +501,7 @@ export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag
 export const  getSheepVideo= (type, tag) => fetch(`/sheepVideo/${type}/${tag}`)
 
 export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag}`)
+
+//查询几条记录待审核
+
+export const getUsermsg = (tel) => fetch('/msg/msgcount/' + tel, 'GET')

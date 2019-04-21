@@ -32,7 +32,8 @@ export default {
                 {prop: 'pkNumber', label: '羊场编号'},
                 {prop: 'breedName', label: '羊场名称'},
                 {prop: 'breedLocation', label: '羊场地理位置', width: 250},
-                {prop: 'responsiblePersonName', label: '羊场负责人'}
+                {prop: 'responsiblePersonName', label: '羊场负责人'},
+                {prop: 'id', label: '羊场ID'},
                 // {prop: 'disinfectP', label: '消毒场所'}
             ]
         }

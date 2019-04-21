@@ -65,7 +65,7 @@
 </template>
 
 <script>
-  import {baseUrl} from '@/util/fetch.js';
+import { baseUrl, vedioUrl } from '@/util/fetch.js';
 import { getChannelList, getVideoUrl, getVideo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import '@/assets/TcPlayer-2.2.1.js'
@@ -129,7 +129,7 @@ export default {
                             id: item.id,
                             time: item.gmtCreate,
                             name: item.fileName,
-                            link: `${baseUrl}/movie/${item.fileName}`
+                            link: `${vedioUrl}/${item.fileName}`
                         })
                     })
                 }
