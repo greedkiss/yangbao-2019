@@ -106,6 +106,18 @@ export const getBreeding = (id, data) => fetch(`/breeding/find/${id}`, data)
 export const findNutrition = data => fetch(`/breeding/findN`, data, 'POST')
 
 export const deleteBreeding = id => fetch(`/breeding/${id}`, null, 'DELETE')
+/**
+ * 育种选育
+ */
+export const postSele = data => fetch('/selection', data, 'POST')
+
+export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'PATCH')
+
+export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
+
+export const getSele= (id, data) => fetch(`/selection/find/${id}`, data)
+
+export const deleteSele = id => fetch(`/selection/${id}`, null, 'DELETE')
 
 /**
  * 消毒RD
@@ -450,9 +462,6 @@ export const getFiveDetail = id => fetch('/nim/' + id + '/145' , 'GET')
 
 export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + stage + '/' + type, 'GET')
 
-//认证证书
-export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
-
 //屠宰加工管理平台
 export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
 
@@ -483,8 +492,9 @@ export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
-
-export const  getRating= (tag) => fetch(`/re/star`,{earTag:tag});
+   
+//认证证书
+export const  getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 
 export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST');
 

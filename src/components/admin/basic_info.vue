@@ -49,10 +49,43 @@
                     </el-date-picker>
                 </div>
 
+                <div :key="i" v-else-if="item.type ==='time_3'" class="time" style="float:left; width:100%; margin-top:10px;" :class="{'double-width': item.doubleWidth, mr: item.mr}">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-date-picker
+                    v-model="models[item.model]"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    type="datetimerange"
+                    size="small" 
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                    </el-date-picker>
+                    
+                </div>
+
                 <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number'" class="time el-input-group">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <el-input-number :min="0" size="small" v-model="models[item.model]"></el-input-number>
                 </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number_2'" class="time el-input-group">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-input-number style="width: 240px" size="small" v-model="models[item.model]"></el-input-number>
+                </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'cutline'">
+                    <div style="height:10px;"> </div>
+                    <el-alert  :title="item.label" type="info" center :closable="false" >
+                    </el-alert>
+                </div>
+                
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'button_disabled'">
+                    <el-row>
+                        <el-button  type="warning" :disabled="openIsDisabled" style="float:left;margin-left:300px; margin-top:10px;">{{item.label}}</el-button>
+                    </el-row>
+                </div>
+
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'select'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
@@ -121,7 +154,7 @@
                         <el-radio-group v-model="checkColListOne" :v-if="tradeDListOne">
                             <el-radio v-for="(d, index) in crowdOneL" :label="d" :key="index"  @change="getlcOne(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" style="width: 295px " v-model="models[item.model]" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" style="width: 240px" v-model="models[item.model]" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
 

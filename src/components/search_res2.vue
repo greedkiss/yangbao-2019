@@ -1154,9 +1154,6 @@ export default {
           info.latitude = data.model.latitude;
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          getRating(this.code).then((re) => {
-            this.value5 = re.data.models;
-          })
           getAuPicture(this.code).then((re) => {
             re.data.list.forEach((item) => {
               this.auPicture.push(item.address);
