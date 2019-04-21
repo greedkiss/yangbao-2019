@@ -88,7 +88,8 @@ export default {
                 columnList: [],
                 earTagList: []
             },
-            deleteOne:false
+            deleteOne:false,
+            fileType: 0
         }
     },
 
@@ -198,7 +199,7 @@ export default {
                 form.append('col', col)
                 form.append('brand', this.model.earTag)
                 form.append('factoryId', this.user.userFactory)
-                form.append('filetype', 0)
+                form.append('filetype', this.fileType)
                 this.captures.forEach((item, index) => {
                      form.append('file[]', this.$refs.erpai[index].files[0])
                 })
@@ -258,6 +259,7 @@ export default {
                         })
                     }
                 })
+                this.fileType = 0
         },
 
         getPictureStyle (q, cb) {
@@ -279,6 +281,9 @@ export default {
             }
             else{
                 this.disableAll = true
+            }
+            if(item.index == 2 || item.index == 3){
+                this.fileType = 9
             }
         },
     }

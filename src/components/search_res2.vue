@@ -8,7 +8,7 @@
         <span class="name">云·羊宝可视化溯源平台</span>
       </div>
     </div>
-    <div class="container">
+    <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
           <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls">
@@ -275,15 +275,15 @@
       :visible.sync="dialog.gen"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('gen')" class="btn_close">关闭</span>
+      </div>
       <record-table
         type="table"
         title="系谱档案"
         :data="genData">
       </record-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('gen')" class="btn_close">关闭</span>
-      </div>
     </el-dialog>
     <!-- 福利 -->
     <el-dialog
@@ -291,6 +291,10 @@
       :visible.sync="dialog.san"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('san')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="welData"
           style="width: 100%">
@@ -377,10 +381,6 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('san')" class="btn_close">关闭</span>
-      </div>
     </el-dialog>
     <!-- 消毒 -->
     <el-dialog
@@ -388,6 +388,10 @@
       :visible.sync="dialog.dis"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dis')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="disData"
           style="width: 100%">
@@ -435,10 +439,7 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dis')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 防疫 -->
     <el-dialog
@@ -446,6 +447,10 @@
       :visible.sync="dialog.imm"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('imm')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="immData"
           style="width: 100%">
@@ -502,10 +507,7 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('imm')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 驱虫 -->
     <el-dialog
@@ -513,6 +515,10 @@
       :visible.sync="dialog.exp"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('exp')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="expData"
           style="width: 100%">
@@ -564,10 +570,7 @@
             width="110">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('exp')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 营养 -->
     <el-dialog
@@ -575,6 +578,10 @@
       :visible.sync="dialog.nut"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('nut')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="nutData"
           style="width: 100%">
@@ -666,10 +673,7 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('nut')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 疾病防治 -->
     <el-dialog
@@ -677,6 +681,10 @@
       :visible.sync="dialog.dea"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dea')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="deaData"
           style="width: 100%">
@@ -746,16 +754,17 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dea')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.bre"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('bre')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="breData"
           style="width: 100%">
@@ -878,16 +887,17 @@
             label="羊场名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('bre')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.air"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('air')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="airData"
           style="width: 100%">
@@ -907,16 +917,17 @@
             width='205px'>
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('air')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.wat"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('wat')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="watData"
           style="width: 100%">
@@ -933,16 +944,17 @@
             label="PH值状态">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('wat')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.soi"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('soi')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="soiData"
           style="width: 100%">
@@ -972,10 +984,7 @@
             width='120px'>
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('soi')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
   </div>
 </template>
@@ -1330,7 +1339,7 @@ export default {
         display inline-block
         margin-top 10px
 
-  .container
+  .search-contianer
     flex 1
     display flex
     background-image url(../assets/imgs/background.jpg)
@@ -1436,7 +1445,7 @@ export default {
 .el-collapse-item__wrap
   border none
 
- .container
+ .search-contianer
   .el-input--medium 
     width 186px
     margin-left 9px
@@ -1445,7 +1454,7 @@ export default {
       line-height 36px
       background-color rgba(0,0,0,0)
 
-.container
+.search-contianer
   .el-button--medium
     padding 5px
     font-size 14px
@@ -1623,7 +1632,7 @@ export default {
   display flex
   .certificate
     flex 1
-.container .el-button--medium
+.search-contianer .el-button--medium
   color white
 .el-dialog__body
   padding 30px 60px

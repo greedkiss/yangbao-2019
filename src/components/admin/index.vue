@@ -1,6 +1,6 @@
 <template>
     <div class="app-home">
-        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="user.msn"></admin-head>
+        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="msn"></admin-head>
         <el-container class="container bg-blue">
             <el-aside :width="side_width" class="main-aside">
                 <el-tree node-key="to" :default-expanded-keys="expanded_key" :data="treedata" :indent="30" accordion @node-click="clickTree"></el-tree>
@@ -45,7 +45,7 @@
 <script>
 import AdminHead from '@/components/common/admin_head'
 import AdminFoot from '@/components/common/admin_foot'
-import { getUserById } from '@/util/getdata'
+import { getUserById, getUsermsg} from '@/util/getdata'
 import { isReqSuccessful ,getModule} from '@/util/jskit'
 
 /* eslint-disable object-property-newline */
@@ -65,6 +65,7 @@ export default {
 
     data () {
         return {
+            msn: 0,
             checkMod: 'welfare',
             module: {label: '', to: ''},
             side_width: '18%',
@@ -288,6 +289,11 @@ export default {
                 //     }
                 // }
                 // flag: 2 普通用户
+                getUsermsg(this.user.userTelephone).then(res => {
+                    if(isReqSuccessful(res)){
+                        this.msn = res.data.msgcount; 
+                    }
+                })
             }
         })
         this.treedata.push(this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree)
