@@ -11,7 +11,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls">
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -45,7 +45,7 @@
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
               <el-tab-pane label="养殖场" name="first">
-                  <div class="t-item">
+                  <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -143,7 +143,7 @@
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
             <el-carousel height="150px">
               <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%'></video>
+                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
