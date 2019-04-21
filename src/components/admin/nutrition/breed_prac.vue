@@ -10,11 +10,9 @@
             :get-data="getBreeding"
             :post-data="postBreeding"
             :update-data="updateBreeding"
-            :checkFull="false">
+            :checkFull="false"
+            :isPrac="true">
         </data-cur>
-        <p class="form-info">
-            备注:配种产子实施档案由配种，产前营养标准，产子，产后营养实施等环节组成。操作员按生产顺序填写每一步操作记录，每次填写完毕提交。下次再继续输入信息时，到配种产子实施档案列表找到该条记录点击编辑按钮在弹出的页面中继续填写下一步操作记录，直至最后该记录内容填写完毕。
-        </p>
     </div>
 </template>
 
@@ -27,87 +25,89 @@ export default {
     components: {
         dataCur
     },
+    
 
     data () {
         return {
             getBreeding,
             postBreeding,
             updateBreeding,
-            items: [
+            items: [ 
+                {label: '配种阶段',  type: 'cutline'},
+                {label: '设定配种时间段', model: 'nutritionAfterPregnancy', type: 'time_3'},
+                {label: '平均日期', model: 'averageTime', type: 'time_2'},
+                {label: '配种批次', model: 'manageFlag', type: 'number_2'},
                 {label: '配种时间', model: 'breedingTime', type: 'time_2'},
                 {label: '配种后移至栏/栋', model: 'buildingAfterBreeding', type: 'selectOneCrowd'},
                 {label: '母羊商标耳牌', model: 'ramSheepTrademark'},
-                {label: '种公商标耳牌', model: 'eweSheepTrademark'},
-                {label: '管理批次(前后五天内配种，分批次管理)', model: 'manageFlag'},
-                {label: '批次平均分配配种日期', model: 'manageAverageTime', type: 'time_2'},   
-                {label: '执行妊娠前期营养标准(妊娠前三月)-序号', model: 'nutritionBeforePregnancy', type: 'time_2'},
-                {label: '确定妊娠(配种后20天)', model: 'isPregnancy'},                                                
-                {label: '执行妊娠后期营养标准(妊娠后两月)-序号', model: 'nutritionAfterPregnancy',type: 'time_2'},
-                {label: '产前免疫种类(产前10|20天)', model: 'prenatalImmunityType', type: "add", index: 0},
-                {label: '产前免疫时间', model: 'prenatalImmunityTime', type: 'addTime', index: 0},
-
-
-                  
-                {label: '批次平均产羔时间', model: 'averageTime', type: 'time_2'}, 
-
-                {label: '移至待产栏/栋', model: 'buildingToBeRelocated' , type: 'selectOneCrowd'},                               
-                {label: '执行产期营养标准(产前一周)-序号', model: 'nutritionBeforeLambing', type: 'time_2'}, 
+                {label: '公羊商标耳牌', model: 'eweSheepTrademark'},
+                // {label: '管理批次(前后五天内配种，分批次管理)', model: 'manageFlag'},
+                // {label: '批次平均分配配种日期', model: 'manageAverageTime', type: 'time_2'},   
+                // {label: '执行妊娠前期营养标准(妊娠前三月)-序号', model: 'nutritionBeforePregnancy', type: 'time_2'},
+                {label: '确定妊娠(配种后20天)', model: 'isPregnancy'}, 
+                {label: '流产记录', model: 'remark'},                                                    
+                // {label: '执行妊娠后期营养标准(妊娠后两月)-序号', model: 'nutritionAfterPregnancy',type: 'time_2'},
+                // {label: '产前免疫种类(产前10|20天)', model: 'prenatalImmunityType', type: "add", index: 0},
+                // {label: '产前免疫时间', model: 'prenatalImmunityTime', type: 'addTime', index: 0},
+                // {label: '批次平均产羔时间', model: 'averageTime', type: 'time_2'}, 
+                
+                {label: '产子阶段',  type: 'cutline'},
+                {label: '设定产子时间段', model: 'prenatalImmunityTime', type: 'time_3'},
+                {label: '平均日期', model: 'manageAverageTime', type: 'time_2'},
+                {label: '产子批次', model: 'nutritionBreastFeeding', type: 'number_2'},
                 {label: '产羔时间', model: 'lambingTime', type: 'time_2'},
-                {label: '产羔数量', model: 'lambingNumber', type: 'number'},                
-                {label: '执行哺乳期营养标准(产后一周)-序号', model: 'nutritionBreastFeeding', type: 'time_2'},
-                {label: '执行羔羊代乳料营养标准(羔羊一月龄)-序号', model: 'nutritionInsteadBreastFeeding', type: 'time_2'},
-                {label: '执行断奶前母羊营养标准(断奶前一周)-序号', model: 'nutritionBeforeCutBreastFeeding', type: 'time_2'},
-                {label: '执行羔羊断奶期营养标准-序号', model: 'nutritionCutBreastFeeding', type: 'time_2'},
+                {label: '产羔数量', model: 'lambingNumber', type: 'number_2'},
+                {label: '移至待产栏/栋', model: 'buildingToBeRelocated', type: 'selectOneCrowd'},                               
+                // {label: '执行产期营养标准(产前一周)-序号', model: 'nutritionBeforeLambing', type: 'time_2'}, 
+                // {label: '对应母羊耳牌号', model: 'ramSheepTrademark'},
+                // {label: '执行哺乳期营养标准(产后一周)-序号', model: 'nutritionBreastFeeding', type: 'time_2'},
+                // {label: '执行羔羊代乳料营养标准(羔羊一月龄)-序号', model: 'nutritionInsteadBreastFeeding', type: 'time_2'},
+                // {label: '执行断奶前母羊营养标准(断奶前一周)-序号', model: 'nutritionBeforeCutBreastFeeding', type: 'time_2'},
+                // {label: '执行羔羊断奶期营养标准-序号', model: 'nutritionCutBreastFeeding', type: 'time_2'},
+                
             ],
+
             models: {
+                nutritionAfterPregnancy:[],
+                averageTime: null,
+                manageFlag:null,
                 breedingTime: null,
                 buildingAfterBreeding: null,
                 ramSheepTrademark: 'M',
                 eweSheepTrademark: 'G',
-                manageFlag: null,
-                manageAverageTime: null,
-                nutritionBeforePregnancy: null,
+                // manageFlag: null,
+                // manageAverageTime: null,
+                // nutritionBeforePregnancy: null,
                 isPregnancy: null,
-                nutritionAfterPregnancy: null,
-                prenatalImmunityType: [],
-                prenatalImmunityTime: [],
-                buildingToBeRelocated: null,
-                nutritionBeforeLambing: null,
-                lambingTime: null,
+                remark:null,
+                // nutritionAfterPregnancy: null,
+                // prenatalImmunityType: [],
+                // prenatalImmunityTime: [],
+                // buildingToBeRelocated: null,
+                // nutritionBeforeLambing: null,
+                // lambingTime: null,
                 lambingNumber: null,
-                nutritionBreastFeeding: null,
-                nutritionInsteadBreastFeeding: null,
-                nutritionBeforeCutBreastFeeding: null,
-                nutritionCutBreastFeeding: null,
-                averageTime:null
-            }
+                // nutritionBreastFeeding: null,
+                // nutritionInsteadBreastFeeding: null,
+                // nutritionBeforeCutBreastFeeding: null,
+                // nutritionCutBreastFeeding: null,
+                // averageTime:null
+                //averageTime:null,
+                prenatalImmunityTime:[],
+                manageAverageTime: null,
+                nutritionBreastFeeding:null,
+                lambingTime: null,
+                buildingToBeRelocated: null,
+                
+            },
         }
     }
 }
+
 </script>
 
 <style lang="stylus">
-.breed_prac
-    position relative
-    .form-info 
-        position: absolute;
-        width: 40%;
-        right: 8%;
-        bottom: 268px;
-    .form-summary
-        height: 730px;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-    .el-input-group
-        width: 445px !important;
-    .time 
-        display: flex;
-    .admin-form .time 
-        .time-span
-            width: auto; 
-            padding-right: 20px; 
-        .el-input
-            width: auto;         
-            flex-grow: 1;
+
 </style>
+
+

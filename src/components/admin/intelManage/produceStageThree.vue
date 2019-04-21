@@ -18,7 +18,7 @@
 </div>
 </template>
 
-<script>
+<script>    
 import Admintable from '@/components/admin/intel_moretable'
 
 export default{

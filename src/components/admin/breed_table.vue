@@ -29,7 +29,128 @@
             <el-button @click="fetchData()" size="small" type="primary">查询</el-button>
             <el-button @click="export2xls()" size="small" type="primary" icon="el-icon-download">导出表格</el-button>
         </div>
-        <el-table
+
+        <el-table v-if="isSeleList"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+
+            <el-table-column label="种公羊">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='eartagOfFather'||th.prop=='fatherTypeName'||th.prop=='fatherColor'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+                
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="种母羊">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='eartagOfMother'||th.prop=='motherTypeName'||th.prop=='motherColor'||th.prop=='manageFlag'||th.prop=='breedingTime'||th.prop=='lambingNumber'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="羔羊/kg">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='newbornWeight'||th.prop=='sex'||th.prop=='trademarkEartag'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="断奶选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='ablactationWeight'||th.prop=='ablactationHeight'||th.prop=='ablactationLength'||th.prop=='ablactationBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="6月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='sixMonthWeight'||th.prop=='sixMonthBodyHeight'||th.prop=='sixMonthBodyLength'||th.prop=='sixMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="12月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='twelveMonthWeight'||th.prop=='twelveMonthHeight'||th.prop=='twelveMonthLength'||th.prop=='twelveMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column> 
+            </el-table-column>
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr" v-if="!releaseType && !isCheck">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                        <template>
+                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                            <span @click="deleteItem(scope.$index)">删除</span>
+                        </template>
+                    </div>
+                    <div class="opr" v-else-if="releaseType">
+                        <span  @click="viewPlan(scope.$index)">查看</span>
+                    </div>
+                    <div class="opr" v-else>
+                        <span @click="Spv(1, scope.$index)">通过</span>
+                        <span @click="Spv(0, scope.$index)">拒绝</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
+        
+        <el-table v-if="isBreedList"
             v-loading="load"
             ref="table"
             tooltip-effect="dark"
@@ -39,13 +160,15 @@
             <el-table-column
                 show-overflow-tooltip
                 v-for="(th, i) in headers"
-                :key="i"
+                :key="i" 
                 align='center'
                 :prop="th.prop"
                 :label="th.label"
                 :width="100"
+                
             >
             </el-table-column>
+
             <el-table-column
                 class="action"
                 fixed="right"
@@ -108,6 +231,14 @@ export default {
     props: {
         // 隐藏操作栏的查看功能
         hideView: {
+            type: Boolean,
+            default: false
+        },
+        isBreedList: {
+            type: Boolean,
+            default: false
+        },
+        isSeleList: {
             type: Boolean,
             default: false
         },
@@ -446,24 +577,30 @@ export default {
             }
         },
 
-        edit (index, isView) {
+        edit(index, isView) {
             let id = this.tableData[index].id
             let path
             let pathid = this.$route.params.id
+            
             if (this.noPrac) {
                 if (isView) {
                     path = `/admin/${pathid}/${this.modpath}?view=${id}`
+                    
                 } else {
                     path = `/admin/${pathid}/${this.modpath}?edit=${id}`
+                    
                 }
             } else if (!this.isCheck) {
                 if (isView) {
                     path = `/admin/${pathid}/${this.modpath}/prac?view=${id}`
+                    
                 } else {
                     path = `/admin/${pathid}/${this.modpath}/prac?edit=${id}`
+                    
                 }
             } else {
                 path = `/admin/${pathid}/${this.checkModule}/prac?check=${id}`
+                
             }
             this.$router.push(path)
         },

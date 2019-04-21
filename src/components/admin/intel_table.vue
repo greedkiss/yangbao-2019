@@ -595,7 +595,7 @@
             }else{
               path = `/admin/${pathid}/livestock/list`
             }
-            this.$router.push(path)
+            this.$router.push(path)   
         },
       getSummaries(param) {
         const { columns, data } = param

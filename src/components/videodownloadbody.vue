@@ -5,71 +5,34 @@
         <div class="box_my3">
             <div class="row4">
                 <div class="row_cont3">
-                    <el-table
-                        :data="videoList"
-                        stripe
-                        style="width: 100%">
-                         
-                        <el-table-column
-                      
-                        prop="name"
-                        label="视频名称"
-                        align='center'
-                        width="180">
-                        </el-table-column>
-
-                        <el-table-column
-                        prop="time"
-                        label="上传时间"
-                        width="180">
-                        </el-table-column>
-
-                        <el-table-column
-                        fixed="right"
-                        label="操作"
-                        width="100">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small">点击播放</el-button>
-                        </el-table-column>
-
-                    </el-table>                   
-                    <!-- <div class="video-list">
-                        <ul>
-                            <li v-for="(item, i) in this.videoList" :key="i">
-                            <i class="list-item-icon iconfont icon-video"></i>
-                            <span v-text="item.name"></span>
-                            <span class="list-item-time" v-text="item.time" :title="item.time"></span>
-                            <a class="list-item-download" :href="item.link" download>点击观看</a>
-                            </li>
-                        </ul>
-                        <el-pagination
-                            class="video-list-page"
-                            layout="prev, pager, next"
-                            :total="total"
-                            @current-change="getVideoList"
-                            :current-page.sync="page">
-                        </el-pagination>
-                    </div>  -->
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#"> 点击下载</a></p>
+                    <p class="news_cont">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a href="#">  点击下载</a></p>
                 </div>
                 
                 <button class="button3">查看更多</button>
             </div>
          </div>
-    <div class="app-video">
-        <div v-show="showVideo" id="app-video"></div>
+    <!-- <img src="../assets/imgs/profile_img.png" class="video_img"> -->
+    <div v-show="showVideo" id="app-video"></div>
         <div v-if="showPic" class="app-video-no">
+            <!-- <img src="../assets/imgs/profile_img.png"> -->
             <p class="app-video-tips">暂无专家直播</p>
-        </div>
     </div>
-</div>
-    
+</div>   
 </template>
-
 <script>
-  import {baseUrl} from '@/util/fetch.js';
+import {baseUrl} from '@/util/fetch.js';
 import { getChannelList, getVideoUrl, getVideo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import '@/assets/TcPlayer-2.2.1.js'
-
 export default {
     data () {
         return {
@@ -113,10 +76,6 @@ export default {
     },
 
     methods: {
-        handleClick(row){
-            let path = link
-            this.$router.push(path)
-        },
         getVideoList () {
             getVideo({
                 page: this.page - 1
@@ -138,6 +97,7 @@ export default {
     }
 }
 </script>
+
 <style>
 #ext4{
         width: 79%;
@@ -181,15 +141,15 @@ export default {
         width:80%;
         position: relative;
         left: 220px;
-        text-align: 15px;
-        line-height: 20px;
+        text-align: 8px;
+        line-height: 12px;
         }
     .row_cont3 a{
         font-size: 10px;
     }
     #ext4 .button3{
         border-radius:10px;
-        border: none; 
+        border: none;
         background:rgb(238,238,238);
         height:25px;
         width:260px;
@@ -198,59 +158,15 @@ export default {
         left:330px;
     }
     #app-video{
-        width:500px;
-        height:315px;
+        width:300px;
+        height:215px;
         position: fixed;
-        top:286px;
-        left:190px;
-        }
+     }
+     .app-video-no{
+        width:300px;
+        height:215px;
+        position: fixed; 
+     }
    
    
     </style>
-<style lang="stylus">
-@import '../assets/css/color'
-.app-video
-    display flex
-    flex-wrap wrap
-    .app-video-no
-        position relative
-        box-sizing border-box
-        width 55%
-        min-width 500px
-        height 300px
-        margin 20px 0 20px 5%
-        background-image url('//otxtxlg3e.bkt.clouddn.com/QQ20180511-0.jpg')
-        background-size cover
-        .app-video-tips
-            margin 0
-            position absolute
-            top 0
-            bottom 0
-            left 0
-            right 0
-            line-height 300px
-            text-align center
-            color #fff
-            font-size 16px
-            background:url(../assets/imgs/videobg2.png)
-            background-repeat:no-repeat
-    #app-video
-        box-sizing border-box
-        width 55%
-        min-width 600px
-        height 400px
-        margin 20px 0 20px 5%
-        .vcp-player
-            margin 0
-        .vcp-error-tips // 视频播放失败样式
-            top 0
-            height 100%
-            line-height 400px
-            margin-top 0
-            background-color rgba(0, 0, 0, 0.7)
-            font-size 16px
-            color #fff
-
-</style>
-
-    

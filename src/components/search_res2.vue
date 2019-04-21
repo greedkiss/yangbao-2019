@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="left">
+      <div class="left">   
         <el-collapse v-model="activeNames">
           <el-collapse-item title="基本信息" name="1">
               <div class="t-item">

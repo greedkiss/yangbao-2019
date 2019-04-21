@@ -26,7 +26,7 @@
 			font-size 14px
 			margin 0
 		    // height h=50px
-		    line-height 30px
+		    line-height 30px 
 		    text-align center
 		    color #C9C9C9
 </style>

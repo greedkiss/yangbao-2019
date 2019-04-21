@@ -21,6 +21,10 @@ const Chat = () => import('@/components/admin/user/chat')
 const ProChat = () => import('@/components/admin/user/prochat')
 // 发布
 const ReleaseIndex = () => import('@/components/release')
+const News = () => import('@/components/news')
+const Company= () => import('@/components/company')
+const Contact= () => import('@/components/contact')
+const Videodownload= () => import('@/components/videodownload')
 const CourseIntro = () => import('@/components/admin/professorCourseVideo/intro')
 // 个人信息
 const UserInfo = () => import('@/components/admin/user/user')
@@ -86,7 +90,10 @@ const StageList = () => import('@/components/admin/nutrition/stage_list')
 const BreedPlan = () => import('@/components/admin/nutrition/breed_plan')
 const BreedPrac = () => import('@/components/admin/nutrition/breed_prac')
 const BreedList = () => import('@/components/admin/nutrition/breed_list')
+const SeleList = () => import('@/components/admin/nutrition/sele_list')
+const SeleMore = () => import('@/components/admin/nutrition/sele_more')
 const BreedMore = () => import('@/components/admin/nutrition/breed_more')
+const SelePrac = () => import('@/components/admin/nutrition/sele_prac')
 
 // 疫病防治
 const PreventionPlan = () => import('@/components/admin/prevention/prevention_plan')
@@ -161,10 +168,11 @@ export default new Router({
         {path: '/findpass', name: 'findpass', component: FindPass},
         {path: '/genea', name: 'genea', component: Genea},
         {path: '/geneadetail/:id', name: 'geneadetail', component: GeneaDetail},
-        {path: '/course', name: 'course', component: Course},
+        // {path: '/course', name: 'course', component: Course},
+        {path: '/course', name: 'course', component: Videodownload},
         {path: '/search', name: 'search', component: SearchRes},
         // 集团
-        {path: '/company', name: 'company', component: ReleaseIndex},
+        {path: '/company', name: 'company', component: Company},
         // 产品
         {path: '/product', name: 'product', component: ReleaseIndex},
         // 有机
@@ -174,9 +182,11 @@ export default new Router({
         // 加盟
         {path: '/league', name: 'league', component: ReleaseIndex},
         // 新闻
-        {path: '/news', name: 'news', component: ReleaseIndex},
+        {path: '/news', name: 'news', component: News},
+        //资料下载
+        // {path: '/docDonload', name: 'docDonload', component: Videodownload},
         // 联系我们
-        {path: '/contact', name: 'contact', component: ReleaseIndex},
+        {path: '/contact', name: 'contact', component:Contact},
         //寻找有机
         {path: '/findOrganic', name: 'organic', component: FindOrganic},
 
@@ -243,7 +253,10 @@ export default new Router({
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},
+            {path: 'nutrition/sele/prac', name: 'seleprac', component: SelePrac},
             {path: 'nutrition/breed/list', name: 'breedlist', component: BreedList},
+            {path: 'nutrition/sele/list', name: 'selelist', component: SeleList},
+            {path: 'nutrition/sele/more', name: 'selelist', component: SeleMore},
             {path: 'nutrition/breed/more', name: 'breedmore', component: BreedMore},
             {path: 'nutrition/stage/plan', name: 'stageplan', component: StagePlan},
             {path: 'nutrition/stage/prac', name: 'stageprac', component: StagePrac},
