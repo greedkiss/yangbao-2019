@@ -80,7 +80,7 @@
                     prop="operatorName"
                     label="操作人员">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     align='center'
                     width="150"
                     :prop="isProName ? 'professorName' : 'professor'"
@@ -91,13 +91,25 @@
                     width="150"
                     :prop="isProName ? 'supervisorName' : 'supervisor'"
                     label="监督执行">
+                </el-table-column> -->
+                <el-table-column
+                    align='center'
+                    width="150"
+                    prop="professorName"
+                    label="技术审核">
+                </el-table-column>
+                <el-table-column
+                    align='center'
+                    width="150"
+                    prop="supervisorName"
+                    label="监督执行">
                 </el-table-column>
             </template>
             <el-table-column
                 width="150"
                 align='center'
                 v-if="hasUnpass"
-                prop="upassReason"
+                prop="unpassReason"
                 label="审核拒绝原因">
             </el-table-column>
             <el-table-column
@@ -161,12 +173,19 @@ import {
     patchProDisinfect,
     patchProImmune,
     patchProAntiscolic,
-    patchProStage
+    patchProStage,
+//判断是否是监督员和专家
+    judgeSupervisor
 } from '@/util/getdata'
 
 
 export default {
     props: {
+        //判断是不是监督界面
+        isReview: {
+            type: Boolean,
+            default: false
+        },
         // 隐藏操作栏的查看功能
         hideView: {
             type: Boolean,
@@ -275,7 +294,19 @@ export default {
         },
 
         getData (newV) {
-            this.fetchData()
+            judgeSupervisor().then(res => {
+                this.isSpv = res.data.model[1]
+                this.isProfession = res.data.model[2]
+                if(this.isReview){
+                    if(!this.isSpv && !this.isProfession){
+                        this.load = true
+                        this.$message.error("您不是专家或者监督员！")
+                    }
+                }
+                if(this.isSpv || this.isProfession || !this.isReview){
+                    this.fetchData()
+                }
+            })
         }
     },
 
@@ -285,9 +316,22 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
-                this.isSpv = res.data.model.userRole === 20
+                // this.isSpv = res.data.model.userRole === 20
             }
-        }).then(this.fetchData)
+        })
+        judgeSupervisor().then(res => {
+            this.isSpv = res.data.model[1]
+            this.isProfession = res.data.model[2]
+            if(this.isReview){
+                if(!this.isSpv && !this.isProfession){
+                    this.load = true
+                    this.$message.error("您不是专家或者监督员！")
+                }
+            }
+            if(this.isSpv || this.isProfession || !this.isReview){
+                this.fetchData()
+            }
+        })
     },
 
     data () {
@@ -425,8 +469,8 @@ export default {
                     name: this.user.userRealname
                 }
 
-                // userRole 20羊场监督员
-                if (this.user.userRole == 20) {
+                // isSpv为是否是监督员
+                if (this.isSpv) {
                     if (ispassSup === '执行') {
                         this.$message.warning('该条记录已检查')
                         return

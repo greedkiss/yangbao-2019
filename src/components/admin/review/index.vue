@@ -8,7 +8,8 @@
             modpath="review"
             :check-module="this.checkModule"
             :get-data="getData"
-            :headers="headers">
+            :headers="headers"
+            :isReview="true">
         </admin-table>
     </div>
 </template>

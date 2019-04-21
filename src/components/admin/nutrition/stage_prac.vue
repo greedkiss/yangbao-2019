@@ -63,8 +63,9 @@ export default {
     data () {
         return {
             items: [
+                {label: '单位选择', model: 'style', type: 'selectStyle'},
                 {label: '栏/栋', model: 'building' ,type: 'selectCrowd'},
-                {label: '商标耳牌号', model: 'eartagFile', type : 'select3'},
+                {label: '商标耳牌号', model: 'eartagFile', type : 'selectEartag'},
                 {label: '使用日期(序号)', model: 'nutritionT', type: 'time'},
                 {label: '羊数', model: 'quantity', type: 'number', mr: true},
                 {label: '羊只均重/斤',model: 'average',type: 'number'},
@@ -72,6 +73,7 @@ export default {
                 {label: '饮水', model: 'water',mr: 1}
             ],
             models: {
+                style: null,
                 building: null,
                 nutritionT: null,
                 quantity: 1,

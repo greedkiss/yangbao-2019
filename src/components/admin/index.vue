@@ -1,6 +1,6 @@
 <template>
     <div class="app-home">
-        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="1"></admin-head>
+        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="user.msn"></admin-head>
         <el-container class="container bg-blue">
             <el-aside :width="side_width" class="main-aside">
                 <el-tree node-key="to" :default-expanded-keys="expanded_key" :data="treedata" :indent="30" accordion @node-click="clickTree"></el-tree>
@@ -83,7 +83,8 @@ export default {
                     {label: '客户评价', to: 'comment'},
                     {label: '专家在线课堂', to: 'courseintro'},
                     {label: '生产档案审核', to: 'review'},
-                    {label: '在线诊断', to: 'prochat'}
+                    {label: '在线诊断', to: 'prochat'},
+                    {label: '发布系统', to: 'release'},
                 ]
             },
             adminTree: {
@@ -98,7 +99,6 @@ export default {
                             {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
-                            {label: '发布系统', to: 'release'},
                             {label: '专家课堂视频发布', to: 'professorCourseVideo'},
                             {label: '短信平台', to: 'message'},
                             {label: '留言统计', to: 'commentsum'},
@@ -212,9 +212,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'slaughterMedia'},
                         {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'slaughterCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                     children:[
@@ -231,9 +231,9 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'capture'},
+                        {label: '生产可视', to: 'consumerUnitMedia'},
                         {label: '生产可视一览', to: 'consumerUnitVisual'},
-                        {label: '认证证书', to: 'nation'}
+                        {label: '认证证书', to: 'consumerCertification'}
                     ]},
                     {label: '在栏羊只管理', to: '',
                         children:[
@@ -393,7 +393,7 @@ export default {
 
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
-                    window.open('http://www.nubiangoat.biz/')
+                    window.open('http://mall.yunyangbao.cn/index2')
                     return
                 }
                 // if chat open another page

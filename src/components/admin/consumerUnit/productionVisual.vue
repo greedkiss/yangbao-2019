@@ -2,6 +2,7 @@
 	<mediaShow
 		:isBreed="false"
 		:conditions="conditions"
+        :isConsumer="true"
 	>
 	</mediaShow>
 </template>

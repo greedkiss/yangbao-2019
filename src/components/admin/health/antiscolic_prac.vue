@@ -27,6 +27,7 @@ export default {
         return {
             getAntiscolic,
             items: [
+                {label: '驱虫单位', model: 'style', type: 'selectStyle',mr: 1},
                 {label: '驱虫栏/栋', model: 'crowdNum', type: 'selectCrowd'},
                 {label: '商标耳牌号', model: 'eartagFile' ,type : 'selectEartag'},
                 {label: '驱虫时间', model: 'repellentTime', type: 'time',mr: 1},
@@ -36,6 +37,7 @@ export default {
                 {label: '阶段名称', model: 'period', type: 'select', fetchSuggestions: getStages},
             ],
             models: {
+                style: null,
                 eartagFile: null,
                 crowdNum: null,
                 repellentTime: null,

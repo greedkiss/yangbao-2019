@@ -1,5 +1,5 @@
 <template>
-<div class="organic">
+<div class="o_organic">
 	<header class="head">
 		<div class="o_logo">
 			<router-link to="/">
@@ -17,41 +17,49 @@
 		<div class="o_left">
 			<div class="area_info">
 				<span>省</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.province" placeholder=" " @change="provinceChoose">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.province"
 			      :key="item.value"
 			      :label="item.label"
-			      :value="item.value">
+			      :value="item"
+			      >
 			    </el-option>
 				</el-select>
 			    <span>市</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.city" placeholder=" " @change="cityChoose">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.city"
 			      :key="item.value"
 			      :label="item.label"
-			      :value="item.value">
+			      :value="item">
 			    </el-option>
 				</el-select>
 			    <span>县</span>
-				<el-select v-model="value2" placeholder=" ">
+				<el-select v-model="value.country" placeholder=" ">
 			    <el-option
-			      v-for="item in options2"
+			      v-for="item in area.country"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+			  </el-select>
+			  	<!-- <span>乡镇</span>
+				<el-select v-model="value.town" placeholder=" ">
+			    <el-option
+			      v-for="item in area.town"
 			      :key="item.value"
 			      :label="item.label"
 			      :value="item.value">
 			    </el-option>
-			  </el-select>
-			  	<span>乡镇</span>
-				<el-select v-model="value2" placeholder=" ">
-			    <el-option
-			      v-for="item in options2"
-			      :key="item.value"
-			      :label="item.label"
-			      :value="item.value">
-			    </el-option>
-			  </el-select>
+			  </el-select> -->
+			  <span class="sub-title">乡镇</span>
+			    <el-autocomplete
+			      class="inline-input"
+			      v-model="value.town"
+			      :fetch-suggestions="querySearch"
+			      placeholder=" "
+			    ></el-autocomplete>
 			</div>
 			<div class="o_check">
 				<div class="o_farm">
@@ -77,22 +85,49 @@
 					</div>
 				</div>
 				<div class="o_search">
-					<img src="../../assets/imgs/o_search.png" alt="search">
+					<img src="../../assets/imgs/o_search.png" alt="search"  @click="search(0)">
 				</div>
 			</div>
 			<div class="o_map">
-				<OMap class="map_detail"></OMap>
+				<div class="o_boxOut">
+					<OMap class="map_detail" :data="data" :mapCenter="mapCenter"></OMap>
+				</div>
+			</div>
+			<div class="o_introduce">
+				<div>
+				<div class="o_red"></div>
+				<span>养殖场</span>
+				</div>
+				<div>
+				<div class="o_blue"></div>
+				<span>屠宰加工厂</span>
+				</div>
+				<div>
+				<div class="o_yellow"></div>
+				<span>消费店</span>
+				</div>
 			</div>
 		</div>
 		<div class="o_middle">
 			<img src="../../assets/imgs/o_middle.png">
 		</div>
 		<div class="right">
-			<div class="o_message">
-				<table class="o_sune">
+			<div class="o_sune">
+				<table class="outTable">
 					<tr>
-						<th rowspan="3" style="color: #01ffff;font-size: 16px ">可对外</th>
-						<th>  
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+						<td class="o_none"></td>
+					</tr>
+					<tr>
+						<th rowspan="3" style="color: #01ffff; font-size: 16px;background: #001e85" colspan="3">可对外</th>
+						<th colspan="2">  
 				        <div class="o_cline">  
 				          <table>  
 				            <thead>  
@@ -108,112 +143,112 @@
 				          </table>  
 				        </div>  
 				      </th>  
-						<th>活羊（只）</th>
-						<th>肉/产品（公斤）</th>
+						<th colspan="2" style="background: #001e85">活羊(只)</th>
+						<th colspan="2" style="background: #001e85">肉/产品(公斤)</th>
 					</tr>
 					<tr>
-						<td>供</td>
-						<td></td>
-						<td></td>
+						<td colspan="2" style="background: #001e85">供</td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_output_sheep"></span></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_output_meat"></span></td>
 					</tr>
 					<tr>
-						<td>求</td>
-						<td></td>
-						<td></td>
+						<td colspan="2" style="background: #001e85">求</td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_demand_sheep"></span></td>
+						<td colspan="2" style="background: #001e85"><span v-text="total.total_demand_meat"></span></td>
 					</tr>
 				</table>
+				</div>
+				<div class="o_message">
 				<table class="o_snDetail">
-					<tr><th colspan="9" class="table_head">实时供求发布</th></tr>
+					<tr><th class="o_noBack"></th><th colspan="9" class="table_head">实时供求发布</th></tr>
 					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td class="o_noBack">活羊(只)</td>
+						<td><span v-text="detail.breed_sheep_supply"></span></td>
+						<td><span v-text="detail.slaughter_sheep_supply"></span></td>
+						<td><span v-text="detail.slaughter_sheep_demand"></span></td>
+						<td><span v-text="detail.process_sheep_supply"></span></td>
+						<td><span v-text="detail.process_sheep_demand"></span></td>
+						<td><span v-text="detail.dining_sheep_demand"></span></td>
+						<td><span v-text="detail.meat_sheep_demand"></span></td>
+						<td><span v-text="detail.cook_sheep_demand"></span></td>
+						<td><span v-text="detail.market_sheep_demand"></span></td>
 					</tr>
 					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td class="o_noBack">肉/产品(公斤)</td>
+						<td><span v-text="detail.breed_meat_supply"></span></td>
+						<td><span v-text="detail.slaughter_meat_supply"></span></td>
+						<td><span v-text="detail.slaughter_meat_demand"></span></td>
+						<td><span v-text="detail.process_meat_supply"></span></td>
+						<td><span v-text="detail.process_meat_demand"></span></td>
+						<td><span v-text="detail.dining_meat_demand"></span></td>
+						<td><span v-text="detail.meat_meat_demand"></span></td>
+						<td><span v-text="detail.cook_meat_demand"></span></td>
+						<td><span v-text="detail.market_meat_demand"></span></td>
 					</tr>
 					<tr>
-						<td>供</td>
-						<td>供</td>
-						<td>求</td>
-						<td>供</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
-						<td>求</td>
+						<td class="o_noBack">供求</td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">供</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
+						<td><div class="o_font">求</div></td>
 					</tr>
 					<tr>
-						<td>养殖厂</td>
-						<td colspan="2" class="o_double">屠宰厂</td>
-						<td colspan="2" class="o_double">加工厂</td>
-						<td>餐饮</td>
-						<td>鲜肉</td>
-						<td>熟食</td>
-						<td>商超</td>
+						<td class="o_noBack">厂家(个)</td>
+						<td><div class="o_font">养殖厂</div></td>
+						<td colspan="2" class="o_double"><div class="o_font">屠宰厂</div></td>
+						<td colspan="2" class="o_double"><div class="o_font">加工厂</div></td>
+						<td><div class="o_font">餐饮</div></td>
+						<td><div class="o_font">鲜肉</div></td>
+						<td><div class="o_font">熟食</div></td>
+						<td><div class="o_font">商超</div></td>
 					</tr>
 					<tr>
-						<td class="o_total"></td>
-						<td colspan="2" class="o_total"></td>
-						<td colspan="2" class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
-						<td class="o_total"></td>
+						<td class="o_noBack"></td>
+						<td class="o_total">{{sum.breed}}</td>
+						<td colspan="2" class="o_total">{{sum.slaughter}}</td>
+						<td colspan="2" class="o_total">{{sum.process}}</td>
+						<td class="o_total">{{sum.dining}}</td>
+						<td class="o_total">{{sum.meat}}</td>
+						<td class="o_total">{{sum.cook}}</td>
+						<td class="o_total">{{sum.market}}</td>
 					</tr>
 				</table>
-				<span class="left_sheep">活羊(只)</span>
-				<span class="left_meet">肉/产品(公斤)</span>
-				<span class="left_sn">供求</span>
-				<span class="left_factory">厂家(个)</span>
+				</div>
+			<div class="o_detail">
+			<div class="o_inside">
+				<div class="o_aside">
+					<div class="o_company" v-for="(item, i) in items" :key="i" @click="handleClick(item.id, item.style)">
+						<span>{{i+1}}.&nbsp</span>
+						<span v-text='item.name'></span>
+					</div>
+				</div>
+				<div class="containerHead">
+					<div class="chargeTitle">
+						<div class="chargeman" ><span>联系人：{{corpation.chargeMan}}</span></div>
+						<div class="chargephone" ><span>电话：{{corpation.phone}}</span></div>
+					</div>
+					<div style="background: #2c9aef">
+						<div style="width: 100%;float: left">
+						    <div class="choseStyleOne" @click="changeColor(0)" ref="one"><span>可销售</span></div>
+						    <div class="choseStyleTwo" @click="changeColor(1)" ref="two"><span>总存栏</span></div>
+						</div>
+						<div class= "total_num">
+							<span style="padding-left:13px">总数：{{countAll}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="o_container">
+					<div style="display: block; width: 68px; height: 20px; float: left;margin-left:15px; cursor: pointer;" v-for="(item, i) in eartagList" :key="i" @click = "jump(item);">
+						<span>{{item}}</span>
+					</div>
+				</div>
 			</div>
-				<el-container style="height: 200px; border: 1px solid #021e86; width: 450px" class="o_detail">
-				  <el-aside width="200px" style="background-color: #021e86">
-				  	<el-menu>
-				  	<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			<el-menu-item index="1">选项1</el-menu-item>
-          			<el-menu-item index="2">选项2</el-menu-item>
-          			</el-menu>
-				  </el-aside>
-				  <el-container>
-				    <el-header style="text-align: left; font-size: 14px; padding-top:20px">
-				      <div>管理联系人：John Snow</div>
-				      <div>电话： 911</div>
-				    </el-header>
-				    <el-main>
-				      	XXXXXXXXXX
-				    </el-main>
-				  </el-container>
-				</el-container>
-				<img src="../../assets/imgs/o_detail.png" class="o_border">
-			<!-- <div class="o_detail">
-				<div class="o_aside"></div>
-				<div class="containerHead"></div>
-				<div class="o_container"></div>
-			</div> -->
+			</div>
 		</div>
 	</div>
 	<footer class="o_foot">
@@ -228,23 +263,33 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
+// import getPlace from './method.js'
+import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace, getAllSaleable, gelAllSheep, getSalableSheep} from '@/util/getdata'
 export default {
 	components: {
 		OMap,
 	},
 	data(){
 		return{
+			sum: {
+				market: '',
+				meat: '',
+				slaughter: '',
+				breed: '',
+				dining: '',
+				cook: '',
+				process: ''
+			},
+			countAll: 0,
+			factoryId: -1,
+			factoryType: 1,
+			radio: '可销售',
 			pcaa,
 			item: {
 				area: [],
 				level: 0,
 				model: null
 			},
-			types: [
-				{value: "省", index: 0},
-				{value: "市", index: 1},
-				{value: "区", index: 2}
-			],
 			style: {
 				checked1: false,
 				checked2: false,
@@ -253,262 +298,386 @@ export default {
 				checked5: false,
 				checked6: false,
 				checked7: false,
-			}
+			},
+			area: {
+				province: [],
+				city: [],
+				country: [],
+				town: []
+			},
+			value: {
+				province: '',
+				city: '',
+				country: '',
+				town: ''
+			},
+			data: [],
+	        mapCenter: {
+	        	lon: 105.403119,
+	        	lan: 34.028658,
+	        	level: 4
+	        },
+	        detail: {
+	        	breed_sheep_supply: null,
+	        	slaughter_sheep_supply: null,
+	        	slaughter_sheep_demand: null,
+	        	process_sheep_supply: null,
+	        	process_sheep_demand: null,
+	        	dining_sheep_demand: null,
+	        	meat_sheep_demand: null,
+	        	cook_sheep_demand: null,
+	        	market_sheep_demand: null,
+	        	breed_meat_supply: null,
+	        	slaughter_meat_supply: null,
+	        	slaughter_meat_demand: null,
+	        	process_meat_supply: null,
+	        	process_meat_demand: null,
+	        	dining_meat_demand: null,
+	        	meat_meat_demand: null,
+	        	cook_meat_demand: null,
+	        	market_meat_demand: null
+	        },
+	        total: {
+	        	total_demand_meat: null,
+	        	total_demand_sheep: null,
+	        	total_output_meat: null,
+	        	total_output_sheep: null
+	        },
+	        items: [],
+	        corpation: {
+	        	chargeMan: null,
+	        	phone: null
+	        },
+	        eartagList: []
 		}
 	},
+	mounted() {
+		let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+		let obj = {url}
+		getPlace(obj).then(res => {
+			res.result.forEach((item) =>{
+				item.forEach((ipv)=>{
+					this.area.province.push({
+						label: ipv.fullname,
+						value: ipv.id
+					})
+				})
+			})
+		})
+		this.search(1)
+		this.changeColor(0, 0)
+	},
 	methods: {
-		
+		provinceChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			console.log(url)
+			this.value.city = ''
+			this.value.country = ''
+			this.value.town = ''
+			if(item.label.indexOf('市') == -1){
+				getPlace(obj).then(res => {
+					this.area.city = []
+					res.result.forEach((item) =>{
+						item.forEach((ipv)=>{
+							this.area.city.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}else{
+					this.value.city = '市辖区'
+					getPlace(obj).then(res => {
+					this.area.country = []
+					res.result.forEach((item) => {
+						item.forEach((ipv)=>{
+							this.area.country.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}
+		},
+		cityChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			this.value.country = ''
+			this.value.town = ''
+			getPlace(obj).then(res => {
+				this.area.country = []
+				res.result.forEach((item) =>{
+					item.forEach((ipv)=>{
+						this.area.country.push({
+							label: ipv.fullname,
+							value: ipv.id
+						})
+					})
+				})
+			})
+		},
+		querySearch(qs, cb){
+			cb([{
+				"value": "暂无数据请输入"
+			}])
+		},
+		handleClick(id, type){
+			this.factoryId = id
+			this.factoryType = type
+			this.changeColor(0, type)
+		},
+		jump(item){
+			this.$router.push({path: '/search', query: {code: item}})
+		},
+		changeColor(id){
+			this.eartagList= []
+			if(id){
+				//总存栏
+				this.$refs.two.style.color = 'black'
+				this.$refs.two.style.background = '#7fcdf4'
+				this.$refs.one.style.color = '#2c9aef'
+				this.$refs.one.style.background = 'rgba(255,255,255,0.01)'
+				if(this.factoryId == -1){
+					gelAllSheep().then(res => {
+						this.eartagList = res.data.sheep
+						this.corpation.chargeMan = ''
+						this.corpation.phone = ''
+						this.countAll= res.data.count
+					})
+				}else{
+					if(this.factoryType){
+						getFactoryInformation(this.factoryId).then(res => {
+							res.data.sheeps.forEach((item) => {
+								if(item != null){
+									this.eartagList.push(item.trademarkEarTag)
+								}
+							})
+								this.countAll = res.data.count
+								if(res.data.factory !== null){
+									this.corpation.chargeMan = res.data.factory.responsiblePersonName
+									this.corpation.phone = res.data.factory.responsiblePersonPhone
+								}
+							})
+						}
+						else{
+							getCustomerInformation(this.factoryId).then(res => {
+								if(res.data.factory !== null){
+									this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
+									this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
+								}
+								this.countAll = res.data.count
+						})
+					}
+				}
+			}else{
+				//可销售羊只
+				this.$refs.one.style.color = 'black'
+				this.$refs.one.style.background = '#7fcdf4'
+				this.$refs.two.style.color = '#2c9aef'
+				this.$refs.two.style.background = 'rgba(255,255,255,0.01)'
+				if(this.factoryId == -1){
+					getAllSaleable().then(res => {
+						this.eartagList = res.data.sheep
+						this.corpation.chargeMan = ''
+						this.corpation.phone = ''
+						this.countAll= res.data.count
+					})
+				}else{
+					getSalableSheep(this.factoryId).then( res=> {
+						this.eartagList = res.data.sheep
+						this.countAll = res.data.count
+						this.corpation.chargeMan = res.data.factory.responsiblePersonName
+						this.corpation.phone = res.data.factory.responsiblePersonPhone
+					})
+				}
+			}
+		},
+		search(start){
+			let message = {}
+			if(start){
+				let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超"
+				message = {type, 'simpleAddress': '' ,'detailAddress': ''}
+			}else{
+				let simpleAddress = ''
+				if(this.value.province != ''){
+					this.mapCenter.level = 5
+					simpleAddress += this.value.province.label
+					if(simpleAddress.indexOf('市') != -1){
+						this.mapCenter.level = 6
+						simpleAddress += this.value.city
+					}
+					else if(this.value.city != ''){
+						this.mapCenter.level = 11
+						simpleAddress += this.value.city.label
+					}
+				}
+				if(this.value.country != '')
+					simpleAddress += this.value.country.label
+				let detailAddress = this.value.town
+				let type = ''
+				if(this.style.checked1)
+				 	type += '养殖厂,'
+				if(this.style.checked2)
+					type += '屠宰厂,'
+				if(this.style.checked3)
+					type += '加工厂,'
+				if(this.style.checked4)
+					type += '鲜肉,'
+				if(this.style.checked5)
+					type += '餐饮,'
+				if(this.style.checked6)
+					type += '熟食,'
+				if(this.style.checked7)
+					type += '商超,'
+				if(!this.style.checked1 && !this.style.checked2 && !this.style.checked3 && !this.style.checked4 && !this.style.checked5 && !this.style.checked6 && !this.style.checked7)
+					type = '养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,'
+				type = type.substring(0, type.lastIndexOf(','))
+				message = {type, simpleAddress ,detailAddress}
+			}
+			this.data = []
+			this.items = []
+			getCustomerByAddress(message).then(res => {
+				if(res.data.factories.length != 0){
+						res.data.factories.forEach((item)=>{
+						let coordinates = []
+						let type = "Point"
+						if(item.longitude != null){
+							this.mapCenter.lon = item.longitude
+							coordinates.push(item.longitude)
+						}
+						if(item.latitude != null){
+							this.mapCenter.lan = item.latitude
+							coordinates.push(item.latitude)
+						}
+						let geometry = {type, coordinates}
+						let count = 3
+						this.data.push({geometry, count})
+						let id = item.id
+						let name = item.breedName
+						let style = 1//1表示羊场
+						this.items.push({id, name, style})
+					})
+				}
+				if(res.data.customers.length != 0){
+						res.data.customers.forEach((item) => {
+						let coordinates = []
+						let type = "Point"
+						if(item.longitude != null){
+							this.mapCenter.lon = item.longitude
+							coordinates.push(item.longitude)
+						}
+						if(item.latitude != null){
+							this.mapCenter.lan = item.latitude
+							coordinates.push(item.latitude)
+						}
+						let geometry = {type, coordinates}
+						let count
+						if(item.type == "屠宰厂" || item.type == "加工厂"){
+							count = 1
+						}else{
+							count = 2
+						}
+						this.data.push({geometry, count})
+						let id = item.id
+						let name = item.name
+						let style = 0//0表示屠宰加工消费
+						this.items.push({id, name, style})
+					})
+				}
+				this.detail = {}
+				if(res.data.total_output_sheep != 0){
+					this.total.total_output_sheep = res.data.total_output_sheep
+				}
+				if(res.data.total_demand_sheep != 0){
+					this.total.total_demand_sheep = res.data.total_demand_sheep
+				}
+				if(res.data.total_output_meat != 0){
+					this.total.total_output_meat = res.data.total_output_meat
+				}
+				if(res.data.total_demand_meat != 0){
+					this.total.total_demand_meat = res.data.total_demand_meat
+				}
+				if(res.data.statistics["养殖厂"].output != 0){
+					this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output
+				}
+				if(res.data.statistics["屠宰厂"].output_sheep != 0){
+					this.detail.slaughter_sheep_supply = res.data.statistics["屠宰厂"].output_sheep
+				}
+				if(res.data.statistics["屠宰厂"].demand_sheep != 0){
+					this.detail.slaughter_sheep_demand = res.data.statistics["屠宰厂"].demand_sheep
+				}
+				if(res.data.statistics["加工厂"].output_sheep != 0){
+					this.detail.process_sheep_supply = res.data.statistics["加工厂"].output_sheep
+				}
+				if(res.data.statistics["加工厂"].demand_sheep != 0){
+					this.detail.process_sheep_demand = res.data.statistics["加工厂"].demand_sheep
+				}
+				if(res.data.statistics["餐饮"].demand_sheep != 0){
+					this.detail.dining_sheep_demand = res.data.statistics["餐饮"].demand_sheep
+				}
+				if(res.data.statistics["鲜肉"].demand_sheep != 0){
+					this.detail.meat_sheep_demand = res.data.statistics["鲜肉"].demand_sheep
+				}
+				if(res.data.statistics["熟食"].demand_sheep != 0){
+					this.detail.cook_sheep_demand = res.data.statistics["鲜肉"].demand_sheep
+				}
+				if(res.data.statistics["商超"].demand_sheep != 0){
+					this.detail.market_sheep_demand = res.data.statistics["商超"].demand_sheep
+				}
+				if(res.data.statistics["屠宰厂"].output_meat != 0){
+					this.detail.slaughter_meat_supply = res.data.statistics["屠宰厂"].output_meat
+				}
+				if(res.data.statistics["屠宰厂"].demand_meat != 0){
+					this.detail.slaughter_meat_demand = res.data.statistics["屠宰厂"].demand_meat
+				}
+				if(res.data.statistics["加工厂"].output_meat != 0){
+					this.detail.process_meat_supply = res.data.statistics["加工厂"].output_meat
+				}
+				if(res.data.statistics["加工厂"].demand_meat != 0){
+					this.detail.process_meat_demand = res.data.statistics["加工厂"].demand_meat
+				}
+				if(res.data.statistics["餐饮"].demand_meat != 0){
+					this.detail.dining_meat_demand = res.data.statistics["餐饮"].demand_meat
+				}
+				if(res.data.statistics["鲜肉"].demand_meat != 0){
+					this.detail.meat_meat_demand = res.data.statistics["鲜肉"].demand_meat
+				}
+				if(res.data.statistics["熟食"].demand_meat != 0){
+					this.detail.cook_meat_demand = res.data.statistics["鲜肉"].demand_meat
+				}
+				if(res.data.statistics["商超"].demand_meat != 0){
+					this.detail.market_meat_demand = res.data.statistics["商超"].demand_meat
+				}
+				if(res.data.statistics["商超"].count != 0){
+					this.sum.market = res.data.statistics["商超"].count
+				}
+				if(res.data.statistics["熟食"].count != 0){
+					this.sum.cook = res.data.statistics["熟食"].count
+				}
+				if(res.data.statistics["鲜肉"].count != 0){
+					this.sum.meat = res.data.statistics["鲜肉"].count
+				}
+				if(res.data.statistics["餐饮"].count != 0){
+					this.sum.dining = res.data.statistics["餐饮"].count
+				}
+				if(res.data.statistics["加工厂"].count != 0){
+					this.sum.process = res.data.statistics["加工厂"].count
+				}
+				if(res.data.statistics["屠宰厂"].count != 0){
+					this.sum.slaughter = res.data.statistics["屠宰厂"].count
+				}
+				if(res.data.statistics["养殖厂"].count != 0){
+					this.sum.breed = res.data.statistics["养殖厂"].count
+				}
+
+			})
+		}
 	}
 }
 </script>
 <style lang="stylus">
-.organic
-	overflow hidden
-	height 100%
-	background url(http://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
-	background-size cover
-	color #01ffff
-	.head
-		padding-top 20px
-		text-align center
-		.o_logo
-			display inline
-			.logo_info
-				vertical-align middle
-				height 60px
-		.o_title
-			display inline
-			line-height 20px
-			color #01ffff
-			font-size 1.675em
-			font-weight bold
-		.o_bottom
-			position relative
-			top -40px
-	.organic_body
-		color #00c5dd
-		font-size 15px
-		width 100%
-		margin-top -30px
-		.o_left
-			width 59%
-			float left
-			.area_info
-				font-size 15px
-				span
-					padding-left 3.4%
-				.el-select
-					width 16%
-					.el-input .el-select__caret
-						color #01ffff
-				.el-input__inner
-					height 26px
-					background-color #002e72
-					border 1px solid #01ffff
-					border-radius 0px
-					// color #01ffff
-				span
-					vertical-align middle
-				.area_select
-					display inline-block
-			.o_check
-				font-size 14px
-				margin-top 20px
-				margin-left 20px
-				.el-checkbox+.el-checkbox
-					margin-left 15px
-				.el-checkbox
-					color #9cdbe1
-				.el-checkbox__inner
-					background-color rgba(0,0,0,0)
-				.el-checkbox__label
-					font-size 12px
-				.o_farm
-					padding-left 10px
-					width 13%
-					height 60px
-					float left
-					text-align center
-					background url(../../assets/imgs/farm.png) no-repeat center
-					background-size 100% 50px
-					.f_top
-						position relative
-						top -10px
-						p
-							line-height 6px
-				.o_slaughter
-					width 23%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/slaughter.png) no-repeat center
-					background-size 100% 50px
-					.s_top
-						position relative
-						top -10px
-						p
-							line-height 8px
-				.o_customer
-					width 38%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/customer.png) no-repeat center
-					background-size 100% 50px
-					.c_top
-						position relative
-						top -7px
-						p
-							line-height 5px
-				.o_search
-					img
-						padding-left 10px
-						padding-top 7px
-						width 87px
-						cursor pointer
-			.o_map
-				padding-left 20px
-				padding-top 10px
-				.map_detail
-					width 90%
-					height 57vh
-		.o_middle
-			img
-				float left
-				margin-left -35px
-				height 530px
-		.right
-			color #00c5dd
-			text-align center
-			.o_message
-				float right
-				padding-right 10px
-				.o_sune
-					margin-top -10px
-					background-color #001e85 
-					font-size 12px
-					-webkit-transform scale(0.8)
-					border-collapse collapse
-					.o_cline
-						background url(../../assets/imgs/tableBack.png) no-repeat center
-						background-size 105% 105%
-						tr
-							th
-								border 0px
-								width 4.5vw
-								height 2vh				
-					tr
-						td, th
-							border 2px solid #0090d4
-							width 9vw
-							min-width 48px
-							height 4vh
-				.o_snDetail
-					// margin-top 5px
-					background-color #001e85 
-					font-size 12px
-					-webkit-transform scale(0.9)
-					border-collapse collapse
-					// .table_head
-					// 	color #040d2a
-					// 	width 34.65vw
-					// 	height 30px
-					// 	background-color #2c9aef
-					// 	line-height 30px
-					// 	font-size 16px
-					// 	font-weight bold
-					tr
-						.table_head
-							color #040d2a
-							height 30px
-							background-color #2c9aef
-							line-height 30px
-							font-size 16px
-							font-weight bold
-						td, th
-							border 1px solid #0090d4
-							width 3.85vw
-							// min-width 46.2px
-							height 3.5vh
-				.o_total
-					background-color #eb6100
-				.left_sheep, .left_meet, .left_sn, .left_factory
-					font-size 12px
-					color #00c5dd
-				.left_sheep
-					position relative
-					top -135px
-					left -165px
-				.left_meet
-					position relative
-					top -110px
-					left -242px
-				.left_sn
-					position relative
-					top -80px
-					left -273px
-				.left_factory
-					position relative
-					top -50px
-					left -320px
-			.o_detail
-				float right
-				margin-top 20px
-				margin-right 20px
-				.el-menu
-					background-color #021e86
-					border-right 0px
-				.el-menu-item
-					color #00b8ee
-					height 30px
-					line-height 30px
-				.el-menu-item:hover
-					background-color #00b8ee
-				.el-menu-item.is-active
-					background-color #00b8ee
-					color #00459e
-			.o_border
-				float right
-				position relative
-				width 500px
-				top -235px
-				
-			// .o_detail
-			// 	float right
-			// 	width 450px
-			// 	height 200px
-			// 	margin-right 10px
-			// 	background-color white
-			// 	.o_aside
-			// 		float left
-			// 		width 200px
-			// 		height 200px
-			// 		background orange
-			// 	.containerHead
-			// 		float left
-			// 		width 250px
-			// 		height 50px
-			// 		background black
-			// 	.o_container
-			// 		float left
-			// 		width 250px
-			// 		height 150px
-			// 		background red
-					
-	.o_foot
-		height 40px
-		background rgba(0,0,0,0)
-		text-align center
-		width 100%
-		position absolute
-		bottom 10px
-		font-size 10px
-		border-top 1px #01ffff solid
-		color #028ca5
-		.foot_mess
-			margin 0
-		    line-height 15px
-		    text-align center
+@import './organic'
 </style>

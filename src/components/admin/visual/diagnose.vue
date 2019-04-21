@@ -118,7 +118,7 @@ export default {
         },
         submit () {
             if ( !this.beforeUpload ( this.models.file ) ) {
-                return false;
+                return false
             }
             let form = new FormData()
             form.append('userId', this.$route.params.id)
@@ -127,6 +127,7 @@ export default {
             form.append('sex', this.models.sex)
             form.append('expert', this.models.expert)
             form.append('file[]', this.models.file)
+            form.append('fileType', 0)
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
             window.fetch(baseUrl + '/uploadFile/productPic', {
@@ -140,17 +141,17 @@ export default {
                         let key = body.data.names[0]
                         let token = body.data.token
                         let putExtra = {
-                            fname: "",
+                                fname: "",
                                 params: {},
                                 mimeType: null
-                          }
-                          let config = {
-                            useCdnDomain: true,
+                            }
+                        let config = {
+                                useCdnDomain: true,
                                 disableStatisticsReport: false,
                                 retryCount: 6,
-                          }
-                          let self = this
-                          let observer = {
+                            }
+                        let self = this
+                        let observer = {
                             next(res){
                                 self.captures[0].per = parseInt(res.total.percent)
                             },
@@ -158,25 +159,25 @@ export default {
                                 self.$message.error()('上传失败')
                             },
                             complete(res){
-                                self.$message.success('上传成功')
-                                let obj = new FormData()
-                                obj.append('name' , key)
-                                let headers = {}
-                                headers[authStr] = window.localStorage.getItem(tokenStr)
-                                window.fetch(baseUrl + '/createThumb', {
-                                    method: 'POST',
-                                    headers,
-                                    body: obj
-                                }).then(async res => {
-                                    let body = await res.json()
-                                })
+                                    self.$message.success('上传成功')
+                                    let obj = new FormData()
+                                    obj.append('name' , key)
+                                    let headers = {}
+                                    headers[authStr] = window.localStorage.getItem(tokenStr)
+                                    window.fetch(baseUrl + '/createThumb', {
+                                        method: 'POST',
+                                        headers,
+                                        body: obj
+                                    }).then(async res => {
+                                        let body = await res.json()
+                                    })
+                                }
                             }
-                          }
                           let observable = qiniu.upload(file, key, token, putExtra, config)
                           observable.subscribe(observer)
                 }else{
-                        this.captures[0].per = 100
-                        this.$message.success('上传成功')
+                    this.captures[0].per = 100
+                    this.$message.success('上传成功')
                 }
             })
         },

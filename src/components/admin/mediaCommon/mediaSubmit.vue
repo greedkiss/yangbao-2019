@@ -9,39 +9,10 @@
                         size="small"
                         v-model="pictureStyle"
                         :fetch-suggestions="getPictureStyle"
-                        @select="selectStyle">
+                    >
                     </el-autocomplete>
                 </div>
                 <div style = "width: 500px"></div>
-                <div class="time el-input-group select" style="width: 250px; margin-right: 0px">
-                    <span class="time-span ellipse"  v-text="'栋号：'" style="width: 80px"></span><el-autocomplete
-                        :disabled="disableAll"
-                        size="small"
-                        v-model="model.building"
-                        :fetch-suggestions="produceBuilding"
-                        @select="selectBuilding">
-                    </el-autocomplete>
-                </div>
-
-                <div class="time el-input-group select" style="width: 200px ; margin-right: 0px">
-                    <span class="time-span ellipse"  v-text="'栏号：'" style="width: 80px"></span><el-autocomplete
-                        :disabled="disableAll"
-                        size="small"
-                        v-model="model.columnString"
-                        :fetch-suggestions="produceColumn"
-                        @select="selectColumn">
-                    </el-autocomplete>
-                </div>
-
-                <div class="time el-input-group select" style="width: 300px">
-                    <span class="time-span ellipse"  v-text="'耳牌号：'" style="width: 100px"></span><el-autocomplete
-                        :disabled="disableAll"
-                        size="small"
-                        v-model="model.earTag"
-                        :fetch-suggestions="produceEarTag"
-                        @select="selectEarTag">
-                    </el-autocomplete>
-                </div>
 
                 <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" disabled @click.native="$refs.erpai[i].click()" :value="item.model">
                     <template slot="prepend">上传生产可视截图:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
@@ -66,28 +37,16 @@
 </template>
 <script>
 const qiniu = require('qiniu-js')
-import { getUserById, getSheepBuilding, getSheepCol, getSheepEarTag} from '@/util/getdata'
+import { getUserById } from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 export default {
     data () {
         return {
-            model: {
-                building: '',
-                column: '',
-                earTag: '',
-                columnString: ''
-            },
             user: null,
-            disableAll: false,
             pictureStyle: '',
             erpai: '',
             captures: [{model: null , per : 0}],
             note: '',
-            factory: {
-                buildingList: [],
-                columnList: [],
-                earTagList: []
-            },
             deleteOne:false
         }
     },
@@ -96,82 +55,10 @@ export default {
        let id = this.$route.params.id
        getUserById(id).then(res => {
           this.user = res.data.model
-       }).then(this.fetchData)
+       })
     },
 
     methods: {
-        fetchData () {
-            getSheepBuilding(this.user.userFactory).then(res => {
-                this.factory.buildingList = res.data.data
-            })
-        },
-
-        produceBuilding (q, cb) {
-                let data = []
-                this.factory.buildingList.forEach((item) => {
-                    console.log(item)
-                    let obj = {value: item}
-                    data.push(obj)
-                })
-                cb(data)
-        },
-
-        selectBuilding (item) {
-            this.model.building = item.value
-        },
-
-        produceBuilding (q, cb) {
-                let data = []
-                this.factory.buildingList.forEach((item) => {
-                    let obj = {value: item}
-                    data.push(obj)
-                })
-                cb(data)
-        },
-
-        selectBuilding(item){
-            this.model.building = item.value
-            getSheepCol(this.user.userFactory , this.model.building).then(res => {
-                this.factory.columnList = res.data.data
-            })
-        },
-
-        produceColumn(q , cb){
-            let data = []
-            this.factory.columnList.forEach((item) => {
-                let obj = {value : item}
-                data.push(obj)
-            })
-            cb(data)
-        },
-
-        selectColumn(item){
-            this.model.columnString = item.value.toString()
-            this.model.column = item.value
-            let buildings = [{
-                building : this.model.building,
-                column : this.model.column
-            }]
-            let factory = this.user.userFactory
-            let data = {buildings, factory}
-            getSheepEarTag(data).then(res=>{
-                this.factory.earTagList = res.data.models
-            })
-        },
-
-        produceEarTag(q, cb){
-            let data = []
-            this.factory.earTagList.forEach((item) => {
-                let obj = {value : item}
-                data.push(obj)
-            })
-            cb(data)
-        },
-
-        selectEarTag(item){
-            this.model.earTag = item.value
-        },
-
         selectFile (item, idx) {
             let file = this.$refs.erpai[idx].files[0]
             item.model = file.name
@@ -187,18 +74,9 @@ export default {
         },
         submit () {
                 let form = new FormData()
-                let col
-                if(this.model.column == null){
-                    col = parseInt(this.model.columnString)
-                }else{
-                    col = this.model.column
-                }
                 form.append('userId', this.$route.params.id)
-                form.append('building', this.model.building)
-                form.append('col', col)
-                form.append('brand', this.model.earTag)
                 form.append('factoryId', this.user.userFactory)
-                form.append('filetype', 0)
+                form.append('filetype', 5)
                 this.captures.forEach((item, index) => {
                      form.append('file[]', this.$refs.erpai[index].files[0])
                 })
@@ -262,25 +140,12 @@ export default {
 
         getPictureStyle (q, cb) {
             let typeName = [
-                {value: '羊场生产图片', index: '0'},
-                {value: '羊场生产视频', index: '1'},
-                {value: '羊群生产图片', index: '2'},
-                {value: '羊群生产视频', index: '3'},
-                {value: '羊只生产图片', index: '4'},
-                {value: '羊只生产视频', index: '5'}
+                {value: '图片', index: '0'},
+                {value: '视频', index: '1'},
             ]
             cb(typeName)
-        },
+        }
 
-        selectStyle(item){
-            this.pictureStyle = item.value
-            if(item.index == 4 || item.index == 5) {
-                this.disableAll = false
-            }
-            else{
-                this.disableAll = true
-            }
-        },
     }
 }
 </script>

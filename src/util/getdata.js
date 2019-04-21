@@ -224,7 +224,7 @@ export const getNameByType = (type) =>fetch('/customer/getAllByType', type , "PO
  */
 export const postCategory = data => fetch('/var/add', data, 'POST')
 
-export const getCategorys = (id, data) => fetch('/var/getAll', data, 'POST')
+export const getCategorys = () => fetch('/var/getAll', 'GET')
 
 export const updateCategory = (id, data) => fetch(`/var/update/${id}`, data, 'POST')
 
@@ -321,12 +321,20 @@ export const getFactoryUsers = (facid, data) => fetch('/user/' + facid, data)
 
 export const updateUserRole = (uid, roleid) => fetch('/user/role/' + uid, {role: roleid}, 'PATCH')
 
+export const updateUserMessage = (uid, data) => fetch('/user/role/'+ uid, data, 'PATCH')
+
+export const getPermit = () => fetch('/permit/find', 'GET')
+
+export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + '/' + second, data, 'POST')
+
+export const getRoleName = () => fetch('/role/name/get', 'GET')
+
 /**
  * 短信平台
  */
-export const postMessage = data => fetch('/psend', data, 'GET')
+export const postMessage = data => fetch('/msg/send_group', data, 'POST')
 
-export const postWarningInfo = data => fetch('/gedit', data, 'GET')
+export const postWarningInfo = data => fetch('/msg/setconfig', data, 'POST')
 
 /**
  * 专家课堂视频发布
@@ -351,6 +359,8 @@ export const patchProDisinfect = (id, data) => fetch('/df/p/' + id, data, 'PATCH
 export const patchProImmune = (id, data) => fetch('/ip/p/' + id, data, 'PATCH')
 export const patchProAntiscolic = (id, data) => fetch('/rp/p/' + id, data, 'PATCH')
 export const patchProStage = (id, data) => fetch('/nutrition/p/' + id, data, 'PATCH')
+
+export const judgeSupervisor = ()=> fetch('/judge/supervisor', "GET")
 
 // 可视系统
 export const getImmuneEarTag = data =>fetch('/s/getImmuneEarTag', data, 'POST')
@@ -452,15 +462,42 @@ export const getFiveDetail = id => fetch('/nim/' + id + '/145' , 'GET')
 
 export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + stage + '/' + type, 'GET')
 
+//屠宰加工管理平台
+export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
+
+export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
+
+//寻找有机
+export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')
+
+export const getFactoryInformation = ( id ) => fetch('/factory/getFactoryFullInformation/' + id , 'GET')
+
+export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomerInformation/' + id , 'GET')
+
+export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
+
+export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
+
+export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
+
+export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
+
+//养殖客户管理
+export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
+
+export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
+
 //搜索平台查询羊信息
+
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
    
 //认证证书
-export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
+export const  getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 
-//屠宰加工管理平台
-export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
+export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST');
 
-export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
+export const  getSheepVideo= (type, tag) => fetch(`/sheepVideo/${type}/${tag}`)
+
+export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag}`)

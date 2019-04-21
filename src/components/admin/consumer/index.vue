@@ -13,6 +13,7 @@
             :get-data="getConsumerById"
             :update-data="updateConsumer"
             :update-unit="$route.query.edit > 0"
+            :isProduce= "false"
             >
             <!-- 
             :update-data="updateFarm" -->

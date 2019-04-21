@@ -150,14 +150,14 @@ export default{
     width 100%
     height 100%
     .head_title
-        padding-top 10%
+        padding-top 10vh
         text-align center
         img
             width 310px
             height 110px
     .outer-box
         margin auto auto
-        margin-top 40px
+        margin-top 8vh
         width 711px
         height 290px
         .left-box
