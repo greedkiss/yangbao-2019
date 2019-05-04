@@ -35,6 +35,8 @@ export const getGeneaRec = id => fetch(`/gf/find/${id}`)
 
 export const deleteGeneaRec = id => fetch('/gf/' + id, null, 'DELETE')
 
+export const getSheepStyle = () => fetch('/var/getAll')
+
 // 获取羊的种类
 export const getSheepTypes = id => fetch('/gf/types')
 
@@ -434,7 +436,9 @@ export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 
+export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
 
+export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 //卫生疫控
 
 

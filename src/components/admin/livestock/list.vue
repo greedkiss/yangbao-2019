@@ -19,7 +19,7 @@
 			<el-button type="primary" @click.native.prevent="saleSheep" style="margin-left: 20px">确定销售</el-button>
 			<el-button type="primary" @click.native.prevent="moveSheepOnly">部分移栏</el-button>
 			<el-button type="primary" @click.native.prevent="alrtmoveSheepAll">整栏移栏</el-button>
-			<el-button type="primary" @click.native.prevent="alrtmoveSheepAll">可出售</el-button>
+			<el-button type="primary" @click.native.prevent="saleable">可出售</el-button>
 			<el-input
 			    placeholder="请输入耳牌号查询"
 			    v-model="searchEartag"
@@ -29,7 +29,7 @@
 		</div>
 		<p style="margin-left: 46px">
 				(单击左侧的勾选框选择要出售羊只、移栏羊只、可出售羊只)
-			</p>
+		</p>
 		<el-table :data="tableData" :border="true" @selection-change="changeFun">
 			<el-table-column label="出售" type="selection" width="55" ></el-table-column>
 			<el-table-column
@@ -66,6 +66,12 @@
 				label="生产阶段"
 				width="120"
 				prop="Stage"
+			>
+			</el-table-column>
+			<el-table-column
+				label="是否可出售"
+				width="120"
+				prop="issale"
 			>
 			</el-table-column>
 			<el-table-column
@@ -311,7 +317,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe} from '@/util/getdata'
+import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
@@ -472,14 +478,18 @@ export default {
                		 this.total = Math.ceil(res.data.number/param.size)*10
                		 let data = res.data.all
                		 data.forEach((v) => {
-               		   	 let {building , col , immuneEarTag , trademarkEarTag ,id , type, stage} = v
+               		   	 let {building , col , immuneEarTag , trademarkEarTag ,id , type, stage, isSale} = v
                		   	 let d = building
                		   	 let l = col
                		   	 let tradeMarkEartag=trademarkEarTag
                		   	 let immuneEartag = immuneEarTag
                		   	 let style = type
                		   	 let Stage = this.propName.get(stage)
-               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage}
+               		   	 let issale = '否'
+               		   	 if(isSale){
+               		   	 	issale = '是'
+               		   	 }
+               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage, issale}
                		   	 this.tableData.push(obj)
                		 })
                 }
@@ -584,7 +594,6 @@ export default {
 				}
 			})
         },
-
         saleSheep(){
         	let array = this.multipleSelection
         	let {userFactory , factoryName } = this.user
@@ -603,7 +612,19 @@ export default {
 					this.fetchData()
 				}
 			})
-
+        },
+        saleable(){
+        	let array = this.multipleSelection
+        	let sheep = []
+        	for(let i = 0;i<array.length;i++){
+        		sheep.push(array[i].id)
+        	}
+        	let data = {sheep, value: 1}
+        	changeSaleable(data).then(res=>{
+        		if(isReqSuccessful(res)){
+        			this.fetchData()
+        		}
+        	})
         },
         querySearch(queryString, cb) {
 	        let restaurants = this.restaurants
@@ -640,7 +661,7 @@ export default {
 			let {userFactory} = this.user
 			getSheepCol(userFactory,item).then(res =>{
 			if (isReqSuccessful(res)) {
-               this.restaurants1 = res.data.data
+               		this.restaurants1 = res.data.data
             	}
 			})
 		},
@@ -782,7 +803,7 @@ export default {
 	          nowBuilding
 	        }
 	        moveSheepAll(param).then(res=>{
-	          this.fetchData()
+	          	this.fetchData()
 	        })
       	}
 	}

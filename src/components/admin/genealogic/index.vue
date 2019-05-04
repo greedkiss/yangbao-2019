@@ -16,7 +16,8 @@
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
 import { getTypeName } from '@/util/dataselect'
-import { getGeneaRec, postGeneaRec, updateGeneaRec } from '@/util/getdata'
+import { getGeneaRec, postGeneaRec, updateGeneaRec, getSheepStyle, getUserById} from '@/util/getdata'
+import { isReqSuccessful, addressToArray } from '@/util/jskit'
 
 export default {
     components: {
@@ -38,7 +39,23 @@ export default {
         this.models.eartagOfFathersFather = 'G';        
         this.models.eartagOfFathersMother = 'M';        
         this.models.eartagOfMothersFather = 'G';  
-        this.models.eartagOfMothersMother = 'M';                                                      
+        this.models.eartagOfMothersMother = 'M';
+        this.variety = []
+        let id = this.$route.params.id
+        getUserById(id).then(res => {
+            if (isReqSuccessful(res)) {
+                this.user = res.data.model
+                this.models.breedingSheepBase = this.user.factoryName
+                this.models.breedLocation = addressToArray(this.user.breedLocation)
+            }
+        })
+        getSheepStyle().then(res =>{
+            if(isReqSuccessful(res)){
+                res.data.List.forEach(item => {
+                    this.variety.push({value: item.origin})
+                })
+            }
+        })                                                   
     },
 
     data () {
@@ -57,10 +74,16 @@ export default {
             cb(types)
         }
 
+        let getVariety = (q, cb) => {
+            cb(this.variety)
+        }
+
         return {
             getGeneaRec,
             postGeneaRec,
             updateGeneaRec,
+            variety: [],
+            user: null,
             items: [
                 {label: '性别', model: 'sex', type: 'radio'},
                 {label: '商标耳牌', model: 'tradeMarkEartag', trade: true, block: 1},
@@ -69,7 +92,7 @@ export default {
                 {label: '出生时间', model: 'birthTime', type: 'time', mr: 1},
                 {label: '初生体重(kg)', model: 'birthWeight'},
                 {label: '颜色', model: 'color', type: 'select' ,fetchSuggestions: getType},
-                {label: '品种名', model: 'typeName', mr: 1},
+                {label: '品种名', model: 'typeName',type: 'select' ,fetchSuggestions: getVariety, mr: 1},
                 {label: '父号', model: 'eartagOfFather'},
                 {label: '父父号', model: 'eartagOfFathersFather'},
                 {label: '母父号', model: 'eartagOfMothersFather', mr: 1},
@@ -79,6 +102,7 @@ export default {
             ],
             // 用于检查字段值是否填写，所以均初始化为null
             models: {
+                breedLocation: null,
                 tradeMarkEartag: null,
                 breedingSheepBase: null,
                 birthTime: null,
