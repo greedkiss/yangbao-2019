@@ -234,12 +234,12 @@
 					</div>
 					<div style="background: #2c9aef">
 						<div style="width: 100%;float: left">
-						    <div class="choseStyleOne" @click="changeColor(0)" ref="one"><span>可销售</span></div>
-						    <div class="choseStyleTwo" @click="changeColor(1)" ref="two"><span>总存栏</span></div>
+						    <div class="choseStyleOne" @click="changeColor(0)" ref="one"><span>可销售({{saleAll}}只)</span></div>
+						    <div class="choseStyleTwo" @click="changeColor(1)" ref="two"><span>总存栏({{liveAll}}只)</span></div>
 						</div>
-						<div class= "total_num">
+						<!-- <div class= "total_num">
 							<span style="padding-left:13px">总数：{{countAll}}</span>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="o_container">
@@ -264,7 +264,7 @@
 import pcaa from 'area-data/pcaa'
 import OMap from './o_map'
 // import getPlace from './method.js'
-import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace, getAllSaleable, gelAllSheep, getSalableSheep} from '@/util/getdata'
+import { getCustomerByAddress, getFactoryInformation, getCustomerInformation, getPlace, getAllSaleable, gelAllSheep, getSalableSheep, countSheep} from '@/util/getdata'
 export default {
 	components: {
 		OMap,
@@ -280,7 +280,8 @@ export default {
 				cook: '',
 				process: ''
 			},
-			countAll: 0,
+			saleAll: 0,
+			liveAll: 0,
 			factoryId: -1,
 			factoryType: 1,
 			radio: '可销售',
@@ -366,6 +367,7 @@ export default {
 		})
 		this.search(1)
 		this.changeColor(0, 0)
+		this.getCount() //获取总羊只
 	},
 	methods: {
 		provinceChoose(item){
@@ -445,7 +447,6 @@ export default {
 						this.eartagList = res.data.sheep
 						this.corpation.chargeMan = ''
 						this.corpation.phone = ''
-						this.countAll= res.data.count
 					})
 				}else{
 					if(this.factoryType){
@@ -455,12 +456,12 @@ export default {
 									this.eartagList.push(item.trademarkEarTag)
 								}
 							})
-								this.countAll = res.data.count
-								if(res.data.factory !== null){
-									this.corpation.chargeMan = res.data.factory.responsiblePersonName
-									this.corpation.phone = res.data.factory.responsiblePersonPhone
-								}
-							})
+							this.getCount(this.factoryId)
+							if(res.data.factory !== null){
+								this.corpation.chargeMan = res.data.factory.responsiblePersonName
+								this.corpation.phone = res.data.factory.responsiblePersonPhone
+							}
+						})
 						}
 						else{
 							getCustomerInformation(this.factoryId).then(res => {
@@ -468,7 +469,7 @@ export default {
 									this.corpation.phone = res.data.responsiblePerson.chargePersonPhone
 									this.corpation.chargeMan = res.data.responsiblePerson.chargePerson
 								}
-								this.countAll = res.data.count
+								this.getCount(this.factoryId)
 						})
 					}
 				}
@@ -483,17 +484,23 @@ export default {
 						this.eartagList = res.data.sheep
 						this.corpation.chargeMan = ''
 						this.corpation.phone = ''
-						this.countAll= res.data.count
+						//this.countAll= res.data.count
 					})
 				}else{
 					getSalableSheep(this.factoryId).then( res=> {
 						this.eartagList = res.data.sheep
-						this.countAll = res.data.count
 						this.corpation.chargeMan = res.data.factory.responsiblePersonName
 						this.corpation.phone = res.data.factory.responsiblePersonPhone
 					})
+					this.getCount(this.factoryId)
 				}
 			}
+		},
+		getCount(id = ''){
+			countSheep(id).then(res=>{
+				this.liveAll = res.data.all
+				this.saleAll = res.data.saleable
+			})
 		},
 		search(start){
 			let message = {}

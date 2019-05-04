@@ -434,6 +434,7 @@ export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 
+
 //卫生疫控
 
 
@@ -481,6 +482,8 @@ export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
 export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
 
 export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
+
+export const countSheep = (id) => fetch('/factory/sheepCount?id=' + id)
 
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')

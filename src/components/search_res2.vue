@@ -1388,6 +1388,7 @@ export default {
     border none
   .el-collapse-item__content//规范展开样式
     padding 0 0 0 5px
+    color #b2aeae
   .organicEnvironment//规范详样式
     display flex
     .air,.water,.solid

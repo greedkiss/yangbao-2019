@@ -16,12 +16,19 @@
 				    <div class="name">{{ item.breedName }}</div>
 				  </template>
 				</el-autocomplete>
-			<el-button type="primary" @click.native.prevent="saleSheep">确定销售</el-button>
-			<el-button type="primary" @click.native.prevent="moveSheepOnly">部分羊只移栏</el-button>
+			<el-button type="primary" @click.native.prevent="saleSheep" style="margin-left: 20px">确定销售</el-button>
+			<el-button type="primary" @click.native.prevent="moveSheepOnly">部分移栏</el-button>
 			<el-button type="primary" @click.native.prevent="alrtmoveSheepAll">整栏移栏</el-button>
+			<el-button type="primary" @click.native.prevent="alrtmoveSheepAll">可出售</el-button>
+			<el-input
+			    placeholder="请输入耳牌号查询"
+			    v-model="searchEartag"
+			    style="width: 180px">
+			<i slot="suffix" class="el-input__icon el-icon-search"></i>
+			</el-input>
 		</div>
 		<p style="margin-left: 46px">
-				(单击左侧的勾选框选择要出售羊只或移栏羊只)
+				(单击左侧的勾选框选择要出售羊只、移栏羊只、可出售羊只)
 			</p>
 		<el-table :data="tableData" :border="true" @selection-change="changeFun">
 			<el-table-column label="出售" type="selection" width="55" ></el-table-column>
@@ -306,6 +313,11 @@
 import { isReqSuccessful } from '@/util/jskit'
 import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe} from '@/util/getdata'
 export default {
+	watch: {
+		searchEartag(n){
+			this.fetchData()
+		}
+	},
 	mounted(){
 		let id = this.$route.params.id
         getUserById(id).then(res => {
@@ -323,6 +335,7 @@ export default {
 
 	data() {
 		return {
+			searchEartag: '',//查询羊只
 			onlySheep:{
 				building:'',
 				col:'',
@@ -450,7 +463,8 @@ export default {
 			let {userFactory } = this.user
 			let param = {
                 			start: (this.page - 1)*10,
-               				size: 10
+               				size: 10,
+               				prefix: this.searchEartag
            				} 
            	this.tableData = []
 			getAllSheep(userFactory , param).then(res => {
@@ -555,11 +569,7 @@ export default {
 		current_change(currentPage){
             this.page=currentPage;
             let id = this.$route.params.id
-         	getUserById(id).then(res => {
-            if (isReqSuccessful(res)) {
-                this.user = res.data.model;
-            }
-         }).then(this.fetchData) 
+			this.fetchData()
         },
         submitSheep(){
         	this.dialogDeadVisible = false
@@ -612,7 +622,6 @@ export default {
       	},
      	createFilter1(queryString) {
 	        return (restaurant) => {
-
 	          return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
 	        }
 		},
@@ -659,9 +668,6 @@ export default {
             	}
 			})
 		},
-
-
-
 		submitUp(){
 			this.showMoveSheepOnly = false
 			let factory = this.user.userFactory
@@ -722,7 +728,7 @@ export default {
 		},
 
 
-		 alrtmoveSheepAll(){
+		alrtmoveSheepAll(){
         	this.showMoveSheepAll = true
         	getSheepBuilding(this.user.userFactory).then(res=>{
 	            this.builList = res.data.data
@@ -778,7 +784,7 @@ export default {
 	        moveSheepAll(param).then(res=>{
 	          this.fetchData()
 	        })
-      	},
+      	}
 	}
 }
 </script>
@@ -788,7 +794,7 @@ export default {
 	.header
 	    display flex
 		justify-content space-evenly
-		width 70%
+		width 100%
 		margin 10px 0px 30px 0px
 		.el-input
 			margin-left 50px
