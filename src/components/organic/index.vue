@@ -366,7 +366,7 @@ export default {
 			})
 		})
 		this.search(1)
-		this.changeColor(0, 0)
+		this.changeColor(1, 0)
 		this.getCount() //获取总羊只
 	},
 	methods: {
@@ -429,7 +429,7 @@ export default {
 		handleClick(id, type){
 			this.factoryId = id
 			this.factoryType = type
-			this.changeColor(0, type)
+			this.changeColor(1, type)
 		},
 		jump(item){
 			this.$router.push({path: '/search', query: {code: item}})

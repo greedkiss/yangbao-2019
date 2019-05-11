@@ -52,7 +52,7 @@ export default {
         getSheepStyle().then(res =>{
             if(isReqSuccessful(res)){
                 res.data.List.forEach(item => {
-                    this.variety.push({value: item.origin})
+                    this.variety.push({value: item.varietyName})
                 })
             }
         })                                                   
