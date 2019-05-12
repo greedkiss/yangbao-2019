@@ -2,7 +2,7 @@
     <div class="breed_sele">
         <data-cur
             title="育种选育实施档案"
-            modpath="nutrition/breed"
+            modpath="nutrition/sele"
             @update:models="v => models = v"
             :models.sync="models"
             :items="items"

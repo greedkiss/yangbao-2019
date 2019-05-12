@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { getBreeding, findNutrition, getUserById } from '@/util/getdata'
+import { getSele, findNutrition, getUserById } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import Bus from '@/components/bus.js'
 

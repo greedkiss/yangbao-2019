@@ -476,7 +476,7 @@ export default {
 .app-main
     div.el-input-group__prepend
         box-sizing border-box
-        width 140px
+        width 34%
         color #fff
         background-color color-main
     .el-input

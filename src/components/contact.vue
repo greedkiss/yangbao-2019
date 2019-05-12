@@ -39,7 +39,7 @@ export default {
     .headindex
         height 15%
     .contactbody
-        height 20%
+        height 59%
     .footindex
         height 10%
 

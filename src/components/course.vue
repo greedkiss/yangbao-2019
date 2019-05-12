@@ -19,17 +19,42 @@
                         </el-table-column>
 
                         <el-table-column
+                        prop="tag"
+                        label="标签"
+                        width="100"
+                        :filters="[{ text: '平台理念与目标', value: '平台理念与目标' }, { text: '平台功能与使用', value: '平台功能与使用' },
+                        {text:'生产物质与使用',value:'生产物质与使用'},{text:'生产管理方案',value:'生产管理方案'},
+                        {text:'操作技能',value:'操作技能'},{text:'案例解析',value:'案例分析'}]"
+                        :filter-method="filterTag"
+                        filter-placement="bottom-end">
+                        <template slot-scope="scope">
+                            <el-tag
+                            :type="scope.row.tag === 'success'"
+                            disable-transitions>{{scope.row.tag}}</el-tag>
+                        </template>
+                        </el-table-column>
+                        
+                        <el-table-column
                         prop="time"
                         label="上传时间"
                         width="180">
                         </el-table-column>
 
+                        
+                    
                         <el-table-column
-                        fixed="right"
                         label="操作"
-                        width="100">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small">点击播放</el-button>
-                        </el-table-column>
+                        align='center'
+                        width="160">
+                        <template slot-scope="scope">
+                            <el-button
+                            @click.native.prevent="videoClick(scope.row, scope.column)"
+                            type="text"
+                            size="small">
+                            点击播放
+                            </el-button>
+                        </template>
+                    </el-table-column>
 
                     </el-table>                   
                     <!-- <div class="video-list">
@@ -50,8 +75,6 @@
                         </el-pagination>
                     </div>  -->
                 </div>
-                
-                <button class="button3">查看更多</button>
             </div>
          </div>
     <div class="app-video">
@@ -65,7 +88,7 @@
 </template>
 
 <script>
-import { baseUrl, vedioUrl } from '@/util/fetch.js';
+import { baseUrl, vedioUrl} from '@/util/fetch.js'; 
 import { getChannelList, getVideoUrl, getVideo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import '@/assets/TcPlayer-2.2.1.js'
@@ -82,8 +105,8 @@ export default {
     },
 
     mounted () {
+        
         this.getVideoList()
-
         getChannelList().then(res => {
             if (isReqSuccessful(res)) {
                 if(res.data.liveChannelResp.data.output[0].all_count) {
@@ -110,13 +133,14 @@ export default {
         }, _ => {
             this.$message.error('获取直播信息失败')
         })
+        
     },
 
     methods: {
-        handleClick(row){
-            let path = link
+       videoClick (row){
+            let path =item.link
             this.$router.push(path)
-        },
+            },
         getVideoList () {
             getVideo({
                 page: this.page - 1
@@ -140,12 +164,12 @@ export default {
 </script>
 <style>
 #ext4{
-        width: 79%;
-        height: 430px;
+        width: 90%;
+        height: 95%;
         border-width: 7px;
         border-color: rgb(97, 153, 240);
         border-style: solid;
-        margin: 5% auto;
+        margin: 0 auto;
         display: block;
         background: rgb(255, 255, 255);
     }
@@ -169,7 +193,7 @@ export default {
         margin-left: 3px;
         }
     .box_my3{
-        width: 850px;
+        width:650px;
         height: 330px;
         float: right;
     } 
@@ -179,8 +203,6 @@ export default {
     }
     .row_cont3{
         width:80%;
-        position: relative;
-        left: 220px;
         text-align: 15px;
         line-height: 20px;
         }

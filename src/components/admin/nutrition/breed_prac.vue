@@ -38,7 +38,7 @@ export default {
                 {label: '平均日期', model: 'averageTime', type: 'time_2'},
                 {label: '配种批次', model: 'manageFlag', type: 'number_2'},
                 {label: '配种时间', model: 'breedingTime', type: 'time_2'},
-                {label: '配种后移至栏/栋', model: 'buildingAfterBreeding', type: 'selectOneCrowd'},
+                {label: '配种后移至栏/栋', model: 'buildingAfterBreeding', type: 'selectOneCrowd'},  
                 {label: '母羊商标耳牌', model: 'ramSheepTrademark'},
                 {label: '公羊商标耳牌', model: 'eweSheepTrademark'},
                 // {label: '管理批次(前后五天内配种，分批次管理)', model: 'manageFlag'},

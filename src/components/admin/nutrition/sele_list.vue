@@ -12,7 +12,7 @@
 
 <script>
 import AdminTable from '@/components/admin/breed_table'
-import { getSele, deleteSele, getAllSele } from '@/util/getdata'
+import {deleteSele, getAllSele } from '@/util/getdata'
 
 export default {
     components: {

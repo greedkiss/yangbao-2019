@@ -109,13 +109,13 @@ export const deleteBreeding = id => fetch(`/breeding/${id}`, null, 'DELETE')
 /**
  * 育种选育
  */
-export const postSele = data => fetch('/selection', data, 'POST')
+export const postSele = data => fetch('/selection', data, 'POST')  
 
 export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'PATCH')
 
-export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
-
 export const getSele= (id, data) => fetch(`/selection/find/${id}`, data)
+
+export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
 
 export const deleteSele = id => fetch(`/selection/${id}`, null, 'DELETE')
 
