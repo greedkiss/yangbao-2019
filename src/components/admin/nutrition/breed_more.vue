@@ -28,7 +28,7 @@
 import { getBreeding, findNutrition, getUserById } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import Bus from '@/components/bus.js'
-
+ 
 export default {
 
     data () {

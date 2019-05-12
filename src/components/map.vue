@@ -50,7 +50,7 @@ export default {
 		},
 		repaint() {
 			var map = new window.BMap.Map(this.$refs.bmap) // 创建Map实例
-			map.centerAndZoom(new BMap.Point(this.longitude, this.latitude), 11) // 用城市名设置地图中心点
+			map.centerAndZoom(new BMap.Point(this.longitude, this.latitude), 14) // 用城市名设置地图中心点
 			map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 		}
 	}

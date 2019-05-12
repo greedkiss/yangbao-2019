@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="admin-list-pass" v-if="!hideFilter && !releaseType ">
-            <el-select @change="fetchData()" width="120" v-if="!hidePass" size="small" v-model="isPass" placeholder="所有数据">
+            <el-select @change="fetchData()" width="120" v-if="!hidePass&&!isSeleList" size="mini" v-model="isPass" placeholder="所有数据">
                 <el-option
                     v-for="(val, key) in options"
                     :key="val"
@@ -9,12 +9,27 @@
                     :value="val">
                 </el-option>
             </el-select>
-            <el-input class="pick-erpai" size="small" v-model="factoryName">
+            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="mini" v-model="factoryName">
                 <template slot="prepend">单位名:</template>
             </el-input>
-            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="small" v-model="eartag">
+            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="mini" v-model="eartag">
                 <template slot="prepend">耳牌号:</template>
             </el-input>
+
+            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="fatherEartag">
+                <template slot="prepend">公耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="motherEartag">
+                <template slot="prepend">母耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="kindEartag">
+                <template slot="prepend">子耳牌号:</template>
+            </el-input>
+
+            <el-input v-if="!hideEartagFilter"  class="pick-erpai" size="mini" v-model="checkFlag">
+                <template slot="prepend">批次:</template>
+            </el-input>
+
             <el-date-picker
                 size="small"
                 v-model="gmtCreate"
@@ -26,8 +41,9 @@
                 value-format="yyyy-MM-dd"
                 align="right">
             </el-date-picker>
-            <el-button @click="fetchData()" size="small" type="primary">查询</el-button>
-            <el-button @click="export2xls()" size="small" type="primary" icon="el-icon-download">导出表格</el-button>
+
+            <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
+            <el-button @click="export2xls()" size="mini" type="primary" icon="el-icon-download"></el-button>
         </div>
 
         <el-table v-if="isSeleList"
@@ -340,7 +356,12 @@ export default {
             },
 
             eartag: null,
-            gmtCreate: null
+            gmtCreate: null,
+            motherEartag: null,
+            fatherEartag: null,
+            kindEartag: null,
+            checkFlag: null
+
         }
     },
 
@@ -484,7 +505,7 @@ export default {
         async fetchData () {
             let param = {
                 page: this.page - 1,
-                size: 10
+                size: 10,
             }
             if (this.isPass !== null) {
                 param.ispassCheck = this.isPass
@@ -497,6 +518,23 @@ export default {
                 param.startTime = this.gmtCreate[0]
                 param.endTime = this.gmtCreate[1]
             }
+            if (this.eartag !== null) {
+                param.eartag = this.eartag
+            }
+            if (this.motherEartag !== null) {
+                param.motherEartag = this.motherEartag
+            }
+            if (this.fatherEartag !== null) {
+                param.fatherEartag = this.fatherEartag
+            }
+            if (this.kindEartag !== null) {
+                param.kindEartag = this.kindEartag
+            }
+            if (this.checkFlag !== null) {
+                param.checkFlag = this.checkFlag
+            }
+
+
 
             let pathid
             let { userFactory, userRealname, id, factoryName } = this.user

@@ -119,6 +119,8 @@ export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
 
 export const deleteSele = id => fetch(`/selection/${id}`, null, 'DELETE')
 
+
+
 /**
  * 消毒RD
  */

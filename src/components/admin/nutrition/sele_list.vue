@@ -5,7 +5,9 @@
             :getData="getAllSele"
             :deleteData="deleteSele"
             :headers="headers"
-            :isSeleList="true">            
+            :isSeleList="true"
+            :hideEartagFilter="true"
+            >            
         </admin-table>
     </div>
 </template>

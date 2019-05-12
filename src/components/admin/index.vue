@@ -78,18 +78,8 @@ export default {
                     {label: '在线咨询', to: 'chat'}
                 ]}    
             ],
-            professorTree: {
-                label: '专家工作平台',
-                children: [
-                    {label: '客户评价', to: 'comment'},
-                    {label: '专家在线课堂', to: 'courseintro'},
-                    {label: '生产档案审核', to: 'review'},
-                    {label: '在线诊断', to: 'prochat'},
-                    {label: '发布系统', to: 'release'},
-                ]
-            },
             adminTree: {
-                label: '系统管理平台',
+                label: '客户管理中心',
                 children:[
                     {label: '系统管理员区', to: 'agentone' ,
                         children:[
@@ -100,10 +90,12 @@ export default {
                             {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
-                            {label: '专家课堂视频发布', to: 'professorCourseVideo'},
-                            {label: '短信平台', to: 'message'},
+                            {label: '短信服务平台', to: 'message'},
                             {label: '留言统计', to: 'commentsum'},
-                            {label: '专家客户评价结果', to: 'commentres'},
+                            {label: '专家客户监管', to: 'commentres'},
+                            {label: '发布系统', to: 'release'},
+                            {label: '供需调配', to: 'release'},
+
                         ]
                     },
                     {label: '代理管理员区', to: 'agenttwo' ,
@@ -125,8 +117,23 @@ export default {
                     },
                 ]
             },
+            professorTree: {
+                label: '专家工作中心',
+                children: [
+                    {label: '客户评价', to: 'comment'},
+                    {label: '在线直播', to: 'courseintro'},
+                    {label: '生产档案审核', to: 'review'},
+                    {label: '在线诊断', to: 'prochat'},
+                    {label: '发布系统', to: 'release'},
+                    {label: '专家课堂视频发布', to: 'professorCourseVideo'},
+                    {label: '物资管理', to: 'professorCourseVideo'},
+                    {label: '物质推荐', to: 'professorCourseVideo'},
+                    {label: '疫情监控', to: 'professorCourseVideo'},
+                    {label: '可视监控', to: 'professorCourseVideo'}
+                ]
+            },
             productionTree: {
-                label: '养殖生产管理平台',
+                label: '养殖生产管理中心',
                 children: [
                 {label: '单位基本信息管理', to: 'farmUnit'},
                 {label: '生产节点智能统计管理', to: 'intelManage', children: [
@@ -209,7 +216,7 @@ export default {
                 ]
             },
             slaughterTree: {
-                label: '屠宰加工管理平台',
+                label: '屠宰加工管理中心',
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
@@ -228,7 +235,7 @@ export default {
                 ]
             },
             consumptionTree: {
-                label: '消费实体管理平台',
+                label: '消费实体管理中心',
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
@@ -297,7 +304,7 @@ export default {
                 })
             }
         })
-        this.treedata.push(this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     },
 
     mounted () {
@@ -399,7 +406,7 @@ export default {
 
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
-                    window.open('http://mall.yunyangbao.cn/index2')
+                    window.open('http://mall.yunyangbao.cn/')
                     return
                 }
                 // if chat open another page

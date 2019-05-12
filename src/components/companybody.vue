@@ -51,7 +51,7 @@
     <el-tab-pane label="企业介绍" name="second" >
         <div class="box_my_company">
                 <div class="row_allcont">
-                    <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 平台介绍</p>
+                    <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 企业介绍</p>
                     <hr align="center" width="108%" class="hr2_bule"></hr>
                     <div class="row_cont2">
                         <h2 class="h2_first">什么是“云·羊宝” ?</h2>
@@ -91,7 +91,7 @@
         <div class="box_my_company" >
             
                 <div class="row_allcont">
-                <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 平台介绍</p>
+                <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 领导致词</p>
                 <hr align="center" width="108%" class="hr2_bule"></hr>
                 <div class="row_cont2">
                <h2 class="h2_first">什么是“云·羊宝” ?</h2>
@@ -131,7 +131,7 @@
     <el-tab-pane label="组织架构" name="fourth" >
         <div class="box_my_company">
                 <div class="row_allcont">
-                <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 平台介绍</p>
+                <p class="yourloa"><span >您所在得位置：</span>集团介绍 > 组织框架</p>
                 <hr align="center" width="108%" class="hr2_bule"></hr>
                 <div class="row_cont2">
                <h2 class="h2_first">什么是“云·羊宝” ?</h2>

@@ -90,6 +90,7 @@ export default {
                 trademarkEarTay: null,
                 building: null,
                 sex:null,
+                newbornWeight:null,
                 ablactationWeight:null,
                 ablactationHeight:null,
                 ablactationLength:null,
