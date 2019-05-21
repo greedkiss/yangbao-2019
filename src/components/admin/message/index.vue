@@ -46,7 +46,7 @@ export default {
       message: '',
       pressureTips: 1,
       expireTime: 1,
-      template: ''
+      template: '1'
     }
   },
   methods: {
@@ -80,8 +80,8 @@ export default {
     // 提交信息
     postWarningInfo () {
       postWarningInfo({
-        messageLimit: this.expireTime,
-        dayLimit: this.pressureTips,
+        dayLimit: this.expireTime,
+        messageLimit: this.pressureTips,
         msgTemplate: this.template
       }).then(res => {
         if (isReqSuccessful(res)) {

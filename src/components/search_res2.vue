@@ -217,7 +217,7 @@
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
-            <span class="cer-description">放疫合格证</span>
+            <span class="cer-description">防疫合格证</span>
           </div>
           <div class='certificate'>
             <div class="cer-picture">
