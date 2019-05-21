@@ -35,6 +35,8 @@ export const getGeneaRec = id => fetch(`/gf/find/${id}`)
 
 export const deleteGeneaRec = id => fetch('/gf/' + id, null, 'DELETE')
 
+export const getSheepStyle = () => fetch('/var/getAll')
+
 // 获取羊的种类
 export const getSheepTypes = id => fetch('/gf/types')
 
@@ -109,17 +111,15 @@ export const deleteBreeding = id => fetch(`/breeding/${id}`, null, 'DELETE')
 /**
  * 育种选育
  */
-export const postSele = data => fetch('/selection', data, 'POST')  
+export const postSele = data => fetch('/selection', data, 'POST')
 
 export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'PATCH')
 
-export const getSele= (id, data) => fetch(`/selection/find/${id}`, data)
-
 export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
 
+export const getSele= (id, data) => fetch(`/selection/find/${id}`, data)
+
 export const deleteSele = id => fetch(`/selection/${id}`, null, 'DELETE')
-
-
 
 /**
  * 消毒RD
@@ -436,6 +436,9 @@ export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 
+export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
+
+export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 //卫生疫控
 
 
@@ -483,6 +486,8 @@ export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
 export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
 
 export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
+
+export const countSheep = (id) => fetch('/factory/sheepCount?id=' + id)
 
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
