@@ -995,7 +995,7 @@ import RecordTable from './table'
 import QRCode from 'qrcodejs2'
 import { getSheepInfo } from '@/util/getdata'
 import {getTraceInfo} from '@/util/getdata'
-import {getRating} from '@/util/getdata'
+//import {getRating} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
@@ -1388,6 +1388,7 @@ export default {
     border none
   .el-collapse-item__content//规范展开样式
     padding 0 0 0 5px
+    color #b2aeae
   .organicEnvironment//规范详样式
     display flex
     .air,.water,.solid

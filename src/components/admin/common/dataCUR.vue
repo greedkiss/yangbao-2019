@@ -38,12 +38,14 @@
             <p class="card-title" style="text-align: center; padding-left: 0px">360天</p>
             <basic-info ref="info" :radio-index="radioIndex" :items="itemsOne" :models.sync="modelsOne"></basic-info>
         </div> -->
+        
         <div class="admin-send" v-if="isPrac">
             <template v-if="!check && !view">
                 <el-button  type="warning" @click="changeActive2" style="position: relative; top:45px; left:200px;" :disabled="false">点击进入育种选育实施档案</el-button>
             </template>
         </div>
 
+   
         <div class="admin-send" v-if="canModify">
             <template v-if="!check && !view">
                 <el-button type="primary" :disabled="disableBtn" @click="submit(checkFull)">提交/更新</el-button>
@@ -149,7 +151,10 @@ export default {
         updateData: {
             type: Function
         },
-
+        isPrac:{
+            type:Boolean,
+            default:false
+        },
         radioIndex: {
             type: Number,
             default: 0

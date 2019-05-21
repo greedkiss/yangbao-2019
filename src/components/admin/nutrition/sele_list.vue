@@ -5,14 +5,16 @@
             :getData="getAllSele"
             :deleteData="deleteSele"
             :headers="headers"
-            :isSeleList="true">            
+            :isSeleList="true"
+            :hideEartagFilter="true"
+            >            
         </admin-table>
     </div>
 </template>
 
 <script>
 import AdminTable from '@/components/admin/breed_table'
-import { getSele, deleteSele, getAllSele } from '@/util/getdata'
+import {deleteSele, getAllSele } from '@/util/getdata'
 
 export default {
     components: {

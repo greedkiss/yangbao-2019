@@ -1,8 +1,5 @@
 <template>
         <div class="index-home" v-cloak>
-            <div class="headindex">
-                <app-head></app-head>
-            </div>
             <div class="course">
             <Course></Course>
             </div>
@@ -18,11 +15,9 @@
 <script>
 // import Search from '@/components/search'
 import Course from '@/components/course'
-import AppHead from '@/components/common/head'
 import AppFoot from '@/components/common/foot'
 export default {
     components: {
-        AppHead,
         AppFoot,
         Course
     },
@@ -36,10 +31,8 @@ export default {
     height 100%
     background url(http://qiniu.yunyangbao.cn/homepage.png) no-repeat center
     background-size cover
-    .headindex
-        height 15%
     .course
-        height 20%
+        height 90%
     .footindex
         height 10%
 

@@ -306,7 +306,7 @@ export default {
               this.$router.push(path)
             }
             if(column.label=="育种选育(点击进入)"){           
-              let path = `/admin/${pathid}/health/antiscolic/prac`
+              let path = `/admin/${pathid}/nutrition/sele/prac`
               this.$router.push(path)
             }
             if(column.label=="疾病档案(点击进入)"){           
@@ -322,7 +322,7 @@ export default {
               this.$router.push(path)
             }
             if(column.label=="新增管理(点击进入)"){           
-              let path = `/admin/${pathid}/health/livestock/add`
+              let path = `/admin/${pathid}/livestock/add`
               this.$router.push(path)
             }
             if(column.label=="羊只管理(点击进入)"){           

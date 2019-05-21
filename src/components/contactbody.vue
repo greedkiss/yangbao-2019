@@ -32,14 +32,15 @@
 
 <style>
     #ext3{
-         width: 79%;
-        height: 430px;
+        width: 79%;
+        height: 100%;
         border-width: 7px;
         border-color: rgb(97, 153, 240);
         border-style: solid;
-        margin: 5% auto;
+        margin: 3% auto;
         display: block;
         background: rgb(255, 255, 255);
+        overflow-x:hidden
     }
      .title_head_3{
         color: rgb(16, 82, 205);
@@ -74,7 +75,7 @@
         margin-top:25px;
     }
     #message{
-        width: 600px;
+        width: 50%;
         height: 300px;
         float:right;
         margin-right: 25px;

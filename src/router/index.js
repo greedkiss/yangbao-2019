@@ -260,7 +260,7 @@ export default new Router({
             {path: 'nutrition/sele/prac', name: 'seleprac', component: SelePrac},
             {path: 'nutrition/breed/list', name: 'breedlist', component: BreedList},
             {path: 'nutrition/sele/list', name: 'selelist', component: SeleList},
-            {path: 'nutrition/sele/more', name: 'selelist', component: SeleMore},
+            {path: 'nutrition/sele/more', name: 'selemore', component: SeleMore},
             {path: 'nutrition/breed/more', name: 'breedmore', component: BreedMore},
             {path: 'nutrition/stage/plan', name: 'stageplan', component: StagePlan},
             {path: 'nutrition/stage/prac', name: 'stageprac', component: StagePrac},
