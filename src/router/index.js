@@ -51,6 +51,7 @@ const ImmuneList = () => import('@/components/admin/health/immune_list')
 const AntiscolicPlan = () => import('@/components/admin/health/antiscolic_plan')
 const AntiscolicPrac = () => import('@/components/admin/health/antiscolic_prac')
 const AntiscolicList = () => import('@/components/admin/health/antiscolic_list')
+const WarnList = () => import('@/components/admin/health/warn_list')
 
 // 存栏档案
 const LivestockPrac = () => import('@/components/admin/livestock/index')
@@ -122,6 +123,8 @@ const FarmList = () => import('@/components/admin/farm/list')
 //屠宰加工管理
 const Slaughter = () => import('@/components/admin/slaughter/index')
 const SlaughterList = () => import('@/components/admin/slaughter/list')
+const Correlation = () => import('@/components/admin/subscribe/correlation')
+const Subscribe = () => import('@/components/admin/subscribe/list')
 //消费实体管理
 const Consumer = () => import('@/components/admin/consumer/index')
 const ConsumerList = () => import('@/components/admin/consumer/list')
@@ -254,6 +257,7 @@ export default new Router({
             {path: 'health/antiscolic/plan', name: 'antiscolicplan', component: AntiscolicPlan},
             {path: 'health/antiscolic/prac', name: 'antiscolicprac', component: AntiscolicPrac},
             {path: 'health/antiscolic/list', name: 'antiscoliclist', component: AntiscolicList},
+            {path: 'health/warn/list', name: 'warnlist', component: WarnList},
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},
@@ -310,7 +314,8 @@ export default new Router({
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
             {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
             {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
-            
+            {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
+            {path: 'subscribe/list', name: 'subscribe', component: Subscribe},
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},

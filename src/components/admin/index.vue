@@ -128,7 +128,7 @@ export default {
                     {label: '专家课堂视频发布', to: 'professorCourseVideo'},
                     {label: '物资管理', to: 'professorCourseVideo'},
                     {label: '物质推荐', to: 'professorCourseVideo'},
-                    {label: '疫情监控', to: 'professorCourseVideo'},
+                    {label: '疫病预警防预', to: 'warnlist'},
                     {label: '可视监控', to: 'professorCourseVideo'}
                 ]
             },
@@ -231,8 +231,11 @@ export default {
                             {label: '购进管理', to: 'livestockBuy'},
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
-                    }
-                ]
+                    },
+                    {label: '认购管理', to: 'subscribe',children:[
+                            {label: '关联检疫证', to: 'correlation'},
+                            {label: '认购列表', to: 'subscribe'}
+                ]}
             },
             consumptionTree: {
                 label: '消费实体管理中心',
