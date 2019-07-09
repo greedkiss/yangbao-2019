@@ -1,5 +1,8 @@
 <template>
 <div>
+<!-- CONFLICT -->
+    <el-form :inline="true" :model="form" class="demo-form-inline">
+
     <el-form-item label="检疫合格证号码">
         <el-input v-model="jianyi" placeholder=""></el-input>
     </el-form-item>
@@ -22,12 +25,17 @@
         <el-button type="primary" @click="onSubmit">查询</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
+
+    </el-form>
+
     <div>
         <el-table 
         :data="tableData"
         style="width: 100%">
             <el-table-column
+
 				label="检疫合格证号码"
+
 				width="120"
 				prop="certificationNum">
 			</el-table-column>
@@ -116,8 +124,10 @@
         value1: '',
         value2: '',
         form: {
+
         jianyi: '',
         erpai: '',
+
           
         }
         
