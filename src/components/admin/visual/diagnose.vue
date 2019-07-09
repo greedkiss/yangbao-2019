@@ -41,7 +41,7 @@ export default {
         getUserById(id).then(res => {
             if(isReqSuccessful(res)) {
                 this.user = res.data.model
-                this.models.expert = this.user.userRealname;
+                this.models.expert = this.user.userRealname;      
                 this.models.uploader = this.user.pkUserid
             }
         })

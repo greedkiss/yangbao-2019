@@ -196,6 +196,11 @@ export const getPrevention = id => fetch('/diagnosis/find/' + id)
 
 export const deletePrevention = id => fetch(`/diagnosis/${id}`, null, 'DELETE')
 
+export const getIllness= data => fetch(`/disease/prediction`, data)
+
+export const geteveryDay= (id, data) => fetch(`/disease/getDailyStatistics/${id}`, data)
+
+
 /**
  * 用户管理
  */
@@ -331,6 +336,9 @@ export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + 
 
 export const getRoleName = () => fetch('/role/name/get', 'GET')
 
+//疾病预警
+export const getDanger= (id, data) => fetch(`/disease/getDangerDiseases/${id}`, data)
+
 /**
  * 短信平台
  */
@@ -439,6 +447,10 @@ export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
 
 export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
+
+//商品羊销售管理
+export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
+export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
 //卫生疫控
 
 

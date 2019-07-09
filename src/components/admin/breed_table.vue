@@ -1,7 +1,38 @@
 <template>
     <div>
         <div class="admin-list-pass" v-if="!hideFilter && !releaseType ">
-            <el-select @change="fetchData()" width="120" v-if="!hidePass&&!isSeleList" size="mini" v-model="isPass" placeholder="所有数据">
+            <div class="area_management" v-if="isWarn">
+				<span class="area_name">省</span>
+				<el-select v-model="value.province" placeholder="省" @change="provinceChoose" v->
+			    <el-option
+			      v-for="item in area.province" 
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item"
+			      >
+			    </el-option>
+				</el-select>
+					<span class="area_name">市</span>				
+				<el-select v-model="value.city" placeholder="市" @change="cityChoose">
+			    <el-option
+			      v-for="item in area.city"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+				</el-select>
+				<span class="area_name">县</span>		
+				<el-select v-model="value.country" placeholder="县">
+			    <el-option
+			      v-for="item in area.country"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+			  </el-select>
+			</div>
+            
+            <el-select @change="fetchData()" width="120" v-if="!hidePass&&!isSeleList&&!isWarn" size="mini" v-model="isPass" placeholder="所有数据">
                 <el-option
                     v-for="(val, key) in options"
                     :key="val"
@@ -9,24 +40,26 @@
                     :value="val">
                 </el-option>
             </el-select>
-            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="mini" v-model="factoryName">
+
+
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="factoryName">
                 <template slot="prepend">单位名:</template>
             </el-input>
-            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="mini" v-model="eartag">
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="eartag">
                 <template slot="prepend">耳牌号:</template>
             </el-input>
 
-            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="fatherEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="fatherEartag">
                 <template slot="prepend">公耳牌号:</template>
             </el-input>
-            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="motherEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="motherEartag">
                 <template slot="prepend">母耳牌号:</template>
             </el-input>
-            <el-input v-if="hideEartagFilter" class="pick-erpai" size="mini" v-model="kindEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="kindEartag">
                 <template slot="prepend">子耳牌号:</template>
             </el-input>
 
-            <el-input v-if="!hideEartagFilter"  class="pick-erpai" size="mini" v-model="checkFlag">
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis"  class="pick-erpai" size="mini" v-model="checkFlag">
                 <template slot="prepend">批次:</template>
             </el-input>
 
@@ -164,11 +197,56 @@
             </el-table-column>
         </el-table>
 
+        <el-table v-if="isListSale"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr" v-if="!releaseType && !isCheck">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                        <template>
+                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                            <span @click="deleteItem(scope.$index)">删除</span>
+                        </template>
+                    </div>
+                    <div class="opr" v-else-if="releaseType">
+                        <span  @click="viewPlan(scope.$index)">查看</span>
+                    </div>
+                    <div class="opr" v-else>
+                        <span @click="Spv(1, scope.$index)">通过</span>
+                        <span @click="Spv(0, scope.$index)">拒绝</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
 
         
         <el-table v-if="isBreedList"
             v-loading="load"
-            ref="table"
+ v            ref="table"
             tooltip-effect="dark"
             class="admin-table"
             :data="tableData"
@@ -190,7 +268,8 @@
                 fixed="right"
                 label="操作"
                 align='center'
-                width="160">
+                width="160"
+                v-if="!isWarn&&!isStatis">
                 <template slot-scope="scope">
                     <div class="opr" v-if="!releaseType && !isCheck">
                         <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
@@ -221,7 +300,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById, getReleaseByName } from '@/util/getdata'
+import { getUserById, getReleaseByName ,getPlace} from '@/util/getdata'
 import XLSX from 'xlsx'
 import {
 // 监督执行
@@ -313,6 +392,18 @@ export default {
             type: Boolean,
             default: false
         },
+        isListSale:{
+            type: Boolean,
+            default: false
+        },
+        isWarn:{
+            type:Boolean,
+            default: false
+        },
+        isStatis:{
+            type:Boolean,
+            default: false
+        },
         checkModule: {
             type: String
         }
@@ -331,10 +422,34 @@ export default {
                 this.user = res.data.model
             }
         }).then(this.fetchData)
+        let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+		let obj = {url}
+				 getPlace(obj).then(res => {
+			res.result.forEach((item) =>{
+				item.forEach((ipv)=>{
+					this.area.province.push({
+						label: ipv.fullname,
+						value: ipv.id
+					})
+				})
+			})
+		})
     },
 
     data () {
         return {
+            area: {
+				province: [],
+				city: [],
+				country: [],
+				town: []
+			},
+			value: {
+				province: '',
+				city: '',
+				country: '',
+				town: ''
+			},
             load: true, // 是否显示loading动画
             page: 1, // 当前页码
             total: 10, // 总共数据条数
@@ -366,6 +481,58 @@ export default {
     },
 
     methods: {
+
+        provinceChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			console.log(url)
+			this.value.city = ''
+			this.value.country = ''
+			this.value.town = ''
+			if(item.label.indexOf('市') == -1){
+				getPlace(obj).then(res => {
+					this.area.city = []
+					res.result.forEach((item) =>{
+						item.forEach((ipv)=>{
+							this.area.city.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}else{
+					this.value.city = '市辖区'
+					getPlace(obj).then(res => {
+					this.area.country = []
+					res.result.forEach((item) => {
+						item.forEach((ipv)=>{
+							this.area.country.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}
+		},
+		cityChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			this.value.country = ''
+			this.value.town = ''
+			getPlace(obj).then(res => {
+				this.area.country = []
+				res.result.forEach((item) =>{
+					item.forEach((ipv)=>{
+						this.area.country.push({
+							label: ipv.fullname,
+							value: ipv.id
+						})
+					})
+				})
+			})
+		},
         export2xls () {
             if (!this.tableData.length) {
                 this.$message.warning('表格数据为空')
@@ -505,7 +672,7 @@ export default {
         async fetchData () {
             let param = {
                 page: this.page - 1,
-                size: 10,
+                size: 15,
             }
             if (this.isPass !== null) {
                 param.ispassCheck = this.isPass
@@ -533,8 +700,16 @@ export default {
             if (this.checkFlag !== null) {
                 param.checkFlag = this.checkFlag
             }
-
-
+            if (this.value.province !== null) {
+                param.province = this.value.province
+            }
+            if (this.value.city !== null) {
+                param.city = this.value.city
+            }
+            if (this.value.country!== null) {
+                param.country = this.value.country
+            }
+            
 
             let pathid
             let { userFactory, userRealname, id, factoryName } = this.user
@@ -614,7 +789,7 @@ export default {
                 this.load = false
             }
         },
-
+   
         edit(index, isView) {
             let id = this.tableData[index].id
             let path

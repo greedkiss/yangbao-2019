@@ -35,6 +35,7 @@
                             <router-view :user="user" :check-mod="checkMod"></router-view>
                         </div>
                     </div>
+
                 </el-main>
             </el-container>
         </el-container>
@@ -128,7 +129,7 @@ export default {
                     {label: '专家课堂视频发布', to: 'professorCourseVideo'},
                     {label: '物资管理', to: 'professorCourseVideo'},
                     {label: '物质推荐', to: 'professorCourseVideo'},
-                    {label: '疫情监控', to: 'professorCourseVideo'},
+                    {label: '疫病预警防预', to: 'warn'},
                     {label: '可视监控', to: 'professorCourseVideo'}
                 ]
             },
@@ -174,6 +175,11 @@ export default {
                         {label: '购进管理', to: 'livestockBuy'},
                         {label: '死亡管理', to: 'livestockDead'},
                     ]},
+                    {label: '商品羊销售管理', to: 'sheepSaleManage', children: [
+                        {label: '商品羊销售', to: 'sheepSale'},
+                        {label: '订单管理', to: 'sheepSaleOrder'},
+                        {label: '已售羊只视频', to: 'sheepSaleVideo'},
+                    ]},
                     {label: '卫生·疫控', to: 'health', children: [
                         {label: '专家咨询', to: 'chat'},
                         {label: '卫生与动物福利管理方案', to: 'welfareplan'},
@@ -195,7 +201,8 @@ export default {
                     {label: '疾病防治', to: 'prevention', children: [
                         {label: '专家咨询', to: 'chat'},
                         {label: '疾病防治方案', to: 'preventionplan'},
-                        {label: '疾病防治实施档案', to: 'preventionprac'}
+                        {label: '疾病防治实施档案', to: 'preventionprac'},
+                        {label: '每日统计', to: 'everydaystatis'}
                     ]},
                     {label: '生产物资平台', to: 'app-delivery'},
                     {label: '可视系统', to: 'visual', children: [
@@ -231,7 +238,11 @@ export default {
                             {label: '购进管理', to: 'livestockBuy'},
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
-                    }
+                    },
+                    {label: '认购管理', to: 'subscribe',children:[
+                            {label: '关联检疫证', to: 'correlation'},
+                            {label: '认购列表', to: 'subscribe'},
+                    ]}
                 ]
             },
             consumptionTree: {
@@ -368,6 +379,9 @@ export default {
         },
 
         isProdModule () {
+            // if(this.$route.name=='livestockList'||this.$route.name=='livestocklistSale'){
+            //     return true
+            // }            
             let name = this.$route.name
             return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
@@ -377,6 +391,10 @@ export default {
                 // itemprac -> itemlist
                 let idx = item.to.indexOf('prac')
                 if (idx === -1) {
+                    // if(item.to=='livestockList'){
+                    //     let pathid = this.$route.params.id
+                    //     let path = `/admin/${pathid}/livestock/list_sale`
+                    //     this.$router.push(path)}
                     this.$router.push({name: item.to + 'list'})
                 } else {
                     this.$router.push({name: item.to.substr(0, item.to.indexOf('prac')) + 'list'})

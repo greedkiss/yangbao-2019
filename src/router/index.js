@@ -20,7 +20,7 @@ const Admin = () => import('@/components/admin/index')
 const Chat = () => import('@/components/admin/user/chat')
 const ProChat = () => import('@/components/admin/user/prochat')
 // 发布
-const ReleaseIndex = () => import('@/components/release')
+const ReleaseIndex = () => import('@/components/release') 
 const News = () => import('@/components/news')
 const Company= () => import('@/components/company')
 const Contact= () => import('@/components/contact')
@@ -51,7 +51,7 @@ const ImmuneList = () => import('@/components/admin/health/immune_list')
 const AntiscolicPlan = () => import('@/components/admin/health/antiscolic_plan')
 const AntiscolicPrac = () => import('@/components/admin/health/antiscolic_prac')
 const AntiscolicList = () => import('@/components/admin/health/antiscolic_list')
-
+const Warn = () => import('@/components/admin/health/warn')
 // 存栏档案
 const LivestockPrac = () => import('@/components/admin/livestock/index')
 const LivestockList = () => import('@/components/admin/livestock/list')
@@ -59,6 +59,11 @@ const LivestockSale = () => import('@/components/admin/livestock/sale')
 const LivestockDead = () => import('@/components/admin/livestock/dead')
 const LivestockAdd = () => import('@/components/admin/livestock/add')
 const LivestockBuy = () => import('@/components/admin/livestock/buy')
+//商品羊销售管理
+const SheepSale = () => import('@/components/admin/sheepSaleManage/sheepSale')
+const SheepSaleOrder = () => import('@/components/admin/sheepSaleManage/sheepSaleOrder')
+const SheepSaleVideo = () => import('@/components/admin/sheepSaleManage/sheepSaleVideo')
+
 //养殖客户基本信息管理
 const FarmUnit = () => import('@/components/admin/farmUnit/index')
 
@@ -99,6 +104,7 @@ const SelePrac = () => import('@/components/admin/nutrition/sele_prac')
 const PreventionPlan = () => import('@/components/admin/prevention/prevention_plan')
 const PreventionPrac = () => import('@/components/admin/prevention/prevention_prac')
 const PreventionList = () => import('@/components/admin/prevention/prevention_list')
+const EverydayStatis = () => import('@/components/admin/prevention/everydaystatis')
 // 可视系统
 const Diagnose = () => import('@/components/admin/visual/diagnose')
 const DiagnoseList = () => import('@/components/admin/visual/diagnose_list')
@@ -149,6 +155,8 @@ const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
 const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
 const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
 const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
+const Correlation = () => import('@/components/admin/subscribe/correlation')
+const Subscribe = () => import('@/components/admin/subscribe/list')
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
@@ -223,6 +231,11 @@ export default new Router({
             {path: 'livestock/dead', name: 'livestockDead', component: LivestockDead},
             {path: 'livestock/add', name: 'livestockAdd', component: LivestockAdd},
             {path: 'livestock/buy', name: 'livestockBuy', component: LivestockBuy},
+            {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
+            //商品羊销售管理
+            {path: 'sheepSaleManage/sheepSale', name: 'sheepSale', component: SheepSale},
+            {path: 'sheepSaleManage/sheepSaleOrder', name: 'sheepSaleOrder', component: SheepSaleOrder},
+            {path: 'sheepSaleManage/sheepSaleVideo', name: 'sheepSaleVideo', component: SheepSaleVideo},
             //养殖客户信息管理
             {path: 'farmunit', name: 'farmUnit', component: FarmUnit},
             // 智能管理
@@ -244,7 +257,7 @@ export default new Router({
             {path: 'intelManage/bStageTwo', name: 'breedStageTwo', component: breedStageTwo},
             {path: 'intelManage/unfatStage', name: 'unfatStage', component: unfatStage},
             {path: 'intelManage/gfStage', name: 'growfatStage', component: growfatStage},
-
+            {path: 'health/warn', name: 'warn', component: Warn},
             // 卫生疫控
             {path: 'health/disinfect/prac', name: 'disinfectprac', component: DisinfectPrac},
             {path: 'health/disinfect/list', name: 'disinfectlist', component: DisinfectList},
@@ -271,6 +284,7 @@ export default new Router({
             {path: 'prevention/plan', name: 'preventionplan', component: PreventionPlan},
             {path: 'prevention/prac', name: 'preventionprac', component: PreventionPrac},
             {path: 'prevention/list', name: 'preventionlist', component: PreventionList},
+            {path: 'prevention/everystatis', name: 'everydaystatis', component: EverydayStatis},
             // 可视系统
             {path: 'visual/diagnose', name: 'diagnose', component: Diagnose},
             {path: 'visual/diagnose/list', name: 'diagnose_list', component: DiagnoseList},
@@ -308,8 +322,10 @@ export default new Router({
             //屠宰加工管理平台
             {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
-            {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
+            {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
             {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
+            {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
+            {path: 'subscribe/list', name: 'subscribe', component: Subscribe},
             
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},

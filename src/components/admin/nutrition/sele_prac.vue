@@ -37,7 +37,7 @@ export default {
          str2=''
      }
      else{
-         str2=this.$route.query.eweSheepTrademark.substr(1)
+         str2=this.$route.query.eweSheepTrademark.substr(1)  
      }
         let types = [
             {value: '白'},

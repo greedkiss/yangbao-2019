@@ -72,10 +72,10 @@ export default {
     data () {
         return {
             model: {
-                building: '',
+                building:String(this.$route.query.dong)==null?'':this.$route.query.dong,
                 column: '',
-                earTag: '',
-                columnString: ''
+                earTag: this.$route.query.ramSheepTrademark==null?'':this.$route.query.ramSheepTrademark,
+                columnString:String(this.$route.query.lan)==null?'':this.$route.query.lan,
             },
             user: null,
             disableAll: false,

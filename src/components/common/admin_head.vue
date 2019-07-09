@@ -2,7 +2,7 @@
     <div class="admin-head">
         <div class="logo">
             <router-link to="/"><img src="../../assets/imgs/newlogo.png"></router-link>
-        </div>
+        </div>  
 
         <div class="con">
             <div class="header">

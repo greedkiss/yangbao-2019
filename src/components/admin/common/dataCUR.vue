@@ -18,9 +18,10 @@
             <p class="card-title">单位介绍:</p>
             <el-input type="textarea" v-model="models.introduction"></el-input>
         </div>
+
         <div class="card" v-if="hasSuNe">
             <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
-            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN"></basic-info>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN" :Function1 ="SearchResult"></basic-info>
         </div>
 
 
@@ -141,9 +142,11 @@ export default {
             type: Boolean,
             default: true
         },
-
+        SearchResult:{
+        type: Function
+        },
         postData: {
-            type: Function
+           type: Function 
         },
         getData: {
             type: Function
@@ -525,7 +528,7 @@ export default {
                     this.disableBtn = false
                 }, _ => {
                     this.$message.error('录入失败')
-                    this.disableBtn = false
+                    this.disableBtn = true
                 })
             }
         }

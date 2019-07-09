@@ -21,7 +21,7 @@
 			    <el-option
 			      v-for="item in area.province"
 			      :key="item.value"
-			      :label="item.label"
+			      :label="item.label" 
 			      :value="item"
 			      >
 			    </el-option>

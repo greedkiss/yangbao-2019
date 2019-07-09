@@ -104,7 +104,7 @@ export default {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model;
             }
-         }).then(this.fetchData)   
+         }).then(this.fetchData)     
 	},
 
 	

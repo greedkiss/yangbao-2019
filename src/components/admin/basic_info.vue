@@ -97,6 +97,24 @@
                 </div>
 
 
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'illnessSearch'" class="time el-input-group select">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
+                        <el-checkbox-group v-model="illlist">
+                        <el-checkbox v-for="city in illness" :label="city" :key="city" @change="checkill(item.model)">{{city}}</el-checkbox>
+                        </el-checkbox-group>
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择分析所得诊断结果" @focus="getIll()"   style="width: calc(100% - 140px)">{{illness}}</el-input>
+
+                    </el-popover>
+                </div>
+                
+
+                <!-- <div >
+                   <el-button  style="margin-left:20px; height:32px;" type="primary" icon="el-icon-search" @click="Function1">{{item.label}}</el-button> 
+                </div> -->
+
+                
+
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
@@ -146,6 +164,10 @@
                         <el-input slot="reference" style="width: 66%" v-model="models[item.model]" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
+
+                
+
+
 
 
 
@@ -220,8 +242,8 @@
 </template>
 <script>
 import pcaa from 'area-data/pcaa'
-import { getAgents, getUserById, getSheepBuilding, getSheepCol ,getSheepimmTag,getSheepEarTag } from '@/util/getdata'
-import { isReqSuccessful } from '@/util/jskit'
+import { getAgents, getUserById, getSheepBuilding, getSheepCol ,getSheepimmTag,getSheepEarTag ,getIllness} from '@/util/getdata'
+import { isReqSuccessful} from '@/util/jskit'
 
 export default {
     props: {
@@ -252,7 +274,14 @@ export default {
         updateUnit: {
             type: Boolean,
             default: false
+        },
+        getData: {
+            type: Function
+        },
+        Function1:{
+            type: Function
         }
+
     },
 
     data () {
@@ -281,12 +310,15 @@ export default {
             eartagList: [],
             eartag: [],
             immtag: [],
+            illness:[],
             earlist:"",
             elist:[],
             ilist:[],
+            illlist:[],
             immlist:"",
             tradeEarTag:false,
-            tradeDListThree:false
+            tradeDListThree:false,
+            result:null
         }
     },
 
@@ -294,6 +326,17 @@ export default {
         // crowdD() {
         //     return this.crowd.map( ele => ele.ds )
         // }
+    },
+    watch: {
+        '$route' (newV, oldV) {
+            // from edit to post
+            if (oldV.query.edit && !newV.query.edit) {
+                this.edit = false
+            }
+            this.check = newV.query.check
+            this.supervise = newV.query.supervise
+            this.view = newV.query.view
+        }
     },
 
     mounted () {
@@ -330,6 +373,96 @@ export default {
     },
 
     methods:{
+
+    //  searchill() {
+    //         // let param = {
+    //         //     page: this.page - 1,
+    //         //     size: 1,
+    //         // }
+    //         // if (this.models.symptom !== null) {
+    //         //     param.symptom = this.models.symptom
+    //         // }
+    //         // let pathid=1;
+    //         //     this.getData(pathid, param).then(res => {
+    //         //         if (isReqSuccessful(res)) {
+    //         //             let data = res.data;
+
+    //         //             let item = data.List[0]
+    //         //             this.tableData = data.List
+    //         //             this.total = data.size
+    //         //         }
+    //         //         this.load = false
+    //         //     }, _ => {
+    //         //         this.load = false
+    //         //         this.$message.error('获取数据失败')
+    //         //     })
+
+
+
+    //         //let requestObj= new XMLHttpRequest();
+    //         // if (window.XMLHttpRequest) {
+    //         //     requestObj = new XMLHttpRequest();
+    //         // } else {
+    //         //     requestObj = new ActiveXObject;
+    //         // }
+
+    //         // let sendData = '';
+    //         // sendData = JSON.stringify(this.models.symptom);
+            
+
+    //         // requestObj.open('post',"127.0.0.1:7777");
+    //         // requestObj.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    //         // requestObj.send(sendData);
+
+    //         // requestObj.onreadystatechange = () => {
+    //         //     if (requestObj.readyState == 4) {
+    //         //         if (requestObj.status == 200) {
+    //         //             let obj = requestObj.response
+    //         //             if (typeof obj !== 'object') {
+    //         //                 obj = JSON.parse(obj);
+    //         //             }
+    //         //             resolve(obj)
+    //         //         } else {
+    //         //             reject(requestObj)
+    //         //         }
+    //         //     }
+    //         // }
+            
+        
+    //         //创建xhr
+    //         console.log(this.result);
+    //         var xhr=new XMLHttpRequest();
+    //         //设置请求行
+    //         var url='http://192.168.1.103:9020/disease/prediction'+'?'+'symptom='+this.models.symptom
+    //         xhr.open('get',url);         
+    //         //设置请求头
+    //         xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    //         //注册回调函数
+    //         xhr.onload=function(){
+    //             //回调
+    //           this.result = xhr.responseText
+               
+    //             // console.log(typeof xhr.responseText);
+                
+    //          console.log(xhr.responseText);
+    //          console.log(this.result);
+    //         }  
+    //         //请求主体发送，GET为空，post的数据写在这里  key1=value&key2=value2
+    //         xhr.send();
+            
+    //         function changeUrl(result){
+    //         console.log(result);
+    //         }
+    //         setTimeout(changeUrl(this.result),10000)
+    //         var pathid = this.$route.params.id
+    //         var path=`/admin/${pathid}/prevention/prac`+'?'+'diagnosisResult='+this.result
+    //         this.$router.push(path)
+            
+    //         },
+            
+
+            
+
         getEarTag(){
             this.buildings = []
             let factory = this.user.userFactory
@@ -349,6 +482,35 @@ export default {
                 this.eartag = res.data.models 
             })
         },
+        getIll(){
+            let symptom=this.models.symptom
+            let len
+            this.illness=this.illness.splice(0,this.illness.length)
+            this.models.diagnosisResult=""
+            let data=null
+                
+            if(this.models.symptom==null){
+                len=0
+            }else{
+                len=this.models.symptom.length
+            }
+            if(typeof this.models.symptom=='string'&&len!=0)
+            {
+                data={symptom}
+                getIllness(data).then(res =>{
+                this.illness = res.data.List
+            })
+            }else{
+                this.illness=['布病',
+                             '小反刍',
+                             '口蹄疫',
+                             '三联四防',
+                             '传胸',
+                             '山羊痘',
+                                ]
+            }   
+            
+              },
         getimmTag(){
             this.buildings=[]
             let factory = this.user.userFactory
@@ -379,6 +541,9 @@ export default {
             this.crowdOneL = null
             this.checktag = null
             this.crowdtag = null
+        },
+        checkill(d){
+           this.models[d] = this.illlist.join(";") 
         },
         checkeartag(d){
             this.models[d] = this.elist.join(";")

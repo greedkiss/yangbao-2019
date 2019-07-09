@@ -162,7 +162,7 @@ export default {
             model:{
                 building: '',
                 colnum: '',
-                earTag: '',
+                earTag: this.$route.query.ramSheepTrademark==undefined?'':this.$route.query.ramSheepTrademark,
                 colnumString: ''
             },
             user: null,
@@ -171,8 +171,6 @@ export default {
                 colnumList: [],
                 earTagList: []
             },
-            disableAll: false,
-            isImg: 2
         }
     },
 
@@ -239,7 +237,7 @@ export default {
         },
 
         selectEarTag(item){
-            this.model.earTag = item.value
+            this.model.earTag=item.value
         },
 
 
