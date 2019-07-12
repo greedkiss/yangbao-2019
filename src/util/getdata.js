@@ -442,7 +442,7 @@ export const moveSheepPart = data => fetch('/bc/changeBC/ids', data , 'POST')
 
 export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
-export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
+
 
 export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
 
@@ -451,6 +451,13 @@ export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 //商品羊销售管理
 export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
 export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
+export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
+
+export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
+
+export const getAllOrder= (id, data) => fetch('/saleOrder/factoryOrder/' + id, data,'GET')
+export const sureSaleOrder= (id, data) => fetch('/saleOrder/confirmedOrder/' + id, data,'GET')
+export const deleteOrder = (id) => fetch('/saleOrder/deleteOrder/' + id , null , 'DELETE')
 //卫生疫控
 
 

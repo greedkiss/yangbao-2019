@@ -15,7 +15,7 @@
 import AdminTable from '@/components/admin/breed_table'
 import { getDanger } from '@/util/getdata'
 
-export default {
+export default { 
     components: {
         AdminTable
     },

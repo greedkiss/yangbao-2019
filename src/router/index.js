@@ -275,7 +275,10 @@ export default new Router({
             {path: 'health/antiscolic/plan', name: 'antiscolicplan', component: AntiscolicPlan},
             {path: 'health/antiscolic/prac', name: 'antiscolicprac', component: AntiscolicPrac},
             {path: 'health/antiscolic/list', name: 'antiscoliclist', component: AntiscolicList},
+<<<<<<< HEAD
             //{path: 'health/warn/list', name: 'warnlist', component: WarnList},
+=======
+>>>>>>> d74cbc9eba148fbc7b182a210f6fc30f27d20d42
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},

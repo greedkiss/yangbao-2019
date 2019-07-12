@@ -203,6 +203,7 @@
             tooltip-effect="dark"
             class="admin-table"
             :data="tableData"
+            @cell-click="saleListCell"
             >
 
             <el-table-column
@@ -224,23 +225,93 @@
                 align='center'
                 width="160">
                 <template slot-scope="scope">
-                    <div class="opr" v-if="!releaseType && !isCheck">
-                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+
+                    <div class="opr" v-if="isSaleOrder">
+                        <span v-if="!hideView" @click="dialogFormVisible = true">查看</span>
+                        
                         <template>
-                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
-                            <span @click="deleteItem(scope.$index)">删除</span>
+                            <span @click="deleteItem(scope.$index)">取消订单</span>
                         </template>
-                    </div>
-                    <div class="opr" v-else-if="releaseType">
-                        <span  @click="viewPlan(scope.$index)">查看</span>
-                    </div>
-                    <div class="opr" v-else>
-                        <span @click="Spv(1, scope.$index)">通过</span>
-                        <span @click="Spv(0, scope.$index)">拒绝</span>
                     </div>
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-dialog title="订单详情" 
+					:visible.sync="dialogFormVisible" 
+					width="800px"
+					@open="saleOrderLook(scope.row, scope.column)">
+
+					<el-form :model="orderform" label-position="right">
+
+						<el-col :span='12'>
+						<el-form-item label="重量" :label-width="formLabelWidth" >
+							<el-input v-model="orderform.sumweight" ></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="总金额" :label-width="formLabelWidth">
+							<el-input v-model="orderform.allprice"></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-alert
+    					title="其他信息"
+    					type="info"
+							:closable="false"
+							center
+							style="height:25px">
+ 						</el-alert>
+
+						 <el-col :span='12'>
+						<el-form-item label="订单ID" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.saleID"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="养殖场" style="padding-top:30px" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.farm" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="客户单位" :label-width="formLabelWidth">				
+						<el-input v-model="orderform.factory" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="数量" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.sums" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="销售时间" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.saleTime" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="负责人" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.manger"  	:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+                        <el-col :span='12'>
+						<el-form-item label="联系方式" :label-width="formLabelWidth">		
+						<el-input v-model="orderform.tele"  	:disabled="true"></el-input>
+						</el-form-item>
+                        </el-col>
+
+						</el-form>
+
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="sureSale()">确认销售</el-button>
+					</div>
+				</el-dialog>
 
 
         
@@ -278,6 +349,7 @@
                             <span @click="deleteItem(scope.$index)">删除</span>
                         </template>
                     </div>
+
                     <div class="opr" v-else-if="releaseType">
                         <span  @click="viewPlan(scope.$index)">查看</span>
                     </div>
@@ -300,7 +372,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById, getReleaseByName ,getPlace} from '@/util/getdata'
+import { getUserById, getReleaseByName ,getPlace,sureSaleOrder} from '@/util/getdata'
 import XLSX from 'xlsx'
 import {
 // 监督执行
@@ -329,6 +401,11 @@ export default {
             type: Boolean,
             default: false
         },
+        //在商品羊管理界面使用新的查看功能
+        isSaleOrder: {
+            type:Boolean,
+            default:false
+        },
         isBreedList: {
             type: Boolean,
             default: false
@@ -355,6 +432,7 @@ export default {
                 return () => {}
             }
         },
+        //确认订单
         // 审核接口
         isCheck: {
             type: Boolean,
@@ -475,8 +553,23 @@ export default {
             motherEartag: null,
             fatherEartag: null,
             kindEartag: null,
-            checkFlag: null
+            checkFlag: null,
+			dialogFormVisible: false,
+            formLabelWidth: '70px',	
+            orderform:{
+				farmId:null,
+				factoryId:null,
 
+				sumweight:0,
+				allprice:0,
+				// saleID:null,
+				farm:null,
+				factory:"请选择客户单位",
+				sums:0,
+				saleTime:null,
+				manger:null,
+				tele:null
+				},
         }
     },
 
@@ -610,6 +703,51 @@ export default {
             let path = `/admin/${pathid}/${this.modpath}/more?more=${id}`
             this.$router.push(path)
         },
+
+  
+      //点击任意一行，即将此行数据放到orderform中去
+            saleListCell(row,column,event,cell){
+            console.log(row)
+            this.orderform.sumweight=row.totalWeight
+            this.orderform.allprice=row.price
+            this.orderform.saleID=row.id
+            this.orderform.farm=this.user.factoryName
+            this.orderform.factory=row.destinationFactoryName
+            this.orderform.sums=row.count
+            this.orderform.saleTime=row.saleTime
+            this.orderform.manger=row.responsiblePerson
+            this.orderform.tele=row.responsiblePersonPhone
+        },
+     //订单查看按钮 
+        saleOrderLook(row,column){ },
+        //确认销售
+        sureSale(){
+            let id= this.user.userFactory;
+            let saleID=this.orderform.saleID;
+			let param = {		
+						saleID
+           				} 
+            sureSaleOrder(id,param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('交易成功')
+                        this.dialogFormVisible=false;
+                        this.fetchData()   
+                    }
+				});
+						
+					             
+        },
+
+        // this.updateData(this.edit, data).then(res => {
+        //             if (isReqSuccessful(res)) {
+        //                 patchJump(this.modpath)
+        //             }
+        //             this.disableBtn = false
+        //         }, _ => {
+        //             this.$message.error('修改失败')
+        //             this.disableBtn = false
+        //         })
+        //     }
         Spv (isPass, idx) {
             let {id, ispassCheck} = this.tableData[idx]
             if (ispassCheck !== '未审核') {

@@ -138,7 +138,7 @@ export default {
         },
 
         produceColumn(q , cb){
-            let data = []
+            let data = []  
             this.factory.columnList.forEach((item) => {
                 let obj = {value : item}
                 data.push(obj)

@@ -224,7 +224,7 @@
 					<span
 						size="small"
 						style="cursor:pointer"
-						@click="addPicture(scope.row)">添加图片
+						@click="addPicture(scope.row)">添加视频
 					</span>
 					<span
 						style="cursor:pointer"
@@ -290,6 +290,7 @@
 				<span>处理方法：</span>
 				<el-input v-model="form.method" size="small"></el-input>
 			</el-form>
+
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogDeadVisible  = false" size="small">取 消</el-button>
 				<el-button type="primary" @click="submitSheep" size="small">确 定</el-button>
@@ -308,6 +309,7 @@
 				<span>免疫耳牌号:</span>
 				<el-input v-model="upda.immuTag" size="small"></el-input>
 				<span>羊&nbsp只&nbsp品&nbsp类&nbsp:</span>
+
 				<el-autocomplete
 				  popper-class="my-autocomplete"
 				  v-model="upda.style"
@@ -318,10 +320,12 @@
 				    <div class="name">{{ item }}</div>
 				  </template>
 				</el-autocomplete><br/>
+
 				<span>生&nbsp产&nbsp阶&nbsp段&nbsp:</span>
+
 				<el-autocomplete
 				  popper-class="my-autocomplete"
-				  v-model="upda.stage"
+				  v-model="this.upda.stage"
 				  :fetch-suggestions="querySearchStage"
 				  @select="handleSelectStage">
 				  <i class="el-icon-edit el-input__icon" slot="suffix"></i>
@@ -329,15 +333,18 @@
 				    <div class="name">{{ item }}</div>
 				  </template>
 				</el-autocomplete>
+
 				<span>羊&nbsp只&nbsp体&nbsp重&nbsp:</span>
-				<el-input v-model="upda.weight" size="small"></el-input><br/>
+				<el-input placeholder="请输入数字" v-model="upda.weight" size="small"></el-input><br/>
 				<span>羊&nbsp只&nbsp年&nbsp龄&nbsp:</span>
-				<el-input v-model="upda.year" size="small"></el-input><br/>
+				<el-input placeholder="请输入数字" v-model="upda.year" size="small"></el-input><br/>
+
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogUpdateVisible  = false" size="small">取 消</el-button>
 				<el-button type="primary" @click="updateSheep" size="small">确 定</el-button>
 			</div>
+
 		</el-dialog>
 		<!-- 部分移动 -->
 		<el-dialog :visible.sync="showMoveSheepOnly" class="dead">
@@ -358,6 +365,7 @@
 				</el-autocomplete>
 				<br/>
 				<span>栏&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：</span>
+
 				 <el-autocomplete
 				  popper-class="my-autocomplete"
 				  v-model="onlySheep.col"
@@ -368,6 +376,7 @@
 				    <div class="name">{{ item }}</div>
 				  </template>
 				</el-autocomplete>
+
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="showMoveSheepOnly  = false" size="small">取 消</el-button>
@@ -447,7 +456,7 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById , getAllSaleSheep ,findAllSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace} from '@/util/getdata'
+import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
@@ -591,7 +600,8 @@ export default {
 				immu:null,
 				earTag:null,
 				style:null,
-				period:null
+				weight:null,
+				age:null,
 			},
 			showMoveSheepOnly:false,
 			showMoveSheepAll:false,
@@ -652,67 +662,44 @@ export default {
 			this.dialogFormVisible = false;
 			
 		},
-		// getSaleData(){
-		// 			console.log(this.multipleSelection)
-		// 			if(this.multipleSelection.length == 0){
-		// 		this.$alert('请选择要交易的养只', '警告', {
-		//           confirmButtonText: '确定',
-		//         })
-		// 	}else{
-		// 		this.orderform.sums=this.multipleSelection.length
-		// 		console.log(this.multipleSelection.sheep_weight)	
-		// 			var myDate=new Date();
-		// 			var myMonth=myDate.getMonth()+1;
-		// 		  this.orderform.saleTime=myDate.getFullYear()+"-"+myMonth+"-"+myDate.getDate()+"-"+myDate.getHours()+"-"+myDate.getMinutes();
-		// 			this.orderform.sumweight=0;
-		// 			this.multipleSelection.forEach((item) => {
-		// 			this.orderform.sumweight+=item.sheep_weight;
-		// 			this.orderform.farm=this.user.factoryName;
-		// 			this.orderform.factory=this.state1;
-		// 			this.orderform.tele=this.user.userTelephone;
-		// 			this.orderform.manger=this.user.userRealname;
-		// 			})
-		// 	}
-		// 		},
 		//保存按钮
     goSave(){
 			let theSaleSheep=[];
+			let saleRecordModels=this.multipleSelection;
 		  let	userFactory = this.user.userFactory;
 			this.multipleSelection.forEach((item)=>{
 				theSaleSheep.push(item.tradeMarkEartag)
 			});
 			let saleTime = Date.parse(new Date())
 			let param = {		
-											 saleSheep:theSaleSheep,
+										   saleRecordModels:saleRecordModels,
                 			 totalWeight: this.orderform.sumweight,
 											 price: this.orderform.allprice,
 											 sourceFactoryId:this.orderform.farmId,
 											 destinationFactoryId:this.orderform.factoryId,
 											 count:this.orderform.sums,
 											 saleTime:saleTime,
-											 manger:this.orderform.manger,
-											 tele:this.orderform.tele
+											 responsiblePerson:this.orderform.manger,
+											 responsiblePersonPhone:this.orderform.tele
            				} 
 			
 			if (param.destinationFactoryId==0||param.allWeight==0||param.price==null||param.coun==0) {
 								this.$message.warning('请完善订单信息！')
 								return
 					}else{
-						// updateData(userFactory, param).then(res => {
-            //         if (isReqSuccessful(res)) {
-						// 					this.dialogFormVisible = false;
-						// 					this.$message.success('保存成功')
-						// 					let pathid = this.$route.params.id
-     				// 					let path = `/admin/${pathid}/sheepSaleManage/sheepSaleOrder`
-		 				// 					this.$router.push(path)
-            //         }
-            //     }, _ => {
-            //         this.$message.error('保存失败')
-            //     })
+						submitSaleSheep(param).then(res => {
+                    if (isReqSuccessful(res)) {
+											this.$message.success('保存成功')
+											let pathid = this.$route.params.id
+     									let path = `/admin/${pathid}/sheepSaleManage/sheepSaleOrder`
+											this.$router.push(path)
+											this.dialogFormVisible = false;
+                    }
+								 }, _ => {
+                    this.$message.error('保存失败')
+                })
 						
 					 }
-			console.log(param);
-			this.dialogFormVisible = false;
 
 		},				
 		handleCell(row,column,event,cell){
@@ -722,7 +709,6 @@ export default {
 		console.log(cell)
 		console.log(row.tradeMarkEartag)
 		console.log(column.label)
-		console.log(this.tableData)
 
 		if(column.label=="视频/图片"){
 		 let pathid = this.$route.params.id
@@ -734,7 +720,6 @@ export default {
 		provinceChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
-			console.log(url)
 			this.value.city = ''
 			this.value.country = ''
 			this.value.town = ''
@@ -807,19 +792,20 @@ export default {
                		 this.total = Math.ceil(res.data.number/param.size)*10
                		 let data = res.data.all
                		 data.forEach((v) => {
-               		   	 let {building , col , immuneEarTag , trademarkEarTag ,id , type, stage, canSale, weight} = v
+               		   	 let {building , immuneEarTag , col , trademarkEarTag ,id , type, stage, canSale, weight,age} = v
                		   	 let d = building
                		   	 let l = col
                		   	 let tradeMarkEartag=trademarkEarTag
                		   	 let immuneEartag = immuneEarTag
                		   	 let style = type
                		   	 let Stage = this.propName.get(stage)
-               		   	 let issale = '否'
+											 let issale = '否'
+											 let sheepAge=age
                		   	 if(canSale){
                		   	 	issale = '是'
 												 }
 											 let sheep_weight=weight
-               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage, issale, sheep_weight}
+               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage, issale, sheep_weight,sheepAge}
 											this.tableData.push(obj)
 											this.tableWeight.push(sheep_weight)	 
                		 })
@@ -838,13 +824,15 @@ export default {
 		handleUpdate(row){		
 			this.upda.earTag = row.tradeMarkEartag
 			this.upda.immuTag = row.immuneEartag
+
 			this.dialogUpdateVisible = true
+			this.currentRow = row
+			this.sheepid=row.id
+	
 			this.updateData.immu = row.immuneEartag
 			this.updateData.earTag = row.tradeMarkEartag
 			this.updateData.style = row.style
 			this.updateData.period = row.Stage
-			this.currentRow = row
-			this.sheepid=row.id
 		},
 
 		updateSheep(){
@@ -855,7 +843,8 @@ export default {
 			let breedingSheepBase = this.upda.immuTag
 			let type = this.upda.style
 			let stage = 0
-			let weight=this.upda.weight;
+			let weight=this.upda.weight
+			let age=this.upda.year
 			console.log(weight);
 			for(let i =0;i<this.stageList.length ; i++){
 				if(this.upda.stage ==this.stageList[i])
@@ -868,7 +857,8 @@ export default {
 				breedingSheepBase,
 				type,
 				stage,
-				weight
+				weight,
+				age
 			}
 			updateSheepAllMe(param).then(res=>{
 				this.fetchData()
@@ -1037,28 +1027,6 @@ export default {
 	        this.onlySheep.colInt = item
 	    },
 
-		// moveSheepOnly(){
-		// 	console.log(this.multipleSelection)
-		// 	if(this.multipleSelection.length == 0){
-		// 		this.$alert('请选择要移栏羊只', '警告', {
-		//           confirmButtonText: '确定',
-		//         })
-		// 	}else{
-		// 		this.showMoveSheepOnly = true
-		// 		this.sheepMessage = {
-		// 			earTag:'',
-		// 			location:''
-		// 		}
-		// 			this.multipleSelection.forEach((item) => {
-		// 			  this.sheepMessage.earTag += item.tradeMarkEartag + ";"
-		// 			  this.sheepMessage.location = item.l + "栏/" + item.d + "栋" 
-		// 			})
-		// 		getSheepBuilding(this.user.userFactory).then(res=>{
-		//             this.builList = res.data.data
-		//         })
-		// 	}
-		// },
-
 //显示总存栏
 
 		async	watchAllSheep(){
@@ -1100,6 +1068,7 @@ export default {
 //生成订单按钮
 		getSaleData(){
 					console.log(this.multipleSelection)
+					
 					if(this.multipleSelection.length == 0){
 				this.orderform.sums=0;
 				this.orderform.sumweight=null;

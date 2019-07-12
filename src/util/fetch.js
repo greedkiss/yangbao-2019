@@ -16,9 +16,13 @@ export const vedioUrl = 'http://qiniu.yunyangbao.cn/'
 // const baseUrl = 'http://218.199.68.33:9010' // 啊风
 // const baseUrl = 'http://192.168.1.108:9010' // 老猪
 // const baseUrl = 'http://192.168.1.102:9010' // 文嫖
-// const baseUrl = 'http://192.168.1.101:9020' //波波
+const baseUrl = 'http://192.168.1.102:9010' //波波
 //const baseUrl = 'http://192.168.1.103:9020' //文华
 //const baseUrl = 'http://192.168.1.106:9021' //akunnew
+<<<<<<< HEAD
+=======
+//const baseUrl = 'http://39.108.248.254:8080' //akun_remote
+>>>>>>> d74cbc9eba148fbc7b182a210f6fc30f27d20d42
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
 let app = new Vue()
