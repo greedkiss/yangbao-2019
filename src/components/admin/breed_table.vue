@@ -230,7 +230,6 @@
                         <span v-if="!hideView" @click="dialogFormVisible = true">查看</span>
                         
                         <template>
-                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
                             <span @click="deleteItem(scope.$index)">取消订单</span>
                         </template>
                     </div>

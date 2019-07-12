@@ -224,7 +224,7 @@
 					<span
 						size="small"
 						style="cursor:pointer"
-						@click="addPicture(scope.row)">添加图片
+						@click="addPicture(scope.row)">添加视频
 					</span>
 					<span
 						style="cursor:pointer"
