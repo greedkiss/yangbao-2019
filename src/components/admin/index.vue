@@ -239,10 +239,14 @@ export default {
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
                     },
-                    {label: '认购管理', to: 'subscribe',children:[
+                    {label: '认购管理', to: '',children:[
                             {label: '关联检疫证', to: 'correlation'},
-                            {label: '认购列表', to: 'subscribe'},
-                    ]}
+                            {label: '检疫证书图片', to: 'correlationPicture'},
+                    ]},
+                    {label: '屠宰前管理', to: '',children:[
+                            {label: '待屠宰羊只管理', to: 'beforeManage'},
+                            {label: '待屠宰羊只视频', to: 'beforeVideo'},
+                    ]},
                 ]
             },
             consumptionTree: {

@@ -131,6 +131,10 @@ const FarmList = () => import('@/components/admin/farm/list')
 const Slaughter = () => import('@/components/admin/slaughter/index')
 const SlaughterList = () => import('@/components/admin/slaughter/list')
 const Correlation = () => import('@/components/admin/subscribe/correlation')
+const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
+const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
+const BeforeVideo = () => import('@/components/admin/beforeslaughter/before_video')
+
 
 //消费实体管理
 const Consumer = () => import('@/components/admin/consumer/index')
@@ -160,7 +164,7 @@ const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/produ
 const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
 const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
 
-const Subscribe = () => import('@/components/admin/subscribe/list')
+
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
@@ -271,7 +275,7 @@ export default new Router({
             {path: 'health/antiscolic/plan', name: 'antiscolicplan', component: AntiscolicPlan},
             {path: 'health/antiscolic/prac', name: 'antiscolicprac', component: AntiscolicPrac},
             {path: 'health/antiscolic/list', name: 'antiscoliclist', component: AntiscolicList},
-            {path: 'health/warn/list', name: 'warnlist', component: WarnList},
+            //{path: 'health/warn/list', name: 'warnlist', component: WarnList},
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},
@@ -329,9 +333,10 @@ export default new Router({
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
             {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
             {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
-
             {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
-            {path: 'subscribe/list', name: 'subscribe', component: Subscribe},
+            {path: 'subscribe/correlationPicture', name: 'correlationPicture', component: CorrelationPicture},
+            {path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
+            {path: 'beforeslaughter/beforeVideo', name: 'beforeVideo', component: BeforeVideo},
             
 
             //消费实体管理平台
