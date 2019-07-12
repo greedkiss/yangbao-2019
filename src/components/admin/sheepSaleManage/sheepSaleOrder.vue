@@ -2,18 +2,19 @@
     <div>
         <admin-table
             class="breed-table"
-            modpath="nutrition/breed"
-            :getData="getAllBreeding"
-            :deleteData="deleteBreeding"
+            modpath="sheepSaleManage/sheepSaleOrder"
+            :getData="getAllOrder"
+            :deleteData="deleteOrder"
             :headers="headers"
-            :isListSale="true">            
+            :isListSale="true"
+            :isSaleOrder="true">            
         </admin-table>
     </div>
 </template>
 
 <script>
 import AdminTable from '@/components/admin/breed_table'
-import { getAllBreeding, deleteBreeding } from '@/util/getdata'
+import { getAllOrder,deleteOrder} from '@/util/getdata'
 
 export default {
     components: {
@@ -22,19 +23,19 @@ export default {
 
     data () {
         return {
-            getAllBreeding,
-            deleteBreeding,
+            getAllOrder,
+            deleteOrder,
             headers: [
-                {label: '订单ID', prop: 'orderID'},
-                {label: '养殖场ID', prop: 'farmID'},
-                {label: '目的厂ID', prop: 'factoryID'},
-                {label: '商标耳牌号', prop: 'sheepEarNumber'},
-                {label: '总重量', prop: 'sumweight'},
-                {label: '数量', prop: 'sums'},
-                {label: '订单生成时间', prop: 'orderID'},
+                {label: '订单ID', prop: 'id'},
+                {label: '订单状态', prop: 'state'},
+                {label: '养殖场', prop: 'sourceFactoryName'},
+                {label: '客户单位', prop: 'destinationFactoryName'},
+                {label: '总重量', prop: 'totalWeight'},
+                {label: '数量', prop: 'count'},
+                {label: '订单生成时间', prop: 'saleTime'},
                 {label: '价格', prop: 'price'},
-                {label: '负责人', prop: 'manger'}, 
-                {label: '负责人联系方式', prop: 'tele'} 
+                {label: '负责人', prop: 'responsiblePerson'}, 
+                {label: '负责人联系方式', prop: 'responsiblePersonPhone'} 
             ]  
         }
     }
