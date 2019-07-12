@@ -172,7 +172,7 @@ export default {
                 earTagList: []
             },
         }
-    },
+    },  
 
     mounted () {
         let id = this.$route.params.id

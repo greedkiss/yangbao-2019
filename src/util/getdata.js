@@ -454,6 +454,7 @@ export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, dat
 export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
+export const watchVideo = (data) => fetch('/s/u' ,data ,  'POST')
 
 export const getAllOrder= (id, data) => fetch('/saleOrder/factoryOrder/' + id, data,'GET')
 export const sureSaleOrder= (id, data) => fetch('/saleOrder/confirmedOrder/' + id, data,'GET')

@@ -446,6 +446,27 @@
 		      </div>
 		    </div>
 		</el-dialog>
+
+		<el-dialog
+  title="提示"
+  :visible.sync="dialogVideoVisible"
+  width="50%"
+	center>
+
+		<!-- FIXME: video 标签兼容性处理 -->
+		<div class="show-detail">
+				<video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
+				<img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
+		</div>
+		<div class="show-list">
+				<ul>
+						<li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
+						<li><el-tag>上传日期</el-tag> {{ sheepVideo.time }}</li>
+				</ul>
+		</div>
+</el-dialog>
+
+
 		<div class="block" style="margin-left: 46px">
         <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="current_change">
         </el-pagination>
@@ -455,8 +476,8 @@
 
 <script>
 import pcaa from 'area-data/pcaa'
-import { isReqSuccessful } from '@/util/jskit'
-import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace} from '@/util/getdata'
+import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
+import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace,watchVideo} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
@@ -516,6 +537,8 @@ export default {
 				col:'',
 				colInt:''
 			},
+			 // 设置出错图片
+      defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
 			orderform:{
 				farmId:null,
 				factoryId:null,
@@ -532,6 +555,7 @@ export default {
 				},
 			dialogTableVisible: false,
 			dialogFormVisible: false,
+
 			formLabelWidth: '70px',	
 			area: {
 				province: [],
@@ -575,6 +599,14 @@ export default {
 			dialogMoveVisible: false,
 			dialogDeadVisible: false,
 			dialogUpdateVisible:false,
+			dialogVideoVisible:false,
+			videoEr:null,
+			sheepVideo:{
+				url:null,
+				time:null,
+				filetype:0,
+				erNumber:null
+			},
 			form: {
 				reason:'',
 				method:'',
@@ -702,6 +734,7 @@ export default {
 					 }
 
 		},				
+		//查看按钮
 		handleCell(row,column,event,cell){
     console.log(row)
     console.log(column)
@@ -711,11 +744,29 @@ export default {
 		console.log(column.label)
 
 		if(column.label=="视频/图片"){
-		 let pathid = this.$route.params.id
-     let path = `/admin/${pathid}/visual/productionSee`+'?'+'ramSheepTrademark='+row.tradeMarkEartag
-		 this.$router.push(path)
-		}
+				 this.dialogVideoVisible=true;
+				 this.videoEr=row.tradeMarkEartag;
+				 this.getVideo(row.tradeMarkEartag)
+			}	
 		},
+		getVideo (er) {
+								let videoMessage={}
+                watchVideo(er).then(res => {
+                    if(isReqSuccessful(res)) {
+												let arr = []
+												let obj={}
+														videoMessage.url=res.address
+														videoMessage.time=res.udate
+														videoMessage.filetype=res.filetype             
+                    }
+                }).catch(_ => {
+                    this.$message.error('获取失败');
+								})
+								this.sheepVideo.erNumber=er
+								this.sheepVideo.url=videoMessage.url
+								this.sheepVideo.time=videoMessage.time
+								this.sheepVideo.filetype=videoMessage.filetype
+        },
 		
 		provinceChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'

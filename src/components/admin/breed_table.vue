@@ -48,6 +48,9 @@
             <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="eartag">
                 <template slot="prepend">耳牌号:</template>
             </el-input>
+             <el-input v-if="isListSale" class="pick-erpai" size="mini" v-model="searchSaleID">
+                <template slot="prepend">订单号:</template>
+            </el-input>
 
             <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="fatherEartag">
                 <template slot="prepend">公耳牌号:</template>
@@ -553,6 +556,7 @@ export default {
             motherEartag: null,
             fatherEartag: null,
             kindEartag: null,
+            searchSaleID:null,
             checkFlag: null,
 			dialogFormVisible: false,
             formLabelWidth: '70px',	
@@ -579,9 +583,9 @@ export default {
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
 			console.log(url)
-			this.value.city = ''
-			this.value.country = ''
-			this.value.town = ''
+			this.value.city = null
+			this.value.country = null
+			this.value.town = null
 			if(item.label.indexOf('市') == -1){
 				getPlace(obj).then(res => {
 					this.area.city = []
@@ -612,8 +616,8 @@ export default {
 		cityChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
-			this.value.country = ''
-			this.value.town = ''
+			this.value.country = null
+			this.value.town = null
 			getPlace(obj).then(res => {
 				this.area.country = []
 				res.result.forEach((item) =>{
@@ -838,15 +842,19 @@ export default {
             if (this.checkFlag !== null) {
                 param.checkFlag = this.checkFlag
             }
-            if (this.value.province !== null) {
+            if (this.value.province !==null) {
                 param.province = this.value.province
             }
-            if (this.value.city !== null) {
+            if (this.value.city !==null) {
                 param.city = this.value.city
             }
-            if (this.value.country!== null) {
+            if (this.value.country!==null) {
                 param.country = this.value.country
             }
+            if(this.searchSaleID!=null){
+                param.saleID = this.searchSaleID
+            }
+            
             
 
             let pathid
