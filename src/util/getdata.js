@@ -491,6 +491,10 @@ export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 
 
 export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
 
+//认购管理
+export const getCorrelationData = (id,data) => fetch(`/slaughter/`+ id , data, 'GET')
+
+
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')
 

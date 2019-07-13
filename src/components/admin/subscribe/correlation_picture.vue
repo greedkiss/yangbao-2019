@@ -45,13 +45,7 @@
             </div>
         </div>
         </div>
-        <el-pagination
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="12"
-          :current-page.sync="pageNumb"
-          @current-change="changePage">
-        </el-pagination>
+        
     </div>
 </template>
 <script>
