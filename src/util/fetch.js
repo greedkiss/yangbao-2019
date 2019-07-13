@@ -16,11 +16,7 @@ export const vedioUrl = 'http://qiniu.yunyangbao.cn/'
 // const baseUrl = 'http://218.199.68.33:9010' // 啊风
 // const baseUrl = 'http://192.168.1.108:9010' // 老猪
 // const baseUrl = 'http://192.168.1.102:9010' // 文嫖
-<<<<<<< HEAD
 //const baseUrl = 'http://192.168.1.107:9010' //波波
-=======
-//const baseUrl = 'http://192.168.1.102:9010' //波波
->>>>>>> 2ab18f30b986350f01a6cb7fd966e2e63bd60178
 //const baseUrl = 'http://192.168.1.103:9020' //文华
 //const baseUrl = 'http://192.168.1.106:9021' //akunnew
 const tokenStr = md5('sheep-token')
