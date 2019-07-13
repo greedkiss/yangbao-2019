@@ -81,10 +81,19 @@
 			<el-table-column
 				label="视频"
 				width="120"
-				prop="video"
-				v-if="true">
+				prop="video">
+        <el-button type="text" >查看</el-button>
 			</el-table-column>
-			<el-table-column
+      <el-table-column width="200" label="操作">
+      <template slot-scope="scope">
+        <span size="small" style="cursor:pointer" @click="Syn(scope.row)" >同步</span>
+        <span size="small" style="cursor:pointer" @click="Upload(scope.row)">上传</span>
+        <span size="small" style="cursor:pointer" @click="Edit(scope.row)">编辑</span>
+      </template>
+    </el-table-column>
+
+    
+			<!-- <el-table-column
                 class="action"
                 fixed="right"
                 label="操作"
@@ -93,16 +102,35 @@
                 <template slot-scope="scope">
                     <div class="opr" >
                         <template>
-                            <span @click="syn()" >同步视频</span>
+                            <span @click="syn()" >同步</span>
                             <span @click="Upload()">上传</span>
-                            <span @click="wheight()">同步体重</span>
                             <span @click="edit()">编辑</span>
                         </template>
                     </div>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
   </el-table>
     </div>
+    <el-dialog
+  title="提示"
+  :visible.sync="dialogUpdataVisible"
+  width="30%">
+  <span>这是一段信息</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogUpdataVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogUpdataVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
+<el-dialog
+  title="提示"
+  :visible.sync="dialogEditVisible"
+  width="30%">
+  <span>这是一段信息</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogEditVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogEditVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
 </div>
 </template>
 
@@ -110,14 +138,19 @@
   export default {
     data() {
       return {
-          tableData:[],
+          tableData:[{
+            certificationNum:1
+          }
+          ],
           value1: '',
           value2: '',
           form: {
           jianyi: '',
           erpai: '',
           gmtCreate:''
-          }
+          },
+          dialogUpdataVisible:false,
+          dialogEditVisible:false,
         
       }
     },
@@ -135,16 +168,14 @@
         }
         
       },
-      syn(){
-
+      Syn(row){
+        this.$message.success('同步成功')
       },
-      Upload(){
-
+      Upload(row){
+        this.dialogUpdataVisible = true;     
       },
-      wheight(){
-
-      },
-      edit(){
+      Edit(row){
+        this.dialogEditVisible = true;
         
       }
     }

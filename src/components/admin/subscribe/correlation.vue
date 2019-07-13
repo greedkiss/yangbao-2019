@@ -1,9 +1,9 @@
 <template>
 <!--关联检疫证-->
 <div class="correlation-list">
- <el-form :inline="true" :model="form" class="correlation">
+ <el-form :inline="true"  class="correlation">
   <el-form-item label="">
-    <el-input v-model="form.number" size="small" placeholder="">
+    <el-input v-model="qaId" size="small" placeholder="">
     <template slot="prepend">检疫合格证号:</template>
     </el-input>
   </el-form-item>
@@ -28,7 +28,7 @@
                 </el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" size="small" @click="submit">上传关联</el-button>
+    <el-button type="primary" size="small" @click="submit()">上传关联</el-button>
   </el-form-item>
 </el-form> 
 <!--待选屠宰羊-->
@@ -40,51 +40,56 @@
     style="width: 100%"
     @selection-change="handleSelectionChange">
       <el-table-column
+      label="关联"
       type="selection"
       width="55">
       </el-table-column>
             <el-table-column
 				label="商标耳牌号"
 				width="120"
-				prop="tradeMarkEartag">
+				prop="tradeMarkEarTag">
 			</el-table-column>
 			<el-table-column
 				label="免疫耳牌号"
 				width="120"
-				prop="immuneEartag">
+				prop="immuneEarTag">
 			</el-table-column>
 			<el-table-column
-				label="羊只品类"
+				label="购买时间"
 				width="120"
-				prop="style">
+				prop="buyTime">
 			</el-table-column>
 			<el-table-column
 				label="重量"
 				width="120"
 				prop="weight">
 			</el-table-column>
-			<el-table-column
-				label="年龄"
+     <el-table-column
+				label="图片"
 				width="120"
-				prop="age">
-			</el-table-column>
-			<el-table-column
-				label="视频"
-				width="120"
-				prop="video"
-				v-if="true">
+				prop="pic">
 			</el-table-column>
   </el-table>
+
+  <el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            @current-change="fetchData"
+            :current-page.sync="page">
+        </el-pagination>
   </div>
 </div>  
 </template>
 
 <script>
-import { getUserById, getSheepBuilding, getSheepCol, getSheepEarTag} from '@/util/getdata'
+import { getUserById,getCorrelationData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
+import { isReqSuccessful } from '@/util/jskit' 
   export default {
     data() {
       return {
+        page:1,
+        total: 10,
         model: {
                 building:String(this.$route.query.dong)==null?'':this.$route.query.dong,
                 column: '',
@@ -96,39 +101,18 @@ import { baseUrl, authStr, tokenStr } from '@/util/fetch'
         pictureStyle: '',
         erpai: '',
         captures: [{model: null , per : 0}],
-        tableData:[{
-          tradeMarkEartag:1,
-          immuneEartag:2,
-          style:2,
-          weight:3,
-          age:4,
-          video:5
-        }],
-        form: {
-         number:null
-        },
+        tableData:[],
+         qaId:null,
+        multipleSelection:[],
       }
     },
-     mounted () {
-       let id = this.$route.params.id
-       getUserById(id).then(res => {
+    mounted () {
+        let id = this.$route.params.id
+        getUserById(id).then(res => {
           this.user = res.data.model
-       }).then(this.fetchData)
+        }).then(this.fetchData)
     },
     methods: {
-      //关联信息
-      onSubmit() {
-        let param={
-          number:this.form.number,
-          filename:this.fileList.name,
-          fileurl:this.fileList.url
-        };
-        // console.log(param.fileList);
-        // console.log(param.number);
-        if(param.number==null||param.number==''){
-          this.$message.warning('请完善表单信息！');
-        }
-      },
       //复选框
       toggleSelection(rows) {
         if (rows) {
@@ -142,103 +126,92 @@ import { baseUrl, authStr, tokenStr } from '@/util/fetch'
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-
       //上传图片
       selectFile (item, idx) {
-            let file = this.$refs.erpai[idx].files[0]
-            item.model = file.name
-            item.file = file
-        },
+          let file = this.$refs.erpai[idx].files[0]
+          item.model = file.name
+          item.file = file
+          },
 
-        addCapture () {
-            this.captures.push({model: null ,per: 0})
-            this.deleteOne = true
-        },
-        deleteCapture(){
-            this.captures.pop()
-        },
-        submit () {
-                let form = new FormData()
-                let col
-                if(this.model.column == null){
-                    col = parseInt(this.model.columnString)
-                }else{
-                    col = this.model.column
+      addCapture () {
+          this.captures.push({model: null ,per: 0})
+          this.deleteOne = true
+      },
+      deleteCapture(){
+          this.captures.pop()
+      },
+      submit () {
+                let array = this.multipleSelection
+                console.log(array)
+                let len=array.length-1
+                let sheep=''
+                for(let i = 0;i<len;i++){
+                  let erNumber=array[i].tradeMarkEarTag+','
+                  sheep=sheep+erNumber
                 }
-                form.append('userId', this.$route.params.id)
-                form.append('building', this.model.building)
-                form.append('col', col)
-                form.append('brand', this.model.earTag)
-                form.append('factoryId', this.user.userFactory)
-                form.append('filetype', this.fileType)
-                this.captures.forEach((item, index) => {
-                     form.append('file[]', this.$refs.erpai[index].files[0])
-                })
-                let headers = {}
-                headers[authStr] = window.localStorage.getItem(tokenStr)
-                window.fetch(baseUrl + '/uploadFile/productPic', {
-                    method: 'POST',
-                    headers,
-                    body: form
-                }).then(async res => {
-                    let body = await res.json()
-                    if(body.data.token != null){
-                        this.captures.forEach((item, index) => {
-                            let file = this.$refs.erpai[index].files[0]
-                            let key = body.data.names[index]
-                            let token = body.data.token
-                            let putExtra = {
-                                fname: "",
-                                    params: {},
-                                    mimeType: null
-                              }
-                              let config = {
-                                useCdnDomain: true,
-                                    disableStatisticsReport: false,
-                                    retryCount: 6,
-                              }
-                              let self = this
-                              let observer = {
-                                next(res){
-                                    self.captures[index].per = parseInt(res.total.percent)
-                                },
-                                error(res){
-                                    self.$message.error()('上传失败')
-                                },
-                                complete(res){
-                                    self.$message.success('上传成功')
-                                    let obj = new FormData()
-                                    obj.append('name' , key)
-                                    let headers = {}
-                                    headers[authStr] = window.localStorage.getItem(tokenStr)
-                                    window.fetch(baseUrl + '/createThumb', {
-                                        method: 'POST',
-                                        headers,
-                                        body: obj
-                                    }).then(async res => {
-                                        let body = await res.json()
-                                    })
-                                }
-                              }
-                              let observable = qiniu.upload(file, key, token, putExtra, config)
-                              observable.subscribe(observer)
-                        })
+                let erNumber=array[len].tradeMarkEarTag;
+                sheep=sheep+erNumber
+                console.log(sheep)
+              // let form={
+              // userId: this.$route.params.id,
+              // earTags:sheep,
+              // qaId:this.qaId,
+              // factoryId: this.user.userFactory,
+              // file:this.$refs.erpai[0].files[0]
+              // }
+              let form=new FormData()
+              let qaId=this.qaId
+              form.append('userId', this.$route.params.id)
+              form.append('eartags',sheep )
+              form.append('qaId',qaId )
+              form.append('factoryId', this.user.userFactory)
+              this.captures.forEach((item, index) => {
+                    form.append('file', this.$refs.erpai[index].files[0])
+              })
+              console.log(form)
+              
+              let headers = {}
+              console.log(form);
+              headers[authStr] = window.localStorage.getItem(tokenStr)
+              window.fetch(baseUrl + '/slaughter/addqarecord', {
+                  method: 'POST',
+                  headers,
+                  body: form
+              }).then(async res => {
+                if (isReqSuccessful(res)) {
+                        this.$message.success("上传成功")
                     }else{
-                        this.captures.forEach((item ,index) => {
-                            this.captures[index].per = 100
-                            this.$message.success('上传成功')
-                        })
+                       this.$message.warning("上传失败")
                     }
+                
+              },_ => {
+                    this.$message.error('上传失败')
                 })
-                this.fileType = 0
-        },
+      },
       handleRemove(file, fileList) {
         console.log(file, fileList);
       },
       handlePreview(file) {
         console.log(file);
+      },
+
+      async fetchData(){
+        let id=this.user.userFactory;
+        let param={
+            page:this.page-1,
+            size:15
+        }
+        getCorrelationData(id, param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        this.tableData = data.List
+                        this.total = data.size
+                    }
+                    
+                },)
       }
     }
   }
+  
 </script>
 
