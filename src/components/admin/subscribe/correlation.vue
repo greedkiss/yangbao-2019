@@ -7,25 +7,10 @@
     <template slot="prepend">检疫合格证号:</template>
     </el-input>
   </el-form-item>
-  <!-- <el-form-item label="">
-    <el-upload
-    class="upload-demo"
-    ref="upload"
-    action="https://jsonplaceholder.typicode.com/posts/"
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
-    :file-list="form.fileList"
-    :auto-upload="false">
-    <el-input slot="trigger" size="small" type="primary"> 
-    <template slot="prepend">检疫合格证图像:</template>
-    </el-input>
-    <el-button size="small" type="primary" @click="submitUpload">上传</el-button>
-    </el-upload>
-  </el-form-item> -->
   <el-form-item>
     <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" @click.native="$refs.erpai[i].click()" :value="item.model">
-                    <template slot="prepend">上传生产可视截图:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
-                </el-input>
+      <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
+    </el-input>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" size="small" @click="submit()">上传关联</el-button>
@@ -85,6 +70,7 @@
 import { getUserById,getCorrelationData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit' 
+
   export default {
     data() {
       return {
@@ -126,20 +112,12 @@ import { isReqSuccessful } from '@/util/jskit'
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      //上传图片
+      //上传图片并关联检疫合格证号
       selectFile (item, idx) {
           let file = this.$refs.erpai[idx].files[0]
           item.model = file.name
           item.file = file
           },
-
-      addCapture () {
-          this.captures.push({model: null ,per: 0})
-          this.deleteOne = true
-      },
-      deleteCapture(){
-          this.captures.pop()
-      },
       submit () {
                 let array = this.multipleSelection
                 console.log(array)
@@ -152,13 +130,7 @@ import { isReqSuccessful } from '@/util/jskit'
                 let erNumber=array[len].tradeMarkEarTag;
                 sheep=sheep+erNumber
                 console.log(sheep)
-              // let form={
-              // userId: this.$route.params.id,
-              // earTags:sheep,
-              // qaId:this.qaId,
-              // factoryId: this.user.userFactory,
-              // file:this.$refs.erpai[0].files[0]
-              // }
+              
               let form=new FormData()
               let qaId=this.qaId
               form.append('userId', this.$route.params.id)
@@ -194,7 +166,7 @@ import { isReqSuccessful } from '@/util/jskit'
       handlePreview(file) {
         console.log(file);
       },
-
+      //加载表格信息
       async fetchData(){
         let id=this.user.userFactory;
         let param={
