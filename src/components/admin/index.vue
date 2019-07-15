@@ -247,6 +247,11 @@ export default {
                             {label: '待屠宰羊只管理', to: 'beforeManage'},
                             {label: '待屠宰羊只视频', to: 'beforeVideo'},
                     ]},
+                    {label: '库存管理', to: '',children:[
+                            {label: '库存管理', to: 'stockManage'},
+                            {label: '订单管理', to: 'orderManage'},
+                            {label: '车辆管理', to: 'vehicleManage'},
+                    ]},
                 ]
             },
             consumptionTree: {

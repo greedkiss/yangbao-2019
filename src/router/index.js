@@ -134,6 +134,9 @@ const Correlation = () => import('@/components/admin/subscribe/correlation')
 const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
 const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
 const BeforeVideo = () => import('@/components/admin/beforeslaughter/before_video')
+const StockManage = () => import('@/components/admin/stock/stock_manage')
+const OrderManage = () => import('@/components/admin/stock/order_manage')
+const VehicleManage = () => import('@/components/admin/stock/vehicle_manage')
 
 
 //消费实体管理
@@ -276,7 +279,7 @@ export default new Router({
             {path: 'health/antiscolic/prac', name: 'antiscolicprac', component: AntiscolicPrac},
             {path: 'health/antiscolic/list', name: 'antiscoliclist', component: AntiscolicList},
             //{path: 'health/warn/list', name: 'warnlist', component: WarnList},
-            
+
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},
@@ -338,7 +341,9 @@ export default new Router({
             {path: 'subscribe/correlationPicture', name: 'correlationPicture', component: CorrelationPicture},
             {path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
             {path: 'beforeslaughter/beforeVideo', name: 'beforeVideo', component: BeforeVideo},
-            
+            {path: 'stock/stockManage', name: 'stockManage', component: StockManage},
+            {path: 'stock/orderManage', name: 'orderManage', component: OrderManage},
+            {path: 'stock/vehicleManage', name: 'vehicleManage', component: VehicleManage},
 
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
