@@ -45,24 +45,24 @@
             <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="factoryName">
                 <template slot="prepend">单位名:</template>
             </el-input>
-            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="eartag">
+            <el-input v-if="!hideEartagFilter&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="eartag">
                 <template slot="prepend">耳牌号:</template>
             </el-input>
              <el-input v-if="isListSale" class="pick-erpai" size="mini" v-model="searchSaleID">
                 <template slot="prepend">订单号:</template>
             </el-input>
 
-            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="fatherEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="fatherEartag">
                 <template slot="prepend">公耳牌号:</template>
             </el-input>
-            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="motherEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="motherEartag">
                 <template slot="prepend">母耳牌号:</template>
             </el-input>
-            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="kindEartag">
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="kindEartag">
                 <template slot="prepend">子耳牌号:</template>
             </el-input>
 
-            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis"  class="pick-erpai" size="mini" v-model="checkFlag">
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList"  class="pick-erpai" size="mini" v-model="checkFlag">
                 <template slot="prepend">批次:</template>
             </el-input>
 
@@ -200,6 +200,92 @@
             </el-table-column>
         </el-table>
 
+
+
+
+        
+        <el-table v-if="isSlaughterManageList"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='immuneEartag'||th.prop=='EarTag'||th.prop=='farm'||th.prop=='master'||th.prop=='kind' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+
+
+            <el-table-column label="附属物信息">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='affNumber'||th.prop=='affWeight'||th.prop=='affVideo'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="110"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="胴体信息">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='carNumber'||th.prop=='carWeight'||th.prop=='carVideo' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="110"
+            >
+            </el-table-column>
+            </el-table-column>
+
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='slaughterTime'||th.prop=='operator' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                    <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                        <span @click="deleteItem(scope.$index)">删除</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
         <el-table v-if="isListSale"
             v-loading="load"
             ref="table"
@@ -273,8 +359,17 @@
 						</el-form-item>
 						</el-col>
 
+                        <el-col :span='12'>
+						<el-form-item label="羊只耳牌" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.sheepId"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+
+                        
+
 						<el-col :span='12'>
-						<el-form-item label="养殖场" style="padding-top:30px" :label-width="formLabelWidth">			
+						<el-form-item label="养殖场"  :label-width="formLabelWidth">			
 						<el-input v-model="orderform.farm" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
@@ -414,6 +509,10 @@ export default {
             default: false
         },
         isSeleList: {
+            type: Boolean,
+            default: false
+        },
+        isSlaughterManageList:{
             type: Boolean,
             default: false
         },
@@ -563,7 +662,7 @@ export default {
             orderform:{
 				farmId:null,
 				factoryId:null,
-
+                sheepId:null,
 				sumweight:0,
 				allprice:0,
 				// saleID:null,
@@ -721,6 +820,16 @@ export default {
             this.orderform.saleTime=row.saleTime
             this.orderform.manger=row.responsiblePerson
             this.orderform.tele=row.responsiblePersonPhone
+            let param={
+                orderId:row.id,
+            }
+            // getOrderSheepID(id,pram).then(res => {
+            //     if(isReqSuccessful(res)){
+            //         this.orderform.sheepId=res;
+            //     }else{
+            //         this.message.err('请求失败')；
+            //     }
+            // });
         },
      //订单查看按钮 
         saleOrderLook(row,column){ },

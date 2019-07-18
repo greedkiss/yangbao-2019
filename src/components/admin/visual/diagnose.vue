@@ -84,7 +84,7 @@ export default {
                 //fetchSuggestions: getExpert
             }, {
                 label: '上传图片或视频:',
-                model: 'file',
+                model: 'file',  
                 type: 'file',
                 fetchSuggestions: getSex
             }],

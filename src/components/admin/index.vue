@@ -246,6 +246,15 @@ export default {
                     {label: '屠宰前管理', to: '',children:[
                             {label: '待屠宰羊只管理', to: 'beforeManage'},
                             {label: '待屠宰羊只视频', to: 'beforeVideo'},
+                            
+                    ]},
+                    {label: '屠宰管理', to: '',children:[
+                        {label: '屠宰管理', to: 'slaughterManage'},
+                        
+                    ]},
+                    {label: '分割管理', to: '',children:[
+                        {label: '分割管理', to: 'segmentManger'},
+                        
                     ]},
                 ]
             },
@@ -382,12 +391,9 @@ export default {
             this.production[idx].active = true
         },
 
-        isProdModule () {
-            // if(this.$route.name=='livestockList'||this.$route.name=='livestocklistSale'){
-            //     return true
-            // }            
-            let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+        isProdModule () {           
+            let name = this.$route.name 
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer','slaughterManage','segmentManger'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {
@@ -395,10 +401,7 @@ export default {
                 // itemprac -> itemlist
                 let idx = item.to.indexOf('prac')
                 if (idx === -1) {
-                    // if(item.to=='livestockList'){
-                    //     let pathid = this.$route.params.id
-                    //     let path = `/admin/${pathid}/livestock/list_sale`
-                    //     this.$router.push(path)}
+                    console.log(item)
                     this.$router.push({name: item.to + 'list'})
                 } else {
                     this.$router.push({name: item.to.substr(0, item.to.indexOf('prac')) + 'list'})

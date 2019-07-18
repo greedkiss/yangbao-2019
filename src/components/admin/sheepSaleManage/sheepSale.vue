@@ -76,20 +76,21 @@
 							style="height:25px">
  						</el-alert>
 
-						 <!-- <el-col :span='12'>
-						<el-form-item label="订单ID" style="padding-top:30px" :label-width="formLabelWidth">
-						<el-input v-model="orderform.saleID"  :disabled="true" ></el-input>
-						</el-form-item>
-						</el-col> -->
+
+						<el-col :span='24'>
+						<el-form-item label="羊只耳牌" style="padding-top:30px">				
+						<el-input style="width:83%" v-model="orderform.earTags" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
 
 						<el-col :span='12'>
-						<el-form-item label="养殖场" style="padding-top:30px" :label-width="formLabelWidth">			
+						<el-form-item label="养殖场"  :label-width="formLabelWidth">			
 						<el-input v-model="orderform.farm" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col :span='12'>
-						<el-form-item label="客户单位" style="padding-top:30px" :label-width="formLabelWidth">				
+						<el-form-item label="客户单位"  :label-width="formLabelWidth">				
 						<el-input v-model="orderform.factory" 		:disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
@@ -105,9 +106,7 @@
 						<el-input v-model="orderform.saleTime" 		:disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
-
 						
-
 						<el-col :span='12'>
 						<el-form-item label="负责人" :label-width="formLabelWidth">			
 						<el-input v-model="orderform.manger"  	:disabled="true"></el-input>
@@ -448,7 +447,7 @@
 		</el-dialog>
 
 		<el-dialog
-  title="提示"
+  title="羊只视频"
   :visible.sync="dialogVideoVisible"
   width="50%"
 	center>
@@ -470,7 +469,7 @@
 		<div class="block" style="margin-left: 46px">
         <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="current_change">
         </el-pagination>
-        </div>
+    </div>
 	</div>
 </template>
 
@@ -540,9 +539,9 @@ export default {
 			 // 设置出错图片
       defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
 			orderform:{
+				earTags:'',
 				farmId:null,
 				factoryId:null,
-
 				sumweight:0,
 				allprice:0,
 				// saleID:null,
@@ -698,7 +697,8 @@ export default {
     goSave(){
 			let theSaleSheep=[];
 			let saleRecordModels=this.multipleSelection;
-		  let	userFactory = this.user.userFactory;
+			let	userFactory = this.user.userFactory;
+
 			this.multipleSelection.forEach((item)=>{
 				theSaleSheep.push(item.tradeMarkEartag)
 			});
@@ -865,6 +865,7 @@ export default {
 		},
 		changeFun(val){
 			this.multipleSelection = val;
+			console.log(val)
 		},
 		addPicture(row){
 		let pathid = this.$route.params.id
@@ -1087,7 +1088,6 @@ export default {
 			let param = {
                 			start: (this.page - 1)*10,
                				size: 10,
-               				prefix: this.searchEartag
            				} 
 						 this.tableData = []
 						 this.tableWeight=[]
@@ -1128,14 +1128,19 @@ export default {
 		          confirmButtonText: '确定',
 		        })
 			}else{
-				this.orderform.sums=this.multipleSelection.length
+					this.orderform.sums=this.multipleSelection.length
 					var myDate=new Date();
 					var myMonth=myDate.getMonth()+1;
 				  this.orderform.saleTime=myDate.getFullYear()+"-"+myMonth+"-"+myDate.getDate()+"-"+myDate.getHours()+"-"+myDate.getMinutes();
 					this.orderform.sumweight=null;
 					this.orderform.allprice=null;
+					this.orderform.earTags='';
+
 					this.multipleSelection.forEach((item) => {
 					this.orderform.sumweight+=item.sheep_weight;
+					this.orderform.earTags=this.orderform.earTags+item.tradeMarkEartag+','
+					})
+
 					this.orderform.farm=this.user.factoryName;
 
 					this.orderform.farmId=this.user.userFactory;
@@ -1144,7 +1149,6 @@ export default {
 
 					this.orderform.tele=this.user.userTelephone;
 					this.orderform.manger=this.user.userRealname;
-					})
 			}
 				},
 

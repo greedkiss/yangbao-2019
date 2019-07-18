@@ -60,6 +60,22 @@
 				width="120"
 				prop="l">
 			</el-table-column>
+      <el-table-column
+				label="来源地址"
+				width="120"
+				prop="address">
+			</el-table-column>
+      <el-table-column
+				label="养殖场"
+				width="120"
+				prop="farm">
+			</el-table-column>
+      <el-table-column
+				label="货主"
+				width="120"
+				prop="master">
+			</el-table-column>
+      
 			<el-table-column
 				label="羊只品类"
 				width="120"
@@ -81,7 +97,7 @@
 				prop="age">
 			</el-table-column>
 			<el-table-column
-				label="视频"
+				label="视频/图片"
 				width="120"
 				prop="video_img"
 			>
@@ -121,17 +137,21 @@
     <el-button type="primary"  @click="editWeight">确 定</el-button>
   </span>
 </el-dialog>
+
 <el-dialog
-  title="视频"
+  title="羊只视频"
   :visible.sync="dialogVideoVisible"
   width="30%">
-   <!-- <div class="show-detail">
-      <video :src="urlSpecific" class="production-video" controls="controls" height="400" width="400"></video>
-   </div> -->
-  <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click="dialogVideoVisible = false">确 定</el-button>
-  </span>
+   		<video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
+       <img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
+   <div class="show-list">
+				<ul>
+						<li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
+						<li><el-tag>上传日期</el-tag> {{ sheepVideo.time }}</li>
+				</ul>
+		</div>
 </el-dialog>
+
 </div>
 </template>
 
@@ -148,6 +168,12 @@ import { isReqSuccessful } from '@/util/jskit'
             tradeMarkEartag:2,
             weight:88
           }],
+          sheepVideo:{
+          url:null,
+          time:null,
+          filetype:0,
+          erNumber:null
+        },
           rows:'',
           qaId: '',
           weight:'',
@@ -186,11 +212,30 @@ import { isReqSuccessful } from '@/util/jskit'
           // console.log(row.tradeMarkEartag)
           // console.log(column.label)
           this.rows=row.tradeMarkEartag
-          if(column.label=="视频"){
-          this.dialogVideoVisible = true;
-
-          }
+          if(column.label=="视频/图片"){
+				 this.dialogVideoVisible=true;
+				 this.videoEr=row.tradeMarkEartag;
+				 this.getVideo(row.tradeMarkEartag)
+			}	
       },
+      getVideo (er) {
+								let videoMessage={}
+                watchVideo(er).then(res => {
+                    if(isReqSuccessful(res)) {
+												let arr = []
+												let obj={}
+														videoMessage.url=res.address
+														videoMessage.time=res.udate
+														videoMessage.filetype=res.filetype             
+                    }
+                }).catch(_ => {
+                    this.$message.error('获取失败');
+								})
+								this.sheepVideo.erNumber=er
+								this.sheepVideo.url=videoMessage.url
+								this.sheepVideo.time=videoMessage.time
+								this.sheepVideo.filetype=videoMessage.filetype
+        },
       //同步体重及视频
       Syn(row){
         this.$message.success('同步成功')

@@ -134,8 +134,10 @@ const Correlation = () => import('@/components/admin/subscribe/correlation')
 const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
 const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
 const BeforeVideo = () => import('@/components/admin/beforeslaughter/before_video')
-
-
+const SlaughterManage= () => import('@/components/admin/slaughterManger/slaughterManage')
+const SlaughterManageList= () => import('@/components/admin/slaughterManger/slaughterManage_list')
+const SegmentManger= () => import('@/components/admin/segment/segmentManger')
+const SegmentMangerList= () => import('@/components/admin/segment/segmentManger_list')
 //消费实体管理
 const Consumer = () => import('@/components/admin/consumer/index')
 const ConsumerList = () => import('@/components/admin/consumer/list')
@@ -338,8 +340,10 @@ export default new Router({
             {path: 'subscribe/correlationPicture', name: 'correlationPicture', component: CorrelationPicture},
             {path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
             {path: 'beforeslaughter/beforeVideo', name: 'beforeVideo', component: BeforeVideo},
-            
-
+            {path: 'slaughterManage/slaughterManage', name: 'slaughterManage', component: SlaughterManage},
+            {path: 'slaughterManage/slaughterManagelist', name: 'slaughterManagelist', component: SlaughterManageList},
+            {path: 'segment/segmentManger', name: 'segmentManger', component: SegmentManger},
+            {path: 'segment/segmentMangerlist', name: 'segmentMangerlist', component: SegmentMangerList},
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
