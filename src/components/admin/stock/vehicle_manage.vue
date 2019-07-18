@@ -12,11 +12,18 @@
                             <template slot="prepend">司机名称:</template>
                             </el-input>
                         </el-form-item>
-                            <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:300px" size="small" @click.native="$refs.erpai[i].click()" :value="item.model">
+                        <el-form-item>
+                            <el-input v-model="carphone" size="small" placeholder="">
+                            <template slot="prepend">司机电话:</template>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:285px" size="small" @click.native="$refs.erpai[i].click()" :value="item.model">
                             <template slot="prepend">上传车辆图片:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
                             </el-input>
+                        </el-form-item>
                         <el-form-item>
-                            <el-input v-model="tempreture" size="small" placeholder="" style="width:285px">
+                            <el-input v-model="tempreture" size="small" placeholder="" style="width:300px">
                             <template slot="prepend">车辆行驶温度:</template>
                             </el-input>
                         </el-form-item>
@@ -37,11 +44,20 @@
 				width="120"
 				prop="carname">
 			</el-table-column>
+            <el-table-column
+				label="司机电话"
+				width="120"
+				prop="carphone">
+			</el-table-column>
 			<el-table-column
 				label="车辆照片"
 				width="120"
-				prop="img">
-                <el-button type="text" >查看</el-button>
+				>
+                <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="view(scope.$index)">查看</span>
+                    </div>
+                </template>
 			</el-table-column>
 			<el-table-column
 				label="车辆行驶温度"
@@ -60,12 +76,22 @@
                     </template>
                 </el-table-column>
 		</el-table>
-        <el-dialog
-        title="图片"
-        :visible.sync="dialogcarVisible"
-        width="30%">
-        <!--  -->
-        </el-dialog>
+        <el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            @current-change="fetchData"
+            :current-page.sync="page">
+        </el-pagination>
+        <el-dialog title="图片详情"    
+					:visible.sync="dialogFormVisible" 
+					width="800px">
+          <div>
+          <el-card :body-style="{ padding: '0px' }">
+          <img :src="pic" class="image" :onerror="defaultImg">
+          </el-card>
+          </div>
+		</el-dialog>
+
         <el-dialog
         title="编辑"
         :visible.sync="dialogEditVisible"
@@ -89,9 +115,15 @@ import { isReqSuccessful } from '@/util/jskit'
 export default {
     data(){
         return{
+            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+            dialogFormVisible:false,
+            pic:'',
+            page:1,
+            total: 10,
             data:[],
             carnum:'',
             carname:'',
+            carphone:'',
             tempreture:'',
             page:1,
             total: 10,
@@ -120,6 +152,12 @@ export default {
     },
 
     methods:{ 
+        //查看图片
+       view(index){
+            this.pic=this.tableData[index].pic
+            this.dialogFormVisible=true
+            console.log(this.tableData[index].pic)
+        },
         handleCell(row,column,event,cell){
           this.rows=row.carnum
           if(column.label=="车辆照片"){
@@ -189,6 +227,21 @@ export default {
           item.model = file.name
           item.file = file
         },
+        async fetchData(){
+        let id=this.user.userFactory;
+        let param={
+            page:this.page-1,
+            size:15
+        }
+        // getCorrelationData(id, param).then(res => {
+        //             if (isReqSuccessful(res)) {
+        //                 let data = res.data;
+        //                 this.tableData = data.List
+        //                 this.total = data.size
+        //             }
+                    
+        //         },)
+      }
 
     }
 

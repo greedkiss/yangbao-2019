@@ -67,9 +67,19 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div>
+        <div class="form">
             <span>各部分库存数量（个）</span>
-            <el-table :data="numtableData" :border="true" >
+            <el-table :data="numtableData" :border="true">
+            <el-table-column
+				label="部位名称"
+				width="80"
+				>
+                <template slot-scope="scope">
+                    <div>
+                        <span>数量</span>
+                    </div>
+                </template>
+			</el-table-column>
 			<el-table-column
 				label="胴体"
 				width="78"
@@ -105,6 +115,18 @@
 				width="78"
 				prop="DMnum">
 			</el-table-column>
+		</el-table>
+        <el-table :data="numtableData" :border="true" >
+            <el-table-column
+				label="部位名称"
+				width="80"
+				>
+                 <template slot-scope="scope">
+                    <div>
+                        <span>数量</span>
+                    </div>
+                </template>
+			</el-table-column>
 			<el-table-column
 				label="羊腰脊"
 				width="78"
@@ -135,8 +157,14 @@
 				width="78"
 				prop="DInum">
 			</el-table-column>
+            <el-table-column
+				label=""
+				width="78"
+				prop="">
+			</el-table-column>
 		</el-table>
         </div>
+        <span>选择售卖</span>
         <div>
         <el-table 
         ref="multipleTable"
@@ -145,7 +173,7 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
             <el-table-column
-            label="关联"
+            label="勾选"
             type="selection"
             width="55">
             </el-table-column>
@@ -211,7 +239,7 @@ import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadS
 export default {
     data(){
         return{
-            numtableData:[{Dnum:15,DEnum:55}],
+            numtableData:[{Dnum:15,DEnum:55,DYnum:444}],
             values:null,
             options:[{
                 value: '川A88888888',
@@ -399,3 +427,13 @@ export default {
 }
 
 </script>
+<style scoped>
+form.table {
+font-family: verdana,arial,sans-serif;
+font-size:11px;
+color:#333333;
+border-width: 1px;
+border-color: #666666;
+border-collapse: collapse;
+}
+</style>

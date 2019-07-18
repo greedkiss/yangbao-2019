@@ -69,10 +69,10 @@
 				width="120"
 				>
         <template slot-scope="scope">
-                    <div class="opr" >
-                        <span @click="view(scope.$index)">查看</span>
-                    </div>
-                </template>
+            <div class="opr" >
+                <span @click="view(scope.$index)">查看</span>
+            </div>
+        </template>
 			</el-table-column>
   </el-table>
 
