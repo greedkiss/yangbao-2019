@@ -44,6 +44,21 @@
 				width="120"
 				prop="buyTime">
 			</el-table-column>
+      <el-table-column
+				label="来源地址"
+				width="120"
+				prop="address">
+			</el-table-column>
+			<el-table-column
+				label="养殖场"
+				width="120"
+				prop="farm">
+			</el-table-column>
+			<el-table-column
+				label="货主"
+				width="120"
+				prop="master">
+			</el-table-column>
 			<el-table-column
 				label="重量"
 				width="120"
@@ -52,10 +67,25 @@
      <el-table-column
 				label="图片"
 				width="120"
-				prop="pic">
+				>
+        <template slot-scope="scope">
+            <div class="opr" >
+                <span @click="view(scope.$index)">查看</span>
+            </div>
+        </template>
 			</el-table-column>
   </el-table>
 
+       <el-dialog title="图片详情"    
+					:visible.sync="dialogFormVisible" 
+					width="800px">
+          <div>
+          <el-card :body-style="{ padding: '0px' }">
+          <img :src="pic" class="image" :onerror="defaultImg">
+          </el-card>
+          </div>
+				</el-dialog>
+        
   <el-pagination
             layout="prev, pager, next"
             :total="total"
@@ -74,6 +104,8 @@ import { isReqSuccessful } from '@/util/jskit'
   export default {
     data() {
       return {
+        defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+        pic:"",
         page:1,
         total: 10,
         model: {
@@ -90,6 +122,7 @@ import { isReqSuccessful } from '@/util/jskit'
         tableData:[],
          qaId:null,
         multipleSelection:[],
+        dialogFormVisible:false,
       }
     },
     mounted () {
@@ -166,6 +199,12 @@ import { isReqSuccessful } from '@/util/jskit'
       handlePreview(file) {
         console.log(file);
       },
+      //查看图片
+       view(index){
+            this.pic=this.tableData[index].pic
+            this.dialogFormVisible=true
+            console.log(this.tableData[index].pic)
+        },
       //加载表格信息
       async fetchData(){
         let id=this.user.userFactory;

@@ -65,17 +65,16 @@
 				width="120"
 				prop="address">
 			</el-table-column>
-      <el-table-column
+			<el-table-column
 				label="养殖场"
 				width="120"
 				prop="farm">
 			</el-table-column>
-      <el-table-column
+			<el-table-column
 				label="货主"
 				width="120"
 				prop="master">
 			</el-table-column>
-      
 			<el-table-column
 				label="羊只品类"
 				width="120"

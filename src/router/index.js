@@ -138,6 +138,11 @@ const SlaughterManage= () => import('@/components/admin/slaughterManger/slaughte
 const SlaughterManageList= () => import('@/components/admin/slaughterManger/slaughterManage_list')
 const SegmentManger= () => import('@/components/admin/segment/segmentManger')
 const SegmentMangerList= () => import('@/components/admin/segment/segmentManger_list')
+const StockManage = () => import('@/components/admin/stock/stock_manage')
+const OrderManage = () => import('@/components/admin/stock/order_manage')
+const VehicleManage = () => import('@/components/admin/stock/vehicle_manage')
+
+
 //消费实体管理
 const Consumer = () => import('@/components/admin/consumer/index')
 const ConsumerList = () => import('@/components/admin/consumer/list')
@@ -278,7 +283,7 @@ export default new Router({
             {path: 'health/antiscolic/prac', name: 'antiscolicprac', component: AntiscolicPrac},
             {path: 'health/antiscolic/list', name: 'antiscoliclist', component: AntiscolicList},
             //{path: 'health/warn/list', name: 'warnlist', component: WarnList},
-            
+
             // 营养生产
             {path: 'nutrition/breed/plan', name: 'breedplan', component: BreedPlan},
             {path: 'nutrition/breed/prac', name: 'breedprac', component: BreedPrac},
@@ -344,6 +349,10 @@ export default new Router({
             {path: 'slaughterManage/slaughterManagelist', name: 'slaughterManagelist', component: SlaughterManageList},
             {path: 'segment/segmentManger', name: 'segmentManger', component: SegmentManger},
             {path: 'segment/segmentMangerlist', name: 'segmentMangerlist', component: SegmentMangerList},
+            {path: 'stock/stockManage', name: 'stockManage', component: StockManage},
+            {path: 'stock/orderManage', name: 'orderManage', component: OrderManage},
+            {path: 'stock/vehicleManage', name: 'vehicleManage', component: VehicleManage},
+
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
