@@ -19,6 +19,7 @@ export const vedioUrl = 'http://qiniu.yunyangbao.cn/'
 //const baseUrl = 'http://192.168.1.107:9010' //波波
 //const baseUrl = 'http://192.168.1.103:9020' //文华
 //const baseUrl = 'http://192.168.1.106:9021' //akunnew
+//const baseUrl = 'http://192.168.1.110:9010' //殷超
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
 let app = new Vue()

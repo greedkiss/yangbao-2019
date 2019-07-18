@@ -16,31 +16,37 @@
         </el-form-item>
         </el-form>
         <div>
-                <div class="production-view">
-            <div class="production-content" v-for="(item, i) in proList" :key="i">
-                <el-card>
-                    <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
-                    <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
-                    <p class="production-info" v-if="!isDiagnose">商标耳牌：{{ item.brand }}</p>
-                    <p class="production-info">时间：{{ item.time }}</p>
-                    <el-dialog
-                      :visible.sync="productionShow[i]"
-                      width="50%"
-                      center>
-                        <!-- FIXME: video 标签兼容性处理 -->
-                        <div class="show-detail">
-                            <img class="production-image-detail" :src="item.url" :onerror="defaultImg">
-                        </div>
-                        <div class="show-list">
-                            <ul>
-                                <li><el-tag>商标耳牌</el-tag> {{ item.brand }}</li>
-                                <li><el-tag>上传日期</el-tag> {{ item.udate }}</li>
-                            </ul>
-                        </div>
-                    </el-dialog>
-                </el-card>
+            <div class="production-view">
+                <div class="production-content" v-for="(item, i) in proList" :key="i">
+                    <el-card>
+                        <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
+                        <p class="production-info">检疫合格证号：{{ item.brand }}</p>
+                        <p class="production-info">时间：{{ item.time }}</p>
+                        <el-dialog
+                            :visible.sync="productionShow[i]"
+                            width="50%"
+                            center>
+                            <!-- FIXME: video 标签兼容性处理 -->
+                            <div class="show-detail">
+                                <img class="production-image-detail" :src="item.url" :onerror="defaultImg">
+                            </div>
+                            <div class="show-list">
+                                <ul>
+                                    <li><el-tag>检疫合格证号</el-tag> {{ item.brand }}</li>
+                                    <li><el-tag>上传日期</el-tag> {{ item.udate }}</li>
+                                </ul>
+                            </div>
+                        </el-dialog>
+                    </el-card>
+                    
+                </div>
+                <el-pagination
+                    layout="prev, pager, next"
+                    :total="total"
+                    @current-change="fetchData"
+                    :current-page.sync="page">
+                </el-pagination>
             </div>
-        </div>
         </div>
         
     </div>
@@ -52,6 +58,8 @@ import { isReqSuccessful } from '@/util/jskit'
 export default {
     data () {
         return {
+            page:1,
+            total: 10,
             qaId:'',
             tradeMarkEarTag:'',
             productionShow: [],

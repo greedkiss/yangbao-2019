@@ -52,31 +52,104 @@
                     </el-autocomplete>
                 </el-form-item>
                 <el-form-item>
-                    <el-autocomplete
-                        size='small'
-                        popper-class="my-autocomplete"
-                        v-model="state2"
-                        :fetch-suggestions="querySearch2"
-                        placeholder="选择车辆"
-                        @select="handleSelect2">
-                        <i
-                        class="el-icon-edit el-input__icon"
-                        slot="suffix"
-                        >
-                        </i>
-                        <template slot-scope="{ item }">
-                        <div class="name">{{ item.carname }}</div>
-                        </template>
-                    </el-autocomplete>
+                    <el-select v-model="values" placeholder="请选择">
+                    <el-option
+                    placeholder="选择车辆"
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submit" size='small'>生成订单</el-button>
                 </el-form-item>
             </el-form>
         </div>
-
-        <el-table :data="tableData" :span-method="objectSpanMethod" :border="true" >
+        <div>
+            <span>各部分库存数量（个）</span>
+            <el-table :data="numtableData" :border="true" >
 			<el-table-column
+				label="胴体"
+				width="78"
+				prop="Dnum">
+			</el-table-column>
+			<el-table-column
+				label="二分体"
+				width="78"
+				prop="DEnum">
+			</el-table-column>
+			<el-table-column
+				label="羊腹肉"
+				width="78"
+				prop="DFnum">
+			</el-table-column>
+			<el-table-column
+				label="黄瓜条"
+				width="78"
+				prop="DHnum">
+            </el-table-column>
+			<el-table-column
+                label="羊肩胛"
+                width="78"
+				prop="DJnum">
+            </el-table-column>
+            <el-table-column
+				label="羊肋排"
+				width="78"
+				prop="DLnum">
+			</el-table-column>
+			<el-table-column
+				label="羊前"
+				width="78"
+				prop="DMnum">
+			</el-table-column>
+			<el-table-column
+				label="羊腰脊"
+				width="78"
+				prop="DYnum">
+			</el-table-column>
+			<el-table-column
+				label="羊后腿"
+				width="78"
+				prop="DRnum">
+            </el-table-column>
+			<el-table-column
+                label="羊大腿"
+                width="78"
+				prop="DDnum">
+            </el-table-column>
+            <el-table-column
+				label="羊前腿"
+				width="78"
+				prop="DQnum">
+			</el-table-column>
+			<el-table-column
+				label="羊外肌"
+				width="78"
+				prop="DWnum">
+			</el-table-column>
+			<el-table-column
+				label="羊里脊"
+				width="78"
+				prop="DInum">
+			</el-table-column>
+		</el-table>
+        </div>
+        <div>
+        <el-table 
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+            <el-table-column
+            label="关联"
+            type="selection"
+            width="55">
+            </el-table-column>
+			<el-table-column                            
 				label="部位编码"
 				width="120"
 				prop="positionnum"
@@ -106,14 +179,27 @@
 				v-if="false"
 			></el-table-column>
 			<el-table-column
-				label="总数量"
+				label="价格"
 				width="120"
-            >
-				<template slot-scope="scope">
-					<!-- <p style="text-align: center;">{{dnum.get(scope.row.name)}}</p> -->
-				</template>
+                prop="price">
+			</el-table-column>
+            <el-table-column
+				label="养殖场"
+				width="120"
+                prop="farm">
+			</el-table-column>
+            <el-table-column
+				label="货主"
+				width="120"
+                prop="master">
+			</el-table-column>
+            <el-table-column
+				label="联系电话"
+				width="120"
+                prop="phonenum">
 			</el-table-column>
 		</el-table>
+        </div>
     </div>
 </template>
 
@@ -125,27 +211,60 @@ import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadS
 export default {
     data(){
         return{
+            numtableData:[{Dnum:15,DEnum:55}],
+            values:null,
+            options:[{
+                value: '川A88888888',
+                label: '何师傅'
+            }],
             area: {
 				province: [],
 				city: [],
 				country: [],
 				town: []
-			},
+            },
 			value: {
 				province: '',
 				city: '',
 				country: '',
 				town: ''
             },
+            multipleSelection:[],
             state1:'',
             state2:'',
-            tableData:[],
+            tableData:[{positionnum:'g1',name:'45'},
+            {positionnum:'g2',name:'45'},
+            {positionnum:'g21',name:'44'},
+            {positionnum:'g22',name:'44'},
+            {positionnum:'g23',name:'44'},
+            {positionnum:'g11',name:'43'},],
+            user:'',
         }
     },
 
     methods:{ 
         submit(){
-
+            let array = this.multipleSelection
+            let id=this.user.userFactory
+            let len=array.length-1
+            let sheep=''
+            for(let i = 0;i<len;i++){
+            let erNumber=array[i].positionnum+','
+            sheep=sheep+erNumber
+            }
+            let erNumber=array[len].positionnum
+            sheep=sheep+erNumber
+            let data={
+                address:this.state1,
+                car:this.values,
+                sheep
+            } 
+            if(data.address==""||data.car==null){
+                this.$message.warning('请完善信息')
+            }else{
+                console.log(id,data)
+                this.$message.success('生成订单成功')
+            }
         },
         provinceChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
@@ -214,76 +333,69 @@ export default {
 	        }
         },
         //选择车辆
-        querySearch2(queryString, cb) {
-	        let restaurants = this.restaurants4
-	        let results = queryString ? restaurants.filter(this.createFilter2(queryString)) : restaurants
-	        cb(results)
-          },
-        handleSelect2(item){
-			this.state1 = item.breedName.toString()
-			this.salesheepid = item.id
+        // querySearch2(queryString, cb) {
+	    //     let restaurants = this.restaurants4
+	    //     let results = queryString ? restaurants.filter(this.createFilter2(queryString)) : restaurants
+	    //     cb(results)
+        //   },
+        // handleSelect2(item){
+		// 	this.state1 = item.breedName.toString()
+		// 	this.salesheepid = item.id
+        // },
+        // createFilter2(queryString) {
+	    //     return (restaurant) => {
+	    //       return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
+	    //     }
+        // },
+        //复选框
+        toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.multipleTable.clearSelection();
+          }
         },
-        createFilter2(queryString) {
-	        return (restaurant) => {
-	          return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
-	        }
+        handleSelectionChange(val) {
+        this.multipleSelection = val;
         },
-        objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-			let name = row.name
-			let flag = 0 
-			let len = this.merge.len.get(namename)
-			if (columnIndex === 5 || columnIndex == 0) {
-				if (this.tableCol.get(rowIndex) === 5 ) {
-					return {
-						rowspan: len,
-						colspan: 1
-					};
-				}		
-				else {
-					return {
-						rowspan: 0,
-						colspan: 0
-					};
-				}
-			}
-		},
     },
 
     mounted(){
-    let id = this.$route.params.id
-    getUserById(id).then(res => {
-        if (isReqSuccessful(res)) {
-            this.user = res.data.model
-            console.log(this.user);
-            let {userFactory} = this.user
-            // getcarname(user).then(res =>{
-            //     if (isReqSuccessful(res)) {
-            //         this.restaurants4 = res.data.data
-            //     }
-                            
-            // })
-            getSaleFac(userFactory).then(res =>{
-                if (isReqSuccessful(res)) {
-                    this.restaurants3 = res.data.data
-                }
-            })
-        }
-    }).then(this.fetchData)
-    let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
-    let obj = {url}
+        let id = this.$route.params.id
+        getUserById(id).then(res => {
+            if (isReqSuccessful(res)) {
+                this.user = res.data.model
+                console.log(this.user);
+                let {userFactory} = this.user
+                // getcarname(user).then(res =>{
+                //     if (isReqSuccessful(res)) {
+                //         this.restaurants4 = res.data.data
+                //     }
+                                
+                // })
+                getSaleFac(userFactory).then(res =>{
+                    if (isReqSuccessful(res)) {
+                        this.restaurants3 = res.data.data
+                    }
+                })
+            }
+        }).then(this.fetchData)
+        let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+        let obj = {url}
             getPlace(obj).then(res => {
-        res.result.forEach((item) =>{
-            item.forEach((ipv)=>{
-                this.area.province.push({
-                    label: ipv.fullname,
-                    value: ipv.id
+                res.result.forEach((item) =>{
+                    item.forEach((ipv)=>{
+                        this.area.province.push({
+                            label: ipv.fullname,
+                            value: ipv.id
+                        })
+                    })
                 })
             })
-        })
-    })
-    },
-
+    }
+    
 }
-
 
 </script>
