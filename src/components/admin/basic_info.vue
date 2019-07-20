@@ -79,6 +79,7 @@
                     <el-input-number style="width: 66%" size="small" v-model="models[item.model]"></el-input-number>
                 </div>
 
+
                 <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'cutline'">
                     <div style="height:10px;"> </div>
                     <el-alert  :title="item.label" type="info" center :closable="false" >
