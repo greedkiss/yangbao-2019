@@ -108,12 +108,6 @@ import { isReqSuccessful } from '@/util/jskit'
         pic:"",
         page:1,
         total: 10,
-        model: {
-                building:String(this.$route.query.dong)==null?'':this.$route.query.dong,
-                column: '',
-                earTag: this.$route.query.ramSheepTrademark==null?'':this.$route.query.ramSheepTrademark,
-                columnString:String(this.$route.query.lan)==null?'':this.$route.query.lan,
-        },
         user: null,
         disableAll: false,
         pictureStyle: '',
@@ -210,7 +204,7 @@ import { isReqSuccessful } from '@/util/jskit'
         let id=this.user.userFactory;
         let param={
             page:this.page-1,
-            size:15
+            size:10
         }
         getCorrelationData(id, param).then(res => {
                     if (isReqSuccessful(res)) {

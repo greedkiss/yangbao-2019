@@ -39,7 +39,7 @@
                         popper-class="my-autocomplete"
                         v-model="state1"
                         :fetch-suggestions="querySearch1"
-                        placeholder="选择屠宰场或终端店"
+                        placeholder="选择终端店"
                         @select="handleSelect1">
                         <i
                         class="el-icon-edit el-input__icon"
@@ -52,7 +52,7 @@
                     </el-autocomplete>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="values" placeholder="请选择">
+                    <el-select v-model="values" placeholder="请选择司机">
                     <el-option
                     placeholder="选择车辆"
                     v-for="item in options"
@@ -74,7 +74,7 @@
 				label="部位名称"
 				width="80"
 				>
-                <template slot-scope="scope">
+                <template>
                     <div>
                         <span>数量</span>
                     </div>
@@ -121,7 +121,7 @@
 				label="部位名称"
 				width="80"
 				>
-                 <template slot-scope="scope">
+                 <template>
                     <div>
                         <span>数量</span>
                     </div>

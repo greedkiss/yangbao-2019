@@ -96,6 +96,15 @@
         title="编辑"
         :visible.sync="dialogEditVisible"
         width="30%">
+        <el-input v-model="data.carname" size="small" placeholder="">
+            <template slot="prepend">司机名称:</template>
+        </el-input>
+        <el-input v-model="data.carphone" size="small" placeholder="">
+            <template slot="prepend">司机电话:</template>
+        </el-input>
+        <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:285px" size="small" @click.native="$refs.erpai[i].click()" :value="item.model">
+            <template slot="prepend">上传车辆图片:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
+        </el-input>
         <el-input v-model="data.tempreture" size="small" width="120" placeholder="">
             <template slot="prepend">行驶温度:</template>
         </el-input>

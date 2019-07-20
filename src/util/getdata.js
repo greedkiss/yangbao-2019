@@ -495,6 +495,16 @@ export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'P
 //认购管理
 export const getCorrelationData = (id,data) => fetch(`/slaughter/`+ id , data, 'GET')
 
+export const getpicsOfFactory = (id,data) => fetch(`/QaPic/`+id, data, 'GET')
+
+export const getpicsByEarTagOrQaTag = (data) => fetch(`/QaPic/QueryQaPic/`, data, 'GET')
+
+//屠宰前管理
+
+export const getManageData = (data) => fetch(`/slaughter/s`, data, 'POST')
+
+export const getManageEdit = (data) => fetch(`/slaughter/m`, data, 'POST')
+
 
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')

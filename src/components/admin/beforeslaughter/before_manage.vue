@@ -2,12 +2,12 @@
 <div>
     <el-form :inline="true" class="demo-form-inline">
     <el-form-item label="">
-        <el-input v-model="qaId" size="small" placeholder="">
+        <el-input v-model="qaId" size="small" placeholder="" style="width:210px">
           <template slot="prepend">免疫合格证号:</template>
         </el-input>
     </el-form-item>
     <el-form-item label="">
-        <el-input v-model="tradeMarkEarTag" size="small" placeholder="" >
+        <el-input v-model="tradeMarkEarTag" size="small" placeholder="" style="width:210px">
           <template slot="prepend">耳牌号:</template>
         </el-input>
     </el-form-item>
@@ -26,29 +26,27 @@
             </el-date-picker>
     </el-form-item>
     <el-form-item>
-        <el-button type="primary" size="small" @click="onSubmit">查询</el-button>
+        <el-button type="primary" size="small" @click="fetchData">查询</el-button>
     </el-form-item>
     </el-form>
-
-    <div>
+<div>
         <el-table 
         :data="tableData"
-        style="width: 100%"
-        @cell-click="handleCell">
+        style="width: 100%">
             <el-table-column
 				label="免疫合格证号码"
 				width="150"
-				prop="certificationNum">
+				prop="immuneCertified">
 			</el-table-column>
             <el-table-column
 				label="商标耳牌号"
 				width="120"
-				prop="tradeMarkEartag">
+				prop="trademarkEarTag">
 			</el-table-column>
 			<el-table-column
 				label="免疫耳牌号"
 				width="120"
-				prop="immuneEartag">
+				prop="immuneEarTag">
 			</el-table-column>
 			<el-table-column
 				label="栋号"
@@ -63,22 +61,22 @@
       <el-table-column
 				label="来源地址"
 				width="120"
-				prop="address">
+				prop="originAddress">
 			</el-table-column>
 			<el-table-column
 				label="养殖场"
 				width="120"
-				prop="farm">
+				prop="breedFactory">
 			</el-table-column>
 			<el-table-column
 				label="货主"
 				width="120"
-				prop="master">
+				prop="goodman">
 			</el-table-column>
 			<el-table-column
 				label="羊只品类"
 				width="120"
-				prop="style">
+				prop="sheepType">
 			</el-table-column>
 			<el-table-column
 				label="重量"
@@ -88,7 +86,7 @@
       	<el-table-column
 				label="时间"
 				width="120"
-				prop="times">
+				prop="time">
 			</el-table-column>
 			<el-table-column
 				label="年龄"
@@ -96,11 +94,14 @@
 				prop="age">
 			</el-table-column>
 			<el-table-column
-				label="视频/图片"
+				label="视频"
 				width="120"
-				prop="video_img"
-			>
-			<el-button type="text" >查看</el-button>
+				>
+        <template slot-scope="scope">
+            <div class="opr" >
+                <span @click="view(scope.$index)">查看</span>
+            </div>
+        </template>
 			</el-table-column>
       <el-table-column width="200" label="操作">
       <template slot-scope="scope">
@@ -110,9 +111,15 @@
       </template>
       </el-table-column>
  </el-table>
-    </div>
-
-    <el-dialog
+<el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="10"
+            @current-change="fetchData"
+            :current-page.sync="page">
+        </el-pagination>
+</div>
+<el-dialog
   title="上传"
   :visible.sync="dialogUpdataVisible"
   width="30%">
@@ -121,9 +128,10 @@
     </el-input>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogUpdataVisible = false">取 消</el-button>
-    <el-button type="primary" @click="uploadVideo">确 定</el-button>
+    <el-button type="primary" @click=" manageEdit2()">确 定</el-button>
   </span>
 </el-dialog>
+
 <el-dialog
   title="编辑"
   :visible.sync="dialogEditVisible"
@@ -133,147 +141,124 @@
   </el-input>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogEditVisible = false">取 消</el-button>
-    <el-button type="primary"  @click="editWeight">确 定</el-button>
+    <el-button type="primary"  @click=" manageEdit1()">确 定</el-button>
   </span>
 </el-dialog>
 
 <el-dialog
   title="羊只视频"
-  :visible.sync="dialogVideoVisible"
+  :visible.sync="dialogFormVisible"
   width="30%">
-   		<video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
-       <img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
-   <div class="show-list">
-				<ul>
-						<li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
-						<li><el-tag>上传日期</el-tag> {{ sheepVideo.time }}</li>
-				</ul>
-		</div>
+   		<video :src="video" class="production-video" controls="controls" height="400" width="400"></video>
 </el-dialog>
 
 </div>
 </template>
 
 <script>
-import { getUserById} from '@/util/getdata'
+import { getUserById,getManageData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit' 
 
   export default {
     data() {
       return {
-          tableData:[{
-            certificationNum:1,
-            tradeMarkEartag:2,
-            weight:88
-          }],
-          sheepVideo:{
-          url:null,
-          time:null,
-          filetype:0,
-          erNumber:null
-        },
-          rows:'',
+          tableData:[],
+          video:'',
+          filetype:'',
           qaId: '',
           weight:'',
           tradeMarkEarTag: '',
           gmtCreate:'',
           dialogUpdataVisible:false,
           dialogEditVisible:false,
-          dialogVideoVisible:false,
+          dialogFormVisible:false,
           erpai: '',
           captures: [{model: null , per : 0}],
           user: null,
+          page:1,
+          limit:10,
+          total:0,
+          id:'',
       }
     },
-    methods: {
-      mounted () {
+    mounted () {
         let id = this.$route.params.id
         getUserById(id).then(res => {
           this.user = res.data.model
         }).then(this.fetchData)
     },
-      //查询
-      onSubmit() {
-        if(this.qaId==''&&this.tradeMarkEarTag==''&&this.gmtCreate==''){
-          this.$message.warning('至少完成一项表单信息！');
-        }else{
-          let tradeMarkEarTag=this.tradeMarkEarTag
-          let qaId=this.qaId
-          let gmtCreate=this.gmtCreate
-          let data = {gmtCreate,tradeMarkEarTag,qaId}
-          console.log(data)
-        }
-        
-      },
+    methods: {
+      
       //查看视频
-      handleCell(row,column,event,cell){
-          // console.log(row.tradeMarkEartag)
-          // console.log(column.label)
-          this.rows=row.tradeMarkEartag
-          if(column.label=="视频/图片"){
-				 this.dialogVideoVisible=true;
-				 this.videoEr=row.tradeMarkEartag;
-				 this.getVideo(row.tradeMarkEartag)
-			}	
+      view(index){
+            this.video=this.tableData[index].video
+            this.dialogFormVisible=true
+            console.log(this.tableData[index].video)
       },
-      getVideo (er) {
-								let videoMessage={}
-                watchVideo(er).then(res => {
-                    if(isReqSuccessful(res)) {
-												let arr = []
-												let obj={}
-														videoMessage.url=res.address
-														videoMessage.time=res.udate
-														videoMessage.filetype=res.filetype             
-                    }
-                }).catch(_ => {
-                    this.$message.error('获取失败');
-								})
-								this.sheepVideo.erNumber=er
-								this.sheepVideo.url=videoMessage.url
-								this.sheepVideo.time=videoMessage.time
-								this.sheepVideo.filetype=videoMessage.filetype
-        },
       //同步体重及视频
       Syn(row){
-        this.$message.success('同步成功')
-        console.log(this.weight)
-        // console.log(this.rows)
+        
+        console.log(row.tradeMarkEartag)
+        
       },
       //上传视频
       Upload(row){
-        this.dialogUpdataVisible = true;     
+        this.dialogUpdataVisible = true;
+        this.id=row.id
       },
-      uploadVideo(){
-        this.dialogUpdataVisible = false;
-        // console.log(this.rows)
+       //编辑体重
+      Edit(row){
+        this.dialogEditVisible = true;
+        this.id=row.id
+      },
+      //编辑体重
+      manageEdit1(){
+        this.dialogEditVisible = false;
         let form=new FormData()
-              let qaId=this.qaId
-              form.append('userId', this.$route.params.id)
-              form.append('eartags', rows)
-              form.append('factoryId', this.user.userFactory)
+              form.append('id',this.id )
+              form.append('weight', this.weight)
+              let headers = {}
+              headers[authStr] = window.localStorage.getItem(tokenStr)
+              window.fetch(baseUrl + '/slaughter/m', {
+                  method: 'POST',
+                  headers,
+                  body: form
+              }).then(async res => {
+                let body = await res.json()
+                    if (isReqSuccessful(body)) {
+                            this.$message.success('上传成功')
+                    }
+                    else{
+                    this.$message.error('上传失败')
+                    }
+                }).then(this.fetchData)
+              
+      },
+      //上传视频
+      manageEdit2(){
+        this.dialogUpdataVisible = false;
+        let form=new FormData()
+              form.append('id',this.id )
               this.captures.forEach((item, index) => {
                     form.append('file', this.$refs.erpai[index].files[0])
               })
-              console.log(form)
               
-              // let headers = {}
-              // headers[authStr] = window.localStorage.getItem(tokenStr)
-              // window.fetch(baseUrl + '/slaughter/addqarecord', {
-              //     method: 'POST',
-              //     headers,
-              //     body: form
-              // }).then(async res => {
-              //   if (isReqSuccessful(res)) {
-              //           this.$message.success("上传成功")
-              //       }else{
-              //          this.$message.warning("上传失败")
-              //       }
-                
-              // },_ => {
-              //       this.$message.error('上传失败')
-              //   })
+              let headers = {}
+              headers[authStr] = window.localStorage.getItem(tokenStr)
+              window.fetch(baseUrl + '/slaughter/m', {
+                  method: 'POST',
+                  headers,
+                  body: form
+              }).then(async res => {
+                let body = await res.json()
+                    if (isReqSuccessful(body)) {
+                            this.$message.success('上传成功')
+                    }
+                    else{
+                    this.$message.error('上传失败')
+                    }
+                }).then(this.fetchData)
               
       },
       selectFile (item, idx) {
@@ -281,36 +266,32 @@ import { isReqSuccessful } from '@/util/jskit'
           item.model = file.name
           item.file = file
           },
-      //编辑体重
-      Edit(row){
-        this.dialogEditVisible = true;
-        console.log(row.weight)
-      },
-      editWeight(){
-        console.log(data)
-       console.log(this.rows)
-        let data={
-          weighi:this.weight,
-          eartags:this.rows
-          }
-        this.dialogEditVisible = false;
-      },
+     
+      
       //获取数据
-      // async fetchData(){
-      //   let id=this.user.userFactory;
-      //   let param={
-      //       page:this.page-1,
-      //       size:15
-      //   }
-      //   getCorrelationData(id, param).then(res => {
-      //               if (isReqSuccessful(res)) {
-      //                   let data = res.data;
-      //                   this.tableData = data.List
-      //                   this.total = data.size
-      //               }
+      async fetchData(){
+        // let startTime, endTime;
+        // startTime = (this.gmtCreate == null) ? null : this.gmtCreate[0]
+        // endTime = (this.gmtCreate == null) ? null : this.gmtCreate[1]
+        let data = {
+            certificate:this.qaId,
+            trademark:this.tradeMarkEarTag,
+            startTime:(this.gmtCreate == null) ? "" : this.gmtCreate[0],
+            endTime:(this.gmtCreate == null) ? "" : this.gmtCreate[1],
+            page:this.page-1,
+            size:10,
+            factory:this.user.userFactory,
+        }
+        getManageData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        this.tableData = data.List
+                        this.total = data.number
+                        this.video = data.List.video
+                    }
                     
-      //           },)
-      // }
+                },)
+      }
     }
   }
 </script>

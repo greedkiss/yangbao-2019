@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="admin-form mod_production">
         <el-form :inline="true" >
         <el-form-item>
         <el-input v-model="qaId" size="small" placeholder="">
@@ -20,8 +20,8 @@
                 <div class="production-content" v-for="(item, i) in proList" :key="i">
                     <el-card>
                         <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
-                        <p class="production-info">检疫合格证号：{{ item.brand }}</p>
-                        <p class="production-info">时间：{{ item.time }}</p>
+                        <p class="production-info">检疫合格证号：{{ item.qaId }}</p>
+                        <p class="production-info">时间：{{ item.gmtCreate }}</p>
                         <el-dialog
                             :visible.sync="productionShow[i]"
                             width="50%"
@@ -32,40 +32,38 @@
                             </div>
                             <div class="show-list">
                                 <ul>
-                                    <li><el-tag>检疫合格证号</el-tag> {{ item.brand }}</li>
-                                    <li><el-tag>上传日期</el-tag> {{ item.udate }}</li>
+                                    <li><el-tag>检疫合格证号</el-tag> {{ item.qaId }}</li>
+                                    <li><el-tag>上传日期</el-tag> {{ item.gmtCreate }}</li>
                                 </ul>
                             </div>
                         </el-dialog>
                     </el-card>
                     
                 </div>
-                <el-pagination
+                
+            </div>
+            <el-pagination
                     layout="prev, pager, next"
                     :total="total"
                     @current-change="fetchData"
-                    :current-page.sync="page">
+                    :current-page.sync="pageNumb">
                 </el-pagination>
-            </div>
         </div>
         
     </div>
 </template>
 <script>
-import { getUserById} from '@/util/getdata'
+import { getUserById,getpicsOfFactory,getpicsByEarTagOrQaTag} from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 
 export default {
     data () {
         return {
-            page:1,
-            total: 10,
             qaId:'',
             tradeMarkEarTag:'',
             productionShow: [],
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
             // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"',
-            time: [],
             proList: [],
             pageNumb: 1,
             total: 0,
@@ -78,50 +76,72 @@ export default {
         getUserById(id).then(res => {
           this.user = res.data.model
         }).then(this.fetchData)
-        },
+    },
     methods:{
         //查询
         submit(){
-            let id=this.user.userFactory
+            
             let data={
-                qaId:this.qaId,
-                tradeMarkEarTag:this.tradeMarkEarTag,
+                factory:this.user.userFactory,
+                page: this.pageNumb - 1,
+                size: this.limit,
+                qaTag:this.qaId,
+                earTag:this.tradeMarkEarTag,
             }
-            console.log(id,data)
+            getpicsByEarTagOrQaTag(data).then(res => {
+                    if(isReqSuccessful(res)) {
+                        if(!res.data.List.length) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.total = 0
+                            return
+                        }
+                        let arr = []
+                        res.data.List.forEach((item) => {
+                            item.url = item.qaPic
+                        })
+                        this.proList = res.data.List
+                        
+                        this.productionShow = new Array(arr.length).fill(false);
+                    }
+                }).catch(_ => {
+                    this.$message.error('查询失败')
+                })
         },
 
         showPop (i) {
             this.$set(this.productionShow, i, true);
         },
-        // async fetchData(){ // 查询所有数据
-        //         let id=factory: this.user.userFactory,
-        //         let data = {
-        //             pageNumb: this.pageNumb - 1,
-        //             limit: this.limit,
-        //             // brand: this.model.earTag,
-        //             // uploader: this.user.id,
-        //         }
-        //         diaSearchAll(data).then(res => {
-        //             if(isReqSuccessful(res)) {
-        //                 if(!res.data.List.length) {
-        //                     this.$message.warning('未查询到数据')
-        //                     this.proList = []
-        //                     this.total = 0
-        //                     return
-        //                 }
-        //                 let arr = []
-        //                 res.data.List.forEach((item) => {
-        //                     item.url = item.address
-        //                     item.time = item.udate
-        //                 })
-        //                 this.proList = res.data.List
-        //                 this.total = res.data.size
-        //                 this.productionShow = new Array(arr.length).fill(false);
-        //             }
-        //         }).catch(_ => {
-        //             this.$message.error('查询失败')
-        //         })
-        //     }   
+        async fetchData(){ 
+                let id=this.user.userFactory
+                let data = {
+                    page: this.pageNumb - 1,
+                    size: this.limit,
+                }
+               getpicsOfFactory(id,data).then(res => {
+                    if(isReqSuccessful(res)) {
+                        if(!res.data.List.length) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.total = 0
+                            return
+                        }
+                        let arr = []
+                        res.data.List.forEach((item) => {
+                            item.url = item.qaPic
+                            // item.time = item.udate
+                        })
+                        this.proList = res.data.List
+                        this.total = res.data.number
+                        this.productionShow = new Array(arr.length).fill(false);
+                    }
+                }).catch(_ => {
+                    this.$message.error('查询失败')
+                })
+            }   
     }
 }
 </script>
+<style lang="stylus">
+@import '../../../assets/css/view-list.styl'
+</style>
