@@ -429,7 +429,7 @@ export const moveSheep = (id, data) => fetch('/bc/changeBC/' + id, data, 'POST')
 
 export const moveSheepAll = data => fetch('/bc/changeBC/w', data, 'POST')
 
-export const getSaleFac = (id) => fetch('/factory/in/' + id, 'GET')
+export const getSaleFac = (data) => fetch('/customer/slaughter/',data, 'POST')
 
 export const makeSaleFac = (data) => fetch('/ds/ds', data,'POST')
 
@@ -457,6 +457,7 @@ export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
 export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
 export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
+export const submitSureSaleSheep= (data) => fetch('/saleOrder/add/confirm', data, 'POST')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 export const watchVideo = (data) => fetch('/s/u' ,data ,  'POST')

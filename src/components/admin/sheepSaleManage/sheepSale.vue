@@ -44,7 +44,7 @@
 				   >
 				  </i>
 				  <template slot-scope="{ item }">
-				    <div class="name">{{ item.breedName }}</div>
+				    <div class="name">{{ item.name }}</div>
 				  </template>
 				</el-autocomplete>
 
@@ -476,25 +476,69 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace,watchVideo} from '@/util/getdata'
+import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep,submitSureSaleSheep,makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace,watchVideo} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
 			this.fetchData()
+		},
+		newProvince(provice){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getSaleFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.restaurants3 = res.data.List
+						}
+				})
+
+		},
+		newCity(city){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getSaleFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.restaurants3 = res.data.List
+						}
+				})
+
+		},
+		newCountry(country){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getSaleFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.restaurants3 = res.data.List
+						}
+				})
+
+
 		}
 	
 	},
 	mounted(){
-		
 		let id = this.$route.params.id
+	 let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
 								this.user = res.data.model
 								console.log(this.user);
                 let {userFactory} = this.user
-         		getSaleFac(userFactory).then(res =>{
+         		getSaleFac(simpleaddress).then(res =>{
 	         		if (isReqSuccessful(res)) {
-	         	 		this.restaurants3 = res.data.data
+	         	 		this.restaurants3 = res.data.List
 	            	}
          		})
             }
@@ -513,8 +557,17 @@ export default {
 		})
 
 	},
-	
-
+	computed:{
+		newProvince(){
+			return this.value.province
+		},
+		newCity(){
+			return this.value.city
+		},
+		newCountry(){
+			return this.value.country
+		},
+	},
 	data() {
 		return {
 			i:0,
@@ -690,8 +743,43 @@ export default {
 	methods: {
 		//确认销售按钮
 		sureSale(){
-			this.dialogFormVisible = false;
+			let theSaleSheep=[];
+			let saleRecordModels=this.multipleSelection;
+			let	userFactory = this.user.userFactory;
+
+			this.multipleSelection.forEach((item)=>{
+				theSaleSheep.push(item.tradeMarkEartag)
+			});
+			let saleTime = Date.parse(new Date())
+			let param = {		
+										   saleRecordModels:saleRecordModels,
+                			 totalWeight: this.orderform.sumweight,
+											 price: this.orderform.allprice,
+											 sourceFactoryId:this.orderform.farmId,
+											 destinationFactoryId:this.orderform.factoryId,
+											 count:this.orderform.sums,
+											 saleTime:saleTime,
+											 responsiblePerson:this.orderform.manger,
+											 responsiblePersonPhone:this.orderform.tele
+           				} 
 			
+			if (param.destinationFactoryId==0||param.allWeight==0||param.price==null||param.coun==0) {
+								this.$message.warning('请完善订单信息！')
+								return
+					}else{
+						submitSureSaleSheep(param).then(res => {
+                    if (isReqSuccessful(res)) {
+											this.$message.success('保存成功')
+											let pathid = this.$route.params.id
+     									let path = `/admin/${pathid}/sheepSaleManage/sheepSaleOrder`
+											this.$router.push(path)
+											this.dialogFormVisible = false;
+                    }
+								 }, _ => {
+                    this.$message.error('保存失败')
+                })
+						
+					 }
 		},
 		//保存按钮
     goSave(){
@@ -1022,7 +1110,7 @@ export default {
 			this.state2=item.toString()
 		},
 		handleSelect1(item){
-			this.state1 = item.breedName.toString()
+			this.state1 = item.name.toString()
 			this.salesheepid = item.id
 		},
 		moveSheepFun(){
@@ -1118,7 +1206,7 @@ export default {
 			
 //生成订单按钮
 		getSaleData(){
-					console.log(this.multipleSelection)
+			console.log(this.multipleSelection)
 					
 					if(this.multipleSelection.length == 0){
 				this.orderform.sums=0;
