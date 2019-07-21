@@ -177,14 +177,14 @@ import { isReqSuccessful } from '@/util/jskit'
                   headers,
                   body: form
               }).then(async res => {
-                if (isReqSuccessful(res)) {
-                        this.$message.success("上传成功")
-                    }else{
-                       this.$message.warning("上传失败")
-                    }
-                
-              },_ => {
+                  let body = await res.json()
+                    if (isReqSuccessful(body)) {
+                        this.$message.success('上传成功')
+                        this.fetchData()
+                     }
+                    else{
                     this.$message.error('上传失败')
+                    }
                 })
       },
       handleRemove(file, fileList) {

@@ -624,7 +624,7 @@ export default {
             },
             VideoNum:0,
             user:[],
-            radio:1,
+            radio:0,
             holder:null,
         total:0,
         page:1,
@@ -876,6 +876,7 @@ export default {
                             this.$message.success('上传成功')
                         // let path = `/admin/${pathid}/slaughterManage/segmentManagerlist`
                         // this.$router.push(path)
+                            this.fetchData()
                         })
                     }
                     else{

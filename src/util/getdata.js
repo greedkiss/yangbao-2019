@@ -287,7 +287,6 @@ export const postSlaughter = ( data) => fetch(`/slaughter/`, data, 'POST')
 
 export const getSegmentSheep = (id, data) => fetch('/slaughter/d/' + id, data,'GET')
 
-
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
 

@@ -32,7 +32,7 @@ export default {
                 {label: '客户单位', prop: 'destinationFactoryName'},
                 {label: '总重量', prop: 'totalWeight'},
                 {label: '数量', prop: 'count'},
-                {label: '耳牌号', prop: 'earTags'},
+                {label: '耳牌号', prop: 'trademark'},
                 {label: '订单生成时间', prop: 'saleTime'},
                 {label: '价格', prop: 'price'},
                 {label: '负责人', prop: 'responsiblePerson'}, 

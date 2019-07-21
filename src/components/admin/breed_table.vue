@@ -312,7 +312,8 @@
                 fixed="right"
                 label="操作"
                 align='center'
-                width="160">
+                width="160"
+                >
                 <template slot-scope="scope">
 
                     <div class="opr" v-if="isSaleOrder">

@@ -85,12 +85,12 @@
             <el-table-column
 				label="商标耳牌号"
 				width="120"
-				prop="tradeMarkEartag">
+				prop="trademarkEarTag">
 			</el-table-column>
 			<el-table-column
 				label="免疫耳牌号"
 				width="120"
-				prop="immuneEartag">
+				prop="immuneEarTag">
 			</el-table-column>
 			<el-table-column
 				label="栋号"
@@ -105,23 +105,23 @@
       <el-table-column
 				label="来源地址"
 				width="120"
-				prop="address">
+				prop="originAddress">
 			</el-table-column>
       <el-table-column
 				label="养殖场"
 				width="120"
-				prop="farm">
+				prop="breedFactory">
 			</el-table-column>
       <el-table-column
 				label="货主"
 				width="120"
-				prop="master">
+				prop="goodman">
 			</el-table-column>
       
 			<el-table-column
 				label="羊只品类"
 				width="120"
-				prop="style">
+				prop="sheepType">
 			</el-table-column>
 			<el-table-column
 				label="重量"
@@ -131,7 +131,7 @@
       	<el-table-column
 				label="时间"
 				width="120"
-				prop="times">
+				prop="time">
 			</el-table-column>
 			<el-table-column
 				label="年龄"
@@ -157,7 +157,7 @@
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
 import { isReqSuccessful} from '@/util/jskit'
-import {getUserById,postSlaughter} from '@/util/getdata'
+import {getUserById,postSlaughter,getManageData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 //getSlaughterManage
@@ -180,7 +180,7 @@ export default {
         return {
             video:'',
             user:null,
-            tableData:[{tradeMarkEartag:123},{tradeMarkEartag:456}],
+            tableData:[],
             total:0,
             page:1,
             multipleSelection:[],
@@ -217,7 +217,7 @@ export default {
         },
        handleCurrentChange(currentRow,oldCurrentRow) {
         this.selectRow = currentRow;
-        this.fatherNumber=this.selectRow.tradeMarkEartag
+        this.fatherNumber=this.selectRow.trademarkEarTag
         this.appendageNumber=this.fatherNumber+'F';
         this.kidNumber=this.fatherNumber+'D';
       },
@@ -251,8 +251,9 @@ export default {
                         this.captures2.forEach((item ,index) => {
                             this.captures2[index].per = 100
                             this.$message.success('上传成功')
-                        // let path = `/admin/${pathid}/slaughterManage/slaughterManagelist`
-                        // this.$router.push(path)
+                            // let path = `/admin/${pathid}/slaughterManage/slaughterManagelist`
+                            // this.$router.push(path)
+                            this.fetchData()
                         })
                     }
                     else{
@@ -262,33 +263,33 @@ export default {
             
         },
         async fetchData(){
-			let id = this.user.userFactory
-			let param = {
-                			start: (this.page - 1)*10,
+			let param = {   
+                            factory:this.user.userFactory,
+                			page: (this.page - 1)*10,
                				size: 10,
            				} 
-			// 			 this.tableData = []
-			// getSlaughterManage(id , param).then(res => {
-            //     if (isReqSuccessful(res)) {
-            //    		 this.total = Math.ceil(res.data.number/param.size)*10
-            //    		 let data = res.data.all
-            //    		 data.forEach((v) => {
-            //    		   	//  let {tradeMarkEartag , immuneEartag , d , l ,address ,farm, master,style,weight, times,age} = v
-            //    		   	//  let tradeMarkEartag = tradeMarkEartag
-            //             //  let immuneEartag = immuneEartag
-            //             //  let d=d
-            //    		   	//  let l=l
-            //             //  let farm=farm
-            //             //  let master=master
-            //             //  let style=style
-            //             //  let weight=weight
-            //             //  let times=times
-            //             //  let age=age
-            //    		   	//  let obj = {tradeMarkEartag , immuneEartag , d , l ,address ,farm, master,style,weight, times,age}
-			// 			this.tableData.push(v)
-            //    		 })
-            //     }
-            // })
+						 this.tableData = []
+			getManageData(param).then(res => {
+                if (isReqSuccessful(res)) {
+               		 this.total = Math.ceil(res.data.number/param.size)*10
+               		 let data = res.data.List
+               		 data.forEach((v) => {
+               		   	//  let {tradeMarkEartag , immuneEartag , d , l ,address ,farm, master,style,weight, times,age} = v
+               		   	//  let tradeMarkEartag = tradeMarkEartag
+                        //  let immuneEartag = immuneEartag
+                        //  let d=d
+               		   	//  let l=l
+                        //  let farm=farm
+                        //  let master=master
+                        //  let style=style
+                        //  let weight=weight
+                        //  let times=times
+                        //  let age=age
+               		   	//  let obj = {tradeMarkEartag , immuneEartag , d , l ,address ,farm, master,style,weight, times,age}
+						this.tableData.push(v)
+               		 })
+                }
+            })
 		},
     }
 }
