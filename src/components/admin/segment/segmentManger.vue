@@ -40,13 +40,13 @@
     <div class="card" v-if="radio==0">
         <p class="card-title" >胴体信息展示</p>
             <div class="border-main"> 
-                        <el-table
-        :data="tableData"
-        highlight-current-row
-        style="width: 100%;margin-top:20px;"
-        :border="true"
-        @current-change="handleCurrentChange"
-        >
+            <el-table
+            :data="tableData"
+            highlight-current-row
+            style="width: 100%;margin-top:20px;"
+            :border="true"
+            @current-change="handleCurrentChange"
+            >
             <el-table-column
 				type="index">
 			</el-table-column>

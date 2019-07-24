@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="area_management">
+        <div  class="area_management">
 				<span class="area_name" size='small'>省</span>
 				<el-select v-model="value.province" placeholder="省" size='small' @change="provinceChoose">
 			    <el-option
@@ -11,7 +11,7 @@
 			      >
 			    </el-option>
 				</el-select>
-					<span class="area_name" size='small'>市</span>				
+					<span class="area_name" size='small' style="margin-left:20px">市</span>				
 				<el-select v-model="value.city" placeholder="市" size='small' @change="cityChoose">
 			    <el-option
 			      v-for="item in area.city"
@@ -20,7 +20,7 @@
 			      :value="item">
 			    </el-option>
 				</el-select>
-				<span class="area_name" size='small'>县</span>		
+				<span class="area_name" size='small' style="margin-left:20px">县</span>		
 				<el-select v-model="value.country" size='small' placeholder="县">
 			    <el-option
 			      v-for="item in area.country"
@@ -31,9 +31,10 @@
 			  </el-select>
 		</div>
 
-        <div>
+        <div style="margin-top:10px">
             <el-form :inline="true">
-                <el-form-item>
+				<el-form-item>
+					<span class="area_name"  size='small'>终端店</span>
                     <el-autocomplete
                         size='small'
                         popper-class="my-autocomplete"
@@ -52,7 +53,8 @@
                     </el-autocomplete>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="values" placeholder="请选择司机">
+					<span class="area_name" size='small'>车辆</span>
+                    <el-select v-model="values"  size='small' placeholder="请选择司机">
                     <el-option
                     placeholder="选择车辆"
                     v-for="item in options"
@@ -67,9 +69,10 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="form">
+        <div class="stockManage-form">
             <span>各部分库存数量（个）</span>
-            <el-table :data="numtableData" :border="true">
+
+            <el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
             <el-table-column
 				label="部位名称"
 				width="80"
@@ -116,7 +119,8 @@
 				prop="DMnum">
 			</el-table-column>
 		</el-table>
-        <el-table :data="numtableData" :border="true" >
+
+        <el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}" >
             <el-table-column
 				label="部位名称"
 				width="80"
@@ -164,13 +168,15 @@
 			</el-table-column>
 		</el-table>
         </div>
-        <span>选择售卖</span>
-        <div>
+
+        
+        <div style="margin-top:20px;">
+			<span style="margin-bottom:10px;">选择售卖</span>
         <el-table 
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%"
+        style="width: 100%; margin-top:10px;" 
         @selection-change="handleSelectionChange">
             <el-table-column
             label="勾选"
@@ -436,4 +442,17 @@ border-width: 1px;
 border-color: #666666;
 border-collapse: collapse;
 }
+.area_management{
+	margin-left:25px;
+}
 </style>
+<style lang="stylus">
+.stockManage-form
+	.el-table
+		display table-caption
+	.el-table th
+			border-left 2px solid rgb(230,230,230);
+		
+</style>
+
+

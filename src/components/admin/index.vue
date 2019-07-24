@@ -279,7 +279,8 @@ export default {
                             {label: '购进管理', to: 'livestockBuy'},
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
-                    }
+                    },
+                    {label: '出库管理', to: 'outWareManage'},
                 ]
             },
             options: [],

@@ -345,107 +345,7 @@
 			</div>
 
 		</el-dialog>
-		<!-- 部分移动 -->
-		<el-dialog :visible.sync="showMoveSheepOnly" class="dead">
-			<el-form :model="form">
-				<span>羊只所在栏栋: {{this.sheepMessage.location}}</span><br/>
-				<span>羊只耳牌号:</span>
-				<el-input v-model="sheepMessage.earTag" size="small"></el-input><br/>
-				<span>栋&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：</span>
-			   <el-autocomplete
-				  popper-class="my-autocomplete"
-				  v-model="onlySheep.building"
-				  :fetch-suggestions="querySearchBuilOnly"
-				  @select="handleSelectBuilOnly">
-				  <i class="el-icon-edit el-input__icon" slot="suffix"></i>
-				  <template slot-scope="{ item }">
-				    <div class="name">{{ item }}</div>
-				  </template>
-				</el-autocomplete>
-				<br/>
-				<span>栏&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：</span>
-
-				 <el-autocomplete
-				  popper-class="my-autocomplete"
-				  v-model="onlySheep.col"
-				  :fetch-suggestions="querySearchColOnly"
-				  @select="handleSelectColOnly">
-				  <i class="el-icon-edit el-input__icon" slot="suffix"> </i>
-				  <template slot-scope="{ item }">
-				    <div class="name">{{ item }}</div>
-				  </template>
-				</el-autocomplete>
-
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click="showMoveSheepOnly  = false" size="small">取 消</el-button>
-				<el-button type="primary" @click="submitUp" size="small">确 定</el-button>
-			</div>
-		</el-dialog>
-		<!-- 全栏移动 -->
-		<el-dialog :visible.sync="showMoveSheepAll">
-			<div style="margin-left: 15%">
-		      <el-form >
-		      <span>原栋号：</span>
-		         <el-autocomplete
-		          popper-class="my-autocomplete"
-		          v-model="allSheep.oldBuilding"
-		          :fetch-suggestions="querySearchBuilAll"
-		          @select="handleSelectBuilAll">
-		          <i class="el-icon-edit el-input__icon" slot="suffix"></i>
-		          <template slot-scope="{ item }">
-		            <div class="name">{{ item }}</div>
-		          </template>
-		        </el-autocomplete>
-		        <br/><br/>
-
-		        <span>原栏号：</span>
-		         <el-autocomplete
-		          popper-class="my-autocomplete"
-		          v-model="allSheep.oldCol"
-		          :fetch-suggestions="querySearchColAll"
-		          @select="handleSelectColAll">
-		          <i class="el-icon-edit el-input__icon" slot="suffix">
-		          </i>
-		          <template slot-scope="{ item }">
-		            <div class="name">{{ item }}</div>
-		          </template>
-		        </el-autocomplete>
-		        <br/><br/>
-		        <span>移至</span><br/><br/>
-		        <span>新栋号：</span>
-		         <el-autocomplete
-		          popper-class="my-autocomplete"
-		          v-model="allSheep.newBuilding"
-		          :fetch-suggestions="querySearchBuilAll"
-		          @select="handleSelectBuilAllNew">
-		          <i class="el-icon-edit el-input__icon" slot="suffix"></i>
-		          <template slot-scope="{ item }">
-		            <div class="name">{{ item }}</div>
-		          </template>
-		        </el-autocomplete>
-		        <br/><br/>
-
-		        <span>新栏号：</span>
-		         <el-autocomplete
-		          popper-class="my-autocomplete"
-		          v-model="allSheep.newCol"
-		          :fetch-suggestions="querySearchColAllNew"
-		          @select="handleSelectColAllNew">
-		          <i class="el-icon-edit el-input__icon" slot="suffix">
-		          </i>
-		          <template slot-scope="{ item }">
-		            <div class="name">{{ item }}</div>
-		          </template>
-		        </el-autocomplete>
-		      </el-form>
-		      <div style="margin-left: 70px ; margin-top:20px ">
-		        <el-button @click="dialogFormVisible  = false" size="small">取 消</el-button>
-		        <el-button type="primary" @click="moveSheepAllFun" size="small">移 动</el-button>
-		      </div>
-		    </div>
-		</el-dialog>
-
+		
 		<el-dialog
   title="羊只视频"
   :visible.sync="dialogVideoVisible"
@@ -526,7 +426,7 @@ export default {
 	},
 	mounted(){
 		let id = this.$route.params.id
-	 let simpleaddress={
+	  let simpleaddress={
 			province:this.value.province.label,
 			city:this.value.city.label,
 			country:this.value.country.label

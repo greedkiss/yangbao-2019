@@ -78,7 +78,8 @@
                 align="right">
             </el-date-picker>
 
-            <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
+            <el-button @click="fetchData()" v-if="!isListSale" size="mini" type="primary">查询</el-button>
+            <el-button @click="findTimeAllData()" v-if="isListSale" size="mini" type="primary">查询</el-button>
             <el-button @click="export2xls()" size="mini" type="primary" icon="el-icon-download"></el-button>
         </div>
 
@@ -94,7 +95,7 @@
                 <el-table-column
                 show-overflow-tooltip
                 v-for="(th, i) in headers"
-                v-if="th.prop=='eartagOfFather'||th.prop=='fatherTypeName'||th.prop=='fatherColor'"
+                v-if=" th.prop=='eartagOfFather' || th.prop=='fatherTypeName' || th.prop=='fatherColor' "
                 :key="i" 
                 align='center'
                 :prop="th.prop"
@@ -328,6 +329,19 @@
         </el-table>
 
         <el-dialog title="订单详情" 
+					:visible.sync="dialogAllTimeVisible" 
+					width="800px"
+					>
+                    <span>该时间段内有订单：{{timeorder.allorder}}个</span>
+                    <br>
+                    <span>共售出羊肉：{{timeorder.sumWeight}} 斤</span>
+                    <br>
+                    <span>总价值：{{timeorder.allprice}}元</span>
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="closeAllTime()">确认</el-button>
+					</div> 
+				</el-dialog>
+        <el-dialog title="订单详情" 
 					:visible.sync="dialogFormVisible" 
 					width="800px"
 					@open="saleOrderLook(scope.row, scope.column)">
@@ -362,7 +376,7 @@
 
                         <el-col :span='12'>
 						<el-form-item label="羊只耳牌" style="padding-top:30px" :label-width="formLabelWidth">
-						<el-input v-model="orderform.sheepId"  :disabled="true" ></el-input>
+						<el-input v-model="orderform.trademark"  :disabled="true" ></el-input>
 						</el-form-item>
 						</el-col>
 
@@ -626,10 +640,10 @@ export default {
 				town: []
 			},
 			value: {
-				province: '',
-				city: '',
-				country: '',
-				town: ''
+				province: null,
+				city: null,
+				country: null,
+				town: null
 			},
             load: true, // 是否显示loading动画
             page: 1, // 当前页码
@@ -658,12 +672,18 @@ export default {
             kindEartag: null,
             searchSaleID:null,
             checkFlag: null,
-			dialogFormVisible: false,
+            dialogFormVisible: false,
+            dialogAllTimeVisible:false,
             formLabelWidth: '70px',	
+            timeorder:{
+                allprice:0,
+                sumWeight:0,
+                allorder:0
+                },
             orderform:{
 				farmId:null,
 				factoryId:null,
-                sheepId:null,
+                trademark:null,
 				sumweight:0,
 				allprice:0,
 				// saleID:null,
@@ -816,6 +836,7 @@ export default {
             this.orderform.allprice=row.price
             this.orderform.saleID=row.id
             this.orderform.farm=this.user.factoryName
+            this.orderform.trademark=row.trademark
             this.orderform.factory=row.destinationFactoryName
             this.orderform.sums=row.count
             this.orderform.saleTime=row.saleTime
@@ -921,6 +942,59 @@ export default {
             this.$router.push({name: this.modpath, query: {view: id}})
         },
 
+        async  findTimeAllData(){
+           let param = {
+                page: this.page - 1,
+                size: 15,
+            }
+            if (this.gmtCreate !== null) {
+                console.log(this.gmtCreate)
+                param.startTime = this.gmtCreate[0]
+                param.endTime = this.gmtCreate[1]
+            }
+            let pathid
+            let { userFactory, userRealname, id, factoryName } = this.user
+            // 代理 工厂 游客
+            if (userFactory !== undefined) {
+                pathid = userFactory
+            } else if (id !== undefined) {
+                pathid = id
+            }
+            this.timeorder.allprice=0;
+            this.timeorder.sumWeight=0;
+            this.timeorder.allorder=0;
+            this.load = true
+            this.getData(pathid, param).then(res => {
+                if (isReqSuccessful(res)) {
+                    let data=res.data;
+                    this.tableData = data.List;
+                    this.total = data.size;
+                    let allPrice=0;
+                    let SumWeight=0;
+                    this.tableData.forEach(function(item,index){
+                        allPrice+=Number(item.price);
+                        SumWeight+=Number(item.totalWeight);
+                    })
+                    this.timeorder.allorder= this.tableData.length;
+                    this.timeorder.allprice=allPrice;
+                    this.timeorder.sumWeight=SumWeight;
+                    this.dialogAllTimeVisible=true;
+                    this.load = false
+                }
+                else{
+                this.load =false
+                this.$message.error('获取数据失败')
+                } 
+            }, _ => {
+                this.load = false
+                this.$message.error('获取数据失败')
+            })
+            
+    },
+
+    closeAllTime(){
+        this.dialogAllTimeVisible=false;
+    },
         async fetchData () {
             let param = {
                 page: this.page - 1,
@@ -959,9 +1033,9 @@ export default {
                 param.city = this.value.city
             }
             if (this.value.country!==null) {
-                param.country = this.value.country
+                param.country == this.value.country
             }
-            if(this.searchSaleID!=null){
+            if(this.searchSaleID!==null){
                 param.saleID = this.searchSaleID
             }
             

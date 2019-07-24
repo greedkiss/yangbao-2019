@@ -146,6 +146,7 @@ const VehicleManage = () => import('@/components/admin/stock/vehicle_manage')
 //消费实体管理
 const Consumer = () => import('@/components/admin/consumer/index')
 const ConsumerList = () => import('@/components/admin/consumer/list')
+const OutWareManage = () => import('@/components/admin/outWare/outWareManage')
 // 代理管理
 const Agent = () => import('@/components/admin/agent/index')
 const AgentList = () => import('@/components/admin/agent/list')
@@ -358,7 +359,7 @@ export default new Router({
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
             {path: 'cmedia', name: 'consumerUnitMedia', component: ConsumerUnitMedia}, 
             {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
-
+            {path: 'outWareManage', name: 'outWareManage', component: OutWareManage},
             
         ]},
         {path: '*', name: 'notfound', component: NotFound}
