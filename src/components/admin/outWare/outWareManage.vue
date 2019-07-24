@@ -102,7 +102,7 @@
 					</div>
 				</el-dialog>
 
-            <div class="card">
+            <div class="card" v-if="hasCopies">
                 <p class="card-title">成品</p>
                 <div class="border-main">
                     
@@ -143,7 +143,7 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <el-button @click="cellClick(scope.row, scope.column)" type="text">添加视频</el-button>
+                        <el-button @click="addPicture(scope.row)" type="text">添加视频</el-button>
                         <el-button @click="cellClick(scope.row, scope.column)" type="text">打印</el-button>
                     </div>
                 </template>
@@ -153,13 +153,15 @@
       
             
                 </div>
-            </div>
+            </div>  
+    <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
 
     </div>
 </template>
 
 <script>
 import { isReqSuccessful} from '@/util/jskit'
+import QRCode from 'qrcodejs2'
 import { getUserById } from '@/util/getdata'
 
 export default {
@@ -193,6 +195,8 @@ export default {
             dialogFormVisible:false,
             formLabelWidth:'80px',
             user:{},
+            codeNumber:null,
+            hasCopies:false,
         }
     },
     methods: {
@@ -208,6 +212,13 @@ export default {
         },
         //份数确认
         sureCopies(){
+            this.tableData2=[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''}];
             this.dialogFormVisible = false
             let number=this.dialogMessage.number
             let copies=this.dialogMessage.copies
@@ -225,11 +236,50 @@ export default {
                 this.tableData2[i].madeupNumber=String(number)+i
                 this.tableData2[i].madeupTime=time.substr()
             }
+            this.hasCopies=true
             
         },
-        cellClick(){
+        async cellClick(row){
+			this.codeNumber=row.madeupNumber;
 
-        },
+			document.getElementById("qrcode1").innerHTML = "";
+
+			//异步，等待结果
+		    await this.waitqr(this.codeNumber);
+
+			var docStr = document.getElementById("qrcode1").innerHTML;
+			var newWindow=window.open("打印窗口","_blank");			
+			newWindow.document.write(docStr);
+			var styles=document.createElement("style");
+			styles.setAttribute('type','text/css');//media="print"
+			styles.innerHTML="" 
+			newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+			newWindow.print();
+			newWindow.close();
+		},
+
+		//获取二维码
+		waitqr(codeNumber){
+                //先调用qrcode,生成二维码，然后0.1秒之后返回成功
+				this.qrcode(codeNumber)
+				return new Promise((resolve)=>{
+					setTimeout(resolve,100)
+				});
+			},
+		qrcode (codeNumber) {
+			let qrcode = new QRCode(this.$refs.qrcode, {
+			width: 300,
+			height:300,
+			text: codeNumber
+			})
+
+      },
+      	addPicture(row){
+		let pathid = this.$route.params.id
+        let path = `/admin/${pathid}/supervise/capture`+'?'+'ramSheepTrademark='+row.madeupNumber
+		 this.$router.push(path)
+		},
+
         fetchData(){
 
         }

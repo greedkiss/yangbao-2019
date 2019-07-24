@@ -62,13 +62,12 @@
 
 			<el-table-column
                 class="action"
-                fixed="right"
                 label="操作"
                 align='center'
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <el-button @click="cellClick(scope.row, scope.column)" type="text">查看二维码</el-button>
+                        <el-button @click="cellClick(scope.row, scope.column)" type="text">打印</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -76,29 +75,7 @@
 			
 		</el-table>
 		
-
-		<el-dialog
-        title="部件二维码"
-        :visible.sync="dialogQrcodeVisible"
-        width="20%"
-        center>
-
-            <div class="show-detail">
-				<div  id="qrcode1" class="qrcode" ref="qrcode"></div>
-			</div>
-					
-			<div class="show-list" style="margin-top:20px;">
-					<ul>
-						<li><el-tag>部件编码</el-tag> {{codeNumber}}</li>
-					</ul>
-			</div>
-
-			<div slot="footer" class="dialog-footer">
-					<el-button type="success" @click="qrCodePrint()">打 印</el-button>
-					<el-button type="primary" @click="closeQrcode()">关 闭</el-button>
-			</div>
-
-        </el-dialog>
+		<div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
 
         <el-dialog
         title="羊只视频"
@@ -144,11 +121,7 @@ export default {
 	
 
 	},
-	updated(){
-		if(this.dialogQrcodeVisible==true){
-		this.qrcode(this.codeNumber);
-		}
-	},
+
 	data() {
 		return {
 			total:0,
@@ -179,21 +152,17 @@ export default {
         }
 	},
 	methods: {
-		closeQrcode(){
-			this.dialogQrcodeVisible=false;
-		},
 		//查看二维码
-		cellClick(row){
+		async cellClick(row){
 			this.codeNumber=row.bodyNumber;
-			console.log(this.codeNumber)
-			this.dialogQrcodeVisible=true;
 
-        	document.getElementById("qrcode1").innerHTML = "";
-			},
-			//打印
-			qrCodePrint(){
-			var newWindow=window.open("打印窗口","_blank");
+			document.getElementById("qrcode1").innerHTML = "";
+
+			//异步，等待结果
+		    await this.waitqr(this.codeNumber);
+
 			var docStr = document.getElementById("qrcode1").innerHTML;
+			var newWindow=window.open("打印窗口","_blank");			
 			newWindow.document.write(docStr);
 			var styles=document.createElement("style");
 			styles.setAttribute('type','text/css');//media="print"
@@ -201,10 +170,17 @@ export default {
 			newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
 			newWindow.print();
 			newWindow.close();
-			},
+		},
 
-			//获取二维码
-			qrcode (codeNumber) {
+
+		//获取二维码
+		waitqr(codeNumber){
+				this.qrcode(codeNumber)
+				return new Promise((resolve)=>{
+					setTimeout(resolve,100)
+				});
+			},
+		qrcode (codeNumber) {
 			let qrcode = new QRCode(this.$refs.qrcode, {
 			width: 300,
 			height:300,
