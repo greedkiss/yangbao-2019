@@ -32,7 +32,7 @@
 		</div>
 
         <div style="margin-top:10px">
-            <el-form :inline="true">
+            <el-form :inline="true" style="width:100%">
 				<el-form-item>
 					<span class="area_name"  size='small'>终端店</span>
                     <el-autocomplete
@@ -451,7 +451,8 @@ border-collapse: collapse;
 	.el-table
 		display table-caption
 	.el-table th
-			border-left 2px solid rgb(230,230,230);
+			border-left 2px solid rgb(230,230,230)
+			background: rgb(238, 241, 246);;
 		
 </style>
 
