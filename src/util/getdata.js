@@ -511,6 +511,15 @@ export const getManageData = (data) => fetch(`/slaughter/s`, data, 'POST')
 
 export const getManageEdit = (data) => fetch(`/slaughter/m`, data, 'POST')
 
+//库存管理
+
+export const getCarData = (id,data) => fetch(`/vehicle/`+id, data, 'GET')
+
+// export const addCarInfo = (data) => fetch(`/vehicle/add`, data, 'POST')
+
+// export const editCarInfo = (data) => fetch(`/vehicle/modify`, data, 'POST')
+
+export const deleteCarinfo = (id,data) => fetch(`/vehicle/delete/`+id, data, 'POST')
 
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')

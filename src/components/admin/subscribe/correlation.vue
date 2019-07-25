@@ -1,19 +1,19 @@
 <template>
 <!--关联检疫证-->
 <div class="correlation-list">
- <el-form :inline="true"  class="correlation">
+ <el-form :inline="true"  class="correlation" style="width:100%">
   <el-form-item label="">
-    <el-input v-model="qaId" size="small" placeholder="">
+    <el-input v-model="qaId" placeholder="" style="width:100%">
     <template slot="prepend">检疫合格证号:</template>
     </el-input>
   </el-form-item>
   <el-form-item>
-    <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" @click.native="$refs.erpai[i].click()" :value="item.model">
+    <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:337px"  @click.native="$refs.erpai[i].click()" :value="item.model">
       <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
     </el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" size="small" @click="submit()">上传关联</el-button>
+    <el-button type="primary"  @click="submit()">上传关联</el-button>
   </el-form-item>
 </el-form> 
 <!--待选屠宰羊-->
@@ -177,7 +177,8 @@ import { isReqSuccessful } from '@/util/jskit'
                   headers,
                   body: form
               }).then(async res => {
-                if (isReqSuccessful(res)) {
+                let body = await res.json()
+                if (isReqSuccessful(body)) {
                         this.$message.success("上传成功")
                     }else{
                        this.$message.warning("上传失败")
@@ -185,7 +186,7 @@ import { isReqSuccessful } from '@/util/jskit'
                 
               },_ => {
                     this.$message.error('上传失败')
-                })
+                }).then(fetchData)
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);

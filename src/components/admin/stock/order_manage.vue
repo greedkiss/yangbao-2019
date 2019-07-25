@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-form :inline="true" >
+        <el-form :inline="true" style="width:100%">
         <el-form-item>
-        <el-input v-model="ordernum" size="small" placeholder="">
+        <el-input v-model="ordernum" size="small" placeholder="" style="width:232px">
         <template slot="prepend">订单号:</template>
         </el-input>
         </el-form-item>
@@ -66,12 +66,12 @@
             prop="positionnums">
             </el-table-column>
             <el-table-column
-            label="客户"
+            label="联系人"
             width="120"
             prop="responsiblePerson">
             </el-table-column>
             <el-table-column
-            label="客户联系方式"
+            label="联系方式"
             width="120"
             prop="responsiblePersonPhone">
             </el-table-column>
