@@ -106,10 +106,12 @@
                 <span class="time-span" >羊二分体1重量</span>
                 <el-input  size="small" v-model="twocut1.weight"></el-input>
             </div>
-            
+
+            <div class="time">
                <el-input v-for="(item, i) in captures"  :key="i" class="select-file" style="postion:relative;bottom:10px;"  size="small"  @click.native="$refs.erfen[0].click()" :value="twocut1.fileName">
                     <template slot="prepend">上传二分体1视频<input type="file" @change="selectFile(twocut1,0,$refs.erfen[0].files[0])" hidden ref="erfen"></template>
                 </el-input>
+            </div>
 
                 <div class="time" style="margin-top:10px;width:30%">
                     <span class="time-span ellipse">羊二分体2编号</span>
@@ -120,10 +122,12 @@
                 <span class="time-span ellipse">羊二分体2重量</span>
                 <el-input  size="small" v-model="twocut2.weight"></el-input>
             </div>
-
+            
+            <div class="time">
                 <el-input  v-for="(item, i) in captures2"  :key="i" class="select-file" style="postion:relative;bottom:10px;" size="small"  @click.native="$refs.erfen[1].click()" :value="twocut2.fileName">
                     <template slot="prepend">上传二分体2视频<input type="file" @change="selectFile(twocut2, 1,$refs.erfen[1].files[0])" hidden ref="erfen"></template>
                 </el-input>
+            </div>
          </div>
     
         <div class="card">
@@ -149,18 +153,18 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time">
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊前腿编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊前腿重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
 
-            <div class="segment-file">
-            <el-input v-model="domain.fileName"  size="small"  @click.native="$refs.qiantui[index].click()" >
+            <div class="segment-file" >
+            <el-input v-model="domain.fileName"  size="small"  style="width:30%"  @click.native="$refs.qiantui[index].click()" >
                     <template slot="prepend">羊前腿视频<input  type="file" @change="selectFile(domain,index,$refs.qiantui[index].files[0])" hidden ref="qiantui"></template>
             </el-input>
             </div>
@@ -181,18 +185,18 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊后腿编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊后腿重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             
             <div class="segment-file">
-                <el-input   class="select-file" size="small"   @click.native="$refs.houtui[(index)].click()" :value="domain.fileName">
+                <el-input   class="select-file" size="small"  style="width:30%" @click.native="$refs.houtui[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊后腿视频<input type="file"  @change="selectFile(domain, (index),$refs.houtui[(index)].files[0])" hidden ref="houtui"></template>
                 </el-input>
             </div>
@@ -211,18 +215,18 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">黄瓜条编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">黄瓜条重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"    @click.native="$refs.huanggua[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:30%"  @click.native="$refs.huanggua[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">黄瓜条视频<input type="file" @change="selectFile(domain, (index),$refs.huanggua[(index)].files[0])" hidden ref="huanggua"></template>
             </el-input>
             </div>
@@ -241,18 +245,18 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊腰肌编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊腰肌重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"   @click.native="$refs.yaoji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yaoji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊腰肌视频<input type="file" @change="selectFile(domain, (index),$refs.yaoji[(index)].files[0])" hidden ref="yaoji"></template>
             </el-input>
             </div>
@@ -271,17 +275,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊大腿编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊大腿重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" @click.native="$refs.datui[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.datui[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊大腿视频<input type="file" @change="selectFile(domain, (index),$refs.datui[(index)].files[0])" hidden ref="datui"></template>
             </el-input>
             </div>
@@ -300,17 +304,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊肋排编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊肋排重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-                <el-input  class="select-file" size="small"  @click.native="$refs.yanglei[(index)].click()" :value="domain.fileName">
+                <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yanglei[(index)].click()" :value="domain.fileName">
                         <template slot="prepend">羊肋排视频<input type="file" @change="selectFile(domain, (index),$refs.yanglei[(index)].files[0])" hidden ref="yanglei"></template>
                 </el-input>
             </div>
@@ -329,17 +333,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊腹肉编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊腹肉重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small"   @click.native="$refs.furou[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:30%"   @click.native="$refs.furou[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊腹肉视频<input type="file" @change="selectFile(domain, (index),$refs.furou[(index)].files[0])" hidden ref="furou"></template>
             </el-input>                
             </div>
@@ -358,17 +362,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊肩胛编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time"  style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊肩胛重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  @click.native="$refs.jianjia[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:30%"  @click.native="$refs.jianjia[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊肩胛视频<input type="file"  @change="selectFile(domain, (index),$refs.jianjia[(index)].files[0])" hidden ref="jianjia"></template>
             </el-input>                
             </div>
@@ -387,17 +391,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊前编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊前腿重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  @click.native="$refs.yangqian[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yangqian[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊前视频<input type="file"  @change="selectFile(domain, (index),$refs.yangqian[(index)].files[0])" hidden ref="yangqian"></template>
             </el-input>
             </div>
@@ -416,17 +420,17 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊外肌编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%">
                     <span class="time-span" style="margin-top:4px;">羊外肌重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" @click.native="$refs.waiji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.waiji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊外肌视频<input type="file"  @change="selectFile(domain, (index),$refs.waiji[(index)].files[0])" hidden ref="waiji"></template>
             </el-input>
             </div>
@@ -445,18 +449,18 @@
             :key="domain.key"
             :prop="'domains.' + index + '.value'"
             >
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊里脊编号</span>
             <el-input  size="small" v-model="domain.num"></el-input>
             </div>
 
-            <div class="time" >
+            <div class="time" style="width:30%" >
                     <span class="time-span" style="margin-top:4px;">羊里脊重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  @click.native="$refs.liji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:30%" @click.native="$refs.liji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊里脊视频<input type="file"  @change="selectFile(domain, (index),$refs.liji[(index)].files[0])" hidden ref="liji"></template>
             </el-input>      
             </div>
@@ -898,6 +902,7 @@ export default {
     display:inline;
     margin-top: -10px;
     height: 10px;
+    width:20%;
 
 }.demo-dynamic{
     width:100%;

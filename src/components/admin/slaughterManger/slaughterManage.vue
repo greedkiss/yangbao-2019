@@ -15,7 +15,7 @@
                     </el-date-picker>
                 </div>
 
-                <div class="time" style="width:330px">
+                <div class="time" style="width:30%">
                     <span class="time-span ellipse">耳牌号</span>
                     <el-input  size="small" v-model="fatherNumber"></el-input>
                 </div>
@@ -26,11 +26,11 @@
                     </el-alert>
                 </div> 
                 
-                <div class="time" style="width:330px">
+                <div class="time" style="width:30%">
                     <span class="time-span ellipse">附属物编号</span>
                     <el-input  size="small" v-model="appendageNumber"></el-input>
                 </div>
-                <div class="time" style="width:330px">
+                <div class="time" style="width:30%">
                     <span class="time-span ellipse">附属物重量</span>
                     <el-input  size="small" v-model="appendageWeight"></el-input>
                 </div>
@@ -49,11 +49,11 @@
                     </el-alert>
                 </div> 
 
-                <div class="time" style="width:330px">
+                <div class="time" style="width:30%">
                     <span class="time-span ellipse">胴体 编号</span>
                     <el-input  size="small" v-model="kidNumber"></el-input>
                 </div>
-                <div class="time" style="width:330px">
+                <div class="time" style="width:30%">
                     <span class="time-span ellipse">胴体 重量</span>
                     <el-input  size="small" v-model="kidWeight"></el-input>
                 </div>
