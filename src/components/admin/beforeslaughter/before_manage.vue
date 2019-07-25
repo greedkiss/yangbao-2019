@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-form :inline="true" class="demo-form-inline">
+    <el-form :inline="true" class="demo-form-inline" style="width:100%">
     <el-form-item label="">
         <el-input v-model="qaId" size="small" placeholder="" style="width:210px">
           <template slot="prepend">免疫合格证号:</template>
@@ -14,7 +14,7 @@
     <el-form-item>
             <span class="demonstration">日期区间</span>
             <el-date-picker
-            size="small"
+              size="small"
               v-model="gmtCreate"
               type="datetimerange"
               range-separator="至"
