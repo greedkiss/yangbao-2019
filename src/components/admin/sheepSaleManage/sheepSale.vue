@@ -32,7 +32,7 @@
 			  </el-select>
 			</div>
 			<div class="header">
-			<el-autocomplete
+					<el-autocomplete 
 				  popper-class="my-autocomplete"
 				  v-model="state1"
 				  :fetch-suggestions="querySearch1"
@@ -48,84 +48,8 @@
 				  </template>
 				</el-autocomplete>
 
+
 			<el-button type="primary" @click="dialogFormVisible = true" style="margin-left: 20px">生成订单</el-button>
-			
-					<el-dialog title="订单详情" 
-					:visible.sync="dialogFormVisible" 
-					width="800px"
-					@open="getSaleData">
-					<el-form :model="orderform" label-position="right">
-
-						<el-col :span='12'>
-						<el-form-item label="重量" :label-width="formLabelWidth" >
-							<el-input v-model="orderform.sumweight" ></el-input>
-						</el-form-item>
-						</el-col>
-
-						<el-col :span='12'>
-						<el-form-item label="总金额" :label-width="formLabelWidth">
-							<el-input v-model="orderform.allprice"></el-input>
-						</el-form-item>
-						</el-col>
-
-						<el-alert
-    					title="其他信息"
-    					type="info"
-							:closable="false"
-							center
-							style="height:25px">
- 						</el-alert>
-
-
-						<el-col :span='24'>
-						<el-form-item label="羊只耳牌" style="padding-top:30px">				
-						<el-input style="width:83%" v-model="orderform.earTags" :disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-
-						<el-col :span='12'>
-						<el-form-item label="养殖场"  :label-width="formLabelWidth">			
-						<el-input v-model="orderform.farm" :disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-
-						<el-col :span='12'>
-						<el-form-item label="客户单位"  :label-width="formLabelWidth">				
-						<el-input v-model="orderform.factory" 		:disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-
-						<el-col :span='12'>
-						<el-form-item label="数量" :label-width="formLabelWidth">			
-						<el-input v-model="orderform.sums" 		:disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-
-						<el-col :span='12'>
-						<el-form-item label="销售时间" :label-width="formLabelWidth">			
-						<el-input v-model="orderform.saleTime" 		:disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-						
-						<el-col :span='12'>
-						<el-form-item label="负责人" :label-width="formLabelWidth">			
-						<el-input v-model="orderform.manger"  	:disabled="true"></el-input>
-						</el-form-item>	
-						</el-col>
-
-						<el-form-item label="联系方式" :label-width="formLabelWidth">		
-						<el-input v-model="orderform.tele"  	:disabled="true"></el-input>
-						</el-form-item>
-
-						</el-form>
-
-					<div slot="footer" class="dialog-footer">
-						<el-button @click="goSave()">保 存</el-button>
-						<el-button type="primary" @click="sureSale()">确认销售</el-button>
-					</div>
-				</el-dialog>
-
-
 			<el-button type="primary" @click.native.prevent="watchAllSheep()">显示总存栏</el-button>
 			<!-- <el-button type="primary" @click.native.prevent="alrtmoveSheepAll">整栏移栏</el-button>
 			<el-button type="primary" @click.native.prevent="saleable">可出售</el-button> -->
@@ -345,7 +269,7 @@
 			</div>
 
 		</el-dialog>
-		
+
 		<el-dialog
   title="羊只视频"
   :visible.sync="dialogVideoVisible"
@@ -370,6 +294,83 @@
         <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="current_change">
         </el-pagination>
     </div>
+
+		<el-dialog title="订单详情" 
+					:visible.sync="dialogFormVisible" 
+					width="800px"
+					@open="getSaleData">
+					<el-form :model="orderform" style="width:100%">
+
+						<el-col :span='10'>
+						<el-form-item label="重量" :label-width="formLabelWidth">
+							<el-input style="width:100%" v-model="orderform.sumweight"></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-col  offset="2" :span='10'>
+						<el-form-item label="总金额" :label-width="formLabelWidth" >
+							<el-input style="width:100%" v-model="orderform.allprice"></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-alert
+    					title="其他信息"
+    					type="info"
+							:closable="false"
+							center
+							style="height:25px">
+ 						</el-alert>
+
+
+						<el-col  :span='24'>
+						<el-form-item label="羊只耳牌" style="padding-top:30px" :label-width="formLabelWidth">				
+						<el-input style="width:100%" v-model="orderform.earTags" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="养殖场" :label-width="formLabelWidth" >			
+						<el-input style="width:100%" v-model="orderform.farm" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col  :span='12'>
+						<el-form-item label="客户单位"  :label-width="formLabelWidth">				
+						<el-input style="width:100%" v-model="orderform.factory" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12' >
+						<el-form-item label="数量" :label-width="formLabelWidth">			
+						<el-input style="width:100%" v-model="orderform.sums" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col  :span='12'>
+						<el-form-item label="销售时间" :label-width="formLabelWidth">			
+						<el-input style="width:100%" v-model="orderform.saleTime" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+						
+						<el-col :span='12' >
+						<el-form-item label="负责人" :label-width="formLabelWidth" >			
+						<el-input style="width:100%" v-model="orderform.manger"  	:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col  :span='12'>
+						<el-form-item label="联系方式"  :label-width="formLabelWidth">		
+						<el-input style="width:100%" v-model="orderform.tele"  	:disabled="true"></el-input>
+						</el-form-item>
+						</el-col>
+
+						</el-form>
+
+					<div slot="footer" class="dialog-footer">
+						<el-button  @click="goSave()">保 存</el-button>
+						<el-button type="primary" @click="sureSale()">确认销售</el-button>
+					</div>
+				</el-dialog>
 	</div>
 </template>
 

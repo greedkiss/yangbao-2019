@@ -142,7 +142,7 @@
             <p class="card-title" >细分</p>
             <div class="border-main"> 
             
-            <el-form :model="qiantuiForm" ref="qiantuiForm"  class="demo-dynamic">
+            <el-form  :model="qiantuiForm" ref="qiantuiForm"  class="demo-dynamic">
 
             <el-form-item
             v-for="(domain, index) in qiantuiForm.domains"
@@ -899,6 +899,8 @@ export default {
     margin-top: -10px;
     height: 10px;
 
+}.demo-dynamic{
+    width:100%;
 }
 </style>
 

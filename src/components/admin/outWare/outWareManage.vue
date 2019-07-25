@@ -75,23 +75,23 @@
                         :visible.sync="dialogFormVisible" 
                         width="300px"
                         >
-					<el-form :model="dialogMessage" label-position="right">
+					<el-form :model="dialogMessage" style="width:100%">
                         
 						<el-col>
-						<el-form-item label="产品编号" :label-width="formLabelWidth">				
-						<el-input v-model="dialogMessage.number" :disabled="true"></el-input>
+						<el-form-item label="产品编号" >				
+						<el-input  v-model="dialogMessage.number" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col>
-						<el-form-item label="产品名称" :label-width="formLabelWidth">			
-						<el-input v-model="dialogMessage.name" :disabled="true"></el-input>
+						<el-form-item label="产品名称" >			
+						<el-input  v-model="dialogMessage.name" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col>
-						<el-form-item label="产品份数" :label-width="formLabelWidth" >
-							<el-input v-model="dialogMessage.copies" ></el-input>
+						<el-form-item label="产品份数"  >
+							<el-input  v-model="dialogMessage.copies" ></el-input>
 						</el-form-item>
 						</el-col>
 
@@ -193,7 +193,6 @@ export default {
                 copies:null,
             },
             dialogFormVisible:false,
-            formLabelWidth:'80px',
             user:{},
             codeNumber:null,
             hasCopies:false,
