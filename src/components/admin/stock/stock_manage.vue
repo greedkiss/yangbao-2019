@@ -258,7 +258,7 @@ export default {
 			}
 	    getFac(simpleaddress).then(res =>{
 					if (isReqSuccessful(res)) {
-						this.options = res.data.List
+								this.options = res.data.List
 						}
 				})
 
