@@ -246,7 +246,7 @@
 
 <script>
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-import { getUserById,getFac,getPlace ,getstockData,gettotalData,getCarData,orderCreate} from '@/util/getdata'
+import { getUserById,getFac,getPlace , getstockData ,gettotalData ,getCarData,orderCreate} from '@/util/getdata'
 
 export default {
 	watch: {
