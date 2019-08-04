@@ -114,14 +114,17 @@
             :border="true"
             @cell-click="changeCopies"
             >
-                <el-table-column
-                    type="index">
+                
+                <el-table-column v-show="false"
+                    label="#"
+                    width="120"  
+                    prop="id">
                 </el-table-column>
 
                 <el-table-column
                     label="产品编号"
                     width="120"  
-                    prop="productNumber">
+                    prop="partNumber">
                 </el-table-column>
 
                 <el-table-column
@@ -133,31 +136,32 @@
                 <el-table-column
                     label="产品重量"
                     width="120"
-                    prop="productWeight">
+                    prop="weight">
                 </el-table-column>
                 
                 <el-table-column
                     label="产品视频"
                     width="120"
-                    prop="productVideo">
+                    prop="video">
+                    <el-button type="text">查看</el-button>
                 </el-table-column>
 
                 <el-table-column
                     label="产品价格"
                     width="120"
-                    prop="productPrice">
+                    prop="price">
                 </el-table-column>
 
                  <el-table-column
                     label="养殖场"
                     width="120"
-                    prop="farm">
+                    prop="breedName">
                 </el-table-column>
 
                  <el-table-column
                     label="货主"
                     width="120"
-                    prop="master">
+                    prop="slaughterName">
                 </el-table-column>
 
                 <el-table-column
@@ -168,7 +172,7 @@
 
             </el-table>
                     <div class="block" style="margin-left: 46px">
-                            <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="fetchData" :current-page.sync="page">
+                            <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="getDetailed" :current-page.sync="page">
                             </el-pagination>
                     </div>
             </div>
@@ -257,11 +261,30 @@
             </el-table>
       
                 <div class="block" style="margin-left: 46px">
-                        <el-pagination layout="prev, pager, next" :total="total2" :page-size="1"  @current-change="fetchData"  :current-page.sync="page2">
+                        <el-pagination layout="prev, pager, next" :total="total2" :page-size="1"  @current-change="getDetailed"  :current-page.sync="page2">
                         </el-pagination>
                 </div>
                 </div>
             </div>  
+
+            <el-dialog
+            title="产品视频"
+            :visible.sync="dialogVideoVisible"
+            width="50%"
+                center>
+
+                    <!-- FIXME: video 标签兼容性处理 -->
+                    <div class="show-detail">
+                            <video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
+                            <img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
+                    </div>
+                    <div class="show-list">
+                            <ul>
+                                    <li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
+                            </ul>
+                    </div>
+            </el-dialog>
+
     <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
 
     </div>
@@ -270,22 +293,21 @@
 <script>
 import { isReqSuccessful} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
-import { getUserById } from '@/util/getdata'
+import { getUserById,getoutWareManageNum,getoutWareManageDetailed } from '@/util/getdata'
 
 export default {
    mounted(){
        let id = this.$route.params.id
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
-								this.user = res.data.model
-								console.log(this.user);
+					this.user = res.data.model
                 let {userFactory} = this.user
             }
-			}).then(this.fetchData)
+			}).then(this.getNum).then(this.getDetailed)
    },
     data () {
         return {
-            tableData:[{productNumber:'G123456'},{productNumber:'G123457'}],
+            tableData:[],
             tableData2:[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
@@ -311,11 +333,18 @@ export default {
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''}],
-            numtableData:[{Dnum:'1234',DYnum:'12345'}],
+            numtableData:[],
+            sheepVideo:{
+				url:null,
+				filetype:0,
+				erNumber:null
+			},
+            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
             total:0,
             page:1,
             total2:100,
             page2:1,
+            dialogVideoVisible:false,
             dialogMessage:{
                 number:null,
                 name:null,
@@ -331,11 +360,26 @@ export default {
         //份数
         changeCopies(row,column,cell){
             if(column.label=='产品份数'){
-                this.dialogMessage.number=row.productNumber
+                this.dialogMessage.number=row.partNumber
                 this.dialogMessage.name=row.productName
                 this.dialogMessage.copies=row.productCopies
                 this.dialogFormVisible=true
             }
+            if(column.label=="产品视频"){
+				this.dialogVideoVisible=true;
+				this.videoEr=row.tradeMarkEartag;
+
+                this.sheepVideo.erNumber=row.partNumber
+                this.tableData.some(function(item,index){
+                if(item.partNumber==row.partNumber){
+                    this.sheepVideo.url=item.video
+                    return
+                }
+            })
+                
+                this.sheepVideo.filetype=videoMessage.filetype
+			}	
+            
             
         },
         //份数确认
@@ -369,7 +413,7 @@ export default {
             let number=this.dialogMessage.number
             let copies=this.dialogMessage.copies
             this.tableData.some(function(item,index){
-                if(item.productNumber==number){
+                if(item.partNumber==number){
                     item.productCopies=copies
                     return
                 }
@@ -426,9 +470,82 @@ export default {
 		 this.$router.push(path)
 		},
 
-        fetchData(){
+        getNum(){
+            this.numtableData=[]
+            let id=this.user.userFactory
+			getoutWareManageNum(id).then(res => {
+                if (isReqSuccessful(res)) {
+               		let body = res.data.body
+					let partData = res.data.part
+					let v={Dnum:null,DEnum:null,DFnum:null,DHnum:null,DJnum:null,DLnum:null,DMnum:null,DYnum:null,DRnum:null,DDnum:null,DQnum:null,DWnum:null,DInum:null}
+					v.Dnum=body
+                    partData.forEach(function(item,index){
+                        switch (item.part) {
+                    case 'F':
+                        v.DFnum=Number(item.number)
+                        break;
+                    case 'H':
+                        v.DHnum=Number(item.number)
+                        break;
+                    case 'Y':
+                        v.DYnum=Number(item.number)
+                        break;
+                    case 'R':
+                        v.DRnum=Number(item.number)
+                        break;
+                    case 'D':
+                        v.DDnum=Number(item.number)
+                        break;
+                    case 'J':
+                        v.DJnum=Number(item.number)
+                        break;
+                    case 'M':
+                        v.DMnum=Number(item.number)
+                        break;
+                    case 'E':
+                        v.DEnum=Number(item.number)
+                        break;
+                    case 'Q':
+                        v.DQnum=Number(item.number)
+                        break;
+                    case 'L':
+                        v.DLnum=Number(item.number)
+                        break;
+                    case 'I':
+                        v.DInum=Number(item.number)
+                        break;
+                    case 'W':
+                        v.DWnum=Number(item.number)
+                        break;
+                
+                    default:
+                        break;
+                }
+                    })
+               		this.numtableData.push(v);
+					   }
+					else{
+						this.$message.error('获取数据失败')
+					}
+				})
+        },
+        getDetailed(){
+            let param = {
+                			page: (this.page - 1)*10,
+               				size: 10,
+               				fatory: this.user.userFactory
+           				} 
+            getoutWareManageDetailed(param).then(res => {
+                if (isReqSuccessful(res)) {
+               		 this.total = Math.ceil(res.data.number/param.size)*10
+               		 let data = res.data.all
+               		 data.forEach((v) => {
+               		   	this.tableData.push(v)
+               		 })
+                }
+            })
 
-        }
+        },
     }
 }
 </script>

@@ -240,12 +240,12 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace,watchVideo} from '@/util/getdata'
+import { getUserById ,getStockManageNum, getSaleFac,getPlace,watchVideo} from '@/util/getdata'
 
 export default {
     data(){
         return{
-            numtableData:[{Dnum:15,DEnum:55,DYnum:444}],
+            numtableData:[],
             values:null,
             options:[{
                 value: '川A88888888',
@@ -300,6 +300,66 @@ export default {
                 this.$message.success('生成订单成功')
             }
         },
+		//获取数量
+		getNum(){
+			let id=this.user.userFactory
+			this.numtableData=[]
+			getStockManageNum(id).then(res => {
+                if (isReqSuccessful(res)) {
+               		let body = res.data.body
+					let partData = res.data.part
+					let v={Dnum:null,DEnum:null,DFnum:null,DHnum:null,DJnum:null,DLnum:null,DMnum:null,DYnum:null,DRnum:null,DDnum:null,DQnum:null,DWnum:null,DInum:null}
+					v.Dnum=body
+					partData.forEach(function(item,index){
+                        switch (item.part) {
+                    case 'F':
+                        v.DFnum=Number(item.number)
+                        break;
+                    case 'H':
+                        v.DHnum=Number(item.number)
+                        break;
+                    case 'Y':
+                        v.DYnum=Number(item.number)
+                        break;
+                    case 'R':
+                        v.DRnum=Number(item.number)
+                        break;
+                    case 'D':
+                        v.DDnum=Number(item.number)
+                        break;
+                    case 'J':
+                        v.DJnum=Number(item.number)
+                        break;
+                    case 'M':
+                        v.DMnum=Number(item.number)
+                        break;
+                    case 'E':
+                        v.DEnum=Number(item.number)
+                        break;
+                    case 'Q':
+                        v.DQnum=Number(item.number)
+                        break;
+                    case 'L':
+                        v.DLnum=Number(item.number)
+                        break;
+                    case 'I':
+                        v.DInum=Number(item.number)
+                        break;
+                    case 'W':
+                        v.DWnum=Number(item.number)
+                        break;
+                
+                    default:
+                        break;
+                }
+                    })
+               		this.numtableData.push(v);
+					   }
+					else{
+						this.$message.error('获取数据失败')
+					}
+				})
+		},
         provinceChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
@@ -401,7 +461,6 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
-                console.log(this.user);
                 let {userFactory} = this.user
                 // getcarname(user).then(res =>{
                 //     if (isReqSuccessful(res)) {
@@ -415,7 +474,7 @@ export default {
                     }
                 })
             }
-        }).then(this.fetchData)
+        }).then(this.getNum)
         let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
         let obj = {url}
             getPlace(obj).then(res => {
@@ -427,7 +486,7 @@ export default {
                         })
                     })
                 })
-            })
+            })	
     }
     
 }
