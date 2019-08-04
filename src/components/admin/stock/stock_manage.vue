@@ -240,7 +240,7 @@
 <script>
 import pcaa from 'area-data/pcaa'
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-import { getUserById ,getStockManageNum, getSaleFac,getPlace,watchVideo} from '@/util/getdata'
+import { getUserById,getFac,getPlace , getstockData ,gettotalData ,getCarData,orderCreate} from '@/util/getdata'
 
 export default {
 	watch: {
