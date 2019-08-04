@@ -512,13 +512,27 @@ export const getManageEdit = (data) => fetch(`/slaughter/m`, data, 'POST')
 
 //库存管理
 
+export const getstockData = (id,data) => fetch(`/d/order/`+id, data, 'GET')
+
+export const gettotalData = (id) => fetch(`/d/order/number/`+id,'GET')
+
+export const getFac = (data) => fetch(`/customer/customer`,data,'POST')
+
+export const orderCreate = (data) => fetch(`/d/order/add`,data,'POST')
+
+
+//订单管理
+
+export const getOrderData = (data) => fetch(`/d/order`,data,'POST')
+
+export const deleteOrderData = (id) => fetch(`/d/order/cancel/`+id,'GET')
+
+export const confirmOrderData = (id) => fetch(`/d/order/confirm/`+id,'GET')
+
+//车辆管理
 export const getCarData = (id,data) => fetch(`/vehicle/`+id, data, 'GET')
 
-// export const addCarInfo = (data) => fetch(`/vehicle/add`, data, 'POST')
-
-// export const editCarInfo = (data) => fetch(`/vehicle/modify`, data, 'POST')
-
-export const deleteCarinfo = (id,data) => fetch(`/vehicle/delete/`+id, data, 'POST')
+export const deleteCarinfo = (id,data) => fetch(`/vehicle/delete/`+id, data, 'GET')
 
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')

@@ -23,7 +23,7 @@
                             </el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-input v-model="temperature" size="small" placeholder="" style="width:300px">
+                            <el-input v-model="temperature" size="small" placeholder="" style="width:285px">
                             <template slot="prepend">车辆行驶温度:</template>
                             </el-input>
                         </el-form-item>
@@ -96,16 +96,16 @@
         title="编辑"
         :visible.sync="dialogEditVisible"
         width="30%">
-        <el-input v-for="(item, i) in captures"  :key="i" class="select-file2" style="width:415px" size="small" @click.native="$refs.carpic1[0].click()" :value="car1.fileName">
-            <template slot="prepend">上传车辆图片:<input width="120" type="file" @change="selectFile(car1,$refs.carpic1[0].files[0])" hidden ref="carpic1"></template>
+        <el-input v-for="(item, i) in captures1"  :key="i" class="select-file2" style="width:100%" size="small" @click.native="$refs.carpic1[0].click()" :value="car1.fileName">
+            <template slot="prepend">上传车辆图片:<input style="width:100%" type="file" @change="selectFile(car1,$refs.carpic1[0].files[0])" hidden ref="carpic1"></template>
         </el-input>
-        <el-input v-model="driverName1" size="small" >
+        <el-input v-model="driverName1" size="small" style="width:100%">
             <template slot="prepend">司机名称:</template>
         </el-input>
         <el-input v-model="telephone1" size="small" >
             <template slot="prepend">司机电话:</template>
         </el-input>
-        <el-input v-model="temperature1" size="small" width="120" >
+        <el-input v-model="temperature1" size="small" style="width:100%">
             <template slot="prepend">行驶温度:</template>
         </el-input>
         <span slot="footer" class="dialog-footer">
@@ -133,6 +133,7 @@ export default {
                 file:null
             },
             captures: [{model: null , per : 0}],
+            captures1: [{model: null , per : 0}],
             carpic:'',
             carpic1:'',
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
@@ -183,10 +184,10 @@ export default {
 
           }
       },
-        deleteItem (row){
+        deleteItem (row){ 
+            let id=this.user.userFactory
             let data = {
                 numberPlate:row.numberPlate,
-                id:this.user.userFactory
                 }
            deleteCarinfo(id,data).then(res =>{
                if (isReqSuccessful(res)) {
@@ -207,7 +208,7 @@ export default {
               form.append('telephone',telephone )
               form.append('temperature',temperature )
               form.append('factoryId', this.user.userFactory)
-              this.captures.forEach((item, index) => {
+              this.captures1.forEach((item, index) => {
                     form.append('file', this.car1.file)
               })
               let headers = {}
@@ -217,7 +218,8 @@ export default {
                   headers,
                   body: form
               }).then(async res => {
-                if (isReqSuccessful(res)) {
+                  let body = await res.json()
+                if (isReqSuccessful(body)) {
                         this.$message.success("上传成功")
                     }else{
                        this.$message.warning("上传失败")
@@ -225,7 +227,14 @@ export default {
                 
               },_ => {
                     this.$message.error('上传失败')
-                }).then(this.fetchData)
+                }).then(this.fetchData).then(this.New)
+                this.dialogEditVisible=false
+        },
+        New(){
+            this.car1={
+                fileName:null,
+                file:null
+            }
         },
         edit(row){
             this.dialogEditVisible = true;
@@ -261,7 +270,8 @@ export default {
                   headers,
                   body: form
               }).then(async res => {
-                 if (isReqSuccessful(res)) {
+                  let body = await res.json()
+                 if (isReqSuccessful(body)) {
                         this.$message.success("上传成功")
                     }else{
                        this.$message.warning("上传失败")

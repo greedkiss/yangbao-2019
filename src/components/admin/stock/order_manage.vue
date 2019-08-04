@@ -33,47 +33,47 @@
             <el-table-column
             label="订单状态"
             width="120"
-            prop="state">
+            prop="orderStatus">
             </el-table-column>
             <el-table-column
             label="屠宰场"
             width="120"
-            prop="slaughter">
+            prop="slaughterName">
             </el-table-column>
             <el-table-column
             label="客户单位"
             width="120"
-            prop="destinationFactoryName">
+            prop="customerName">
             </el-table-column>
             <el-table-column
             label="订单生成时间"
             width="120"
-            prop="saletime">
+            prop="orderTime">
             </el-table-column>
             <el-table-column
             label="总金额"
             width="120"
-            prop="price">
+            prop="sumPrice">
             </el-table-column>
             <el-table-column
             label="总重量"
             width="120"
-            prop="weight">
+            prop="sumWeight">
             </el-table-column>
             <el-table-column
             label="部位编码"
             width="120"
-            prop="positionnums">
+            prop="partNumber">
             </el-table-column>
             <el-table-column
             label="联系人"
             width="120"
-            prop="responsiblePerson">
+            prop="contactPerson">
             </el-table-column>
             <el-table-column
             label="联系方式"
             width="120"
-            prop="responsiblePersonPhone">
+            prop="contactPersonPhone">
             </el-table-column>
             <el-table-column
                 class="action"
@@ -85,7 +85,7 @@
                     <div class="opr" >
                         <span @click="view(scope.$index)">查看</span>
                         <template>
-                            <span @click="deleteItem(scope.row)">取消订单</span>
+                            <span @click="deleteItem(scope.$index)">取消订单</span>
                         </template>
                     </div>
                 </template>
@@ -105,51 +105,51 @@
                     <el-form label-position="right">
 
                         <el-col :span='12'>
-						<el-form-item label="订单ID" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-form-item label="订单ID" :label-width="formLabelWidth">
 						     <el-input v-model="tableData[index].id"  :disabled="true" ></el-input>
 						</el-form-item>
 						</el-col>
 
 						<el-col :span='12'>
 						<el-form-item label="总重量" :label-width="formLabelWidth" >
-							<el-input v-model="tableData[index].weight" :disabled="true" ></el-input>
+							<el-input v-model="tableData[index].sumWeight" :disabled="true" ></el-input>
 						</el-form-item>
 						</el-col>
 
 						<el-col :span='12'>
 						<el-form-item label="总金额" :label-width="formLabelWidth">
-							<el-input v-model="tableData[index].price" :disabled="true" ></el-input>
+							<el-input v-model="tableData[index].sumPrice" :disabled="true" ></el-input>
 						</el-form-item>
 						</el-col>
 
 						 
 						<el-col :span='12'>
 						<el-form-item label="屠宰场" :label-width="formLabelWidth">			
-						<el-input v-model="tableData[index].slaughter" :disabled="true"></el-input>
+						<el-input v-model="tableData[index].slaughterName" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col :span='12'>
 						<el-form-item label="客户单位" :label-width="formLabelWidth">				
-						<el-input v-model="tableData[index].destinationFactoryName" :disabled="true"></el-input>
+						<el-input v-model="tableData[index].customerName" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col :span='12'>
 						<el-form-item label="销售时间" :label-width="formLabelWidth">			
-						<el-input v-model="tableData[index].saletime" :disabled="true"></el-input>
+						<el-input v-model="tableData[index].orderTime" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
 						<el-col :span='12'>
 						<el-form-item label="客户" :label-width="formLabelWidth">			
-						<el-input v-model="tableData[index].responsiblePerson" :disabled="true"></el-input>
+						<el-input v-model="tableData[index].contactPerson" :disabled="true"></el-input>
 						</el-form-item>	
 						</el-col>
 
-                        <el-col :span='24'>
+                        <el-col :span='12'>
 						<el-form-item label="联系方式" :label-width="formLabelWidth">		
-						<el-input style="width:45%" v-model="tableData[index].responsiblePersonPhone"  	:disabled="true"></el-input>
+						<el-input v-model="tableData[index].contactPersonPhone"  	:disabled="true"></el-input>
 						</el-form-item>
                         </el-col>
 
@@ -160,12 +160,12 @@
                         type="textarea"
                         :rows="5"
                         :disabled="true"
-                        v-model="tableData[index].positionnums">
+                        v-model="tableData[index].partNumber">
                         </el-input>
                         </div>
                         
                     <div slot="footer" class="dialog-footer">
-						<el-button type="primary" @click="sure">确认订单</el-button>
+						<el-button type="primary" @click="sure(index)">确认订单</el-button>
 					</div>	
 				</el-dialog>
 
@@ -173,30 +173,67 @@
 </template>
 
 <script>
+import { isReqSuccessful } from '@/util/jskit'
+import { getUserById,getOrderData,deleteOrderData,confirmOrderData} from '@/util/getdata'
+
 export default {
     data(){
         return{
             ordernum:'',
             gmtCreate:'',
-            tableData:[{id:1233213,state:121,slaughter:21321,destinationFactoryName:313,saletime:412,price:23132,weight:141,responsiblePerson:251231,responsiblePersonPhone:110,positionnums:54654654165465465465465464654},
-            {id:1233213,state:5,slaughter:554,destinationFactoryName:454,saletime:78,price:23678132,weight:141,responsiblePerson:251231,responsiblePersonPhone:111,positionnums:56444445}],
+            tableData:[{id:"无数据"}],
             dialogFormVisible:false,
             index:0,
             formLabelWidth: '70px',
             page:1,
             total: 10,
+            user:'',
         }
     },
 
+    mounted(){
+        let id = this.$route.params.id
+        getUserById(id).then(res => {
+            if (isReqSuccessful(res)) {
+                this.user = res.data.model
+            }
+        }).then(this.fetchData)
+    },    
+
     methods:{ 
         submit(){
+            let factory=this.user.userFactory;
             let data={
-                ordernum:this.ordernum,
-                time:this.gmtCreate
+                order:this.ordernum,
+                factory,
+                page:this.page-1,
+                size:10,
+                startTime:this.gmtCreate[0],
+                endTime:this.gmtCreate[1]
             }
-            console.log(data)
+             getOrderData(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        if(data.List==''){
+                            this.tableData=[{id:"无数据"}]
+                        }else{
+                        this.tableData = data.List
+                        this.total = data.number
+                        }
+                    }
+                    
+                },)
         },
-        sure(){
+        sure(index){
+            let id = this.tableData[index].id
+            console.log(id)
+                confirmOrderData(id).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.fetchData()
+                        this.$message.success('确认成功!')
+                    }
+                    this.dialogFormVisible=false
+            }).then(this.fetchData)
             
         },
         view(index){
@@ -204,36 +241,33 @@ export default {
             this.dialogFormVisible=true
         },
         deleteItem (index) {
-            this.$confirm('将取消此订单, 是否继续?', '提示', {
-                type: 'warning'
-            }).then(() => {
                 let id = this.tableData[index].id
-                // this.deleteData(id).then(res => {
-                //     if (isReqSuccessful(res)) {
-                //         this.fetchData()
-                //         this.$message.success('删除成功!')
-                //     }
-                // })
-            })
-            // .catch(() => {
-            //     return false
-            // })
+                deleteOrderData(id).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.fetchData()
+                        this.$message.success('删除成功!')
+                    }
+            }).then(this.fetchData)
         },
+
         //加载表格信息
-        async fetchData(){
-        let id=this.user.userFactory;
+        fetchData(){
+        let factory=this.user.userFactory;
         let param={
+            factory,
             page:this.page-1,
-            size:15
+            size:10,
+            startTime:this.gmtCreate[0],
+            endTime:this.gmtCreate[1]
         }
-        // getCorrelationData(id, param).then(res => {
-        //             if (isReqSuccessful(res)) {
-        //                 let data = res.data;
-        //                 this.tableData = data.List
-        //                 this.total = data.size
-        //             }
+        getOrderData(param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        this.tableData = data.List
+                        this.total = data.number
+                    }
                     
-        //         },)
+                },)
       }
 
     }

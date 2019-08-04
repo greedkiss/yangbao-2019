@@ -34,33 +34,26 @@
         <div style="margin-top:10px">
             <el-form :inline="true" style="width:100%">
 				<el-form-item>
-					<span class="area_name"  size='small'>终端店</span>
-                    <el-autocomplete
-                        size='small'
-                        popper-class="my-autocomplete"
-                        v-model="state1"
-                        :fetch-suggestions="querySearch1"
-                        placeholder="选择终端店"
-                        @select="handleSelect1">
-                        <i
-                        class="el-icon-edit el-input__icon"
-                        slot="suffix"
-                        >
-                        </i>
-                        <template slot-scope="{ item }">
-                        <div class="name">{{ item.breedName }}</div>
-                        </template>
-                    </el-autocomplete>
+				<span class="car_name" size='small'>终端店</span>
+                    <el-select v-model="values1"  size='small' placeholder="请选择终端店">
+                    <el-option
+                    placeholder="选择终端店"
+                    v-for="item in options"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                    </el-option>
+                </el-select>
                 </el-form-item>
                 <el-form-item>
-					<span class="area_name" size='small'>车辆</span>
-                    <el-select v-model="values"  size='small' placeholder="请选择司机">
+					<span class="car_name" size='small'>车辆</span>
+                    <el-select v-model="values2"  size='small' placeholder="请选择司机">
                     <el-option
                     placeholder="选择车辆"
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in options1"
+                    :key="item.id"
+                    :label="item.driverName"
+                    :value="item.id">
                     </el-option>
                 </el-select>
                 </el-form-item>
@@ -186,13 +179,13 @@
 			<el-table-column                            
 				label="部位编码"
 				width="120"
-				prop="positionnum"
+				prop="partNumber"
 			>
 			</el-table-column>
 			<el-table-column
 				label="部位名称"
 				width="120"
-				prop="name"
+				prop="partName"
 			>
 			</el-table-column>
 			<el-table-column
@@ -203,15 +196,13 @@
 			</el-table-column>
 			<el-table-column
 				label="视频"
-				width="120"
-				prop="video"
-			></el-table-column>
-			<el-table-column
-				label="羊场"
-				width="120"
-				prop="farm"
-				v-if="false"
-			></el-table-column>
+				width="120">
+				 <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="view(scope.$index)">查看</span>
+                    </div>
+                </template>
+			</el-table-column>
 			<el-table-column
 				label="价格"
 				width="120"
@@ -220,37 +211,105 @@
             <el-table-column
 				label="养殖场"
 				width="120"
-                prop="farm">
+                prop="breedName">
 			</el-table-column>
             <el-table-column
 				label="货主"
 				width="120"
-                prop="master">
+                prop="responsiblePersonName">
 			</el-table-column>
             <el-table-column
 				label="联系电话"
 				width="120"
-                prop="phonenum">
+                prop="responsiblePersonPhone">
 			</el-table-column>
 		</el-table>
+		<el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            @current-change="fetchData"
+            :current-page.sync="page">
+        </el-pagination>
         </div>
+		<el-dialog title="视频详情"    
+					:visible.sync="dialogFormVisible" 
+					width="50%">
+          <div>
+          <el-card :body-style="{ padding: '0px' }">
+          <video :src="tableData.video" class="production-video" controls="controls"  width="100%"></video>
+          </el-card>
+          </div>
+		</el-dialog>
+
     </div>
 </template>
 
 <script>
-import pcaa from 'area-data/pcaa'
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep, makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable, getPlace,watchVideo} from '@/util/getdata'
+import { getUserById,getFac,getPlace ,getstockData,gettotalData,getCarData,orderCreate} from '@/util/getdata'
 
 export default {
+	watch: {
+		newProvince(provice){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.options = res.data.List
+						}
+				})
+
+		},
+		newCity(city){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.options = res.data.List
+						}
+				})
+
+		},
+		newCountry(country){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.options = res.data.List
+						}
+				})
+
+
+		}
+	
+	},
+	computed:{
+		newProvince(){
+			return this.value.province
+		},
+		newCity(){
+			return this.value.city
+		},
+		newCountry(){
+			return this.value.country
+		},
+	},
     data(){
         return{
             numtableData:[{Dnum:15,DEnum:55,DYnum:444}],
-            values:null,
-            options:[{
-                value: '川A88888888',
-                label: '何师傅'
-            }],
+			values1:'',
+			values2:'',
+            options:[],
+			options1:[],
             area: {
 				province: [],
 				city: [],
@@ -260,53 +319,77 @@ export default {
 			value: {
 				province: '',
 				city: '',
-				country: '',
-				town: ''
-            },
+				country: ''
+			},
+			options:'',
             multipleSelection:[],
             state1:'',
             state2:'',
-            tableData:[{positionnum:'g1',name:'45'},
-            {positionnum:'g2',name:'45'},
-            {positionnum:'g21',name:'44'},
-            {positionnum:'g22',name:'44'},
-            {positionnum:'g23',name:'44'},
-            {positionnum:'g11',name:'43'},],
-            user:'',
+            tableData:[],
+			user:'',
+			page:1,
+			total:0,
+			defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+            dialogFormVisible:false,
         }
     },
 
     methods:{ 
+	//生成订单
         submit(){
             let array = this.multipleSelection
             let id=this.user.userFactory
             let len=array.length-1
-            let sheep=''
+			let sheep=''
+			let sumWeight=0
+			let sumPrice=0
+			let divisions=[]
             for(let i = 0;i<len;i++){
-            let erNumber=array[i].positionnum+','
-            sheep=sheep+erNumber
-            }
-            let erNumber=array[len].positionnum
-            sheep=sheep+erNumber
+			let weight=array[i].weight
+			let price=array[i].price
+			let erNumber=array[i].partNumber+','
+			divisions[i]=array[i].id
+			sheep=sheep+erNumber
+			sumWeight=sumWeight+weight
+			sumPrice=sumPrice+price
+			}
+			let weight=array[len].weight
+			let price=array[len].price
+			let erNumber=array[len].partNumber
+			divisions[len]=array[len].id
+			sheep=sheep+erNumber
+			sumWeight=sumWeight+weight
+			sumPrice=sumPrice+price
             let data={
-                address:this.state1,
-                car:this.values,
+				slaughterId:id,
+                customerId:this.values1,
+				carId:this.values2,
+				sumPrice,
+				sumWeight,
+				divisions,
                 sheep
             } 
-            if(data.address==""||data.car==null){
+            if(data.customerId==""||data.carId==""){
                 this.$message.warning('请完善信息')
             }else{
+				orderCreate(data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('生成订单成功')
+                    }
+                    
+                },).then(this.fetchData)
                 console.log(id,data)
-                this.$message.success('生成订单成功')
-            }
+                
+			}
+			
         },
         provinceChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
 			console.log(url)
-			this.value.city = null
-			this.value.country = null
-			this.value.town = null
+			this.value.city = ''
+			this.value.country = ''
+			this.value.town = ''
 			if(item.label.indexOf('市') == -1){
 				getPlace(obj).then(res => {
 					this.area.city = []
@@ -337,8 +420,8 @@ export default {
 		cityChoose(item){
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
-			this.value.country = null
-			this.value.town = null
+			this.value.country = ''
+			this.value.town = ''
 			getPlace(obj).then(res => {
 				this.area.country = []
 				res.result.forEach((item) =>{
@@ -351,36 +434,7 @@ export default {
 				})
 			})
         },
-        //选择终端店
-        querySearch1(queryString, cb) {
-	        let restaurants = this.restaurants3
-	        let results = queryString ? restaurants.filter(this.createFilter1(queryString)) : restaurants
-	        cb(results)
-          },
-        handleSelect1(item){
-			this.state1 = item.breedName.toString()
-			this.salesheepid = item.id
-        },
-        createFilter1(queryString) {
-	        return (restaurant) => {
-	          return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
-	        }
-        },
-        //选择车辆
-        // querySearch2(queryString, cb) {
-	    //     let restaurants = this.restaurants4
-	    //     let results = queryString ? restaurants.filter(this.createFilter2(queryString)) : restaurants
-	    //     cb(results)
-        //   },
-        // handleSelect2(item){
-		// 	this.state1 = item.breedName.toString()
-		// 	this.salesheepid = item.id
-        // },
-        // createFilter2(queryString) {
-	    //     return (restaurant) => {
-	    //       return (restaurant.value.toLowerCase().indexOf(queryString) === 0)
-	    //     }
-        // },
+       
         //复选框
         toggleSelection(rows) {
         if (rows) {
@@ -393,7 +447,43 @@ export default {
         },
         handleSelectionChange(val) {
         this.multipleSelection = val;
+		},
+		view(index){
+            this.pictureOfCar=this.tableData[index].pictureOfCar
+            this.dialogFormVisible=true
+            console.log(this.tableData[index].pictureOfCar)
         },
+		fetchData(){
+        let id=this.user.userFactory;
+        let param={
+            page:this.page-1,
+            size:10
+        }
+        getstockData(id, param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        this.tableData = data.List
+                        this.total = data.number
+                    }
+                    
+				},)
+		gettotalData(id).then(res => {
+			if (isReqSuccessful(res)) {
+				let data = res.data;
+				this.numtableData = data.List
+			}
+			
+		},)
+		getCarData(id, param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+                        this.options1 = data.List
+                        this.total = data.number
+                    }
+                    
+				},)
+				
+      }
     },
 
     mounted(){
@@ -401,17 +491,12 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
-                console.log(this.user);
-                let {userFactory} = this.user
-                // getcarname(user).then(res =>{
-                //     if (isReqSuccessful(res)) {
-                //         this.restaurants4 = res.data.data
-                //     }
-                                
-                // })
-                getSaleFac(userFactory).then(res =>{
+				console.log(this.user);
+				
+                let id ={id:this.user.id}
+                getFac(id).then(res =>{
                     if (isReqSuccessful(res)) {
-                        this.restaurants3 = res.data.data
+                        this.options = res.data.List
                     }
                 })
             }
@@ -428,7 +513,7 @@ export default {
                     })
                 })
             })
-    }
+	}
     
 }
 
