@@ -149,7 +149,7 @@
   title="羊只视频"
   :visible.sync="dialogFormVisible"
   width="30%">
-   		<video :src="video" class="production-video" controls="controls" height="400" width="400"></video>
+   		<video :src="video" class="production-video" controls="controls" height="400" width="100%"></video>
 </el-dialog>
 
 </div>

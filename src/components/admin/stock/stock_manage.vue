@@ -310,7 +310,7 @@ export default {
 					let partData = res.data.part
 					let v={Dnum:null,DEnum:null,DFnum:null,DHnum:null,DJnum:null,DLnum:null,DMnum:null,DYnum:null,DRnum:null,DDnum:null,DQnum:null,DWnum:null,DInum:null}
 					v.Dnum=body
-					partData.forEach(function(item,index){
+					 partData.forEach(function(item,index){
                         switch (item.part) {
                     case 'F':
                         v.DFnum=Number(item.number)
