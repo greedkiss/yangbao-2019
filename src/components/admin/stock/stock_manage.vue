@@ -243,6 +243,60 @@ import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
 import { getUserById ,getStockManageNum, getSaleFac,getPlace,watchVideo} from '@/util/getdata'
 
 export default {
+	watch: {
+		newProvince(provice){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+								this.options = res.data.List
+						}
+				})
+
+		},
+		newCity(city){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.options = res.data.List
+						}
+				})
+
+		},
+		newCountry(country){
+			let simpleaddress={
+			province:this.value.province.label,
+			city:this.value.city.label,
+			country:this.value.country.label
+			}
+	    getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+						this.options = res.data.List
+						}
+				})
+
+
+		}
+	
+	},
+	computed:{
+		newProvince(){
+			return this.value.province
+		},
+		newCity(){
+			return this.value.city
+		},
+		newCountry(){
+			return this.value.country
+		},
+	},
     data(){
         return{
             numtableData:[],
