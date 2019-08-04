@@ -1,11 +1,15 @@
 <template>
-  <div class="search-wrapper" ref='searchWrapper'>
+<div>
+
+  <el-carousel indicator-position="none" height="753px">
+<el-carousel-item v-for="item in 3" :key="item">
+ <div v-show="item==1" class="search-wrapper" ref='searchWrapper'>
     <div class="header">
       <div class="img-wrapper">
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
-        <span class="name">云·羊宝可视化溯源平台</span>
+        <span class="name">云·羊宝可视化溯源平台1</span>
       </div>
     </div>
     <div class="search-contianer">
@@ -197,7 +201,7 @@
                 <img src='../assets/imgs/complain.png'/>
               </div>
             </div>
-            <div class="qrcode" ref="qrcode"></div>
+            <div class="qrcode" ref="qrcode" id="qrcode2"></div>
           </el-collapse-item>
           <el-collapse-item title="产品地址" name="2" class='classD'>
             <div class='bmap'></div>
@@ -987,6 +991,1994 @@
       
     </el-dialog>
   </div>
+
+  <!--第二个-->
+
+  <div v-show="item==2" class="search-wrapper" ref='searchWrapper'>
+    <div class="header">
+      <div class="img-wrapper">
+        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
+      </div>
+      <div class="name-wrapper">
+        <span class="name">云·羊宝可视化溯源平台2</span>
+      </div>
+    </div>
+    <div class="search-contianer">
+      <div class="main">
+        <div class='video-wrapper'>
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          </video>
+        </div>
+        <div class="pro-manage">生产管理</div>
+        <div class='mod-wrapper'>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
+            <el-tabs type="card" v-model="currentName">
+              <el-tab-pane label="养殖场" name="first">
+                  <div class="t-item">     
+                    <div>
+                      <span class="color-gr">品种:</span>
+                      <span v-text="sheepInfo.name"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">养殖场:</span>
+                      <span v-text="sheepInfo.breedName"></span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">出栏时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                      <span v-text="sheepInfo.telNumber"></span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                      <span v-text="sheepInfo.breedLocation"></span>
+                    </div>
+                    <!-- <div>
+                      <span class="color-gr">屠宰加工场:</span>
+                      <span v-text="sheepInfo.slaughterLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰时间:</span>
+                      <span v-text="sheepInfo.slaughterTime"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费点:</span>
+                      <span v-text="sheepInfo.consumeLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">到店时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div> -->
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="产品简介" class="expand">
+                        <span v-text="item['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="单位简介" class="expand">
+                        <span v-text="item.company['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="屠宰加工厂" name="second">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰厂:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">屠宰时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="消费店" name="third">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费店:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">加工时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+            </el-tabs>
+          </el-collapse-item>
+          <!--<el-collapse-item title="企业信息" name="2">-->
+            <!--<div class="t-item" v-for="(v, i) in  companyInfo.slice(0,companyInfo.length-1)" :key="i">-->
+              <!--<span class="color-gr" v-text="v.label + ':'"></span>-->
+              <!--<span v-text="item.company[v.model]"></span>-->
+            <!--</div>-->
+          <!--</el-collapse-item>-->
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
+            <el-carousel height="150px">
+              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
+                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+              </el-carousel-item>
+            </el-carousel>
+          </el-collapse-item>
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
+            <div class="organicEnvironment">
+              <div class='air' @click="open('air',9)">
+                <img src='../assets/imgs/circle1.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+      <div class="right rightC">
+        <div class="search">
+          <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
+          <el-button size="medium" @click="search">搜索</el-button>
+        </div>
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
+            <div class='qrleft'>
+              <!-- <div class='qrhead'>用户评级
+                
+              </div> -->
+              <div class="qrcontent">
+                <span class='ratingContent'>养殖端评级</span>
+                <el-rate
+                  v-model="value5"
+                  disabled
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div class="good">
+                <!-- <span>点赞</span> -->
+                <img src='../assets/imgs/like.jpg'/>
+              </div>
+              <div class="bad" @click="openissue">
+                <!-- <span>投诉</span> -->
+                <img src='../assets/imgs/complain.png'/>
+              </div>
+            </div>
+            <div class="qrcode" ref="qrcode" ><img alt="Scan me!" style="display: block;" id="qrcodeImg" :src="qrcodeimg"></div>
+          </el-collapse-item>
+          <el-collapse-item title="产品地址" name="2" class='classD'>
+            <div class='bmap'></div>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+          </el-collapse-item>
+        </el-collapse>
+        <div class='certificate-wrapper rightC2' >
+          <div class='cer-name'>国家认证</div>
+          <div class='certificate-inner'>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
+            </div>
+            <span class="cer-description">防疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
+            </div>
+            <span class="cer-description">检疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
+            </div>
+            <span class="cer-description">品质认证</span>
+          </div>
+          </div>
+        </div>
+        <div class='platform-rating'>
+          <span class='prating'>平台评级</span>
+          <span class='pau'>/品质认证</span>
+          <el-rate
+            v-model="value5"
+            disabled
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+        </div>
+      </div>
+    </div>
+    <el-dialog
+      class='issue'
+      custom-class="mod_search_dialog"
+      :visible.sync="issue"
+      width="800px"
+      :show-close="true">
+      <div class='ihead'>——————投诉——————</div>
+      <div class='ibody'>
+        <div class='ihead1'>
+          <span>投诉对象</span>
+          <input type='text'/>
+        </div>
+        <div class='ihead2'>
+          <span>投诉人</span>
+          <input type='text'/>
+          <span>联系电话</span>
+          <input type='text'/>
+        </div>
+          <div class='ihead3'>
+          <span>投诉事项</span>
+          <input type='text'/>
+        </div>
+      </div>
+    </el-dialog>
+    <!-- 系谱 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.gen"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('gen')" class="btn_close">关闭</span>
+      </div>
+      <record-table
+        type="table"
+        title="系谱档案"
+        :data="genData">
+      </record-table>
+    </el-dialog>
+    <!-- 福利 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.san"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('san')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="welData"
+          style="width: 100%">
+          <el-table-column
+            prop="checkTime"
+            label="自检/主管上级检查时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="colonyHouse"
+            label="圈舍内外是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="warehouseWorkshop"
+            label="饲料库房及加工车间是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="killWormDeratization"
+            label="杀虫灭鼠是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="sterilizingRoom"
+            label="消毒制度是否执行">
+          </el-table-column>
+          <el-table-column
+            prop="operation"
+            label="是否赤手操作">
+          </el-table-column>
+          <el-table-column
+            prop="needleSheep"
+            label="是否一羊一针头">
+          </el-table-column>
+          <el-table-column
+            prop="vaccine"
+            label="疫苗及针头的消毒处理是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="safetyProtection"
+            label="是否做到人员安全防护是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="rubbishWater"
+            label="实验室垃圾与排水是否无害化处理">
+          </el-table-column>
+          <el-table-column
+            prop="rubbishWater"
+            label="是否遵守操作规范">
+          </el-table-column>
+          <el-table-column
+            prop="airTemperature"
+            label="羊舍空气与温度是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="exerciseDaylighting"
+            label="羊只运动与采光是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="carDisinfect"
+            label="车辆进出是否消毒">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称">
+          </el-table-column>
+        </el-table>
+    </el-dialog>
+    <!-- 消毒 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.dis"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dis')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="disData"
+          style="width: 100%">
+          <el-table-column
+            prop="disinfectTime"
+            label="消毒时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="disinfectName"
+            label="消毒药名称"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="用药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="disinfectWay"
+            label="消毒方法">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 防疫 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.imm"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('imm')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="immData"
+          style="width: 100%">
+          <el-table-column
+            prop="immuneTime"
+            label="接种时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="immuneKind"
+            label="免疫种类">
+          </el-table-column>
+          <el-table-column
+            prop="immuneWay"
+            label="接种方法">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="接种剂量">
+          </el-table-column>
+          <el-table-column
+            prop="immuneDuring"
+            label="免疫期">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 驱虫 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.exp"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('exp')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="expData"
+          style="width: 100%">
+          <el-table-column
+            prop="repellentTime"
+            label="驱虫时间">
+          </el-table-column>
+          <el-table-column
+            prop="repellentName"
+            label="药物名称">
+          </el-table-column>
+          <el-table-column
+            prop="repellentWay"
+            label="给药途径">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="给药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 营养 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.nut"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('nut')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="nutData"
+          style="width: 100%">
+          <el-table-column
+            prop="nutritionT"
+            label="营养时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="period"
+            label="阶段">
+          </el-table-column>
+          <el-table-column
+            prop="water"
+            label="水">
+          </el-table-column>
+          <el-table-column
+            prop="materialA"
+            label="添加剂">
+          </el-table-column>
+          <el-table-column
+            prop="materialM"
+            label="精料">
+          </el-table-column>
+          <el-table-column
+            prop="materialO"
+            label="其他">
+          </el-table-column>
+          <el-table-column
+            prop="materialWM"
+            label="精料用量（体重%）精料">
+          </el-table-column>
+          <el-table-column
+            prop="materialWO"
+            label="精料用量（体重%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="roughageP"
+            label="粗饲料配方（%）青料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageD"
+            label="粗饲料配方（%）干料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageO"
+            label="粗饲料配方（%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWP"
+            label="粗饲料用量（体重%）青料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWD"
+            label="粗饲料用量（体重%）干料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWO"
+            label="粗饲料用量（体重%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因">
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 疾病防治 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.dea"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dea')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="deaData"
+          style="width: 100%">
+          <el-table-column
+            prop="diagnosisTime"
+            label="记录时间"
+            width='180'>
+          </el-table-column>
+          <el-table-column
+            prop="symptom"
+            label="症状">
+          </el-table-column>
+          <el-table-column
+            prop="diagnosisResult"
+            label="诊断结果"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="diagnosisMethod"
+            label="治疗方案及用药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="总用药量">
+          </el-table-column>
+          <el-table-column
+            prop="treatEffect"
+            label="治疗效果">
+          </el-table-column>
+          <el-table-column
+            prop="gmtSup"
+            label="监督员审核时间">
+          </el-table-column>
+          <el-table-column
+            prop="factoryNum"
+            label="羊场id">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.bre"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('bre')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="breData"
+          style="width: 100%">
+          <el-table-column
+            prop="breedingTime"
+            label="配种时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="buildingAfterBreeding"
+            label="配种后移至栏栋">
+          </el-table-column>
+          <el-table-column
+            prop="ramSheepTrademark"
+            label="公羊耳牌号">
+          </el-table-column>
+          <el-table-column
+            prop="eweSheepTrademark"
+            label="母羊耳牌号">
+          </el-table-column>
+          <el-table-column
+            prop="manageFlag"
+            label="管理批次">
+          </el-table-column>
+          <el-table-column
+            prop="manageAverageTime"
+            label="批次平均配种时间">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforePregnancy"
+            label="妊娠前期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="isPregnancy"
+            label="确定妊娠">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionAfterPregnancy"
+            label="妊娠后期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="prenatalImmunityType"
+            label="产前疫苗种类">
+          </el-table-column>
+          <el-table-column
+            prop="prenatalImmunityTime"
+            label="产前免疫时间">
+          </el-table-column>
+          <el-table-column
+            prop="buildingToBeRelocated"
+            label="待移至栏栋">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforeLambing"
+            label="执行产期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="lambingTime"
+            label="产羔时间">
+          </el-table-column>
+          <el-table-column
+            prop="lambingNumber"
+            label="产羔数量">
+          </el-table-column>
+          <el-table-column
+            prop="averageTime"
+            label="批次平均产羔时间">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBreastFeeding"
+            label="执行哺乳期营养标准(产后一周)">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionInsteadBreastFeeding"
+            label="执行羔羊代乳料营养标准(羔羊一月龄)">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforeCutBreastFeeding"
+            label="执行羔羊断奶期营养标准-序号:">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionCutBreastFeeding"
+            label="执行羔羊断奶期营养标准-序号:">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="审核专家">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="是否通过专家审核">
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督员姓名">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="是否通过专家审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="是否通过监督员审核">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员姓名">
+          </el-table-column>
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+          <el-table-column
+            prop="factoryNumber"
+            label="羊场编号">
+          </el-table-column>
+          <el-table-column
+            prop="factoryName"
+            label="羊场名称">
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.air"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('air')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="airData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期"
+            width='205px'>
+          </el-table-column>
+          <el-table-column
+            prop="pm"
+            label="PM2.5"
+            width='205px'>
+          </el-table-column>
+          <el-table-column
+            prop="pmReturn"
+            label="状态"
+            width='205px'>
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.wat"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('wat')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="watData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期">
+          </el-table-column>
+          <el-table-column
+            prop="ph"
+            label="PH值">
+          </el-table-column>
+          <el-table-column
+            prop="phReturn"
+            label="PH值状态">
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.soi"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('soi')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="soiData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoil"
+            label="温度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoilReturn"
+            label="温度状态"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoil"
+            label="湿度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoilReturn"
+            label="湿度状态"
+            width='120px'>
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+  </div>
+
+  <!--第三个-->
+
+  <div v-show="item==3" class="search-wrapper" ref='searchWrapper'>
+    <div class="header">
+      <div class="img-wrapper">
+        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
+      </div>
+      <div class="name-wrapper">
+        <span class="name">云·羊宝可视化溯源平台3</span>
+      </div>
+    </div>
+    <div class="search-contianer">
+      <div class="main">
+        <div class='video-wrapper'>
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          </video>
+        </div>
+        <div class="pro-manage">生产管理</div>
+        <div class='mod-wrapper'>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mod">
+            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
+              <div @click="open(v.name,v.id)">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div>{{v.text}}</div>
+                  <div>点击查看</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
+            <el-tabs type="card" v-model="currentName">
+              <el-tab-pane label="养殖场" name="first">
+                  <div class="t-item">     
+                    <div>
+                      <span class="color-gr">品种:</span>
+                      <span v-text="sheepInfo.name"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">养殖场:</span>
+                      <span v-text="sheepInfo.breedName"></span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">出栏时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                      <span v-text="sheepInfo.telNumber"></span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                      <span v-text="sheepInfo.breedLocation"></span>
+                    </div>
+                    <!-- <div>
+                      <span class="color-gr">屠宰加工场:</span>
+                      <span v-text="sheepInfo.slaughterLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰时间:</span>
+                      <span v-text="sheepInfo.slaughterTime"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费点:</span>
+                      <span v-text="sheepInfo.consumeLocation"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">到店时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div> -->
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="产品简介" class="expand">
+                        <span v-text="item['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                    <!-- <el-collapse class="expand-wrapper">
+                      <el-collapse-item title="单位简介" class="expand">
+                        <span v-text="item.company['intro']"></span>
+                      </el-collapse-item>
+                    </el-collapse> -->
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="屠宰加工厂" name="second">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">屠宰厂:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">屠宰时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="消费店" name="third">
+                  <div class="t-item">
+                    <div>
+                      <span class="color-gr">品种:</span>
+                    </div>
+                    <div>
+                      <span class="color-gr">消费店:</span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">加工时间:</span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+            </el-tabs>
+          </el-collapse-item>
+          <!--<el-collapse-item title="企业信息" name="2">-->
+            <!--<div class="t-item" v-for="(v, i) in  companyInfo.slice(0,companyInfo.length-1)" :key="i">-->
+              <!--<span class="color-gr" v-text="v.label + ':'"></span>-->
+              <!--<span v-text="item.company[v.model]"></span>-->
+            <!--</div>-->
+          <!--</el-collapse-item>-->
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
+            <el-carousel height="150px">
+              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
+                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+              </el-carousel-item>
+            </el-carousel>
+          </el-collapse-item>
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
+            <div class="organicEnvironment">
+              <div class='air' @click="open('air',9)">
+                <img src='../assets/imgs/circle1.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+      <div class="right rightC">
+        <div class="search">
+          <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
+          <el-button size="medium" @click="search">搜索</el-button>
+        </div>
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
+            <div class='qrleft'>
+              <!-- <div class='qrhead'>用户评级
+                
+              </div> -->
+              <div class="qrcontent">
+                <span class='ratingContent'>养殖端评级</span>
+                <el-rate
+                  v-model="value5"
+                  disabled
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div class="good">
+                <!-- <span>点赞</span> -->
+                <img src='../assets/imgs/like.jpg'/>
+              </div>
+              <div class="bad" @click="openissue">
+                <!-- <span>投诉</span> -->
+                <img src='../assets/imgs/complain.png'/>
+              </div>
+            </div>
+            <div class="qrcode" ref="qrcode" ><img alt="Scan me!" style="display: block;" id="qr4" :src="qrcodeimg"></div>
+          </el-collapse-item>
+          <el-collapse-item title="产品地址" name="2" class='classD'>
+            <div class='bmap'></div>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+          </el-collapse-item>
+        </el-collapse>
+        <div class='certificate-wrapper rightC2' >
+          <div class='cer-name'>国家认证</div>
+          <div class='certificate-inner'>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+            </div>
+            <span class="cer-description">营业执照</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
+            </div>
+            <span class="cer-description">防疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
+            </div>
+            <span class="cer-description">检疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
+            </div>
+            <span class="cer-description">品质认证</span>
+          </div>
+          </div>
+        </div>
+        <div class='platform-rating'>
+          <span class='prating'>平台评级</span>
+          <span class='pau'>/品质认证</span>
+          <el-rate
+            v-model="value5"
+            disabled
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+        </div>
+      </div>
+    </div>
+    <el-dialog
+      class='issue'
+      custom-class="mod_search_dialog"
+      :visible.sync="issue"
+      width="800px"
+      :show-close="true">
+      <div class='ihead'>——————投诉——————</div>
+      <div class='ibody'>
+        <div class='ihead1'>
+          <span>投诉对象</span>
+          <input type='text'/>
+        </div>
+        <div class='ihead2'>
+          <span>投诉人</span>
+          <input type='text'/>
+          <span>联系电话</span>
+          <input type='text'/>
+        </div>
+          <div class='ihead3'>
+          <span>投诉事项</span>
+          <input type='text'/>
+        </div>
+      </div>
+    </el-dialog>
+    <!-- 系谱 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.gen"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('gen')" class="btn_close">关闭</span>
+      </div>
+      <record-table
+        type="table"
+        title="系谱档案"
+        :data="genData">
+      </record-table>
+    </el-dialog>
+    <!-- 福利 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.san"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('san')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="welData"
+          style="width: 100%">
+          <el-table-column
+            prop="checkTime"
+            label="自检/主管上级检查时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="colonyHouse"
+            label="圈舍内外是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="warehouseWorkshop"
+            label="饲料库房及加工车间是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="killWormDeratization"
+            label="杀虫灭鼠是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="sterilizingRoom"
+            label="消毒制度是否执行">
+          </el-table-column>
+          <el-table-column
+            prop="operation"
+            label="是否赤手操作">
+          </el-table-column>
+          <el-table-column
+            prop="needleSheep"
+            label="是否一羊一针头">
+          </el-table-column>
+          <el-table-column
+            prop="vaccine"
+            label="疫苗及针头的消毒处理是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="safetyProtection"
+            label="是否做到人员安全防护是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="rubbishWater"
+            label="实验室垃圾与排水是否无害化处理">
+          </el-table-column>
+          <el-table-column
+            prop="rubbishWater"
+            label="是否遵守操作规范">
+          </el-table-column>
+          <el-table-column
+            prop="airTemperature"
+            label="羊舍空气与温度是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="exerciseDaylighting"
+            label="羊只运动与采光是否合格">
+          </el-table-column>
+          <el-table-column
+            prop="carDisinfect"
+            label="车辆进出是否消毒">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称">
+          </el-table-column>
+        </el-table>
+    </el-dialog>
+    <!-- 消毒 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.dis"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dis')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="disData"
+          style="width: 100%">
+          <el-table-column
+            prop="disinfectTime"
+            label="消毒时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="disinfectName"
+            label="消毒药名称"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="用药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="disinfectWay"
+            label="消毒方法">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 防疫 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.imm"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('imm')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="immData"
+          style="width: 100%">
+          <el-table-column
+            prop="immuneTime"
+            label="接种时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="immuneKind"
+            label="免疫种类">
+          </el-table-column>
+          <el-table-column
+            prop="immuneWay"
+            label="接种方法">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="接种剂量">
+          </el-table-column>
+          <el-table-column
+            prop="immuneDuring"
+            label="免疫期">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 驱虫 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.exp"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('exp')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="expData"
+          style="width: 100%">
+          <el-table-column
+            prop="repellentTime"
+            label="驱虫时间">
+          </el-table-column>
+          <el-table-column
+            prop="repellentName"
+            label="药物名称">
+          </el-table-column>
+          <el-table-column
+            prop="repellentWay"
+            label="给药途径">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="给药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+          <el-table-column
+            prop="professor"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisor"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 营养 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.nut"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('nut')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="nutData"
+          style="width: 100%">
+          <el-table-column
+            prop="nutritionT"
+            label="营养时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="period"
+            label="阶段">
+          </el-table-column>
+          <el-table-column
+            prop="water"
+            label="水">
+          </el-table-column>
+          <el-table-column
+            prop="materialA"
+            label="添加剂">
+          </el-table-column>
+          <el-table-column
+            prop="materialM"
+            label="精料">
+          </el-table-column>
+          <el-table-column
+            prop="materialO"
+            label="其他">
+          </el-table-column>
+          <el-table-column
+            prop="materialWM"
+            label="精料用量（体重%）精料">
+          </el-table-column>
+          <el-table-column
+            prop="materialWO"
+            label="精料用量（体重%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="roughageP"
+            label="粗饲料配方（%）青料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageD"
+            label="粗饲料配方（%）干料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageO"
+            label="粗饲料配方（%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWP"
+            label="粗饲料用量（体重%）青料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWD"
+            label="粗饲料用量（体重%）干料">
+          </el-table-column>
+          <el-table-column
+            prop="roughageWO"
+            label="粗饲料用量（体重%）其他">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因">
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <!-- 疾病防治 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.dea"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dea')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="deaData"
+          style="width: 100%">
+          <el-table-column
+            prop="diagnosisTime"
+            label="记录时间"
+            width='180'>
+          </el-table-column>
+          <el-table-column
+            prop="symptom"
+            label="症状">
+          </el-table-column>
+          <el-table-column
+            prop="diagnosisResult"
+            label="诊断结果"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="diagnosisMethod"
+            label="治疗方案及用药剂量">
+          </el-table-column>
+          <el-table-column
+            prop="dose"
+            label="总用药量">
+          </el-table-column>
+          <el-table-column
+            prop="treatEffect"
+            label="治疗效果">
+          </el-table-column>
+          <el-table-column
+            prop="gmtSup"
+            label="监督员审核时间">
+          </el-table-column>
+          <el-table-column
+            prop="factoryNum"
+            label="羊场id">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="技术审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="审核状态">
+          </el-table-column>
+          <el-table-column
+            prop="upassReason"
+            label="审核拒绝原因"
+            width='140'>
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督执行">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="监督执行状态"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员名称"
+            width="110">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.bre"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('bre')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="breData"
+          style="width: 100%">
+          <el-table-column
+            prop="breedingTime"
+            label="配种时间"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="buildingAfterBreeding"
+            label="配种后移至栏栋">
+          </el-table-column>
+          <el-table-column
+            prop="ramSheepTrademark"
+            label="公羊耳牌号">
+          </el-table-column>
+          <el-table-column
+            prop="eweSheepTrademark"
+            label="母羊耳牌号">
+          </el-table-column>
+          <el-table-column
+            prop="manageFlag"
+            label="管理批次">
+          </el-table-column>
+          <el-table-column
+            prop="manageAverageTime"
+            label="批次平均配种时间">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforePregnancy"
+            label="妊娠前期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="isPregnancy"
+            label="确定妊娠">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionAfterPregnancy"
+            label="妊娠后期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="prenatalImmunityType"
+            label="产前疫苗种类">
+          </el-table-column>
+          <el-table-column
+            prop="prenatalImmunityTime"
+            label="产前免疫时间">
+          </el-table-column>
+          <el-table-column
+            prop="buildingToBeRelocated"
+            label="待移至栏栋">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforeLambing"
+            label="执行产期营养标准">
+          </el-table-column>
+          <el-table-column
+            prop="lambingTime"
+            label="产羔时间">
+          </el-table-column>
+          <el-table-column
+            prop="lambingNumber"
+            label="产羔数量">
+          </el-table-column>
+          <el-table-column
+            prop="averageTime"
+            label="批次平均产羔时间">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBreastFeeding"
+            label="执行哺乳期营养标准(产后一周)">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionInsteadBreastFeeding"
+            label="执行羔羊代乳料营养标准(羔羊一月龄)">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionBeforeCutBreastFeeding"
+            label="执行羔羊断奶期营养标准-序号:">
+          </el-table-column>
+          <el-table-column
+            prop="nutritionCutBreastFeeding"
+            label="执行羔羊断奶期营养标准-序号:">
+          </el-table-column>
+          <el-table-column
+            prop="professorName"
+            label="审核专家">
+          </el-table-column>
+          <el-table-column
+            prop="ispassCheck"
+            label="是否通过专家审核">
+          </el-table-column>
+          <el-table-column
+            prop="supervisorName"
+            label="监督员姓名">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="是否通过专家审核">
+          </el-table-column>
+          <el-table-column
+            prop="ispassSup"
+            label="是否通过监督员审核">
+          </el-table-column>
+          <el-table-column
+            prop="operatorName"
+            label="操作员姓名">
+          </el-table-column>
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注">
+          </el-table-column>
+          <el-table-column
+            prop="factoryNumber"
+            label="羊场编号">
+          </el-table-column>
+          <el-table-column
+            prop="factoryName"
+            label="羊场名称">
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.air"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('air')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="airData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期"
+            width='205px'>
+          </el-table-column>
+          <el-table-column
+            prop="pm"
+            label="PM2.5"
+            width='205px'>
+          </el-table-column>
+          <el-table-column
+            prop="pmReturn"
+            label="状态"
+            width='205px'>
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.wat"
+      width="800px"
+      :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('wat')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="watData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期">
+          </el-table-column>
+          <el-table-column
+            prop="ph"
+            label="PH值">
+          </el-table-column>
+          <el-table-column
+            prop="phReturn"
+            label="PH值状态">
+          </el-table-column>
+        </el-table>
+     
+    </el-dialog>
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.soi"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('soi')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="soiData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoil"
+            label="温度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoilReturn"
+            label="温度状态"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoil"
+            label="湿度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoilReturn"
+            label="湿度状态"
+            width='120px'>
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+  </div>
+
+  </el-carousel-item >
+</el-carousel>
+  <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
+</div>
+
 </template>
 
 <script type="text/ecmascript-6">
@@ -1016,6 +3008,7 @@ export default {
           longitude:'',
           latitude:'',
         },
+        qrcodeimg:null,
         //走马灯图片
         pics: [],
         //左侧展开的选项
@@ -1135,7 +3128,8 @@ export default {
           {text: '空气检测报告'},
           {text: '营养检测报告'}
         ],
-        tab: 'first'
+        tab: 'first',
+        docStr:null
       }
     },
     created (){
@@ -1182,28 +3176,48 @@ export default {
       })
     },
     mounted () {
-      this.qrcode();
-      this.screenFit();
-    },
-    qrcode () {
-      let qrcode = new QRCode(this.$refs.qrcode, {
-        width: 120,
-        height: 120,
-        text: window.location.href
-      })
+      this.copyQr();
+      //this.screenFit();
     },
     components: {
       BMap,
       RecordTable
     },
     methods: {
+       qrcode () {
+      let qrcode = new QRCode(this.$refs.qrcode, {
+        width: 70,
+        height: 70,
+        text: window.location.href
+      })
+    },
       screenFit() {
       console.log(this.$refs.searchWrapper.style.height)
       if(window.screen.width!=1920){
       this.$refs.searchWrapper.style.height='100%'
       console.log('sd',this.$refs.searchWrapper.style.height)
-    }
+      }
     },
+    /**
+     * 设置二维码
+     */
+      async copyQr(){
+      await this.waitqr();
+      this.docStr = document.getElementById("qrcode1").innerHTML;
+      document.getElementById("qrcode2").innerHTML = this.docStr;
+      this.docStr = document.getElementById("qrcode2").innerHTML;
+      this.qrcodeimg=document.getElementById("qrcode2").children[1].getAttribute("src");
+      //获取第一个幻灯片的二维码图片的地址，
+      //将这个地址赋给this.qrcodeimg，从而实现第二第三个页面二维码图片的显示
+      document.getElementById("qrcode1").innerHTML = "";
+    },
+    	waitqr(codeNumber){
+        //先调用qrcode,生成二维码，然后0.01秒之后返回成功
+				this.qrcode()
+				return new Promise((resolve)=>{
+					setTimeout(resolve,10)
+				});
+			},
       openissue() {
         this.issue = true;
       },
@@ -1312,6 +3326,7 @@ export default {
 <style  lang="stylus">
 @import '../assets/css/color'
   .search-wrapper
+    height 100%
     display flex
     flex-direction column
     background-image url(../assets/imgs/background.jpg)

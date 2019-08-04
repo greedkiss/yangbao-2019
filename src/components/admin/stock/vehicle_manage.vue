@@ -184,9 +184,9 @@ export default {
           }
       },
         deleteItem (row){
-            let data = {
+           let id=this.user.userFactory
+           let data = {
                 numberPlate:row.numberPlate,
-                id:this.user.userFactory
                 }
            deleteCarinfo(id,data).then(res =>{
                if (isReqSuccessful(res)) {
@@ -194,7 +194,6 @@ export default {
            }).then(this.fetchData)
         },
         Edit(){
-            
               let form=new FormData()
               let numberPlate=this.numberPlate1
               let driverName=this.driverName1
@@ -208,7 +207,7 @@ export default {
               form.append('temperature',temperature )
               form.append('factoryId', this.user.userFactory)
               this.captures.forEach((item, index) => {
-                    form.append('file', this.car1.file)
+              form.append('file', this.car1.file)
               })
               let headers = {}
               headers[authStr] = window.localStorage.getItem(tokenStr)

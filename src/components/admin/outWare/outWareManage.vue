@@ -4,6 +4,109 @@
             <div class="card">
                 <p class="card-title">羊肉库存列表</p>
                 <div class="border-main">
+        <div class="num-form">
+            <span>各部分库存数量（个）</span>
+
+            <el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+            <el-table-column
+				label="部位名称"
+				width="80"
+				>
+                <template>
+                    <div>
+                        <span>数量</span>
+                    </div>
+                </template>
+			</el-table-column>
+			<el-table-column
+				label="胴体"
+				width="78"
+				prop="Dnum">
+			</el-table-column>
+			<el-table-column
+				label="二分体"
+				width="78"
+				prop="DEnum">
+			</el-table-column>
+			<el-table-column
+				label="羊腹肉"
+				width="78"
+				prop="DFnum">
+			</el-table-column>
+			<el-table-column
+				label="黄瓜条"
+				width="78"
+				prop="DHnum">
+            </el-table-column>
+			<el-table-column
+                label="羊肩胛"
+                width="78"
+				prop="DJnum">
+            </el-table-column>
+            <el-table-column
+				label="羊肋排"
+				width="78"
+				prop="DLnum">
+			</el-table-column>
+			<el-table-column
+				label="羊前"
+				width="78"
+				prop="DMnum">
+			</el-table-column>
+		</el-table>
+
+        <el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}" >
+            <el-table-column
+				label="部位名称"
+				width="80"
+				>
+                 <template>
+                    <div>
+                        <span>数量</span>
+                    </div>
+                </template>
+			</el-table-column>
+			<el-table-column
+				label="羊腰脊"
+				width="78"
+				prop="DYnum">
+			</el-table-column>
+			<el-table-column
+				label="羊后腿"
+				width="78"
+				prop="DRnum">
+            </el-table-column>
+			<el-table-column
+                label="羊大腿"
+                width="78"
+				prop="DDnum">
+            </el-table-column>
+            <el-table-column
+				label="羊前腿"
+				width="78"
+				prop="DQnum">
+			</el-table-column>
+			<el-table-column
+				label="羊外肌"
+				width="78"
+				prop="DWnum">
+			</el-table-column>
+			<el-table-column
+				label="羊里脊"
+				width="78"
+				prop="DInum">
+			</el-table-column>
+            <el-table-column
+				label=""
+				width="78"
+				prop="">
+			</el-table-column>
+		</el-table>
+        
+        </div>
+
+         <div class="outWare-form">
+            
             <el-table
             :data="tableData"
             highlight-current-row
@@ -17,7 +120,7 @@
 
                 <el-table-column
                     label="产品编号"
-                    width="120"
+                    width="120"  
                     prop="productNumber">
                 </el-table-column>
 
@@ -68,6 +171,8 @@
                             <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="fetchData" :current-page.sync="page">
                             </el-pagination>
                     </div>
+            </div>
+        
                 </div>
             </div>
 
@@ -151,7 +256,10 @@
 
             </el-table>
       
-            
+                <div class="block" style="margin-left: 46px">
+                        <el-pagination layout="prev, pager, next" :total="total2" :page-size="1"  @current-change="fetchData"  :current-page.sync="page2">
+                        </el-pagination>
+                </div>
                 </div>
             </div>  
     <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
@@ -184,9 +292,30 @@ export default {
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''}],
+            numtableData:[{Dnum:'1234',DYnum:'12345'}],
             total:0,
             page:1,
+            total2:100,
+            page2:1,
             dialogMessage:{
                 number:null,
                 name:null,
@@ -212,6 +341,24 @@ export default {
         //份数确认
         sureCopies(){
             this.tableData2=[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
+            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
@@ -285,4 +432,17 @@ export default {
     }
 }
 </script>
+<style lang="stylus">
+.num-form
+	.el-table
+		display table-caption
+	.el-table th
+			border-left 2px solid rgb(230,230,230)
+			background-color: rgb(238, 241, 246)!important
+.outWare-form
+    .el-table
+		display table-caption
+    
+</style>
+
 
