@@ -107,12 +107,14 @@
                 <el-input  size="small" v-model="twocut1.weight"></el-input>
             </div>
 
-            <div class="time">
+            <div class="time" style="width:20%">
                <el-input v-for="(item, i) in captures"  :key="i" class="select-file" style="postion:relative;bottom:10px;"  size="small"  @click.native="$refs.erfen[0].click()" :value="twocut1.fileName">
                     <template slot="prepend">上传二分体1视频<input type="file" @change="selectFile(twocut1,0,$refs.erfen[0].files[0])" hidden ref="erfen"></template>
                 </el-input>
+                
             </div>
-
+            <el-button type="primary" size="small" @click.prevent="printCode(twocut1.num)">打印</el-button>
+            
                 <div class="time" style="margin-top:10px;width:30%">
                     <span class="time-span ellipse">羊二分体2编号</span>
                 <el-input  size="small" v-model="twocut2.num"></el-input>
@@ -123,11 +125,14 @@
                 <el-input  size="small" v-model="twocut2.weight"></el-input>
             </div>
             
-            <div class="time">
+            <div class="time" style="width:20%">
                 <el-input  v-for="(item, i) in captures2"  :key="i" class="select-file" style="postion:relative;bottom:10px;" size="small"  @click.native="$refs.erfen[1].click()" :value="twocut2.fileName">
                     <template slot="prepend">上传二分体2视频<input type="file" @change="selectFile(twocut2, 1,$refs.erfen[1].files[0])" hidden ref="erfen"></template>
                 </el-input>
+                
+            
             </div>
+            <el-button type="primary" size="small" @click.prevent="printCode(twocut2.num)">打印</el-button>
          </div>
     
         <div class="card">
@@ -160,13 +165,14 @@
             </div>
 
             <div class="segment-file" >
-            <el-input v-model="domain.fileName"  size="small"  style="width:30%"  @click.native="$refs.qiantui[index].click()" >
+            <el-input v-model="domain.fileName"  size="small"  style="width:20%"  @click.native="$refs.qiantui[index].click()" >
                     <template slot="prepend">羊前腿视频<input  type="file" @change="selectFile(domain,index,$refs.qiantui[index].files[0])" hidden ref="qiantui"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,qiantuiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
             <div class="time">
                 
             </div>
@@ -192,13 +198,14 @@
             </div>
             
             <div class="segment-file">
-                <el-input   class="select-file" size="small"  style="width:30%" @click.native="$refs.houtui[(index)].click()" :value="domain.fileName">
+                <el-input   class="select-file" size="small"  style="width:20%" @click.native="$refs.houtui[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊后腿视频<input type="file"  @change="selectFile(domain, (index),$refs.houtui[(index)].files[0])" hidden ref="houtui"></template>
                 </el-input>
             </div>
             
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,houtuiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(houtuiForm)">新增后腿</el-button>
@@ -222,13 +229,14 @@
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  style="width:30%"  @click.native="$refs.huanggua[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:20%"  @click.native="$refs.huanggua[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">黄瓜条视频<input type="file" @change="selectFile(domain, (index),$refs.huanggua[(index)].files[0])" hidden ref="huanggua"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,huangguaForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(huangguaForm)">新增黄瓜条</el-button>
@@ -252,14 +260,14 @@
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yaoji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:20%"  @click.native="$refs.yaoji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊腰肌视频<input type="file" @change="selectFile(domain, (index),$refs.yaoji[(index)].files[0])" hidden ref="yaoji"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,yaojiForm)">删除</el-button>
-           
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(yaojiForm)">新增羊腰肌</el-button>
             </el-form>
@@ -281,13 +289,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.datui[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:20%"  @click.native="$refs.datui[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊大腿视频<input type="file" @change="selectFile(domain, (index),$refs.datui[(index)].files[0])" hidden ref="datui"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,datuiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(datuiForm)">新增羊大腿</el-button>
@@ -310,13 +319,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-                <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yanglei[(index)].click()" :value="domain.fileName">
+                <el-input  class="select-file" size="small" style="width:20%"  @click.native="$refs.yanglei[(index)].click()" :value="domain.fileName">
                         <template slot="prepend">羊肋排视频<input type="file" @change="selectFile(domain, (index),$refs.yanglei[(index)].files[0])" hidden ref="yanglei"></template>
                 </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,yangleiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(yangleiForm)">新增羊肋排</el-button>
@@ -339,13 +349,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" style="width:30%"   @click.native="$refs.furou[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:20%"   @click.native="$refs.furou[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊腹肉视频<input type="file" @change="selectFile(domain, (index),$refs.furou[(index)].files[0])" hidden ref="furou"></template>
             </el-input>                
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,furouForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(furouForm)">新增羊腹肉</el-button>
@@ -368,13 +379,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  style="width:30%"  @click.native="$refs.jianjia[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:20%"  @click.native="$refs.jianjia[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊肩胛视频<input type="file"  @change="selectFile(domain, (index),$refs.jianjia[(index)].files[0])" hidden ref="jianjia"></template>
             </el-input>                
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,jianjiaForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(jianjiaForm)">新增羊肩胛</el-button>
@@ -397,13 +409,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.yangqian[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:20%"  @click.native="$refs.yangqian[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊前视频<input type="file"  @change="selectFile(domain, (index),$refs.yangqian[(index)].files[0])" hidden ref="yangqian"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,yangqianForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(yangqianForm)">新增羊前</el-button>
@@ -426,13 +439,14 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
-            <el-input  class="select-file" size="small" style="width:30%"  @click.native="$refs.waiji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small" style="width:20%"  @click.native="$refs.waiji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊外肌视频<input type="file"  @change="selectFile(domain, (index),$refs.waiji[(index)].files[0])" hidden ref="waiji"></template>
             </el-input>
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,waijiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(waijiForm)">新增羊外肌</el-button>
@@ -456,13 +470,14 @@
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  style="width:30%" @click.native="$refs.liji[(index)].click()" :value="domain.fileName">
+            <el-input  class="select-file" size="small"  style="width:20%" @click.native="$refs.liji[(index)].click()" :value="domain.fileName">
                     <template slot="prepend">羊里脊视频<input type="file"  @change="selectFile(domain, (index),$refs.liji[(index)].files[0])" hidden ref="liji"></template>
             </el-input>      
             </div>
 
 
                 <el-button type="primary" @click.prevent="removeDomain(domain,lijiForm)">删除</el-button>
+                <el-button type="primary" @click.prevent="printCode(domain.num)">打印</el-button>
            
             </el-form-item>
              <el-button type="primary" style="margin-top:-10px;" @click="addDomain(lijiForm)">新增羊里脊</el-button>
@@ -478,11 +493,13 @@
                 <el-button type="primary" :disabled="disableBtn" @click="submit()">提交</el-button>
             </template>
         </div>
+        <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
     </div>
 </template>
 
 <script>
 import BasicInfo from '@/components/admin/basic_info'
+import QRCode from 'qrcodejs2'
 import { isReqSuccessful, checkForm, postJump, patchJump } from '@/util/jskit'
 import { getUserById,getSegmentSheep} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
@@ -644,17 +661,17 @@ export default {
          formFlag:null,
          FileName:true,
         erfen: null,
-        qiantui:'',
-        houtui:'',
-        huanggua:'',
-        yaoji:'',
-        datui:'',
-        yanglei:'',
-        furou:'',
-        jianjia:'',
-        yangqian:'',
-        waiji:'',
-        liji:'',
+        qiantui:null,
+        houtui:null,
+        huanggua:null,
+        yaoji:null,
+        datui:null,
+        yanglei:null,
+        furou:null,
+        jianjia:null,
+        yangqian:null,
+        waiji:null,
+        liji:null,
         serial:null,
         captures: [{model: null , per : 0}],
         captures2: [{model: null , per : 0}],
@@ -748,7 +765,7 @@ export default {
           }],
         },
         disableBtn:false,
-        
+        codeNumber:null,
     }
     },
 
@@ -827,6 +844,41 @@ export default {
                 }
             })
 		},
+                async printCode(segCodeNum){
+			this.codeNumber=segCodeNum
+
+			document.getElementById("qrcode1").innerHTML = "";
+
+			//异步，等待结果
+		    await this.waitqr(this.codeNumber);
+
+			var docStr = document.getElementById("qrcode1").innerHTML;
+			var newWindow=window.open("打印窗口","_blank");			
+			newWindow.document.write(docStr);
+			var styles=document.createElement("style");
+			styles.setAttribute('type','text/css');//media="print"
+			styles.innerHTML="" 
+			newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+			newWindow.print();
+			newWindow.close();
+		},
+
+		//获取二维码
+		waitqr(codeNumber){
+                //先调用qrcode,生成二维码，然后0.1秒之后返回成功
+				this.qrcode(codeNumber)
+				return new Promise((resolve)=>{
+					setTimeout(resolve,100)
+				});
+			},
+		qrcode (codeNumber) {
+			let qrcode = new QRCode(this.$refs.qrcode, {
+			width: 300,
+			height:300,
+			text: codeNumber
+			})
+
+      },
 
         submit () {
               let form=new FormData()
@@ -888,7 +940,7 @@ export default {
     display:inline;
     margin-top: -10px;
     height: 10px;
-    width:20%;
+    width:15%;
 
 }.demo-dynamic{
     width:100%;

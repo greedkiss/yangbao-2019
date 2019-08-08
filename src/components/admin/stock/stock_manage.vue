@@ -589,7 +589,7 @@
 			display table-caption
 		.el-table th
 				border-left 2px solid rgb(230,230,230)
-				background: rgb(238, 241, 246);;
+				background: rgb(238, 241, 246)!important
 			
 	</style>
 

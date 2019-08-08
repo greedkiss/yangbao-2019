@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <el-carousel indicator-position="none" height="753px">
+  <el-carousel indicator-position="none" height="753px" :autoplay="isAutoPlay">
 <el-carousel-item v-for="item in 3" :key="item">
  <div v-show="item==1" class="search-wrapper" ref='searchWrapper'>
     <div class="header">
@@ -20,28 +20,159 @@
         </div>
         <div class="pro-manage">生产管理</div>
         <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
           <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
+                  <div class="modulesName">{{modules[0].text}}</div>
                   <div>点击查看</div>
                 </div>
+               </div>
               </div>
-            </div>
-          </div>
-          <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
                   <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content3">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content4">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
         </div>
       </div>
       <div class="left">
@@ -98,44 +229,6 @@
                     </el-collapse> -->
                   </div>
               </el-tab-pane>
-              <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰厂:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">屠宰时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费店:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">加工时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
-                  </div>
-              </el-tab-pane>
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -145,9 +238,9 @@
             <!--</div>-->
           <!--</el-collapse-item>-->
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
-            <el-carousel height="150px">
-              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index">
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
@@ -208,16 +301,18 @@
             <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
-        <div class='certificate-wrapper rightC2' >
+        <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
-          <div class='certificate'>
+
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
             <div class="cer-picture">
-              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+              <img height='100%' v-if='item' :src="item.url"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">{{item.name}}</span>
           </div>
-          <div class='certificate'>
+
+          <!-- <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
@@ -234,7 +329,8 @@
               <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
             </div>
             <span class="cer-description">品质认证</span>
-          </div>
+          </div> -->
+
           </div>
         </div>
         <div class='platform-rating'>
@@ -249,747 +345,6 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      class='issue'
-      custom-class="mod_search_dialog"
-      :visible.sync="issue"
-      width="800px"
-      :show-close="true">
-      <div class='ihead'>——————投诉——————</div>
-      <div class='ibody'>
-        <div class='ihead1'>
-          <span>投诉对象</span>
-          <input type='text'/>
-        </div>
-        <div class='ihead2'>
-          <span>投诉人</span>
-          <input type='text'/>
-          <span>联系电话</span>
-          <input type='text'/>
-        </div>
-          <div class='ihead3'>
-          <span>投诉事项</span>
-          <input type='text'/>
-        </div>
-      </div>
-    </el-dialog>
-    <!-- 系谱 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.gen"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('gen')" class="btn_close">关闭</span>
-      </div>
-      <record-table
-        type="table"
-        title="系谱档案"
-        :data="genData">
-      </record-table>
-    </el-dialog>
-    <!-- 福利 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.san"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('san')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="welData"
-          style="width: 100%">
-          <el-table-column
-            prop="checkTime"
-            label="自检/主管上级检查时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="colonyHouse"
-            label="圈舍内外是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="warehouseWorkshop"
-            label="饲料库房及加工车间是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="killWormDeratization"
-            label="杀虫灭鼠是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="sterilizingRoom"
-            label="消毒制度是否执行">
-          </el-table-column>
-          <el-table-column
-            prop="operation"
-            label="是否赤手操作">
-          </el-table-column>
-          <el-table-column
-            prop="needleSheep"
-            label="是否一羊一针头">
-          </el-table-column>
-          <el-table-column
-            prop="vaccine"
-            label="疫苗及针头的消毒处理是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="safetyProtection"
-            label="是否做到人员安全防护是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="rubbishWater"
-            label="实验室垃圾与排水是否无害化处理">
-          </el-table-column>
-          <el-table-column
-            prop="rubbishWater"
-            label="是否遵守操作规范">
-          </el-table-column>
-          <el-table-column
-            prop="airTemperature"
-            label="羊舍空气与温度是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="exerciseDaylighting"
-            label="羊只运动与采光是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="carDisinfect"
-            label="车辆进出是否消毒">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称">
-          </el-table-column>
-        </el-table>
-    </el-dialog>
-    <!-- 消毒 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.dis"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dis')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="disData"
-          style="width: 100%">
-          <el-table-column
-            prop="disinfectTime"
-            label="消毒时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="disinfectName"
-            label="消毒药名称"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="用药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="disinfectWay"
-            label="消毒方法">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 防疫 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.imm"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('imm')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="immData"
-          style="width: 100%">
-          <el-table-column
-            prop="immuneTime"
-            label="接种时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="immuneKind"
-            label="免疫种类">
-          </el-table-column>
-          <el-table-column
-            prop="immuneWay"
-            label="接种方法">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="接种剂量">
-          </el-table-column>
-          <el-table-column
-            prop="immuneDuring"
-            label="免疫期">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 驱虫 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.exp"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('exp')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="expData"
-          style="width: 100%">
-          <el-table-column
-            prop="repellentTime"
-            label="驱虫时间">
-          </el-table-column>
-          <el-table-column
-            prop="repellentName"
-            label="药物名称">
-          </el-table-column>
-          <el-table-column
-            prop="repellentWay"
-            label="给药途径">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="给药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 营养 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.nut"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('nut')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="nutData"
-          style="width: 100%">
-          <el-table-column
-            prop="nutritionT"
-            label="营养时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="period"
-            label="阶段">
-          </el-table-column>
-          <el-table-column
-            prop="water"
-            label="水">
-          </el-table-column>
-          <el-table-column
-            prop="materialA"
-            label="添加剂">
-          </el-table-column>
-          <el-table-column
-            prop="materialM"
-            label="精料">
-          </el-table-column>
-          <el-table-column
-            prop="materialO"
-            label="其他">
-          </el-table-column>
-          <el-table-column
-            prop="materialWM"
-            label="精料用量（体重%）精料">
-          </el-table-column>
-          <el-table-column
-            prop="materialWO"
-            label="精料用量（体重%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="roughageP"
-            label="粗饲料配方（%）青料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageD"
-            label="粗饲料配方（%）干料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageO"
-            label="粗饲料配方（%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWP"
-            label="粗饲料用量（体重%）青料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWD"
-            label="粗饲料用量（体重%）干料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWO"
-            label="粗饲料用量（体重%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因">
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 疾病防治 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.dea"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dea')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="deaData"
-          style="width: 100%">
-          <el-table-column
-            prop="diagnosisTime"
-            label="记录时间"
-            width='180'>
-          </el-table-column>
-          <el-table-column
-            prop="symptom"
-            label="症状">
-          </el-table-column>
-          <el-table-column
-            prop="diagnosisResult"
-            label="诊断结果"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="diagnosisMethod"
-            label="治疗方案及用药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="总用药量">
-          </el-table-column>
-          <el-table-column
-            prop="treatEffect"
-            label="治疗效果">
-          </el-table-column>
-          <el-table-column
-            prop="gmtSup"
-            label="监督员审核时间">
-          </el-table-column>
-          <el-table-column
-            prop="factoryNum"
-            label="羊场id">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.bre"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('bre')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="breData"
-          style="width: 100%">
-          <el-table-column
-            prop="breedingTime"
-            label="配种时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="buildingAfterBreeding"
-            label="配种后移至栏栋">
-          </el-table-column>
-          <el-table-column
-            prop="ramSheepTrademark"
-            label="公羊耳牌号">
-          </el-table-column>
-          <el-table-column
-            prop="eweSheepTrademark"
-            label="母羊耳牌号">
-          </el-table-column>
-          <el-table-column
-            prop="manageFlag"
-            label="管理批次">
-          </el-table-column>
-          <el-table-column
-            prop="manageAverageTime"
-            label="批次平均配种时间">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforePregnancy"
-            label="妊娠前期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="isPregnancy"
-            label="确定妊娠">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionAfterPregnancy"
-            label="妊娠后期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="prenatalImmunityType"
-            label="产前疫苗种类">
-          </el-table-column>
-          <el-table-column
-            prop="prenatalImmunityTime"
-            label="产前免疫时间">
-          </el-table-column>
-          <el-table-column
-            prop="buildingToBeRelocated"
-            label="待移至栏栋">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforeLambing"
-            label="执行产期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="lambingTime"
-            label="产羔时间">
-          </el-table-column>
-          <el-table-column
-            prop="lambingNumber"
-            label="产羔数量">
-          </el-table-column>
-          <el-table-column
-            prop="averageTime"
-            label="批次平均产羔时间">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBreastFeeding"
-            label="执行哺乳期营养标准(产后一周)">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionInsteadBreastFeeding"
-            label="执行羔羊代乳料营养标准(羔羊一月龄)">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforeCutBreastFeeding"
-            label="执行羔羊断奶期营养标准-序号:">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionCutBreastFeeding"
-            label="执行羔羊断奶期营养标准-序号:">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="审核专家">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="是否通过专家审核">
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督员姓名">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="是否通过专家审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="是否通过监督员审核">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员姓名">
-          </el-table-column>
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-          <el-table-column
-            prop="factoryNumber"
-            label="羊场编号">
-          </el-table-column>
-          <el-table-column
-            prop="factoryName"
-            label="羊场名称">
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.air"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('air')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="airData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期"
-            width='205px'>
-          </el-table-column>
-          <el-table-column
-            prop="pm"
-            label="PM2.5"
-            width='205px'>
-          </el-table-column>
-          <el-table-column
-            prop="pmReturn"
-            label="状态"
-            width='205px'>
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.wat"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('wat')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="watData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期">
-          </el-table-column>
-          <el-table-column
-            prop="ph"
-            label="PH值">
-          </el-table-column>
-          <el-table-column
-            prop="phReturn"
-            label="PH值状态">
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.soi"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('soi')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="soiData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="tempSoil"
-            label="温度"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="tempSoilReturn"
-            label="温度状态"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="humSoil"
-            label="湿度"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="humSoilReturn"
-            label="湿度状态"
-            width='120px'>
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
   </div>
 
   <!--第二个-->
@@ -1006,40 +361,171 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          <video  id='factoryVideo' ref="video" autoplay='true' controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
-        <div class='mod-wrapper'>
+              <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
           <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
+                  <div class="modulesName">{{modules[0].text}}</div>
                   <div>点击查看</div>
                 </div>
+               </div>
               </div>
-            </div>
-          </div>
-          <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
                   <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content3">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content4">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
         </div>
       </div>
       <div class="left">
         <el-collapse v-model="activeNames" class='leftC'>
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
-              <el-tab-pane label="养殖场" name="first">
+              <el-tab-pane label="屠宰加工厂" name="first">
                   <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
@@ -1061,70 +547,6 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    <!-- <div>
-                      <span class="color-gr">屠宰加工场:</span>
-                      <span v-text="sheepInfo.slaughterLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰时间:</span>
-                      <span v-text="sheepInfo.slaughterTime"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费点:</span>
-                      <span v-text="sheepInfo.consumeLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">到店时间:</span>
-                      <span v-text="sheepInfo.arriveTime"></span>
-                    </div> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="产品简介" class="expand">
-                        <span v-text="item['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="单位简介" class="expand">
-                        <span v-text="item.company['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰厂:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">屠宰时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费店:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">加工时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
                   </div>
               </el-tab-pane>
             </el-tabs>
@@ -1136,9 +558,9 @@
             <!--</div>-->
           <!--</el-collapse-item>-->
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
-            <el-carousel height="150px">
-              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index" >
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
@@ -1199,16 +621,17 @@
             <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
-        <div class='certificate-wrapper rightC2' >
+        <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
-          <div class='certificate'>
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
             <div class="cer-picture">
-              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+              <img height='100%' v-if='item' :src="item.url"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">{{item.name}}</span>
           </div>
-          <div class='certificate'>
+
+          <!-- <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
@@ -1225,7 +648,8 @@
               <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
             </div>
             <span class="cer-description">品质认证</span>
-          </div>
+          </div> -->
+
           </div>
         </div>
         <div class='platform-rating'>
@@ -1240,747 +664,6 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      class='issue'
-      custom-class="mod_search_dialog"
-      :visible.sync="issue"
-      width="800px"
-      :show-close="true">
-      <div class='ihead'>——————投诉——————</div>
-      <div class='ibody'>
-        <div class='ihead1'>
-          <span>投诉对象</span>
-          <input type='text'/>
-        </div>
-        <div class='ihead2'>
-          <span>投诉人</span>
-          <input type='text'/>
-          <span>联系电话</span>
-          <input type='text'/>
-        </div>
-          <div class='ihead3'>
-          <span>投诉事项</span>
-          <input type='text'/>
-        </div>
-      </div>
-    </el-dialog>
-    <!-- 系谱 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.gen"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('gen')" class="btn_close">关闭</span>
-      </div>
-      <record-table
-        type="table"
-        title="系谱档案"
-        :data="genData">
-      </record-table>
-    </el-dialog>
-    <!-- 福利 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.san"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('san')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="welData"
-          style="width: 100%">
-          <el-table-column
-            prop="checkTime"
-            label="自检/主管上级检查时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="colonyHouse"
-            label="圈舍内外是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="warehouseWorkshop"
-            label="饲料库房及加工车间是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="killWormDeratization"
-            label="杀虫灭鼠是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="sterilizingRoom"
-            label="消毒制度是否执行">
-          </el-table-column>
-          <el-table-column
-            prop="operation"
-            label="是否赤手操作">
-          </el-table-column>
-          <el-table-column
-            prop="needleSheep"
-            label="是否一羊一针头">
-          </el-table-column>
-          <el-table-column
-            prop="vaccine"
-            label="疫苗及针头的消毒处理是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="safetyProtection"
-            label="是否做到人员安全防护是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="rubbishWater"
-            label="实验室垃圾与排水是否无害化处理">
-          </el-table-column>
-          <el-table-column
-            prop="rubbishWater"
-            label="是否遵守操作规范">
-          </el-table-column>
-          <el-table-column
-            prop="airTemperature"
-            label="羊舍空气与温度是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="exerciseDaylighting"
-            label="羊只运动与采光是否合格">
-          </el-table-column>
-          <el-table-column
-            prop="carDisinfect"
-            label="车辆进出是否消毒">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称">
-          </el-table-column>
-        </el-table>
-    </el-dialog>
-    <!-- 消毒 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.dis"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dis')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="disData"
-          style="width: 100%">
-          <el-table-column
-            prop="disinfectTime"
-            label="消毒时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="disinfectName"
-            label="消毒药名称"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="用药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="disinfectWay"
-            label="消毒方法">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 防疫 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.imm"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('imm')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="immData"
-          style="width: 100%">
-          <el-table-column
-            prop="immuneTime"
-            label="接种时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="immuneKind"
-            label="免疫种类">
-          </el-table-column>
-          <el-table-column
-            prop="immuneWay"
-            label="接种方法">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="接种剂量">
-          </el-table-column>
-          <el-table-column
-            prop="immuneDuring"
-            label="免疫期">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 驱虫 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.exp"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('exp')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="expData"
-          style="width: 100%">
-          <el-table-column
-            prop="repellentTime"
-            label="驱虫时间">
-          </el-table-column>
-          <el-table-column
-            prop="repellentName"
-            label="药物名称">
-          </el-table-column>
-          <el-table-column
-            prop="repellentWay"
-            label="给药途径">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="给药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-          <el-table-column
-            prop="professor"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisor"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 营养 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.nut"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('nut')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="nutData"
-          style="width: 100%">
-          <el-table-column
-            prop="nutritionT"
-            label="营养时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="period"
-            label="阶段">
-          </el-table-column>
-          <el-table-column
-            prop="water"
-            label="水">
-          </el-table-column>
-          <el-table-column
-            prop="materialA"
-            label="添加剂">
-          </el-table-column>
-          <el-table-column
-            prop="materialM"
-            label="精料">
-          </el-table-column>
-          <el-table-column
-            prop="materialO"
-            label="其他">
-          </el-table-column>
-          <el-table-column
-            prop="materialWM"
-            label="精料用量（体重%）精料">
-          </el-table-column>
-          <el-table-column
-            prop="materialWO"
-            label="精料用量（体重%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="roughageP"
-            label="粗饲料配方（%）青料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageD"
-            label="粗饲料配方（%）干料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageO"
-            label="粗饲料配方（%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWP"
-            label="粗饲料用量（体重%）青料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWD"
-            label="粗饲料用量（体重%）干料">
-          </el-table-column>
-          <el-table-column
-            prop="roughageWO"
-            label="粗饲料用量（体重%）其他">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因">
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <!-- 疾病防治 -->
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.dea"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dea')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="deaData"
-          style="width: 100%">
-          <el-table-column
-            prop="diagnosisTime"
-            label="记录时间"
-            width='180'>
-          </el-table-column>
-          <el-table-column
-            prop="symptom"
-            label="症状">
-          </el-table-column>
-          <el-table-column
-            prop="diagnosisResult"
-            label="诊断结果"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="diagnosisMethod"
-            label="治疗方案及用药剂量">
-          </el-table-column>
-          <el-table-column
-            prop="dose"
-            label="总用药量">
-          </el-table-column>
-          <el-table-column
-            prop="treatEffect"
-            label="治疗效果">
-          </el-table-column>
-          <el-table-column
-            prop="gmtSup"
-            label="监督员审核时间">
-          </el-table-column>
-          <el-table-column
-            prop="factoryNum"
-            label="羊场id">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="技术审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="审核状态">
-          </el-table-column>
-          <el-table-column
-            prop="upassReason"
-            label="审核拒绝原因"
-            width='140'>
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督执行">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="监督执行状态"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员名称"
-            width="110">
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.bre"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('bre')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="breData"
-          style="width: 100%">
-          <el-table-column
-            prop="breedingTime"
-            label="配种时间"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="buildingAfterBreeding"
-            label="配种后移至栏栋">
-          </el-table-column>
-          <el-table-column
-            prop="ramSheepTrademark"
-            label="公羊耳牌号">
-          </el-table-column>
-          <el-table-column
-            prop="eweSheepTrademark"
-            label="母羊耳牌号">
-          </el-table-column>
-          <el-table-column
-            prop="manageFlag"
-            label="管理批次">
-          </el-table-column>
-          <el-table-column
-            prop="manageAverageTime"
-            label="批次平均配种时间">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforePregnancy"
-            label="妊娠前期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="isPregnancy"
-            label="确定妊娠">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionAfterPregnancy"
-            label="妊娠后期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="prenatalImmunityType"
-            label="产前疫苗种类">
-          </el-table-column>
-          <el-table-column
-            prop="prenatalImmunityTime"
-            label="产前免疫时间">
-          </el-table-column>
-          <el-table-column
-            prop="buildingToBeRelocated"
-            label="待移至栏栋">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforeLambing"
-            label="执行产期营养标准">
-          </el-table-column>
-          <el-table-column
-            prop="lambingTime"
-            label="产羔时间">
-          </el-table-column>
-          <el-table-column
-            prop="lambingNumber"
-            label="产羔数量">
-          </el-table-column>
-          <el-table-column
-            prop="averageTime"
-            label="批次平均产羔时间">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBreastFeeding"
-            label="执行哺乳期营养标准(产后一周)">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionInsteadBreastFeeding"
-            label="执行羔羊代乳料营养标准(羔羊一月龄)">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionBeforeCutBreastFeeding"
-            label="执行羔羊断奶期营养标准-序号:">
-          </el-table-column>
-          <el-table-column
-            prop="nutritionCutBreastFeeding"
-            label="执行羔羊断奶期营养标准-序号:">
-          </el-table-column>
-          <el-table-column
-            prop="professorName"
-            label="审核专家">
-          </el-table-column>
-          <el-table-column
-            prop="ispassCheck"
-            label="是否通过专家审核">
-          </el-table-column>
-          <el-table-column
-            prop="supervisorName"
-            label="监督员姓名">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="是否通过专家审核">
-          </el-table-column>
-          <el-table-column
-            prop="ispassSup"
-            label="是否通过监督员审核">
-          </el-table-column>
-          <el-table-column
-            prop="operatorName"
-            label="操作员姓名">
-          </el-table-column>
-          </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="备注">
-          </el-table-column>
-          <el-table-column
-            prop="factoryNumber"
-            label="羊场编号">
-          </el-table-column>
-          <el-table-column
-            prop="factoryName"
-            label="羊场名称">
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.air"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('air')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="airData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期"
-            width='205px'>
-          </el-table-column>
-          <el-table-column
-            prop="pm"
-            label="PM2.5"
-            width='205px'>
-          </el-table-column>
-          <el-table-column
-            prop="pmReturn"
-            label="状态"
-            width='205px'>
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.wat"
-      width="800px"
-      :show-close="false">
-       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('wat')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="watData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期">
-          </el-table-column>
-          <el-table-column
-            prop="ph"
-            label="PH值">
-          </el-table-column>
-          <el-table-column
-            prop="phReturn"
-            label="PH值状态">
-          </el-table-column>
-        </el-table>
-     
-    </el-dialog>
-    <el-dialog
-      custom-class="mod_search_dialog"
-      :visible.sync="dialog.soi"
-      width="800px"
-      :show-close="false">
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('soi')" class="btn_close">关闭</span>
-      </div>
-        <el-table
-          :data="soiData"
-          style="width: 100%">
-          <el-table-column
-            prop="time"
-            label="日期"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="tempSoil"
-            label="温度"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="tempSoilReturn"
-            label="温度状态"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="humSoil"
-            label="湿度"
-            width='120px'>
-          </el-table-column>
-          <el-table-column
-            prop="humSoilReturn"
-            label="湿度状态"
-            width='120px'>
-          </el-table-column>
-        </el-table>
-      
-    </el-dialog>
   </div>
 
   <!--第三个-->
@@ -1988,7 +671,7 @@
   <div v-show="item==3" class="search-wrapper" ref='searchWrapper'>
     <div class="header">
       <div class="img-wrapper">
-        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
+        <img class="header-img" src="../assets/imgs/header-logo2.png"  alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
         <span class="name">云·羊宝可视化溯源平台3</span>
@@ -2001,36 +684,168 @@
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
-        <div class='mod-wrapper'>
+                <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
           <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
+                  <div class="modulesName">{{modules[0].text}}</div>
                   <div>点击查看</div>
                 </div>
+               </div>
               </div>
-            </div>
-          </div>
-          <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
                   <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content3">
+                <div class = 'sright'>
+                  <div>点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content4">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div>点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+       </div> 
         </div>
       </div>
+
       <div class="left">
         <el-collapse v-model="activeNames" class='leftC'>
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
-              <el-tab-pane label="养殖场" name="first">
+              <el-tab-pane label="消费店" name="first">
                   <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
@@ -2052,72 +867,10 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    <!-- <div>
-                      <span class="color-gr">屠宰加工场:</span>
-                      <span v-text="sheepInfo.slaughterLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰时间:</span>
-                      <span v-text="sheepInfo.slaughterTime"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费点:</span>
-                      <span v-text="sheepInfo.consumeLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">到店时间:</span>
-                      <span v-text="sheepInfo.arriveTime"></span>
-                    </div> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="产品简介" class="expand">
-                        <span v-text="item['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="单位简介" class="expand">
-                        <span v-text="item.company['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
+                    
                   </div>
               </el-tab-pane>
-              <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰厂:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">屠宰时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">
-                    <div>
-                      <span class="color-gr">品种:</span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费店:</span>
-                    </div>
-                    <div class='leftT'>
-                      <span class="color-gr">加工时间:</span>
-                    </div>
-                    <div class='telNumber'>
-                      <span class="color-gr">联系电话:</span>
-                    </div>
-                    <div class=''>
-                      <span class="color-gr">地址:</span>
-                    </div>
-                  </div>
-              </el-tab-pane>
+              
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -2127,9 +880,9 @@
             <!--</div>-->
           <!--</el-collapse-item>-->
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
-            <el-carousel height="150px">
-              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index">
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
@@ -2190,16 +943,17 @@
             <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
-        <div class='certificate-wrapper rightC2' >
+        <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
-          <div class='certificate'>
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)" >
             <div class="cer-picture">
-              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+              <img height='100%' v-if='item' :src="item.url"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">{{item.name}}</span>
           </div>
-          <div class='certificate'>
+
+          <!-- <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
@@ -2216,7 +970,8 @@
               <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
             </div>
             <span class="cer-description">品质认证</span>
-          </div>
+          </div> -->
+
           </div>
         </div>
         <div class='platform-rating'>
@@ -2231,12 +986,18 @@
         </div>
       </div>
     </div>
-    <el-dialog
+  </div>
+
+  </el-carousel-item >
+</el-carousel>
+
+<el-dialog
       class='issue'
       custom-class="mod_search_dialog"
       :visible.sync="issue"
       width="800px"
-      :show-close="true">
+      :show-close="true" 
+      >
       <div class='ihead'>——————投诉——————</div>
       <div class='ibody'>
         <div class='ihead1'>
@@ -2260,7 +1021,8 @@
       custom-class="mod_search_dialog"
       :visible.sync="dialog.gen"
       width="800px"
-      :show-close="false">
+      :show-close="false"
+      >
       <div class="dialog_btn">
         <span class="btn_print">打印</span>
         <span @click="close('gen')" class="btn_close">关闭</span>
@@ -2932,6 +1694,7 @@
         </el-table>
      
     </el-dialog>
+
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.soi"
@@ -2972,10 +1735,24 @@
         </el-table>
       
     </el-dialog>
-  </div>
-
-  </el-carousel-item >
-</el-carousel>
+<el-dialog
+        title="国家认证"
+        :visible.sync="dialogBigPicVisible"
+        style="margin-top:-50px"
+        width="50%"
+        center
+        @closed="closeBigPic"
+        >
+        <!-- FIXME: video 标签兼容性处理 -->
+        <div class="show-detail">
+            <img class="production-image-detail" :src="bigPic.url">
+        </div>
+        <div class="show-list">
+            <ul>
+                <li><el-tag>图片类型</el-tag> {{ bigPic.name }}</li>
+            </ul>
+        </div>
+      </el-dialog>
   <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
 </div>
 
@@ -2992,9 +1769,33 @@ import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
 export default {
+  
     data (){
       return {
-        auPicture:[],
+        auPicture:[
+          {
+            url: require("../../../1.png"), 
+            name:"营业执照1",
+          },
+          {
+            url: require("../../../2.png"),
+            name:"防疫合格证",
+          },
+          {
+            url: require("../../../3.png"),
+            name:"检疫合格证",
+          },
+          {
+            url: require("../../../4.jpg"),
+            name:"品质保证",
+          }
+        ],
+        bigPic:{
+          url:null,
+          name:null
+        },
+        isAutoPlay:false,
+        dialogBigPicVisible:false,
         issue: false,
         value5: 3.7,
         currentName:'first',
@@ -3010,7 +1811,16 @@ export default {
         },
         qrcodeimg:null,
         //走马灯图片
-        pics: [],
+        pics: [ {
+            url: require("../../../video.mp4"),
+          },
+          // {
+          //   url: require("../../../video.mp4"),
+          // },
+          // {
+          //   url: require("../../../video.mp4"),
+          // }
+          ],
         //左侧展开的选项
         activeNames: ['1','2','3','4'],
         //右侧展开的选项
@@ -3149,12 +1959,12 @@ export default {
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           getAuPicture(this.code).then((re) => {
-            re.data.list.forEach((item) => {
-              this.auPicture.push(item.address);
-            })
+            // re.data.list.forEach((item) => {
+            //   this.auPicture.push(item.address);
+            // })
           })
           getSheepVideo('breeding',this.code).then((re) => {
-            this.pics.push(re.data.url);
+            //this.pics.push(re.data.url);
           })
           getFactoryVideo('breeding',this.code).then((re) => {
             var video = document.getElementById('factoryVideo');
@@ -3184,6 +1994,15 @@ export default {
       RecordTable
     },
     methods: {
+      watchBigPic(picUrl,picName){
+        this.dialogBigPicVisible=true;
+        this.bigPic.url=picUrl;
+        this.bigPic.name=picName;
+        this.isAutoPlay=false;
+      },
+      closeBigPic(){
+        this.isAutoPlay=true;
+      },
        qrcode () {
       let qrcode = new QRCode(this.$refs.qrcode, {
         width: 70,
@@ -3372,6 +2191,7 @@ export default {
         color color-main
       .mod-wrapper
         flex 0 1 180px
+         
     .left
       flex 0 1 400px
       order 0
@@ -3477,40 +2297,58 @@ export default {
 .mod-wrapper
   border 10px solid transparent
   border-image url(../assets/imgs/border.png)
+  // background-image url(../assets/imgs/modbg.png)
+  // background-repeat no-repeat
+  // opacity 0.85
+  background-origin:content-box;
   border-image-slice 30
   border-image-width 2.6
   margin 0px 20px 20px 20px
+.mod-content
+    background:linear-gradient(
+    left,
+    rgba(2,16,61,0.7)0%,
+    rgba(2,16,61,0.7)59%,
+    rgba(7,25,87,0.7)59%,
+    rgba(7,25,87,0.7)88%,
+    rgba(8,31,107,0.7)88%
+    )
+    width:721px
+    height:175px
+    margin-top:2px
+
 .mod
-  font-size 9px
+  margin-right -20px
+  color rgb(0,160, 234)
+  font-size 5px
   display flex
-  background-color: rgba(255,255,255,0.1)
-  padding: 0px 20px 0px 20px
-  >div
-    flex 1
+  padding: 0px 20px 0px 50px
 .mod:last-child
   padding-bottom 10px
-.swrapper
+ .swrapper
   border: 0.5px solid #00a0ea
   padding: 8px
   background-color: rgba(0,160,234,0.3)
-  margin 10px 7px 0px 0px 
+  margin 10px 7px 0px 0px    
 .swrapper:last-child
   margin-right 0px
 .sleft,.sright
-  display inline-block
+  display block
   color rgb(183,251,250)
   margin-left 10px
 .sleft
-  position relative
-  top -2px
+  height 25px
+  width 25px
   border-radius 50%
   background-color rgb(0,160,234)
-  padding 8px 10px 8px 10px
   color rgb(128,194,107)
-  font-size 20px
-.sright>div:first-child
-  font-size 17px
-
+  text-align center
+  line-height 25px
+  font-size 15px
+.modulesName
+  line-height 25px
+  font-size 13px
+  color rgb(0,160, 234)
 .air,.water,.solid
   display inline-block
   position relative
@@ -3578,7 +2416,8 @@ export default {
   .certificate
     display inline-block
     text-align center
-    margin: 0px 8px;
+    margin: -17px 8px 0px 8px;
+
     .cer-picture
       display block
       height 80px
@@ -3678,6 +2517,8 @@ export default {
     .classD
       flex 1
       position relative
+    .bmap
+      margin-top -10px
       .el-collapse-item__wrap
         position relative
         width 100%
@@ -3689,4 +2530,116 @@ export default {
       position absolute
       width 100%
       top 40%
+.diagonal
+  position: relative
+  width:  50px
+  height: 50px
+  background: linear-gradient(
+    to top right,
+      rgba(0,160, 234, 0) 0%,
+      rgba(0,160, 234, 0) calc(50% - 1.5px),
+      rgba(0,160, 234, 1) 50%,
+      rgba(0,160, 234, 0) calc(50% + 1.5px),
+      rgba(0,160, 234, 0) 100%
+  )
+.arrows1
+  position: absolute
+  top: 15px
+  left: 15px
+  transform:rotate(15deg)
+  -ms-transform:rotate(15deg); /* Internet Explorer */
+  -moz-transform:rotate(15deg); /* Firefox */
+  -webkit-transform:rotate(15deg); /* Safari 和 Chrome */
+  -o-transform:rotate(15deg); /* Opera */
+.diagonal-content
+  position: relative
+  right:22px
+  bottom: 10px 
+  width:  50px
+  height: 50px
+.diagonal2
+  position: relative
+  width:  50px
+  height: 50px
+  background:linear-gradient(
+    to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      rgba(0,160, 234, 1) 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+  )
+.arrows2
+  position: absolute
+  top: 15px
+  left: 15px
+  -ms-transform:rotate(10deg); /* Internet Explorer */
+  -moz-transform:rotate(10deg); /* Firefox */
+  -webkit-transform:rotate(10deg); /* Safari 和 Chrome */
+  -o-transform:rotate(10deg); /* Opera */
+.diagonal-content2
+  position: relative
+  right:22px
+  width:  50px
+  height: 50px  
+.diagonal3
+  position: relative
+  margin-top: 35px
+  width:  70px
+  height: 20px 
+  background:linear-gradient(
+    to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      rgba(0,160, 234, 1) 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+  )  
+.arrows3
+  position: absolute
+  left: 25px
+  top: 1px
+  transform:rotate(30deg)
+  -ms-transform:rotate(30deg); /* Internet Explorer */
+  -moz-transform:rotate(30deg); /* Firefox */
+  -webkit-transform:rotate(30deg); /* Safari 和 Chrome */
+  -o-transform:rotate(30deg); /* Opera */
+.diagonal-content3
+  position: relative
+  right:22px
+  bottom 35px
+.diagonal4
+    position: relative
+    right:22px
+    top: 20px
+    width: 50px
+.diagonal-content4   
+    width: 50px
+.mod-title
+  display block
+  height 50px
+  width: 100%
+  padding-top 10px
+.breedTitle
+  color rgb(232,97,0)
+  margin-top 20px
+  margin-left 200px
+.slaugTitle
+  color rgb(232,97,0)
+  margin-left 245px
+.consuTitle
+  color rgb(232,97,0)
+  margin-left 100px
+// .modLeft
+//   width:510px
+//   height:180px
+//   background-color rgb(2,16,61)
+// .modMiddle
+//   background-color rgb(7,25,87)
+//   width:250px
+//   height:180px
+// .modRight
+//   background-color rgb(8,31,107)
+//   width:100px
+//   height:180px
 </style>

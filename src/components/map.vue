@@ -50,8 +50,11 @@ export default {
 		},
 		repaint() {
 			var map = new window.BMap.Map(this.$refs.bmap) // 创建Map实例
-			map.centerAndZoom(new BMap.Point(this.longitude, this.latitude), 14) // 用城市名设置地图中心点
+			var point =new BMap.Point(this.longitude, this.latitude) //创建地图坐标点,一般首次创建的这个点为地图的中心坐标点
+			map.centerAndZoom(point, 14) // 用城市名设置地图中心点
 			map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
+			var marker = new BMap.Marker(point);//创建标注
+            map.addOverlay(marker);//方法addOverlay() 向地图中添加覆盖物(小红点)
 		}
 	}
 }

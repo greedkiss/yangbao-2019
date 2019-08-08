@@ -285,6 +285,30 @@
                     </div>
             </el-dialog>
 
+            <el-dialog
+            title="添加视频"
+            :visible.sync="dialogAddPictureVisible"
+            width="20%"
+                center>
+
+                    <!-- FIXME: video 标签兼容性处理 -->
+                    <div class="time">
+                        <el-input  v-for="(item, i) in captures"  :key="i" class="select-file" style="postion:relative;bottom:10px;" size="small"  @click.native="$refs.madeupVideo[0].click()" :value="addPic.fileName">
+                            <template slot="prepend">添加视频<input type="file" @change="selectFile(addPic,$refs.madeupVideo[0].files[0])" hidden ref="madeupVideo"></template>
+                        </el-input>
+                    </div>
+                    
+                    <div class="show-list">
+                            <ul>
+                                    <li><el-tag>成品编号 </el-tag> {{addPic.number}}</li>
+                            </ul>
+                    </div>
+
+                    <div slot="footer" class="dialog-footer" style="margin-top:-20px">
+						<el-button type="primary" @click="postPicture()">确认</el-button>
+					</div>
+            </el-dialog>
+
     <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
 
     </div>
@@ -294,6 +318,7 @@
 import { isReqSuccessful} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
 import { getUserById,getoutWareManageNum,getoutWareManageDetailed } from '@/util/getdata'
+import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 export default {
    mounted(){
@@ -303,11 +328,11 @@ export default {
 					this.user = res.data.model
                 let {userFactory} = this.user
             }
-			}).then(this.getNum).then(this.getDetailed)
+			}).then(this.getNum)
    },
     data () {
         return {
-            tableData:[],
+            tableData:[{partNumber:'G123456DE1'},{partNumber:'G456789DF2'}],
             tableData2:[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
             {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
@@ -338,7 +363,15 @@ export default {
 				url:null,
 				filetype:0,
 				erNumber:null
-			},
+            },
+            addPic:{
+                number:null,
+                file:null,
+                fileName:null,
+            },
+            captures: [{model: null , per : null}],
+            madeupVideo:null,
+            dialogAddPictureVisible:false,
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
             total:0,
             page:1,
@@ -464,11 +497,6 @@ export default {
 			})
 
       },
-      	addPicture(row){
-		let pathid = this.$route.params.id
-        let path = `/admin/${pathid}/supervise/capture`+'?'+'ramSheepTrademark='+row.madeupNumber
-		 this.$router.push(path)
-		},
 
         getNum(){
             this.numtableData=[]
@@ -546,6 +574,53 @@ export default {
             })
 
         },
+        selectFile(item,file){
+            console.log(file)
+            item.file = file
+            item.fileName=file.name
+            console.log(item.file);
+            console.log(item.fileName)
+        },
+        //添加视频
+      	addPicture(row){
+        this.madeupVideo=null
+        this.addPic={
+                number:null,
+                file:null,
+                fileName:null,
+            },
+        this.addPic.number=row.madeupNumber
+        this.dialogAddPictureVisible=true
+		},
+
+        postPicture(){
+            let form=new FormData()
+                form.append('factoryId', this.user.userFactory)
+                form.append('divisions[0].number', this.addPic.number)
+                form.append('divisions[0].video', this.addPic.file)
+                let headers = {}
+              headers[authStr] = window.localStorage.getItem(tokenStr)
+              window.fetch(baseUrl + '/division', {
+                  method: 'POST',
+                  headers,
+                  body: form
+              }).then(async res => {
+                  let body = await res.json()
+                    if (isReqSuccessful(body)) {
+                        this.captures2.forEach((item ,index) => {
+                            this.captures2[index].per = 100
+                            this.$message.success('上传成功')
+                        // let path = `/admin/${pathid}/slaughterManage/segmentManagerlist`
+                        // this.$router.push(path)
+                            this.fetchData()
+                        })
+                    }
+                    else{
+                    this.$message.error('上传失败')
+                    }
+                })
+        },
+
     }
 }
 </script>
