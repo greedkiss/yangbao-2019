@@ -36,7 +36,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -45,7 +45,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -58,7 +58,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[2].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -67,7 +67,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[3].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -80,7 +80,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[4].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -89,7 +89,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -102,7 +102,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[5].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -111,7 +111,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -124,7 +124,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -133,7 +133,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -146,16 +146,16 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
 
-              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
-                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
-                <div class="diagonal-content3">
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -167,7 +167,7 @@
                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                 </div>
               </div>
@@ -382,7 +382,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -391,7 +391,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -404,7 +404,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[2].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -413,7 +413,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[3].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -426,7 +426,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[4].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -435,7 +435,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -448,7 +448,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[5].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -457,7 +457,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -470,7 +470,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -479,7 +479,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -492,16 +492,16 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
 
-              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
-                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
-                <div class="diagonal-content3">
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -509,11 +509,11 @@
               </div>
 
               <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
-                 <div class="diagonal-content4">
+                 <div class="diagonal-content1">
                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                 </div>
               </div>
@@ -701,7 +701,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -710,7 +710,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -723,7 +723,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[2].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -732,7 +732,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[3].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -745,7 +745,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[4].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -754,7 +754,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -767,7 +767,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[5].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -776,7 +776,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[5].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -789,7 +789,7 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
@@ -798,7 +798,7 @@
                 <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
                 <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -811,16 +811,16 @@
                  <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                </div>
               </div>
 
-              <div class='diagonal3'  @click="open(modules[1].name,modules[1].id)">
-                <img class="arrows3" src='../assets/imgs/arrowsUp.png'/>
-                <div class="diagonal-content3">
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
                 <div class = 'sright'>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                   <div  class="modulesName">{{modules[1].text}}</div>
                 </div>
                 <div class = 'sleft'>优</div>
@@ -828,11 +828,11 @@
               </div>
 
               <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
-                 <div class="diagonal-content4">
+                 <div class="diagonal-content1">
                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
-                  <div>点击查看</div>
+                  <div class="clickWatch">点击查看</div>
                 </div>
                 </div>
               </div>
@@ -1775,7 +1775,7 @@ export default {
         auPicture:[
           {
             url: require("../../../1.png"), 
-            name:"营业执照1",
+            name:"营业执照",
           },
           {
             url: require("../../../2.png"),
@@ -2303,24 +2303,23 @@ export default {
   background-origin:content-box;
   border-image-slice 30
   border-image-width 2.6
-  margin 0px 20px 20px 20px
+  margin 0px 20px 0px 20px
 .mod-content
     background:linear-gradient(
     left,
     rgba(2,16,61,0.7)0%,
     rgba(2,16,61,0.7)59%,
     rgba(7,25,87,0.7)59%,
-    rgba(7,25,87,0.7)88%,
-    rgba(8,31,107,0.7)88%
+    rgba(7,25,87,0.7)87%,
+    rgba(8,31,107,0.7)87%
     )
     width:721px
-    height:175px
+    height:180px
     margin-top:2px
 
 .mod
   margin-right -20px
-  color rgb(0,160, 234)
-  font-size 5px
+  font-size 1px
   display flex
   padding: 0px 20px 0px 50px
 .mod:last-child
@@ -2349,6 +2348,8 @@ export default {
   line-height 25px
   font-size 13px
   color rgb(0,160, 234)
+.clickWatch
+  color rgba(0,160, 233,0.3)
 .air,.water,.solid
   display inline-block
   position relative
@@ -2533,7 +2534,7 @@ export default {
 .diagonal
   position: relative
   width:  50px
-  height: 50px
+  height: 80px
   background: linear-gradient(
     to top right,
       rgba(0,160, 234, 0) 0%,
@@ -2544,13 +2545,13 @@ export default {
   )
 .arrows1
   position: absolute
-  top: 15px
-  left: 15px
-  transform:rotate(15deg)
-  -ms-transform:rotate(15deg); /* Internet Explorer */
-  -moz-transform:rotate(15deg); /* Firefox */
-  -webkit-transform:rotate(15deg); /* Safari 和 Chrome */
-  -o-transform:rotate(15deg); /* Opera */
+  top: 27px
+  left: 13px
+  transform:rotate(25deg)
+  -ms-transform:rotate(25deg); /* Internet Explorer */
+  -moz-transform:rotate(25deg); /* Firefox */
+  -webkit-transform:rotate(25deg); /* Safari 和 Chrome */
+  -o-transform:rotate(25deg); /* Opera */
 .diagonal-content
   position: relative
   right:22px
@@ -2560,7 +2561,7 @@ export default {
 .diagonal2
   position: relative
   width:  50px
-  height: 50px
+  height: 80px
   background:linear-gradient(
     to bottom right,
       rgba(0, 0, 0, 0) 0%,
@@ -2571,30 +2572,31 @@ export default {
   )
 .arrows2
   position: absolute
-  top: 15px
+  top: 30px
   left: 15px
-  -ms-transform:rotate(10deg); /* Internet Explorer */
-  -moz-transform:rotate(10deg); /* Firefox */
-  -webkit-transform:rotate(10deg); /* Safari 和 Chrome */
-  -o-transform:rotate(10deg); /* Opera */
+  -ms-transform:rotate(-5deg); /* Internet Explorer */
+  -moz-transform:rotate(-5deg); /* Firefox */
+  -webkit-transform:rotate(-5deg); /* Safari 和 Chrome */
+  -o-transform:rotate(-5deg); /* Opera */
 .diagonal-content2
   position: relative
   right:22px
+  top:25px
   width:  50px
   height: 50px  
-.diagonal3
-  position: relative
-  margin-top: 35px
-  width:  70px
-  height: 20px 
-  background:linear-gradient(
-    to bottom right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) calc(50% - 1.5px),
-      rgba(0,160, 234, 1) 50%,
-      rgba(0, 0, 0, 0) calc(50% + 1.5px),
-      rgba(0, 0, 0, 0) 100%
-  )  
+// .diagonal3
+//   position: relative
+//   margin-top: 35px
+//   width:  70px
+//   height: 20px 
+//   background:linear-gradient(
+//     to bottom right,
+//       rgba(0, 0, 0, 0) 0%,
+//       rgba(0, 0, 0, 0) calc(50% - 1.5px),
+//       rgba(0,160, 234, 1) 50%,
+//       rgba(0, 0, 0, 0) calc(50% + 1.5px),
+//       rgba(0, 0, 0, 0) 100%
+//   )  
 .arrows3
   position: absolute
   left: 25px
@@ -2604,15 +2606,16 @@ export default {
   -moz-transform:rotate(30deg); /* Firefox */
   -webkit-transform:rotate(30deg); /* Safari 和 Chrome */
   -o-transform:rotate(30deg); /* Opera */
-.diagonal-content3
+// .diagonal-content3
+//   position: relative
+//   right:22px
+//   bottom 35px
+.diagonal4
   position: relative
   right:22px
-  bottom 35px
-.diagonal4
-    position: relative
-    right:22px
-    top: 20px
-    width: 50px
+  bottom: 10px 
+  width:  50px
+  height: 50px
 .diagonal-content4   
     width: 50px
 .mod-title

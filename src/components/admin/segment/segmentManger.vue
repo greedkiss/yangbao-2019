@@ -164,9 +164,9 @@
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
 
-            <div class="segment-file" >
-            <el-input v-model="domain.fileName"  size="small"  style="width:20%"  @click.native="$refs.qiantui[index].click()" >
-                    <template slot="prepend">羊前腿视频<input  type="file" @change="selectFile(domain,index,$refs.qiantui[index].files[0])" hidden ref="qiantui"></template>
+            <div class="segment-file">
+            <el-input id="qiantuiFile"   :value="domain.fileName" size="small"  style="width:20%"  @click.native="$refs.qiantui[index].click()" >
+                    <template slot="prepend">羊前腿视频<input   type="file" @change="selectFile(domain,index,$refs.qiantui[index].files[0])" hidden ref="qiantui"></template>
             </el-input>
             </div>
 
@@ -405,7 +405,7 @@
             </div>
 
             <div class="time" style="width:30%">
-                    <span class="time-span" style="margin-top:4px;">羊前腿重量</span>
+                    <span class="time-span" style="margin-top:4px;">羊前重量</span>
             <el-input  size="small" v-model="domain.weight"></el-input>
             </div>
             <div class="segment-file">
@@ -470,8 +470,8 @@
             </div>
 
             <div class="segment-file">
-            <el-input  class="select-file" size="small"  style="width:20%" @click.native="$refs.liji[(index)].click()" :value="domain.fileName">
-                    <template slot="prepend">羊里脊视频<input type="file"  @change="selectFile(domain, (index),$refs.liji[(index)].files[0])" hidden ref="liji"></template>
+            <el-input  :value="domain.fileName"  class="select-file" size="small"  style="width:20%" @click.native="$refs.liji[(index)].click()" >
+                    <template slot="prepend">羊里脊视频<input type="file"  @change="selectFile(domain, (index),$refs.liji[(index)].files[0])" hidden ref="liji" ></template>
             </el-input>      
             </div>
 
@@ -680,7 +680,7 @@ export default {
             num:null,
             weight:null,
             file:null,
-            fileName:null
+            fileName:null,
           }],
         },
         houtuiForm: {
@@ -766,6 +766,7 @@ export default {
         },
         disableBtn:false,
         codeNumber:null,
+        FN:null
     }
     },
 
@@ -795,19 +796,12 @@ export default {
         change (val, cardIndex, itemIndex, index) {
             this.cards[cardIndex].items[itemIndex].inputs.splice(index, 1, val)
         },
+
         selectFile(item,i,file){
-            console.log(file)
+            this.$nextTick(() => {
             item.file = file
-            item.fileName=file.name
-            console.log(item.file);
-            console.log(item.fileName)
-            // let str=item.num
-            // this.formFlag=str.substr((str.length-2),1)
-            // console.log(this.formFlag)
-            // console.log(item);
-            // this.serial=i;
-            // this.FileName=file.name;
-            // console.log(this.FileName)
+            this.$set(item,'fileName',file.name)
+            })
         },
         removeDomain(item,Form) {
         var index = Form.domains.indexOf(item)
