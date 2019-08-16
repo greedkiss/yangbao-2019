@@ -1,31 +1,64 @@
 <template>
-    <div class="app-video">
-        <div v-show="showVideo" id="app-video"></div>
-        <div v-if="showPic" class="app-video-no">
-            <p class="app-video-tips">暂无专家直播</p>
+<div id="ext4">
+        <h1 class="title_head_4">专家讲堂 <span class="title_eng"> VIDEO</span></h1>
+        <hr align="center" width="96%"></hr>
+                <div class="row_cont3">
+                    <el-table
+                        :data="videoList"
+                        stripe
+                        style="width: 100%">
+                         
+                        <el-table-column
+                      
+                        prop="videoName"
+                        label="视频名称"
+                        align='center'
+                        width="180">
+                        </el-table-column>
+                        <el-table-column
+                      
+                        prop="expertName"
+                        label="专家姓名"
+                        align='center'
+                        width="180">
+                        </el-table-column>
+                        
+                        <el-table-column
+                        prop="uploadTime"
+                        label="上传时间"
+                        width="180">
+                        </el-table-column>
+
+                        <el-table-column
+                        label="操作"
+                        align='center'
+                        width="160">
+                        <template slot-scope="scope">
+                            <el-button
+                            @click.native.prevent="videoClick(scope.row, scope.column)"
+                            type="text"
+                            size="small">
+                            点击播放
+                            </el-button>
+                        </template>
+                    </el-table-column>
+
+                    </el-table>                   
+            </div>
+
+        <div class="app-video">
+            <div v-show="showVideo" id="app-video"></div>
+            <video v-if="hasVideo" :src="videoUrl" class="production-video" controls="controls" height="500" width="100%"></video>
+            <div v-if="!hasVideo" class="app-video-no"> 
+                <p class="app-video-tips">请选择播放源</p>
+            </div>
         </div>
-        <div class="video-list">
-            <ul>
-                <li v-for="(item, i) in this.videoList" :key="i">
-                    <i class="list-item-icon iconfont icon-video"></i>
-                    <span v-text="item.name"></span>
-                    <span class="list-item-time" v-text="item.time" :title="item.time"></span>
-                    <a class="list-item-download" :href="item.link" download>下载</a>
-                </li>
-            </ul>
-            <el-pagination
-                class="video-list-page"
-                layout="prev, pager, next"
-                :total="total"
-                @current-change="getVideoList"
-                :current-page.sync="page">
-            </el-pagination>
-        </div>
-    </div>
+</div>
+    
 </template>
 
 <script>
-  import {baseUrl} from '@/util/fetch.js';
+import { baseUrl, vedioUrl} from '@/util/fetch.js'; 
 import { getChannelList, getVideoUrl, getVideo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import '@/assets/TcPlayer-2.2.1.js'
@@ -37,13 +70,15 @@ export default {
             total: 0,
             showVideo: false,
             showPic: false,
-            videoList: []
+            videoList: [],
+            hasVideo:false,
+            videoUrl:null
         }
     },
 
     mounted () {
+        
         this.getVideoList()
-
         getChannelList().then(res => {
             if (isReqSuccessful(res)) {
                 if(res.data.liveChannelResp.data.output[0].all_count) {
@@ -70,9 +105,19 @@ export default {
         }, _ => {
             this.$message.error('获取直播信息失败')
         })
+        
     },
 
     methods: {
+       videoClick (row){
+            this.hasVideo=true
+            this.videoUrl=row.link
+            // let path =row.link
+            // console.log(row)
+            // return 
+            // this.$router.push(path)
+            // console.log(path)
+            },
         getVideoList () {
             getVideo({
                 page: this.page - 1
@@ -83,9 +128,10 @@ export default {
                     res.data.List.forEach((item) => {
                         this.videoList.push({
                             id: item.id,
-                            time: item.gmtCreate,
-                            name: item.fileName,
-                            link: `${baseUrl}/movie/${item.fileName}`
+                            expertName:item.name,
+                            uploadTime: item.gmtCreate,
+                            videoName: item.fileName,
+                            link: `${vedioUrl}/${item.fileName}`
                         })
                     })
                 }
@@ -94,7 +140,49 @@ export default {
     }
 }
 </script>
+<style>
+#ext4{
+        width: 90%;
+        height: 95%;
+        border-width: 7px;
+        border-color: rgb(97, 153, 240);
+        border-style: solid;
+        margin: 0 auto;
+        display: block;
+        background: rgb(255, 255, 255);
+    }
 
+#ext4 hr{
+        height:1px;
+        border:none;
+        border-top:1px solid rgb(200, 200, 200);
+        }
+.title_head_4{
+        color: rgb(16, 82, 205);
+        font-weight: 700;
+        font-size: 22px;
+        margin-left: 2%;
+        margin-top:2%;
+    }
+.title_eng{
+    color:rgb(180, 180, 180);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 3px;
+    }
+.row_cont3{
+    margin-left:100px;
+    width:55%;
+    float: right;
+    margin-top: 20px;
+    }
+.row_cont3 a{
+    font-size: 10px;
+}
+
+
+   
+    </style>
 <style lang="stylus">
 @import '../assets/css/color'
 .app-video
@@ -103,9 +191,8 @@ export default {
     .app-video-no
         position relative
         box-sizing border-box
-        width 55%
-        min-width 600px
-        height 400px
+        width 90%
+        height 300px
         margin 20px 0 20px 5%
         background-image url('//otxtxlg3e.bkt.clouddn.com/QQ20180511-0.jpg')
         background-size cover
@@ -116,16 +203,16 @@ export default {
             bottom 0
             left 0
             right 0
-            line-height 400px
+            line-height 300px
             text-align center
             color #fff
             font-size 16px
-            background-color rgba(0, 0, 0, 0.7)
+            background:url(../assets/imgs/videobg2.png)
+            background-repeat:no-repeat
     #app-video
         box-sizing border-box
-        width 55%
-        min-width 600px
-        height 400px
+        width 90%
+        height 100%
         margin 20px 0 20px 5%
         .vcp-player
             margin 0
@@ -137,45 +224,7 @@ export default {
             background-color rgba(0, 0, 0, 0.7)
             font-size 16px
             color #fff
-    .video-list
-        box-sizing border-box
-        padding 10px 5% 0 50px
-        width 40%
-        margin 0
-        >ul
-            box-sizing border-box
-            display inline-block
-            vertical-align middle
-            width 100%
-            padding 20px 0 0 0
-            li
-                position relative
-                overflow hidden
-                white-space nowrap
-                box-sizing border-box
-                padding-right 50px
-                height 35px
-                line-height 35px
-                border-bottom 1px solid #eee
-                font-size 14px
-                color color-main
-                text-overflow ellipsis
-                .list-item-icon
-                    position relative
-                    top 2px
-                    margin-right 5px
-                    font-size 17px
-                .list-item-time
-                    color color-lightblue
-                .list-item-download
-                    position absolute
-                    right 0
-                    color color-main
-                    cursor pointer
-                    &:hover
-                        color #014F9D
-        .video-list-page
-            margin 10px 0 0
-    .el-pagination
-        text-align right
+
 </style>
+
+    

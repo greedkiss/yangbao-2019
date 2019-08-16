@@ -1,51 +1,186 @@
 <template>
-  <div class="search-wrapper">
+<div>
+
+  <el-carousel indicator-position="none" height="753px" :autoplay="isAutoPlay">
+<el-carousel-item v-for="item in 3" :key="item">
+ <div v-show="item==1" class="search-wrapper" ref='searchWrapper'>
     <div class="header">
       <div class="img-wrapper">
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
-        <span class="name">云·羊宝可视化溯源平台</span>
+        <span class="name">云·羊宝可视化溯源平台1</span>
       </div>
     </div>
-    <div class="container">
+    <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" height="400px" width="auto">
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
         <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
           <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(0,4)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
-                  <div>点击查看</div>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="mod">
-            <div class='swrapper' v-for="(v, i) in modules.slice(4,8)" :key="i">
-              <div @click="open(v.name,v.id)">
-                <div class = 'sleft'>优</div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
-                  <div>{{v.text}}</div>
-                  <div>点击查看</div>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content4">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
         </div>
       </div>
       <div class="left">
-        <el-collapse v-model="activeNames">
-          <el-collapse-item title="基本信息" name="1">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
               <el-tab-pane label="养殖场" name="first">
-                  <div class="t-item">
+                  <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -94,8 +229,6 @@
                     </el-collapse> -->
                   </div>
               </el-tab-pane>
-              <el-tab-pane label="屠宰加工厂" name="second"></el-tab-pane>
-              <el-tab-pane label="消费店" name="third"></el-tab-pane>
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -104,44 +237,41 @@
               <!--<span v-text="item.company[v.model]"></span>-->
             <!--</div>-->
           <!--</el-collapse-item>-->
-          <el-collapse-item title="可视化视频" name="3">
-            <el-carousel height="150px">
-              <el-carousel-item v-for="(item,index) in pics.length" :key="item">
-                <video :src="pics[index]" autoplay='true' muted="muted" controls="controls" width='100%' height='100%'></video>
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index">
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
-          <el-collapse-item title="生产环境" name="4">
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
             <div class="organicEnvironment">
               <div class='air' @click="open('air',9)">
                 <img src='../assets/imgs/circle1.png'/>
-                <div class='echeck'>点击查看</div>
-                <div class='equality'>优</div>
-                <div class='equality2'>土壤质量</div>
-              </div>
-              <div class="water" type="primary" @click="open('wat',10)">
-                <img src='../assets/imgs/circle2.png'/>
-                <div class='echeck'>点击查看</div>
                 <div class='equality'>优</div>
                 <div class='equality2'>空气质量</div>
               </div>
-              <div class="solid" type="primary" @click="open('soi',11)">
-                <img src='../assets/imgs/circle3.png'/>
-                <div class='echeck'>点击查看</div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
                 <div class='equality'>优</div>
                 <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
               </div>
             </div>
           </el-collapse-item>
         </el-collapse>
       </div>
-      <div class="right">
+      <div class="right rightC">
         <div class="search">
           <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
           <el-button size="medium" @click="search">搜索</el-button>
         </div>
-        <el-collapse v-model="activeNames2">
-          <el-collapse-item title="用户评级" name="1">
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
                 
@@ -164,27 +294,29 @@
                 <img src='../assets/imgs/complain.png'/>
               </div>
             </div>
-            <div class="qrcode" ref="qrcode"></div>
+            <div class="qrcode" ref="qrcode" id="qrcode2"></div>
           </el-collapse-item>
-          <el-collapse-item title="产品地址" name="2">
+          <el-collapse-item title="产品地址" name="2" class='classD'>
             <div class='bmap'></div>
-            <b-map height='188px' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
           </el-collapse-item>
         </el-collapse>
-        <div class='certificate-wrapper'>
+        <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
-          <div class='certificate'>
+
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
             <div class="cer-picture">
-              <img height='100%' v-if='auPicture[0]' :src="auPicture[0]"/>
+              <img height='100%' v-if='item' :src="item.url"/>
             </div>
-            <span class="cer-description">营业执照</span>
+            <span class="cer-description">{{item.name}}</span>
           </div>
-          <div class='certificate'>
+
+          <!-- <div class='certificate'>
             <div class="cer-picture">
               <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
             </div>
-            <span class="cer-description">放疫合格证</span>
+            <span class="cer-description">防疫合格证</span>
           </div>
           <div class='certificate'>
             <div class="cer-picture">
@@ -197,7 +329,8 @@
               <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
             </div>
             <span class="cer-description">品质认证</span>
-          </div>
+          </div> -->
+
           </div>
         </div>
         <div class='platform-rating'>
@@ -212,12 +345,659 @@
         </div>
       </div>
     </div>
-    <el-dialog
+  </div>
+
+  <!--第二个-->
+
+  <div v-show="item==2" class="search-wrapper" ref='searchWrapper'>
+    <div class="header">
+      <div class="img-wrapper">
+        <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
+      </div>
+      <div class="name-wrapper">
+        <span class="name">云·羊宝可视化溯源平台2</span>
+      </div>
+    </div>
+    <div class="search-contianer">
+      <div class="main">
+        <div class='video-wrapper'>
+          <video  id='factoryVideo' ref="video" autoplay='true' controls="controls" loop="loop">
+          </video>
+        </div>
+        <div class="pro-manage">生产管理</div>
+              <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
+          <div class="mod">
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content1">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
+        </div>
+      </div>
+      <div class="left">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
+            <el-tabs type="card" v-model="currentName">
+              <el-tab-pane label="屠宰加工厂" name="first">
+                  <div class="t-item">     
+                    <div>
+                      <span class="color-gr">品种:</span>
+                      <span v-text="sheepInfo.name"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">养殖场:</span>
+                      <span v-text="sheepInfo.breedName"></span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">出栏时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                      <span v-text="sheepInfo.telNumber"></span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                      <span v-text="sheepInfo.breedLocation"></span>
+                    </div>
+                  </div>
+              </el-tab-pane>
+            </el-tabs>
+          </el-collapse-item>
+          <!--<el-collapse-item title="企业信息" name="2">-->
+            <!--<div class="t-item" v-for="(v, i) in  companyInfo.slice(0,companyInfo.length-1)" :key="i">-->
+              <!--<span class="color-gr" v-text="v.label + ':'"></span>-->
+              <!--<span v-text="item.company[v.model]"></span>-->
+            <!--</div>-->
+          <!--</el-collapse-item>-->
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index" >
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+              </el-carousel-item>
+            </el-carousel>
+          </el-collapse-item>
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
+            <div class="organicEnvironment">
+              <div class='air' @click="open('air',9)">
+                <img src='../assets/imgs/circle1.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+      <div class="right rightC">
+        <div class="search">
+          <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
+          <el-button size="medium" @click="search">搜索</el-button>
+        </div>
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
+            <div class='qrleft'>
+              <!-- <div class='qrhead'>用户评级
+                
+              </div> -->
+              <div class="qrcontent">
+                <span class='ratingContent'>养殖端评级</span>
+                <el-rate
+                  v-model="value5"
+                  disabled
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div class="good">
+                <!-- <span>点赞</span> -->
+                <img src='../assets/imgs/like.jpg'/>
+              </div>
+              <div class="bad" @click="openissue">
+                <!-- <span>投诉</span> -->
+                <img src='../assets/imgs/complain.png'/>
+              </div>
+            </div>
+            <div class="qrcode" ref="qrcode" ><img alt="Scan me!" style="display: block;" id="qrcodeImg" :src="qrcodeimg"></div>
+          </el-collapse-item>
+          <el-collapse-item title="产品地址" name="2" class='classD'>
+            <div class='bmap'></div>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+          </el-collapse-item>
+        </el-collapse>
+        <div class='certificate-wrapper rightC2'>
+          <div class='cer-name'>国家认证</div>
+          <div class='certificate-inner'>
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
+            <div class="cer-picture">
+              <img height='100%' v-if='item' :src="item.url"/>
+            </div>
+            <span class="cer-description">{{item.name}}</span>
+          </div>
+
+          <!-- <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
+            </div>
+            <span class="cer-description">防疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
+            </div>
+            <span class="cer-description">检疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
+            </div>
+            <span class="cer-description">品质认证</span>
+          </div> -->
+
+          </div>
+        </div>
+        <div class='platform-rating'>
+          <span class='prating'>平台评级</span>
+          <span class='pau'>/品质认证</span>
+          <el-rate
+            v-model="value5"
+            disabled
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--第三个-->
+
+  <div v-show="item==3" class="search-wrapper" ref='searchWrapper'>
+    <div class="header">
+      <div class="img-wrapper">
+        <img class="header-img" src="../assets/imgs/header-logo2.png"  alt="云羊宝" height="60px">
+      </div>
+      <div class="name-wrapper">
+        <span class="name">云·羊宝可视化溯源平台3</span>
+      </div>
+    </div>
+    <div class="search-contianer">
+      <div class="main">
+        <div class='video-wrapper'>
+          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          </video>
+        </div>
+        <div class="pro-manage">生产管理</div>
+                <div class='mod-wrapper'>
+          <!-- <div class="modLeft"></div>
+          <div class="modMiddle"></div>
+          <div class="modRight"></div> -->
+          <div class="mod-content">
+           <div class="mod-title">
+                <span class="breedTitle">养殖端</span>
+                <span class="slaugTitle">屠宰端</span>
+                <span class="consuTitle">消费端</span>
+            </div>
+          <div class="mod">
+             <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+               <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[2].name,modules[2].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[2].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[3].name,modules[3].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[3].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[4].name,modules[4].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[4].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[5].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[5].name,modules[5].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[5].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
+                <img class="arrows1" src='../assets/imgs/arrowsDown.png'/>
+               <div class="diagonal-content">
+                 <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+               </div>
+              </div>
+
+              <div class='diagonal2'  @click="open(modules[1].name,modules[1].id)">
+                <img class="arrows2" src='../assets/imgs/arrowsUp.png'/>
+                <div class="diagonal-content2">
+                <div class = 'sright'>
+                  <div class="clickWatch">点击查看</div>
+                  <div  class="modulesName">{{modules[1].text}}</div>
+                </div>
+                <div class = 'sleft'>优</div>
+                </div>
+              </div>
+
+              <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
+                 <div class="diagonal-content1">
+                <div class = 'sleft'>优</div>
+                <div class = 'sright'>
+                  <div class="modulesName">{{modules[0].text}}</div>
+                  <div class="clickWatch">点击查看</div>
+                </div>
+                </div>
+              </div>
+        </div>
+       </div> 
+        </div>
+      </div>
+
+      <div class="left">
+        <el-collapse v-model="activeNames" class='leftC'>
+          <el-collapse-item title="基本信息" name="1" class='leftC1'>
+            <el-tabs type="card" v-model="currentName">
+              <el-tab-pane label="消费店" name="first">
+                  <div class="t-item">     
+                    <div>
+                      <span class="color-gr">品种:</span>
+                      <span v-text="sheepInfo.name"></span>
+                    </div>
+                    <div>
+                      <span class="color-gr">养殖场:</span>
+                      <span v-text="sheepInfo.breedName"></span>
+                    </div>
+                    <div class='leftT'>
+                      <span class="color-gr">出栏时间:</span>
+                      <span v-text="sheepInfo.arriveTime"></span>
+                    </div>
+                    <div class='telNumber'>
+                      <span class="color-gr">联系电话:</span>
+                      <span v-text="sheepInfo.telNumber"></span>
+                    </div>
+                    <div class=''>
+                      <span class="color-gr">地址:</span>
+                      <span v-text="sheepInfo.breedLocation"></span>
+                    </div>
+                    
+                  </div>
+              </el-tab-pane>
+              
+            </el-tabs>
+          </el-collapse-item>
+          <!--<el-collapse-item title="企业信息" name="2">-->
+            <!--<div class="t-item" v-for="(v, i) in  companyInfo.slice(0,companyInfo.length-1)" :key="i">-->
+              <!--<span class="color-gr" v-text="v.label + ':'"></span>-->
+              <!--<span v-text="item.company[v.model]"></span>-->
+            <!--</div>-->
+          <!--</el-collapse-item>-->
+          <el-collapse-item title="可视化视频" name="3" class='leftC2'>
+            <el-carousel height="150px" indicator-position="none">
+              <el-carousel-item v-for="(item,index) in pics" :key="index">
+                <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
+              </el-carousel-item>
+            </el-carousel>
+          </el-collapse-item>
+          <el-collapse-item title="生产环境" name="4" class='leftC3'>
+            <div class="organicEnvironment">
+              <div class='air' @click="open('air',9)">
+                <img src='../assets/imgs/circle1.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>空气质量</div>
+              </div>
+              <div class="water" type="primary" @click="open('wat',10)">
+                <img src='../assets/imgs/circle2.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>水质量</div>
+              </div>
+              <div class="solid" type="primary" @click="open('soi',11)">
+                <img src='../assets/imgs/circle3.png'/>
+                <div class='equality'>优</div>
+                <div class='equality2'>土壤质量</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+      <div class="right rightC">
+        <div class="search">
+          <el-input placeholder="在此录入溯源码" size="medium" v-model="key"></el-input>
+          <el-button size="medium" @click="search">搜索</el-button>
+        </div>
+        <el-collapse v-model="activeNames2" class='rightC1'>
+          <el-collapse-item title="用户评级" name="1" >
+            <div class='qrleft'>
+              <!-- <div class='qrhead'>用户评级
+                
+              </div> -->
+              <div class="qrcontent">
+                <span class='ratingContent'>养殖端评级</span>
+                <el-rate
+                  v-model="value5"
+                  disabled
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div class="good">
+                <!-- <span>点赞</span> -->
+                <img src='../assets/imgs/like.jpg'/>
+              </div>
+              <div class="bad" @click="openissue">
+                <!-- <span>投诉</span> -->
+                <img src='../assets/imgs/complain.png'/>
+              </div>
+            </div>
+            <div class="qrcode" ref="qrcode" ><img alt="Scan me!" style="display: block;" id="qr4" :src="qrcodeimg"></div>
+          </el-collapse-item>
+          <el-collapse-item title="产品地址" name="2" class='classD'>
+            <div class='bmap'></div>
+            <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+          </el-collapse-item>
+        </el-collapse>
+        <div class='certificate-wrapper rightC2'>
+          <div class='cer-name'>国家认证</div>
+          <div class='certificate-inner'>
+          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)" >
+            <div class="cer-picture">
+              <img height='100%' v-if='item' :src="item.url"/>
+            </div>
+            <span class="cer-description">{{item.name}}</span>
+          </div>
+
+          <!-- <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[1]' :src="auPicture[1]"/>
+            </div>
+            <span class="cer-description">防疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[2]' :src="auPicture[2]"/>
+            </div>
+            <span class="cer-description">检疫合格证</span>
+          </div>
+          <div class='certificate'>
+            <div class="cer-picture">
+              <img height='100%' v-if='auPicture[3]' :src="auPicture[3]"/>
+            </div>
+            <span class="cer-description">品质认证</span>
+          </div> -->
+
+          </div>
+        </div>
+        <div class='platform-rating'>
+          <span class='prating'>平台评级</span>
+          <span class='pau'>/品质认证</span>
+          <el-rate
+            v-model="value5"
+            disabled
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </el-carousel-item >
+</el-carousel>
+
+<el-dialog
       class='issue'
       custom-class="mod_search_dialog"
       :visible.sync="issue"
       width="800px"
-      :show-close="true">
+      :show-close="true" 
+      >
       <div class='ihead'>——————投诉——————</div>
       <div class='ibody'>
         <div class='ihead1'>
@@ -241,16 +1021,17 @@
       custom-class="mod_search_dialog"
       :visible.sync="dialog.gen"
       width="800px"
-      :show-close="false">
+      :show-close="false"
+      >
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('gen')" class="btn_close">关闭</span>
+      </div>
       <record-table
         type="table"
         title="系谱档案"
         :data="genData">
       </record-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('gen')" class="btn_close">关闭</span>
-      </div>
     </el-dialog>
     <!-- 福利 -->
     <el-dialog
@@ -258,6 +1039,10 @@
       :visible.sync="dialog.san"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('san')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="welData"
           style="width: 100%">
@@ -319,7 +1104,7 @@
             label="车辆进出是否消毒">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -332,7 +1117,7 @@
             width='140'>
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -344,10 +1129,6 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('san')" class="btn_close">关闭</span>
-      </div>
     </el-dialog>
     <!-- 消毒 -->
     <el-dialog
@@ -355,6 +1136,10 @@
       :visible.sync="dialog.dis"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dis')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="disData"
           style="width: 100%">
@@ -402,10 +1187,7 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dis')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 防疫 -->
     <el-dialog
@@ -413,6 +1195,10 @@
       :visible.sync="dialog.imm"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('imm')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="immData"
           style="width: 100%">
@@ -469,10 +1255,7 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('imm')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 驱虫 -->
     <el-dialog
@@ -480,6 +1263,10 @@
       :visible.sync="dialog.exp"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('exp')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="expData"
           style="width: 100%">
@@ -531,10 +1318,7 @@
             width="110">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('exp')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 营养 -->
     <el-dialog
@@ -542,6 +1326,10 @@
       :visible.sync="dialog.nut"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('nut')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="nutData"
           style="width: 100%">
@@ -603,7 +1391,7 @@
             label="粗饲料用量（体重%）其他">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -615,7 +1403,7 @@
             label="审核拒绝原因">
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -633,10 +1421,7 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('nut')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <!-- 疾病防治 -->
     <el-dialog
@@ -644,6 +1429,10 @@
       :visible.sync="dialog.dea"
       width="800px"
       :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('dea')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="deaData"
           style="width: 100%">
@@ -682,7 +1471,7 @@
             label="羊场id">
           </el-table-column>
           <el-table-column
-            prop="professor"
+            prop="professorName"
             label="技术审核">
           </el-table-column>
           <el-table-column
@@ -695,7 +1484,7 @@
             width='140'>
           </el-table-column>
           <el-table-column
-            prop="supervisor"
+            prop="supervisorName"
             label="监督执行">
           </el-table-column>
           <el-table-column
@@ -713,16 +1502,17 @@
             label="备注">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('dea')" class="btn_close">关闭</span>
-      </div>
+      
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.bre"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('bre')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="breData"
           style="width: 100%">
@@ -845,98 +1635,127 @@
             label="羊场名称">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('bre')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.air"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('air')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="airData"
           style="width: 100%">
           <el-table-column
-            prop="date"
-            label="日期">
+            prop="time"
+            label="日期"
+            width='205px'>
           </el-table-column>
           <el-table-column
-            prop="PM"
-            label="PM2.5">
+            prop="pm"
+            label="PM2.5"
+            width='205px'>
           </el-table-column>
           <el-table-column
-            prop="state"
-            label="状态">
+            prop="pmReturn"
+            label="状态"
+            width='205px'>
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('air')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.wat"
       width="800px"
       :show-close="false">
+       <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('wat')" class="btn_close">关闭</span>
+      </div>
         <el-table
           :data="watData"
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="time"
             label="日期">
           </el-table-column>
           <el-table-column
-            prop="PH"
+            prop="ph"
             label="PH值">
           </el-table-column>
           <el-table-column
-            prop="PHState"
+            prop="phReturn"
             label="PH值状态">
           </el-table-column>
         </el-table>
-      <div class="dialog_btn">
-        <span class="btn_print">打印</span>
-        <span @click="close('wat')" class="btn_close">关闭</span>
-      </div>
+     
     </el-dialog>
+
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.soi"
       width="800px"
       :show-close="false">
-        <el-table
-          :data="soiData"
-          style="width: 100%">
-          <el-table-column
-            prop="date"
-            label="日期">
-          </el-table-column>
-          <el-table-column
-            prop="temp"
-            label="温度">
-          </el-table-column>
-          <el-table-column
-            prop="tempState"
-            label="温度状态">
-          </el-table-column>
-          <el-table-column
-            prop="wet"
-            label="湿度">
-          </el-table-column>
-          <el-table-column
-            prop="wetState"
-            label="湿度状态">
-          </el-table-column>
-        </el-table>
       <div class="dialog_btn">
         <span class="btn_print">打印</span>
         <span @click="close('soi')" class="btn_close">关闭</span>
       </div>
+        <el-table
+          :data="soiData"
+          style="width: 100%">
+          <el-table-column
+            prop="time"
+            label="日期"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoil"
+            label="温度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="tempSoilReturn"
+            label="温度状态"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoil"
+            label="湿度"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="humSoilReturn"
+            label="湿度状态"
+            width='120px'>
+          </el-table-column>
+        </el-table>
+      
     </el-dialog>
-  </div>
+<el-dialog
+        title="国家认证"
+        :visible.sync="dialogBigPicVisible"
+        style="margin-top:-50px"
+        width="50%"
+        center
+        @closed="closeBigPic"
+        >
+        <!-- FIXME: video 标签兼容性处理 -->
+        <div class="show-detail">
+            <img class="production-image-detail" :src="bigPic.url">
+        </div>
+        <div class="show-list">
+            <ul>
+                <li><el-tag>图片类型</el-tag> {{ bigPic.name }}</li>
+            </ul>
+        </div>
+      </el-dialog>
+  <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
+</div>
+
 </template>
 
 <script type="text/ecmascript-6">
@@ -945,14 +1764,38 @@ import RecordTable from './table'
 import QRCode from 'qrcodejs2'
 import { getSheepInfo } from '@/util/getdata'
 import {getTraceInfo} from '@/util/getdata'
-import {getRating} from '@/util/getdata'
+//import {getRating} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
 export default {
+  
     data (){
       return {
-        auPicture:[],
+        auPicture:[
+          {
+            url: require("../../../1.png"), 
+            name:"营业执照",
+          },
+          {
+            url: require("../../../2.png"),
+            name:"防疫合格证",
+          },
+          {
+            url: require("../../../3.png"),
+            name:"检疫合格证",
+          },
+          {
+            url: require("../../../4.jpg"),
+            name:"品质保证",
+          }
+        ],
+        bigPic:{
+          url:null,
+          name:null
+        },
+        isAutoPlay:false,
+        dialogBigPicVisible:false,
         issue: false,
         value5: 3.7,
         currentName:'first',
@@ -966,8 +1809,18 @@ export default {
           longitude:'',
           latitude:'',
         },
+        qrcodeimg:null,
         //走马灯图片
-        pics: [],
+        pics: [ {
+            url: require("../../../video.mp4"),
+          },
+          // {
+          //   url: require("../../../video.mp4"),
+          // },
+          // {
+          //   url: require("../../../video.mp4"),
+          // }
+          ],
         //左侧展开的选项
         activeNames: ['1','2','3','4'],
         //右侧展开的选项
@@ -1041,25 +1894,14 @@ export default {
         ],
         airData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            PM: 4,
-            state: '优'
           }
         ],
         watData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            PH: 35,
-            PHState: '极强酸性'
           }
         ],
         soiData: [
           {
-            date:'2018-11-30 15:29:00.0',
-            temp: 35,
-            tempState: '土壤温度过高',
-            wet: 35,
-            wetState: '土壤湿度过高'
           }
         ],
         item: {
@@ -1096,11 +1938,11 @@ export default {
           {text: '空气检测报告'},
           {text: '营养检测报告'}
         ],
-        tab: 'first'
+        tab: 'first',
+        docStr:null
       }
     },
     created (){
-      this.$emit('closeHnF');
       this.code = this.$route.query.code || 'G400457';
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;
@@ -1109,23 +1951,20 @@ export default {
         if(data != null){
           info.name = data.model.varietyName;
           info.breedName = data.model.breedName;
-          info.arriveTime = data.model.createTime.slice(0,10);
+          info.arriveTime = data.model.createTime&&data.model.createTime.slice(0,10);
           info.telNumber = data.model.phone;
           info.breedLocation = data.model.breedLocation + data.model.breedLocationDetail;
           info.longitude = data.model.longitude;
           info.latitude = data.model.latitude;
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          getRating(this.code).then((re) => {
-            this.value5 = re.data.models;
-          })
           getAuPicture(this.code).then((re) => {
-            re.data.list.forEach((item) => {
-              this.auPicture.push(item.address);
-            })
+            // re.data.list.forEach((item) => {
+            //   this.auPicture.push(item.address);
+            // })
           })
           getSheepVideo('breeding',this.code).then((re) => {
-            this.pics.push(re.data.url);
+            //this.pics.push(re.data.url);
           })
           getFactoryVideo('breeding',this.code).then((re) => {
             var video = document.getElementById('factoryVideo');
@@ -1147,20 +1986,57 @@ export default {
       })
     },
     mounted () {
-      this.qrcode()
-    },
-    qrcode () {
-      let qrcode = new QRCode(this.$refs.qrcode, {
-        width: 120,
-        height: 120,
-        text: window.location.href
-      })
+      this.copyQr();
+      //this.screenFit();
     },
     components: {
       BMap,
       RecordTable
     },
     methods: {
+      watchBigPic(picUrl,picName){
+        this.dialogBigPicVisible=true;
+        this.bigPic.url=picUrl;
+        this.bigPic.name=picName;
+        this.isAutoPlay=false;
+      },
+      closeBigPic(){
+        this.isAutoPlay=true;
+      },
+       qrcode () {
+      let qrcode = new QRCode(this.$refs.qrcode, {
+        width: 70,
+        height: 70,
+        text: window.location.href
+      })
+    },
+      screenFit() {
+      console.log(this.$refs.searchWrapper.style.height)
+      if(window.screen.width!=1920){
+      this.$refs.searchWrapper.style.height='100%'
+      console.log('sd',this.$refs.searchWrapper.style.height)
+      }
+    },
+    /**
+     * 设置二维码
+     */
+      async copyQr(){
+      await this.waitqr();
+      this.docStr = document.getElementById("qrcode1").innerHTML;
+      document.getElementById("qrcode2").innerHTML = this.docStr;
+      this.docStr = document.getElementById("qrcode2").innerHTML;
+      this.qrcodeimg=document.getElementById("qrcode2").children[1].getAttribute("src");
+      //获取第一个幻灯片的二维码图片的地址，
+      //将这个地址赋给this.qrcodeimg，从而实现第二第三个页面二维码图片的显示
+      document.getElementById("qrcode1").innerHTML = "";
+    },
+    	waitqr(codeNumber){
+        //先调用qrcode,生成二维码，然后0.01秒之后返回成功
+				this.qrcode()
+				return new Promise((resolve)=>{
+					setTimeout(resolve,10)
+				});
+			},
       openissue() {
         this.issue = true;
       },
@@ -1192,7 +2068,6 @@ export default {
                 else if(info[i][j] == 0){
                   info[i][j] = '否';
                 }
-                console.log('a',info[i]);
                 if(j == 'ispassSup'){
                   if(info[i][j] == '0'){
                     info[i][j] = '未通过监督';
@@ -1248,7 +2123,16 @@ export default {
             this.breData = data.lists;
             this.transfer(this.breData);
             console.log(this.deaData);
-          }
+          }else if(id == '9'){
+            this.soiData = data.lists;
+            console.log(this.soiData);
+          }else if(id == '10'){
+            this.watData = data.lists;
+            console.log(this.watData);
+          }else if(id == '11'){
+            this.airData = data.lists;
+            console.log(this.airData);
+        }
         })
       },
       close (name) {
@@ -1262,12 +2146,14 @@ export default {
 @import '../assets/css/color'
   .search-wrapper
     height 100%
+    display flex
+    flex-direction column
     background-image url(../assets/imgs/background.jpg)
     background-repeat no-repeat
     background-size cover
     .header
+      flex 0 0 100px
       text-align center
-      height 100px
       background-image url(../assets/imgs/bottomLine.png)
       background-repeat no-repeat
       background-size 100% 50%
@@ -1284,18 +2170,30 @@ export default {
         display inline-block
         margin-top 10px
 
-  .container
+  .search-contianer
+    flex 1
     display flex
+    background-image url(../assets/imgs/background.jpg)
+    background-repeat no-repeat
+    background-size cover
     .main
+      display flex
+      flex-direction column
       flex 1
       order 1
-      video
-        width 700px
+      .video-wrapper
+        flex 1
+        video
+          width 100%
+          height 100%
       .pro-manage
         text-align center
         color color-main
+      .mod-wrapper
+        flex 0 1 180px
+         
     .left
-      flex 0 1 340px
+      flex 0 1 400px
       order 0
       .el-collapse-item__header
         margin-left 5px
@@ -1315,7 +2213,7 @@ export default {
       .color-gr
         color color-green
     .right
-      flex 0 1 340px
+      flex 0 1 400px
       order 2
     .el-collapse-item__header
       margin-left 5px
@@ -1325,8 +2223,12 @@ export default {
     border none
   .el-collapse-item__content//规范展开样式
     padding 0 0 0 5px
+    color #b2aeae
   .organicEnvironment//规范详样式
     display flex
+    .air,.water,.solid
+      flex 1
+      text-align center
     .el-button
       flex 1
       padding 10px
@@ -1376,7 +2278,7 @@ export default {
 .el-collapse-item__wrap
   border none
 
- .container
+ .search-contianer
   .el-input--medium 
     width 186px
     margin-left 9px
@@ -1385,7 +2287,7 @@ export default {
       line-height 36px
       background-color rgba(0,0,0,0)
 
-.container
+.search-contianer
   .el-button--medium
     padding 5px
     font-size 14px
@@ -1395,49 +2297,62 @@ export default {
 .mod-wrapper
   border 10px solid transparent
   border-image url(../assets/imgs/border.png)
+  // background-image url(../assets/imgs/modbg.png)
+  // background-repeat no-repeat
+  // opacity 0.85
+  background-origin:content-box;
   border-image-slice 30
   border-image-width 2.6
-  margin 0px 20px 20px 20px
+  margin 0px 20px 0px 20px
+.mod-content
+    background:linear-gradient(
+    left,
+    rgba(2,16,61,0.7)0%,
+    rgba(2,16,61,0.7)59%,
+    rgba(7,25,87,0.7)59%,
+    rgba(7,25,87,0.7)87%,
+    rgba(8,31,107,0.7)87%
+    )
+    width:721px
+    height:180px
+    margin-top:2px
+
 .mod
-  font-size 9px
+  margin-right -20px
+  font-size 1px
   display flex
-  background-color: rgba(255,255,255,0.1)
-  padding: 0px 20px 0px 20px
-  >div
-    flex 1
+  padding: 0px 20px 0px 50px
 .mod:last-child
   padding-bottom 10px
-.swrapper
+ .swrapper
   border: 0.5px solid #00a0ea
   padding: 8px
   background-color: rgba(0,160,234,0.3)
-  margin 10px 7px 0px 0px 
+  margin 10px 7px 0px 0px    
 .swrapper:last-child
   margin-right 0px
 .sleft,.sright
-  display inline-block
+  display block
   color rgb(183,251,250)
   margin-left 10px
 .sleft
-  position relative
-  top -2px
+  height 25px
+  width 25px
   border-radius 50%
   background-color rgb(0,160,234)
-  padding 8px 10px 8px 10px
   color rgb(128,194,107)
-  font-size 20px
-.sright>div:first-child
-  font-size 17px
-
+  text-align center
+  line-height 25px
+  font-size 15px
+.modulesName
+  line-height 25px
+  font-size 13px
+  color rgb(0,160, 234)
+.clickWatch
+  color rgba(0,160, 233,0.3)
 .air,.water,.solid
   display inline-block
   position relative
-.echeck
-  position: absolute;
-  top: 28px
-  font-size: 1px
-  left: 20px
-  color: rgb(128,194,106)
 .equality
   text-align: center
   font-size: 20px
@@ -1502,10 +2417,10 @@ export default {
   .certificate
     display inline-block
     text-align center
-    margin: 0px 8px;
+    margin: -17px 8px 0px 8px;
+
     .cer-picture
       display block
-      width 40px
       height 80px
       background-color rgb(0,46,144)
     .cer-description
@@ -1568,11 +2483,166 @@ export default {
     border-bottom 0.5px green solid
 .certificate-inner
   display flex
-.container .el-button--medium
+  .certificate
+    flex 1
+.search-contianer .el-button--medium
   color white
 .el-dialog__body
   padding 30px 60px
 .issue
   >div
     background-color rgb(0,46,114)
+    
+.leftC
+  display flex
+  flex-direction column
+  height 100%
+  .leftC2
+    flex 1
+  .leftC1
+    flex 1
+  .leftC3 
+    flex 1
+    position relative
+    .el-collapse-item__wrap
+      position absolute
+      width 100%
+      top 30%
+.rightC
+  display flex
+  flex-direction column
+  .rightC1
+    flex 2
+    display flex
+    flex-direction column
+    .classD
+      flex 1
+      position relative
+    .bmap
+      margin-top -10px
+      .el-collapse-item__wrap
+        position relative
+        width 100%
+        top 5%
+  .rightC2
+    flex 1
+    position relative
+    .certificate-inner
+      position absolute
+      width 100%
+      top 40%
+.diagonal
+  position: relative
+  width:  50px
+  height: 80px
+  background: linear-gradient(
+    to top right,
+      rgba(0,160, 234, 0) 0%,
+      rgba(0,160, 234, 0) calc(50% - 1.5px),
+      rgba(0,160, 234, 1) 50%,
+      rgba(0,160, 234, 0) calc(50% + 1.5px),
+      rgba(0,160, 234, 0) 100%
+  )
+.arrows1
+  position: absolute
+  top: 27px
+  left: 13px
+  transform:rotate(25deg)
+  -ms-transform:rotate(25deg); /* Internet Explorer */
+  -moz-transform:rotate(25deg); /* Firefox */
+  -webkit-transform:rotate(25deg); /* Safari 和 Chrome */
+  -o-transform:rotate(25deg); /* Opera */
+.diagonal-content
+  position: relative
+  right:22px
+  bottom: 10px 
+  width:  50px
+  height: 50px
+.diagonal2
+  position: relative
+  width:  50px
+  height: 80px
+  background:linear-gradient(
+    to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      rgba(0,160, 234, 1) 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+  )
+.arrows2
+  position: absolute
+  top: 30px
+  left: 15px
+  -ms-transform:rotate(-5deg); /* Internet Explorer */
+  -moz-transform:rotate(-5deg); /* Firefox */
+  -webkit-transform:rotate(-5deg); /* Safari 和 Chrome */
+  -o-transform:rotate(-5deg); /* Opera */
+.diagonal-content2
+  position: relative
+  right:22px
+  top:25px
+  width:  50px
+  height: 50px  
+// .diagonal3
+//   position: relative
+//   margin-top: 35px
+//   width:  70px
+//   height: 20px 
+//   background:linear-gradient(
+//     to bottom right,
+//       rgba(0, 0, 0, 0) 0%,
+//       rgba(0, 0, 0, 0) calc(50% - 1.5px),
+//       rgba(0,160, 234, 1) 50%,
+//       rgba(0, 0, 0, 0) calc(50% + 1.5px),
+//       rgba(0, 0, 0, 0) 100%
+//   )  
+.arrows3
+  position: absolute
+  left: 25px
+  top: 1px
+  transform:rotate(30deg)
+  -ms-transform:rotate(30deg); /* Internet Explorer */
+  -moz-transform:rotate(30deg); /* Firefox */
+  -webkit-transform:rotate(30deg); /* Safari 和 Chrome */
+  -o-transform:rotate(30deg); /* Opera */
+// .diagonal-content3
+//   position: relative
+//   right:22px
+//   bottom 35px
+.diagonal4
+  position: relative
+  right:22px
+  bottom: 10px 
+  width:  50px
+  height: 50px
+.diagonal-content4   
+    width: 50px
+.mod-title
+  display block
+  height 50px
+  width: 100%
+  padding-top 10px
+.breedTitle
+  color rgb(232,97,0)
+  margin-top 20px
+  margin-left 200px
+.slaugTitle
+  color rgb(232,97,0)
+  margin-left 245px
+.consuTitle
+  color rgb(232,97,0)
+  margin-left 100px
+// .modLeft
+//   width:510px
+//   height:180px
+//   background-color rgb(2,16,61)
+// .modMiddle
+//   background-color rgb(7,25,87)
+//   width:250px
+//   height:180px
+// .modRight
+//   background-color rgb(8,31,107)
+//   width:100px
+//   height:180px
 </style>

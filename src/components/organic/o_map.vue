@@ -24,13 +24,13 @@ export default {
     },
 	mounted() {
 		this.repaint(this.data)
-	},
+	}, 
 	methods: {
 		 repaint(data){
             var map = new window.BMap.Map(this.$refs.omap) // 创建Map实例
             map.centerAndZoom(new BMap.Point(this.mapCenter.lon, this.mapCenter.lan), this.mapCenter.level)  // 初始化地图,设置中心点坐标和地图级别
             map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
-
+            
             map.setMapStyle({
                 styleJson: [{
                     "featureType": "water",

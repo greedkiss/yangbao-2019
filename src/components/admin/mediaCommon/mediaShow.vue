@@ -74,7 +74,7 @@
                       center>
                         <!-- FIXME: video 标签兼容性处理 -->
                         <div class="show-detail">
-                            <video v-if="item.filetype === 1 || item.filetype === 6" :src="item.urlSpecific" class="production-video" controls="controls"></video>
+                            <video v-if="item.filetype === 1 || item.filetype === 6" :src="item.urlSpecific" class="production-video" controls="controls" height="400" width="400"></video>
                             <img v-else class="production-image-detail" :src="item.url" :onerror="defaultImg">
                         </div>
                         <div class="show-list">
@@ -162,7 +162,7 @@ export default {
             model:{
                 building: '',
                 colnum: '',
-                earTag: '',
+                earTag: this.$route.query.ramSheepTrademark==undefined?'':this.$route.query.ramSheepTrademark,
                 colnumString: ''
             },
             user: null,
@@ -171,10 +171,8 @@ export default {
                 colnumList: [],
                 earTagList: []
             },
-            disableAll: false,
-            isImg: 2
         }
-    },
+    },  
 
     mounted () {
         let id = this.$route.params.id
@@ -239,7 +237,7 @@ export default {
         },
 
         selectEarTag(item){
-            this.model.earTag = item.value
+            this.model.earTag=item.value
         },
 
 

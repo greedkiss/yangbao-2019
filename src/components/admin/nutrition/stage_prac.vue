@@ -63,6 +63,7 @@ export default {
     data () {
         return {
             items: [
+                {label: '单位选择', model: 'style', type: 'selectStyle'},
                 {label: '栏/栋', model: 'building' ,type: 'selectCrowd'},
                 {label: '商标耳牌号', model: 'eartagFile', type : 'selectEartag'},
                 {label: '使用日期(序号)', model: 'nutritionT', type: 'time'},
@@ -72,6 +73,7 @@ export default {
                 {label: '饮水', model: 'water',mr: 1}
             ],
             models: {
+                style: null,
                 building: null,
                 nutritionT: null,
                 quantity: 1,
@@ -121,8 +123,8 @@ export default {
                     {label: '干料', model: 'roughageWD', type: 'select', fetchSuggestions: getDryFeed, inputs: ['']},
                     {label: '其他', model: 'roughageWO', inputs: ['']}
                 ]},
-                {title: '全日量用量(体重%)', items: [
-                    {label: '全日量用量(体重%)', model: 'dayM', inputs: ['']},
+                {title: '全日粮用量(体重%)', items: [
+                    {label: '全日粮用量(体重%)', model: 'dayM', inputs: ['']},
                 ]},
                 {title: '领料总量', items: [
                     {label: '精料', model: 'pickingM', inputs: [''], placeholder: '名称和单位（斤 / 公斤）'},

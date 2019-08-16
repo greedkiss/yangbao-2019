@@ -1,6 +1,6 @@
 <template>
     <div class="app-home">
-        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="1"></admin-head>
+        <admin-head :username="user.pkUserid" :department="user.factoryName" :name="user.userRealname" :rolename="user.roleName" :nums="msn"></admin-head>
         <el-container class="container bg-blue">
             <el-aside :width="side_width" class="main-aside">
                 <el-tree node-key="to" :default-expanded-keys="expanded_key" :data="treedata" :indent="30" accordion @node-click="clickTree"></el-tree>
@@ -35,6 +35,7 @@
                             <router-view :user="user" :check-mod="checkMod"></router-view>
                         </div>
                     </div>
+
                 </el-main>
             </el-container>
         </el-container>
@@ -45,7 +46,7 @@
 <script>
 import AdminHead from '@/components/common/admin_head'
 import AdminFoot from '@/components/common/admin_foot'
-import { getUserById } from '@/util/getdata'
+import { getUserById, getUsermsg} from '@/util/getdata'
 import { isReqSuccessful ,getModule} from '@/util/jskit'
 
 /* eslint-disable object-property-newline */
@@ -65,6 +66,7 @@ export default {
 
     data () {
         return {
+            msn: 0,
             checkMod: 'welfare',
             module: {label: '', to: ''},
             side_width: '18%',
@@ -77,17 +79,8 @@ export default {
                     {label: '在线咨询', to: 'chat'}
                 ]}    
             ],
-            professorTree: {
-                label: '专家工作平台',
-                children: [
-                    {label: '客户评价', to: 'comment'},
-                    {label: '专家在线课堂', to: 'courseintro'},
-                    {label: '生产档案审核', to: 'review'},
-                    {label: '在线诊断', to: 'prochat'}
-                ]
-            },
             adminTree: {
-                label: '系统管理平台',
+                label: '客户管理中心',
                 children:[
                     {label: '系统管理员区', to: 'agentone' ,
                         children:[
@@ -98,11 +91,12 @@ export default {
                             {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
                             {label: '角色权限管理', to: 'authrole'},
-                            {label: '发布系统', to: 'release'},
-                            {label: '专家课堂视频发布', to: 'professorCourseVideo'},
-                            {label: '短信平台', to: 'message'},
+                            {label: '短信服务平台', to: 'message'},
                             {label: '留言统计', to: 'commentsum'},
-                            {label: '专家客户评价结果', to: 'commentres'},
+                            {label: '专家客户监管', to: 'commentres'},
+                            {label: '发布系统', to: 'release'},
+                            {label: '供需调配', to: 'release'},
+
                         ]
                     },
                     {label: '代理管理员区', to: 'agenttwo' ,
@@ -124,8 +118,23 @@ export default {
                     },
                 ]
             },
+            professorTree: {
+                label: '专家工作中心',
+                children: [
+                    {label: '客户评价', to: 'comment'},
+                    {label: '在线直播', to: 'courseintro'},
+                    {label: '生产档案审核', to: 'review'},
+                    {label: '在线诊断', to: 'prochat'},
+                    {label: '发布系统', to: 'release'},
+                    {label: '专家课堂视频发布', to: 'professorCourseVideo'},
+                    {label: '物资管理', to: 'professorCourseVideo'},
+                    {label: '物质推荐', to: 'professorCourseVideo'},
+                    {label: '疫病预警防预', to: 'warn'},
+                    {label: '可视监控', to: 'professorCourseVideo'}
+                ]
+            },
             productionTree: {
-                label: '养殖生产管理平台',
+                label: '养殖生产管理中心',
                 children: [
                 {label: '单位基本信息管理', to: 'farmUnit'},
                 {label: '生产节点智能统计管理', to: 'intelManage', children: [
@@ -166,6 +175,11 @@ export default {
                         {label: '购进管理', to: 'livestockBuy'},
                         {label: '死亡管理', to: 'livestockDead'},
                     ]},
+                    {label: '商品羊销售管理', to: 'sheepSaleManage', children: [
+                        {label: '商品羊销售', to: 'sheepSale'},
+                        {label: '订单管理', to: 'sheepSaleOrder'},
+                        {label: '已售羊只视频', to: 'sheepSaleVideo'},
+                    ]},
                     {label: '卫生·疫控', to: 'health', children: [
                         {label: '专家咨询', to: 'chat'},
                         {label: '卫生与动物福利管理方案', to: 'welfareplan'},
@@ -182,11 +196,13 @@ export default {
                         {label: '阶段营养实施档案', to: 'stageprac'},
                         {label: '配种产子管理方案', to: 'breedplan'},
                         {label: '配种产子实施档案', to: 'breedprac'},
+                        {label: '育种选育实施档案', to: 'seleprac'}
                     ]},
                     {label: '疾病防治', to: 'prevention', children: [
                         {label: '专家咨询', to: 'chat'},
                         {label: '疾病防治方案', to: 'preventionplan'},
-                        {label: '疾病防治实施档案', to: 'preventionprac'}
+                        {label: '疾病防治实施档案', to: 'preventionprac'},
+                        {label: '每日统计', to: 'everydaystatis'}
                     ]},
                     {label: '生产物资平台', to: 'app-delivery'},
                     {label: '可视系统', to: 'visual', children: [
@@ -207,7 +223,7 @@ export default {
                 ]
             },
             slaughterTree: {
-                label: '屠宰加工管理平台',
+                label: '屠宰加工管理中心',
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
                     {label: '可视系统', to: 'visual', children: [
@@ -222,11 +238,33 @@ export default {
                             {label: '购进管理', to: 'livestockBuy'},
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
-                    }
+                    },
+                    {label: '认购管理', to: '',children:[
+                            {label: '关联检疫证', to: 'correlation'},
+                            {label: '检疫证书图片', to: 'correlationPicture'},
+                    ]},
+                    {label: '屠宰前管理', to: '',children:[
+                            {label: '待屠宰羊只管理', to: 'beforeManage'},
+                            {label: '待屠宰羊只视频', to: 'beforeVideo'},
+                            
+                    ]},
+                    {label: '屠宰管理', to: '',children:[
+                        {label: '屠宰管理', to: 'slaughterManage'},
+                        
+                    ]},
+                    {label: '分割管理', to: '',children:[
+                        {label: '分割管理', to: 'segmentManger'},
+                        
+                    ]},
+                    {label: '库存管理', to: '',children:[
+                            {label: '库存管理', to: 'stockManage'},
+                            {label: '订单管理', to: 'orderManage'},
+                            {label: '车辆管理', to: 'vehicleManage'},
+                    ]},
                 ]
             },
             consumptionTree: {
-                label: '消费实体管理平台',
+                label: '消费实体管理中心',
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
                     {label: '可视系统', to: 'visual', children: [
@@ -241,7 +279,8 @@ export default {
                             {label: '购进管理', to: 'livestockBuy'},
                             {label: '死亡管理', to: 'livestockDead'}
                         ]
-                    }
+                    },
+                    {label: '出库管理', to: 'outWareManage'},
                 ]
             },
             options: [],
@@ -288,9 +327,14 @@ export default {
                 //     }
                 // }
                 // flag: 2 普通用户
+                getUsermsg(this.user.userTelephone).then(res => {
+                    if(isReqSuccessful(res)){
+                        this.msn = res.data.msgcount; 
+                    }
+                })
             }
         })
-        this.treedata.push(this.professorTree, this.adminTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     },
 
     mounted () {
@@ -353,9 +397,9 @@ export default {
             this.production[idx].active = true
         },
 
-        isProdModule () {
-            let name = this.$route.name
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+        isProdModule () {           
+            let name = this.$route.name 
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer','slaughterManage','segmentManger'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {
@@ -363,6 +407,7 @@ export default {
                 // itemprac -> itemlist
                 let idx = item.to.indexOf('prac')
                 if (idx === -1) {
+                    console.log(item)
                     this.$router.push({name: item.to + 'list'})
                 } else {
                     this.$router.push({name: item.to.substr(0, item.to.indexOf('prac')) + 'list'})
@@ -392,7 +437,7 @@ export default {
 
             if (data.isLeaf) {
                 if (node.to === 'app-delivery') {
-                    window.open('http://mall.yunyangbao.cn/index2')
+                    window.open('http://mall.yunyangbao.cn/')
                     return
                 }
                 // if chat open another page
@@ -469,7 +514,7 @@ export default {
 .app-main
     div.el-input-group__prepend
         box-sizing border-box
-        width 140px
+        width 34%
         color #fff
         background-color color-main
     .el-input

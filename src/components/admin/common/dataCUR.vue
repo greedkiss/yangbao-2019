@@ -18,10 +18,35 @@
             <p class="card-title">单位介绍:</p>
             <el-input type="textarea" v-model="models.introduction"></el-input>
         </div>
+
         <div class="card" v-if="hasSuNe">
             <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
-            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN"></basic-info>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN" :Function1 ="SearchResult"></basic-info>
         </div>
+
+
+        <!-- <div class="card" v-if="hasSele">
+            <p class="card-title" style="text-align: center; padding-left: 0px">60天</p>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsTwo" :models.sync="modelsTwo"></basic-info>
+        </div>
+
+        <div class="card" v-if="hasSele">
+            <p class="card-title" style="text-align: center; padding-left: 0px">180天</p>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsSix" :models.sync="modelsSix"></basic-info>
+        </div>
+
+        <div class="card" v-if="hasSele">
+            <p class="card-title" style="text-align: center; padding-left: 0px">360天</p>
+            <basic-info ref="info" :radio-index="radioIndex" :items="itemsOne" :models.sync="modelsOne"></basic-info>
+        </div> -->
+        
+        <div class="admin-send" v-if="isPrac">
+            <template v-if="!check && !view">
+                <el-button  type="warning" @click="changeActive2" style="position: relative; top:45px; left:200px;" :disabled="false">点击进入育种选育实施档案</el-button>
+            </template>
+        </div>
+
+   
         <div class="admin-send" v-if="canModify">
             <template v-if="!check && !view">
                 <el-button type="primary" :disabled="disableBtn" @click="submit(checkFull)">提交/更新</el-button>
@@ -34,6 +59,9 @@
             </template>
             <el-button type="primary" v-else :disabled="disableBtn" @click="$router.back()">返回</el-button>
         </div>
+
+        
+
         <div class="admin-send" v-else>已审核</div>
     </div>
 </template>
@@ -64,10 +92,22 @@ export default {
         itemsSN: {
             type: Array
         },
-        modelsSN: {
+        itemsBreed:{
+            type:Array
+        },
+        itemsPart:{
+            type:Array
+        },
+        modelsSN:{
             type: Object
         },
-        models: {
+        models:{
+            type: Object
+        },
+        modelsBreed:{
+            type: Object
+        },
+        modelsPart:{
             type: Object
         },
         hasRemark: {
@@ -86,6 +126,14 @@ export default {
             type: Boolean,
             default: false
         },
+        hasSele:{
+           type: Boolean,
+            default: false 
+        },
+        hasPrac:{
+            type: Boolean,
+            default: false 
+        },
         hasNote: {
             type: Boolean,
             default: false
@@ -94,9 +142,11 @@ export default {
             type: Boolean,
             default: true
         },
-
+        SearchResult:{
+        type: Function
+        },
         postData: {
-            type: Function
+           type: Function 
         },
         getData: {
             type: Function
@@ -104,7 +154,10 @@ export default {
         updateData: {
             type: Function
         },
-
+        isPrac:{
+            type:Boolean,
+            default:false
+        },
         radioIndex: {
             type: Number,
             default: 0
@@ -149,7 +202,6 @@ export default {
             this.view = newV.query.view
         }
     },
-
     mounted () {
         this.check = this.$route.query.check
         this.supervise = this.$route.query.supervise
@@ -172,6 +224,8 @@ export default {
                 if(isReqSuccessful(res)) {
                     let obj = {}
                     let objSN = {}
+                    let objBreed={}
+                    let objPart={}
                     this.unitId = res.data.customer.id
                     Object.keys(this.models).forEach(v => {
                         obj[v] = res.data.customer[v]
@@ -182,8 +236,16 @@ export default {
                     Object.keys(this.modelsSN).forEach(v => {
                         objSN[v] = res.data.customer[v]
                     })
+                    Object.keys(this.modelsBreed).forEach(v => {
+                        objBreed[v] = res.data.customer[v]
+                    })
+                    Object.keys(this.modelsPart).forEach(v => {
+                        objPart[v] = res.data.customer[v]
+                    })
                     this.$emit('update:models', obj)
                     this.$emit('update:modelsSN', objSN)
+                    this.$emit('update:modelsBreed', objBreed)
+                    this.$emit('update:modelsPart', objPart)
                 }
             })
         }
@@ -211,10 +273,20 @@ export default {
                     if ( 'prenatalImmunityTime' in obj ) {
                         obj.prenatalImmunityTime = obj.prenatalImmunityTime.split(',')
                         let length = obj.prenatalImmunityTime.length - 1;
-                        for ( let i = 0; i < length; i++ ) {
-                            this.$refs.info.$refs.add[0].click()
-                        }
+                        // console.log(obj.prenatalImmunityTime)
+                        // for ( let i = 0; i < length; i++ ) {
+                        //     this.$refs.info.$refs.add[0].click()
+                        // }
                     }
+                    if ( 'nutritionAfterPregnancy' in obj ) {
+                        obj.nutritionAfterPregnancy = obj.nutritionAfterPregnancy.split(',')
+                        let length = obj.nutritionAfterPregnancy.length - 1;
+                        // console.log(obj.prenatalImmunityTime)
+                        // for ( let i = 0; i < length; i++ ) {
+                        //     this.$refs.info.$refs.add[0].click()
+                        // }
+                    }
+                    
 
                     // 0审核未通过 1审核通过 2未审核
                     if (res.data.ispassCheck && res.data.ispassCheck === '1') {
@@ -237,10 +309,39 @@ export default {
             canModify: true,
             unitId: null,
             disableBtn: false,
+            openIsDisabled:true,
             map: ['', '省级代理', '市级代理', '县级代理'],
             intel:0,
             intel_com:false,
-            user: null
+             pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
         }
     },
 
@@ -271,6 +372,17 @@ export default {
             let pathid = this.$route.params.id
             let path = `/admin/${pathid}/intelManage/total`
             this.$router.push(path)
+        }, 
+        changeActive2() {
+            if(!this.models.lambingNumber||!this.models.lambingTime){
+                this.$message.warning('请输入产羔时间以及产羔数量！')
+            }
+            else{
+             let pathid = this.$route.params.id
+             let path = `/admin/${pathid}/nutrition/sele/prac`+'?'+'ramSheepTrademark='+this.models.ramSheepTrademark+'&'+'eweSheepTrademark='+this.models.eweSheepTrademark
+             this.$router.push(path)
+            }
+            
         },
 
         Spv (isPass) {
@@ -330,6 +442,9 @@ export default {
             }
             if ( data.prenatalImmunityTime ) {
                 data.prenatalImmunityTime = ArrayToString(data.prenatalImmunityTime);
+            }
+             if ( data.nutritionAfterPregnancy ) {
+                data.nutritionAfterPregnancy = ArrayToString(data.nutritionAfterPregnancy);
             }
 
             if (  data.breedLocation && data.breedingSheepBase  )  {
@@ -413,7 +528,7 @@ export default {
                     this.disableBtn = false
                 }, _ => {
                     this.$message.error('录入失败')
-                    this.disableBtn = false
+                    this.disableBtn = true
                 })
             }
         }

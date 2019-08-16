@@ -69,7 +69,7 @@
 			</el-table-column>
 		</el-table>
 
-		<el-dialog :visible.sync="dialogUpdateVisible">
+		<el-dialog :visible.sync="dialogUpdateVisible" style="text-align: center; width: 80%; margin: auto">
 			<el-form>
 				<div style="margin-bottom: 10px">
 				<span>原栋名</span>
@@ -80,7 +80,7 @@
 				<el-input v-model="newMe.building" size="small"></el-input><br/>
 				</div>
 			</el-form>
-			<div slot="footer" class="dialog-footer">
+			<div slot="footer" class="dialog-footer" style="text-align: center">
 				<el-button @click="dialogUpdateVisible  = false" size="small">取 消</el-button>
 				<el-button type="primary" @click="submitMessage" size="small">确 定</el-button>
 			</div>
@@ -90,7 +90,7 @@
 
 <script>
 
-import { getUserById , getGeneaRec, postGeneaRec, updateGeneaRec, getYangNum, createBC ,createBCL, deleteCol} from '@/util/getdata'
+import { getUserById , getGeneaRec, postGeneaRec, updateGeneaRec, getYangNum, createBC ,createBCL, deleteCol, modifyBuilding} from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit';
 // let app = new Vue()
 
@@ -104,13 +104,14 @@ export default {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model;
             }
-         }).then(this.fetchData)   
+         }).then(this.fetchData)     
 	},
 
 	
 	
     data () {
         return {
+        	user: null,
         	tableCol:new Map(),
         	dialogUpdateVisible:false,
             getGeneaRec,
@@ -265,14 +266,28 @@ export default {
 			}
 		},
 		submitMessage(){
-			let c = this.newMe.building
-			let n = this.newMe.column
-			let oldc = this.oldMe.building
+			let data = {
+				factory: this.user.userFactory,
+				col: 1,
+				old: this.oldMe.building,
+				building: this.newMe.building
+			}
+			modifyBuilding(data).then(res => {
+				if(isReqSuccessful(res)){
+					this.$message.success("修改成功")
+					this.fetchData()
+					this.dialogUpdateVisible  = false
+				}
+			})
+		},
+		addNumCol(){
+			let c = this.column
+			let n = this.columnNum
 			let flag = -1
 			let errord = 0
 			let dis = 0
 			this.tableData.forEach((ele,index) => {
-					if(ele.d == oldc ){								
+					if(ele.d == c ){								
 						flag = index + 1 
 						dis =  ele.l
 					}
@@ -283,7 +298,7 @@ export default {
 				if(errord){
 					let fac = parseInt(this.factory)
 					let newl =  parseInt(n)
-					let data = {factory:fac, building:c, col:newl , old:oldc}
+					let data = {factory:fac, building:c, col:newl}
 					createBCL(data).then(res => {
 		                    if (isReqSuccessful(res)) {
 		                       this.fetchData()
@@ -293,39 +308,8 @@ export default {
 				else{
 					 this.$alert('栋号不存在或栏数小于之前栏数', '错误', {
 		          					confirmButtonText: '确定',
-		        });
+		        	});
 				}
-			},
-			addNumCol(){
-				let c = this.column
-				let n = this.columnNum
-				let flag = -1
-				let errord = 0
-				let dis = 0
-				this.tableData.forEach((ele,index) => {
-						if(ele.d == c ){								
-							flag = index + 1 
-							dis =  ele.l
-						}
-					})
-					if(n > dis ){
-						errord = 1
-					}
-					if(errord){
-						let fac = parseInt(this.factory)
-						let newl =  parseInt(n)
-						let data = {factory:fac, building:c, col:newl}
-						createBCL(data).then(res => {
-			                    if (isReqSuccessful(res)) {
-			                       this.fetchData()
-			                    }
-			                })	
-					}
-					else{
-						 this.$alert('栋号不存在或栏数小于之前栏数', '错误', {
-			          					confirmButtonText: '确定',
-			        	});
-					}
 			},
 			handleDelete(index,row){
 				if(row.lnum != 0){

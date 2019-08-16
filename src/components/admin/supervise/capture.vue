@@ -72,10 +72,10 @@ export default {
     data () {
         return {
             model: {
-                building: '',
+                building:String(this.$route.query.dong)==null?'':this.$route.query.dong,
                 column: '',
-                earTag: '',
-                columnString: ''
+                earTag: this.$route.query.ramSheepTrademark==null?'':this.$route.query.ramSheepTrademark,
+                columnString:String(this.$route.query.lan)==null?'':this.$route.query.lan,
             },
             user: null,
             disableAll: false,
@@ -88,7 +88,8 @@ export default {
                 columnList: [],
                 earTagList: []
             },
-            deleteOne:false
+            deleteOne:false,
+            fileType: 0
         }
     },
 
@@ -137,7 +138,7 @@ export default {
         },
 
         produceColumn(q , cb){
-            let data = []
+            let data = []  
             this.factory.columnList.forEach((item) => {
                 let obj = {value : item}
                 data.push(obj)
@@ -198,7 +199,7 @@ export default {
                 form.append('col', col)
                 form.append('brand', this.model.earTag)
                 form.append('factoryId', this.user.userFactory)
-                form.append('filetype', 0)
+                form.append('filetype', this.fileType)
                 this.captures.forEach((item, index) => {
                      form.append('file[]', this.$refs.erpai[index].files[0])
                 })
@@ -258,6 +259,7 @@ export default {
                         })
                     }
                 })
+                this.fileType = 0
         },
 
         getPictureStyle (q, cb) {
@@ -279,6 +281,9 @@ export default {
             }
             else{
                 this.disableAll = true
+            }
+            if(item.index == 2 || item.index == 3){
+                this.fileType = 9
             }
         },
     }

@@ -1,7 +1,38 @@
 <template>
     <div>
         <div class="admin-list-pass" v-if="!hideFilter && !releaseType ">
-            <el-select @change="fetchData()" width="120" v-if="!hidePass" size="small" v-model="isPass" placeholder="所有数据">
+            <div class="area_management" v-if="isWarn">
+				<span class="area_name">省</span>
+				<el-select v-model="value.province" placeholder="省" @change="provinceChoose" v->
+			    <el-option
+			      v-for="item in area.province" 
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item"
+			      >
+			    </el-option>
+				</el-select>
+					<span class="area_name">市</span>				
+				<el-select v-model="value.city" placeholder="市" @change="cityChoose">
+			    <el-option
+			      v-for="item in area.city"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+				</el-select>
+				<span class="area_name">县</span>		
+				<el-select v-model="value.country" placeholder="县">
+			    <el-option
+			      v-for="item in area.country"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+			  </el-select>
+			</div>
+            
+            <el-select @change="fetchData()" width="120" v-if="!hidePass&&!isSeleList&&!isWarn" size="mini" v-model="isPass" placeholder="所有数据">
                 <el-option
                     v-for="(val, key) in options"
                     :key="val"
@@ -9,12 +40,32 @@
                     :value="val">
                 </el-option>
             </el-select>
-            <el-input class="pick-erpai" size="small" v-model="factoryName">
+
+
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="factoryName">
                 <template slot="prepend">单位名:</template>
             </el-input>
-            <el-input v-if="!hideEartagFilter" class="pick-erpai" size="small" v-model="eartag">
+            <el-input v-if="!hideEartagFilter&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="eartag">
                 <template slot="prepend">耳牌号:</template>
             </el-input>
+             <el-input v-if="isListSale" class="pick-erpai" size="mini" v-model="searchSaleID">
+                <template slot="prepend">订单号:</template>
+            </el-input>
+
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="fatherEartag">
+                <template slot="prepend">公耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="motherEartag">
+                <template slot="prepend">母耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="kindEartag">
+                <template slot="prepend">子耳牌号:</template>
+            </el-input>
+
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList"  class="pick-erpai" size="mini" v-model="checkFlag">
+                <template slot="prepend">批次:</template>
+            </el-input>
+
             <el-date-picker
                 size="small"
                 v-model="gmtCreate"
@@ -26,26 +77,105 @@
                 value-format="yyyy-MM-dd"
                 align="right">
             </el-date-picker>
-            <el-button @click="fetchData()" size="small" type="primary">查询</el-button>
-            <el-button @click="export2xls()" size="small" type="primary" icon="el-icon-download">导出表格</el-button>
+
+            <el-button @click="fetchData()" v-if="!isListSale" size="mini" type="primary">查询</el-button>
+            <el-button @click="findTimeAllData()" v-if="isListSale" size="mini" type="primary">查询</el-button>
+            <el-button @click="export2xls()" size="mini" type="primary" icon="el-icon-download"></el-button>
         </div>
-        <el-table
+
+        <el-table v-if="isSeleList"
             v-loading="load"
             ref="table"
             tooltip-effect="dark"
             class="admin-table"
             :data="tableData"
             >
-            <el-table-column
+
+            <el-table-column label="种公羊">
+                <el-table-column
                 show-overflow-tooltip
                 v-for="(th, i) in headers"
-                :key="i"
+                v-if=" th.prop=='eartagOfFather' || th.prop=='fatherTypeName' || th.prop=='fatherColor' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+                
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="种母羊">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='eartagOfMother'||th.prop=='motherTypeName'||th.prop=='motherColor'||th.prop=='manageFlag'||th.prop=='breedingTime'||th.prop=='lambingNumber'"
+                :key="i" 
                 align='center'
                 :prop="th.prop"
                 :label="th.label"
                 :width="100"
             >
             </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="羔羊/kg">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='newbornWeight'||th.prop=='sex'||th.prop=='trademarkEartag'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="断奶选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='ablactationWeight'||th.prop=='ablactationHeight'||th.prop=='ablactationLength'||th.prop=='ablactationBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="6月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='sixMonthWeight'||th.prop=='sixMonthBodyHeight'||th.prop=='sixMonthBodyLength'||th.prop=='sixMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="12月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='twelveMonthWeight'||th.prop=='twelveMonthHeight'||th.prop=='twelveMonthLength'||th.prop=='twelveMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column> 
+            </el-table-column>
+            
             <el-table-column
                 class="action"
                 fixed="right"
@@ -71,6 +201,279 @@
             </el-table-column>
         </el-table>
 
+
+
+
+        
+        <el-table v-if="isSlaughterManageList"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='immuneEartag'||th.prop=='EarTag'||th.prop=='farm'||th.prop=='master'||th.prop=='kind' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+
+
+            <el-table-column label="附属物信息">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='affNumber'||th.prop=='affWeight'||th.prop=='affVideo'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="110"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="胴体信息">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='carNumber'||th.prop=='carWeight'||th.prop=='carVideo' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="110"
+            >
+            </el-table-column>
+            </el-table-column>
+
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='slaughterTime'||th.prop=='operator' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                    <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                        <span @click="deleteItem(scope.$index)">删除</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
+        <el-table v-if="isListSale"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            @cell-click="saleListCell"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160"
+                >
+                <template slot-scope="scope">
+
+                    <div class="opr" v-if="isSaleOrder">
+                        <span v-if="!hideView" @click="dialogFormVisible = true">查看</span>
+                        
+                        <template>
+                            <span @click="deleteItem(scope.$index)">取消订单</span>
+                        </template>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <el-dialog title="订单详情" 
+					:visible.sync="dialogAllTimeVisible" 
+					width="800px"
+					>
+                    <span>该时间段内有订单：{{timeorder.allorder}}个</span>
+                    <br>
+                    <span>共售出羊肉：{{timeorder.sumWeight}} 斤</span>
+                    <br>
+                    <span>总价值：{{timeorder.allprice}}元</span>
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="closeAllTime()">确认</el-button>
+					</div> 
+				</el-dialog>
+        <el-dialog title="订单详情" 
+					:visible.sync="dialogFormVisible" 
+					width="800px"
+					@open="saleOrderLook(scope.row, scope.column)">
+
+					<el-form :model="orderform" label-position="right">
+
+						<el-col :span='12'>
+						<el-form-item label="重量" :label-width="formLabelWidth" >
+							<el-input v-model="orderform.sumweight" ></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="总金额" :label-width="formLabelWidth">
+							<el-input v-model="orderform.allprice"></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-alert
+    					title="其他信息"
+    					type="info"
+							:closable="false"
+							center
+							style="height:25px">
+ 						</el-alert>
+
+						 <el-col :span='12'>
+						<el-form-item label="订单ID" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.saleID"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+                        <el-col :span='12'>
+						<el-form-item label="羊只耳牌" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.trademark"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+
+                        
+
+						<el-col :span='12'>
+						<el-form-item label="养殖场"  :label-width="formLabelWidth">			
+						<el-input v-model="orderform.farm" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="客户单位" :label-width="formLabelWidth">				
+						<el-input v-model="orderform.factory" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="数量" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.sums" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="销售时间" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.saleTime" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="负责人" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.manger"  	:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+                        <el-col :span='12'>
+						<el-form-item label="联系方式" :label-width="formLabelWidth">		
+						<el-input v-model="orderform.tele"  	:disabled="true"></el-input>
+						</el-form-item>
+                        </el-col>
+
+						</el-form>
+
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="sureSale()">确认销售</el-button>
+					</div>
+				</el-dialog>
+
+
+        
+        <el-table v-if="isBreedList"
+            v-loading="load"
+ v            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+                
+            >
+            </el-table-column>
+
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160"
+                v-if="!isWarn&&!isStatis">
+                <template slot-scope="scope">
+                    <div class="opr" v-if="!releaseType && !isCheck">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                        <template>
+                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                            <span @click="deleteItem(scope.$index)">删除</span>
+                        </template>
+                    </div>
+
+                    <div class="opr" v-else-if="releaseType">
+                        <span  @click="viewPlan(scope.$index)">查看</span>
+                    </div>
+                    <div class="opr" v-else>
+                        <span @click="Spv(1, scope.$index)">通过</span>
+                        <span @click="Spv(0, scope.$index)">拒绝</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
         <el-pagination
             layout="prev, pager, next"
             :total="total"
@@ -82,7 +485,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById, getReleaseByName } from '@/util/getdata'
+import { getUserById, getReleaseByName ,getPlace,sureSaleOrder} from '@/util/getdata'
 import XLSX from 'xlsx'
 import {
 // 监督执行
@@ -111,6 +514,23 @@ export default {
             type: Boolean,
             default: false
         },
+        //在商品羊管理界面使用新的查看功能
+        isSaleOrder: {
+            type:Boolean,
+            default:false
+        },
+        isBreedList: {
+            type: Boolean,
+            default: false
+        },
+        isSeleList: {
+            type: Boolean,
+            default: false
+        },
+        isSlaughterManageList:{
+            type: Boolean,
+            default: false
+        },
         // 隐藏头部筛选
         hideFilter: {
             type: Boolean,
@@ -129,6 +549,7 @@ export default {
                 return () => {}
             }
         },
+        //确认订单
         // 审核接口
         isCheck: {
             type: Boolean,
@@ -166,6 +587,18 @@ export default {
             type: Boolean,
             default: false
         },
+        isListSale:{
+            type: Boolean,
+            default: false
+        },
+        isWarn:{
+            type:Boolean,
+            default: false
+        },
+        isStatis:{
+            type:Boolean,
+            default: false
+        },
         checkModule: {
             type: String
         }
@@ -184,10 +617,34 @@ export default {
                 this.user = res.data.model
             }
         }).then(this.fetchData)
+        let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+		let obj = {url}
+				 getPlace(obj).then(res => {
+			res.result.forEach((item) =>{
+				item.forEach((ipv)=>{
+					this.area.province.push({
+						label: ipv.fullname,
+						value: ipv.id
+					})
+				})
+			})
+		})
     },
 
     data () {
         return {
+            area: {
+				province: [],
+				city: [],
+				country: [],
+				town: []
+			},
+			value: {
+				province: null,
+				city: null,
+				country: null,
+				town: null
+			},
             load: true, // 是否显示loading动画
             page: 1, // 当前页码
             total: 10, // 总共数据条数
@@ -209,11 +666,90 @@ export default {
             },
 
             eartag: null,
-            gmtCreate: null
+            gmtCreate: null,
+            motherEartag: null,
+            fatherEartag: null,
+            kindEartag: null,
+            searchSaleID:null,
+            checkFlag: null,
+            dialogFormVisible: false,
+            dialogAllTimeVisible:false,
+            formLabelWidth: '70px',	
+            timeorder:{
+                allprice:0,
+                sumWeight:0,
+                allorder:0
+                },
+            orderform:{
+				farmId:null,
+				factoryId:null,
+                trademark:null,
+				sumweight:0,
+				allprice:0,
+				// saleID:null,
+				farm:null,
+				factory:"请选择客户单位",
+				sums:0,
+				saleTime:null,
+				manger:null,
+				tele:null
+				},
         }
     },
 
     methods: {
+
+        provinceChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			console.log(url)
+			this.value.city = null
+			this.value.country = null
+			this.value.town = null
+			if(item.label.indexOf('市') == -1){
+				getPlace(obj).then(res => {
+					this.area.city = []
+					res.result.forEach((item) =>{
+						item.forEach((ipv)=>{
+							this.area.city.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}else{
+					this.value.city = '市辖区'
+					getPlace(obj).then(res => {
+					this.area.country = []
+					res.result.forEach((item) => {
+						item.forEach((ipv)=>{
+							this.area.country.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}
+		},
+		cityChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			this.value.country = null
+			this.value.town = null
+			getPlace(obj).then(res => {
+				this.area.country = []
+				res.result.forEach((item) =>{
+					item.forEach((ipv)=>{
+						this.area.country.push({
+							label: ipv.fullname,
+							value: ipv.id
+						})
+					})
+				})
+			})
+		},
         export2xls () {
             if (!this.tableData.length) {
                 this.$message.warning('表格数据为空')
@@ -291,6 +827,62 @@ export default {
             let path = `/admin/${pathid}/${this.modpath}/more?more=${id}`
             this.$router.push(path)
         },
+
+  
+      //点击任意一行，即将此行数据放到orderform中去
+            saleListCell(row,column,event,cell){
+            console.log(row)
+            this.orderform.sumweight=row.totalWeight
+            this.orderform.allprice=row.price
+            this.orderform.saleID=row.id
+            this.orderform.farm=this.user.factoryName
+            this.orderform.trademark=row.trademark
+            this.orderform.factory=row.destinationFactoryName
+            this.orderform.sums=row.count
+            this.orderform.saleTime=row.saleTime
+            this.orderform.manger=row.responsiblePerson
+            this.orderform.tele=row.responsiblePersonPhone
+            let param={
+                orderId:row.id,
+            }
+            // getOrderSheepID(id,pram).then(res => {
+            //     if(isReqSuccessful(res)){
+            //         this.orderform.sheepId=res;
+            //     }else{
+            //         this.message.err('请求失败')；
+            //     }
+            // });
+        },
+     //订单查看按钮 
+        saleOrderLook(row,column){ },
+        //确认销售
+        sureSale(){
+            let id= this.user.userFactory;
+            let saleID=this.orderform.saleID;
+			let param = {		
+						saleID
+           				} 
+            sureSaleOrder(id,param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('交易成功')
+                        this.dialogFormVisible=false;
+                        this.fetchData()   
+                    }
+				});
+						
+					             
+        },
+
+        // this.updateData(this.edit, data).then(res => {
+        //             if (isReqSuccessful(res)) {
+        //                 patchJump(this.modpath)
+        //             }
+        //             this.disableBtn = false
+        //         }, _ => {
+        //             this.$message.error('修改失败')
+        //             this.disableBtn = false
+        //         })
+        //     }
         Spv (isPass, idx) {
             let {id, ispassCheck} = this.tableData[idx]
             if (ispassCheck !== '未审核') {
@@ -350,10 +942,63 @@ export default {
             this.$router.push({name: this.modpath, query: {view: id}})
         },
 
+        async  findTimeAllData(){
+           let param = {
+                page: this.page - 1,
+                size: 15,
+            }
+            if (this.gmtCreate !== null) {
+                console.log(this.gmtCreate)
+                param.startTime = this.gmtCreate[0]
+                param.endTime = this.gmtCreate[1]
+            }
+            let pathid
+            let { userFactory, userRealname, id, factoryName } = this.user
+            // 代理 工厂 游客
+            if (userFactory !== undefined) {
+                pathid = userFactory
+            } else if (id !== undefined) {
+                pathid = id
+            }
+            this.timeorder.allprice=0;
+            this.timeorder.sumWeight=0;
+            this.timeorder.allorder=0;
+            this.load = true
+            this.getData(pathid, param).then(res => {
+                if (isReqSuccessful(res)) {
+                    let data=res.data;
+                    this.tableData = data.List;
+                    this.total = data.size;
+                    let allPrice=0;
+                    let SumWeight=0;
+                    this.tableData.forEach(function(item,index){
+                        allPrice+=Number(item.price);
+                        SumWeight+=Number(item.totalWeight);
+                    })
+                    this.timeorder.allorder= this.tableData.length;
+                    this.timeorder.allprice=allPrice;
+                    this.timeorder.sumWeight=SumWeight;
+                    this.dialogAllTimeVisible=true;
+                    this.load = false
+                }
+                else{
+                this.load =false
+                this.$message.error('获取数据失败')
+                } 
+            }, _ => {
+                this.load = false
+                this.$message.error('获取数据失败')
+            })
+            
+    },
+
+    closeAllTime(){
+        this.dialogAllTimeVisible=false;
+    },
         async fetchData () {
             let param = {
                 page: this.page - 1,
-                size: 10
+                size: 15,
             }
             if (this.isPass !== null) {
                 param.ispassCheck = this.isPass
@@ -366,6 +1011,35 @@ export default {
                 param.startTime = this.gmtCreate[0]
                 param.endTime = this.gmtCreate[1]
             }
+            if (this.eartag !== null) {
+                param.eartag = this.eartag
+            }
+            if (this.motherEartag !== null) {
+                param.motherEartag = this.motherEartag
+            }
+            if (this.fatherEartag !== null) {
+                param.fatherEartag = this.fatherEartag
+            }
+            if (this.kindEartag !== null) {
+                param.kindEartag = this.kindEartag
+            }
+            if (this.checkFlag !== null) {
+                param.checkFlag = this.checkFlag
+            }
+            if (this.value.province !==null) {
+                param.province = this.value.province
+            }
+            if (this.value.city !==null) {
+                param.city = this.value.city
+            }
+            if (this.value.country!==null) {
+                param.country == this.value.country
+            }
+            if(this.searchSaleID!==null){
+                param.saleID = this.searchSaleID
+            }
+            
+            
 
             let pathid
             let { userFactory, userRealname, id, factoryName } = this.user
@@ -445,25 +1119,31 @@ export default {
                 this.load = false
             }
         },
-
-        edit (index, isView) {
+   
+        edit(index, isView) {
             let id = this.tableData[index].id
             let path
             let pathid = this.$route.params.id
+            
             if (this.noPrac) {
                 if (isView) {
                     path = `/admin/${pathid}/${this.modpath}?view=${id}`
+                    
                 } else {
                     path = `/admin/${pathid}/${this.modpath}?edit=${id}`
+                    
                 }
             } else if (!this.isCheck) {
                 if (isView) {
                     path = `/admin/${pathid}/${this.modpath}/prac?view=${id}`
+                    
                 } else {
                     path = `/admin/${pathid}/${this.modpath}/prac?edit=${id}`
+                    
                 }
             } else {
                 path = `/admin/${pathid}/${this.checkModule}/prac?check=${id}`
+                
             }
             this.$router.push(path)
         },

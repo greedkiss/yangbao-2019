@@ -2,13 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import VueAreaLinkage from 'vue-area-linkage'
 import 'vue-area-linkage/dist/index.css'
 import { tokenStr } from './util/fetch'
 import vuex from 'vuex'
+import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -53,3 +53,4 @@ new Vue({
     components: { App },
     template: '<App/>'
 })
+

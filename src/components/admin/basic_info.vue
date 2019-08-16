@@ -23,7 +23,7 @@
 
                 <el-input :placeholder="item.placeholder" :class="{block: item.block, mr: item.mr}" :key="i" v-else-if="item.type === 'file'" :value="holder" class="select-file" size="small" disabled @click.native="$refs.erpai[0].click()">
                     <template slot="prepend">{{ item.label || '免疫耳牌号文件:'}}
-                        <input type="file" @change="selectFile(item)" hidden ref="erpai">
+                        <input type="file" @change="selectFile(item)" hidden ref="erpai"> 
                     </template>
                 </el-input>
 
@@ -38,7 +38,7 @@
                     </el-date-picker>
                 </div>
 
-                <div :key="i" v-else-if="item.type === 'time_2'" class="time el-input-group" :class="{'double-width': item.doubleWidth, mr: item.mr}">
+                <div :key="i" v-else-if="item.type === 'time_2'" class="time el-input-group2" :class="{'double-width': item.doubleWidth, mr: item.mr}">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <el-date-picker
                         v-model="models[item.model]"
@@ -49,10 +49,49 @@
                     </el-date-picker>
                 </div>
 
+                <div :key="i" v-else-if="item.type ==='time_3'" class="time3" style="float:left; width:100%; margin-top:10px;" :class="{'double-width': item.doubleWidth, mr: item.mr}">
+                    <span class="time3-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-date-picker
+                    v-model="models[item.model]"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    type="datetimerange"
+                    size="small" 
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                    </el-date-picker>
+                    
+                </div>
+
                 <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number'" class="time el-input-group">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <el-input-number :min="0" size="small" v-model="models[item.model]"></el-input-number>
                 </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'slaughter'" class="time ">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-input :min="0" size="small" v-model="models[item.model]"></el-input>
+                </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number_2'" class="time el-input-group">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-input-number style="width: 66%" size="small" v-model="models[item.model]"></el-input-number>
+                </div>
+
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'cutline'">
+                    <div style="height:10px;"> </div>
+                    <el-alert  :title="item.label" type="info" center :closable="false" >
+                    </el-alert>
+                </div> 
+                
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'button_disabled'">
+                    <el-row>
+                        <el-button  type="warning" :disabled="openIsDisabled" style="float:left;margin-left:300px; margin-top:10px;">{{item.label}}</el-button>
+                    </el-row>
+                </div>
+
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'select'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
@@ -64,49 +103,67 @@
                 </div>
 
 
-                <!-- 选择操作单位 全厂 整栋 整栏 羊只-->
-                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectStyle'" class="time el-input-group select">
-                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
-                        :disabled="disableAll"
-                        size="small"
-                        v-model="models[item.model]"
-                        :fetch-suggestions="operateStyle"
-                        @select="judgeDisable(item.model)">
-                    </el-autocomplete>
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'illnessSearch'" class="time el-input-group select">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
+                        <el-checkbox-group v-model="illlist">
+                        <el-checkbox v-for="city in illness" :label="city" :key="city" @change="checkill(item.model)">{{city}}</el-checkbox>
+                        </el-checkbox-group>
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择分析所得诊断结果" @focus="getIll()"   style="width: calc(100% - 140px)">{{illness}}</el-input>
+
+                    </el-popover>
                 </div>
+
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEarTag'  " class="time el-input-group select">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
+                        <!-- <el-checkbox-group v-model="illlist">
+                        <el-checkbox v-for="city in illness" :label="city" :key="city" @change="checkEarTag(item.model)">{{city}}</el-checkbox>
+                        </el-checkbox-group> -->
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择耳牌号" @blur="getEarNumber()"   style="width: calc(100% - 140px)">{{illness}}</el-input>
+
+                    </el-popover>
+                </div>
+                
+
+                <!-- <div >
+                   <el-button  style="margin-left:20px; height:32px;" type="primary" icon="el-icon-search" @click="Function1">{{item.label}}</el-button> 
+                </div> -->
+
+                
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect" :disabled="select.eartag">
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
                         <el-checkbox-group v-model="ilist">
                         <el-checkbox v-for="city in immtag" :label="city" :key="city" @change="checkimmtag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" style="width: calc(100% - 140px)" :disabled="select.eartag"></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" placeholder="请选择" @focus="getimmTag()" style="width: calc(100% - 140px)"></el-input>
                     </el-popover>
                 </div>
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectImmunetag'" class="time el-input-group select">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect" :disabled="select.immunetag">
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="check-select"  ref="tradeSelect">
                         <el-checkbox-group v-model="elist">
                         <el-checkbox v-for="city in eartag" :label="city" :key="city" @change="checkeartag(item.model)">{{city}}</el-checkbox>
                         </el-checkbox-group>
-                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" @focus="getEarTag()" :disabled="select.immunetag"></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" @focus="getEarTag()" ></el-input>
                     </el-popover>
                 </div>
 
 
+
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectCrowd'" class="time el-input-group select">
-                   <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
-                   <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect" @hide ="propHide" :disabled="select.building">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                   <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect" @hide ="propHide">
                         <el-radio-group v-model="checkList">
-                            <el-radio v-for="(d, index) in crowdD" :label="d" :key="index" @change="getls(d,item.model)">{{d}}栋</el-radio>
+                            <el-radio v-for="(d, index) in crowdD" :label="d" :key="index" @change="getls(d)">{{d}}栋</el-radio>
                         </el-radio-group>
-                        <!-- :v-if="tradeDList && select.col" -->
-                        <el-radio-group v-model="checkColList" :disabled="select.col" >
+                        <el-radio-group v-model="checkColList" :v-if="tradeDList">
                             <el-radio v-for="(d, index) in crowdL" :label="d" :key="index"  @change="getlc(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" :disabled="select.crowd"></el-input>
+                        <el-input slot="reference" v-model="models[item.model]" style="width: calc(100% - 140px)" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
 
@@ -121,9 +178,13 @@
                         <el-radio-group v-model="checkColListOne" :v-if="tradeDListOne">
                             <el-radio v-for="(d, index) in crowdOneL" :label="d" :key="index"  @change="getlcOne(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" style="width: 295px " v-model="models[item.model]" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" style="width: 66%" v-model="models[item.model]" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
+
+                
+
+
 
 
 
@@ -198,8 +259,8 @@
 </template>
 <script>
 import pcaa from 'area-data/pcaa'
-import { getAgents, getUserById, getSheepBuilding, getSheepCol ,getSheepimmTag,getSheepEarTag } from '@/util/getdata'
-import { isReqSuccessful } from '@/util/jskit'
+import { getAgents, getUserById, getSheepBuilding, getSheepCol ,getSheepimmTag,getSheepEarTag ,getIllness} from '@/util/getdata'
+import { isReqSuccessful} from '@/util/jskit'
 
 export default {
     props: {
@@ -231,16 +292,13 @@ export default {
             type: Boolean,
             default: false
         },
-        //判断是否为个人信息修改部分，如果是就不需要请栏栋信息
-        isInfomChange: {
-            type: Boolean,
-            default: false
+        getData: {
+            type: Function
         },
-        //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
-        isProduce: {
-            type: Boolean,
-            default: true
+        Function1:{
+            type: Function
         }
+
     },
 
     data () {
@@ -260,6 +318,7 @@ export default {
             crowdOneD:[],
             checkOneList: '',
             user:null,
+            tradeDList:false,
             tradeDListOne:false,
             crowdD: [],
             crowdL:[],
@@ -268,19 +327,16 @@ export default {
             eartagList: [],
             eartag: [],
             immtag: [],
+            illness:[],
+            earNumbers:[],
             earlist:"",
             elist:[],
             ilist:[],
+            illlist:[],
             immlist:"",
             tradeEarTag:false,
             tradeDListThree:false,
-            select:{
-                eartag: false,
-                immunetag: false,
-                crowd: false,
-                col: false,
-                building: false
-            }
+            result:null
         }
     },
 
@@ -288,6 +344,17 @@ export default {
         // crowdD() {
         //     return this.crowd.map( ele => ele.ds )
         // }
+    },
+    watch: {
+        '$route' (newV, oldV) {
+            // from edit to post
+            if (oldV.query.edit && !newV.query.edit) {
+                this.edit = false
+            }
+            this.check = newV.query.check
+            this.supervise = newV.query.supervise
+            this.view = newV.query.view
+        }
     },
 
     mounted () {
@@ -309,8 +376,7 @@ export default {
                 })
             })
         }
-        if(!this.isInfomChange && this.isProduce){
-            let id = this.$route.params.id
+        let id = this.$route.params.id
             getUserById(id).then(res => {
                 if (isReqSuccessful(res)) {
                     this.user = res.data.model
@@ -322,10 +388,11 @@ export default {
                     this.crowdOneD = ds
                 })
             })
-        }
     },
 
     methods:{
+            
+
         getEarTag(){
             this.buildings = []
             let factory = this.user.userFactory
@@ -345,6 +412,39 @@ export default {
                 this.eartag = res.data.models 
             })
         },
+        getIll(){
+            let symptom=this.models.symptom
+            let len
+            this.illness=this.illness.splice(0,this.illness.length)
+            this.models.diagnosisResult=""
+            let data=null
+                
+            if(this.models.symptom==null){
+                len=0
+            }else{
+                len=this.models.symptom.length
+            }
+            if(typeof this.models.symptom=='string'&&len!=0)
+            {
+                data={symptom}
+                getIllness(data).then(res =>{
+                this.illness = res.data.List
+            })
+            }else{
+                this.illness=['布病',
+                             '小反刍',
+                             '口蹄疫',
+                             '三联四防',
+                             '传胸',
+                             '山羊痘',
+                                ]
+            }   
+            
+        },
+            getEarNumber(){
+                 this.models.affNumber='F'+this.models.EarTag;
+                 this.models.carNumber='D'+this.models.EarTag; 
+              },
         getimmTag(){
             this.buildings=[]
             let factory = this.user.userFactory
@@ -376,29 +476,21 @@ export default {
             this.checktag = null
             this.crowdtag = null
         },
+        checkill(d){
+           this.models[d] = this.illlist.join(";") 
+        },
         checkeartag(d){
             this.models[d] = this.elist.join(";")
         },
         checkimmtag(d){
             this.models[d] = this.ilist.join(",")
         },
-        getls (d, item) {
-            this.checkColList = null
-            if(this.select.col){
-                let res = this.checkList + "栋;"
-                if(this.models[item] == null){
-                    this.models[item] = res
-                    this.selectD = res
-                }else{
-                    this.models[item] = this.models[item] + res
-                    this.selectD = this.selectD + res
-                }
-            }else{
-                getSheepCol(this.user.userFactory , d ).then(res =>{                     
+        getls (d) {
+             getSheepCol(this.user.userFactory , d ).then(res =>{                     
                     let ls = res.data.data
                     this.crowdL = ls                    
-                })
-            }       
+            })
+            this.tradeDList= true          
         },
         getlc (d) { 
             let res = this.checkColList + "栏/" + this.checkList + "栋;"
@@ -420,8 +512,6 @@ export default {
         getlcOne (d) { 
             let res = this.checkColListOne + "栏/" + this.checkOneList + "栋"
             this.models[d] = res
-            this.checkColListOne = null
-            this.checkOneList = null
         },
         getlsThree(d){
             getSheepCol(this.user.userFactory , d).then(res =>{                     
@@ -468,41 +558,8 @@ export default {
                 this.count = 4;
             }
             this.count -= 2 ;              
-        },
-
-        operateStyle(q, cb){
-            let style =[
-                {value: '整厂'},
-                {value: '整栋'},
-                {value: '整栏'},
-                {value: "羊只"}
-            ]
-            cb(style)
-        },
-
-        judgeDisable(item){
-            let type = this.models[item]
-            this.select.crowd = true
-            this.select.immunetag = true
-            this.select.eartag = true
-            this.select.building = true
-            if(type == "整栋"){
-                this.select.crowd = false
-                this.select.col = true
-                this.select.building = false
-            }else if(type == "整栏"){
-                this.select.col = false
-                this.select.building = false
-                this.select.crowd = false
-            }else if(type == "羊只"){
-                this.select.col = false
-                this.select.building = false
-                this.select.crowd = false
-                this.select.immunetag = false
-                this.select.eartag = false
-            }
         }
-    }
+    },
 } 
 </script>
 

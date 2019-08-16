@@ -49,6 +49,23 @@
     .select
         >span
             vertical-align bottom !important
+    .time3
+        display inline-block
+        font-size 0 !important
+        .time3-span
+            box-sizing border-box
+            display inline-block
+            height h=32px
+            width 11%
+            line-height h
+            padding-left 20px            
+            vertical-align top
+            font-size 14px
+            border 1px solid color-main
+            background-color color-main
+            color #fff
+            &+.el-input
+                width calc(100% - 141px)
     .time
         display inline-block
         font-size 0 !important
@@ -56,7 +73,7 @@
             box-sizing border-box
             display inline-block
             height h=32px
-            width 140px
+            width 34%
             line-height h
             padding-left 20px            
             vertical-align top
@@ -116,6 +133,22 @@
                     width calc(100% - 251px)
             &.mr
                 margin-right 0
+    
+    .el-input-group2
+            width calc((100% - 17px) / 3)
+            vertical-align bottom
+            margin-top 10px
+            margin-right 12px
+            font-size 14px
+            &.double-width
+                width calc((100% - 41px) / 1.5 + 20px)
+                .time-span
+                    width 250px
+                .el-input
+                    width calc(100% - 245px)
+            &.mr
+                margin-right 0
+               
 
     .input-text,
     .input-select

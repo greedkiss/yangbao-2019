@@ -23,12 +23,12 @@
         <el-input-number v-model="pressureTips" controls-position="right" :min=1 size="small"></el-input-number> 条记录未审核
         <el-input-number v-model="expireTime" controls-position="right" :min=1 size="small"></el-input-number>  天内不再发送
       </div>
-      <div class="card">
+      <!-- <div class="card"> -->
         <!-- <p class="card-title">短信内容模板</p> -->
-        <el-input v-model="template" type="textarea" placeholder="请输入短信内容模板"></el-input>
-      </div>
+        <!-- <el-input v-model="template" type="textarea" placeholder="请输入短信内容模板"></el-input>
+      </div> -->
       <div class="admin-send">
-        <el-button type="primary" @click="postWarningInfo">提交信息</el-button>
+        <el-button type="primary" @click="postWarningInfo">设置</el-button>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@ export default {
       message: '',
       pressureTips: 1,
       expireTime: 1,
-      template: ''
+      template: '1'
     }
   },
   methods: {
@@ -65,15 +65,14 @@ export default {
       }
 
       postMessage({
-        mobile: this.mobile,
-        message: this.message
+        isGroupMessage: 1,
+        telephone: this.mobile,
+        content: this.message
       }).then(res => {
-        if (isReqSuccessful(res)) {
           this.$message({
               type: 'success',
               message: '短信发送成功'
           })
-        }
       }).catch(() => {
         this.$message.error('短信发送失败')
       })
@@ -81,9 +80,9 @@ export default {
     // 提交信息
     postWarningInfo () {
       postWarningInfo({
-        expireTime: this.expireTime,
-        pressureTips: this.pressureTips,
-        message: this.template
+        dayLimit: this.expireTime,
+        messageLimit: this.pressureTips,
+        msgTemplate: this.template
       }).then(res => {
         if (isReqSuccessful(res)) {
           this.$message({

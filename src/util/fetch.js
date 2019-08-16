@@ -5,16 +5,21 @@ import Vue from 'vue'
 import md5 from 'md5'
 
 export const wsUrl = 'ws://120.79.79.43:9010/websocket'
+
 // const baseUrl = 'http://180.76.180.95:9010'
-// const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
+const baseUrl = 'http://39.108.154.79:9010'//测试 服务器
 // const baseUrl = 'http://192.168.1.107:9020'//akun
+export const vedioUrl = 'http://qiniu.yunyangbao.cn/'
 // const baseUrl = 'http://192.168.1.102:9020'//bobo
-// const baseUrl = 'http://192.168.1.110:9010'//测试
-const baseUrl = 'http://120.79.79.43:9010' // 生产服务器
+//const baseUrl = 'http://120.79.79.43:9010' //生产服务器
 // export const wsUrl = 'ws://192.168.1.107:9030/websocket'
 // const baseUrl = 'http://218.199.68.33:9010' // 啊风
-//const baseUrl = 'http://192.168.1.108:9010' // 老猪
+// const baseUrl = 'http://192.168.1.108:9010' // 老猪
 // const baseUrl = 'http://192.168.1.102:9010' // 文嫖
+//const baseUrl = 'http://192.168.1.105:9010' //波波
+//const baseUrl = 'http://192.168.1.103:9020' //文华
+//const baseUrl = 'http://192.168.1.106:9021' //akunnew
+//const baseUrl = 'http://192.168.1.110:9010' //殷超
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
 let app = new Vue()

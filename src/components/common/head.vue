@@ -70,6 +70,8 @@ export default {
 .app-header
   overflow hidden
   width 100%
+  position fixed
+  top 0px
   .container_top
       height 10%
       background rgba(0,71,125,0.2)

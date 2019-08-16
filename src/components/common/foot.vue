@@ -12,21 +12,22 @@
 </script>
 <style lang="stylus">
 	.foot
-		height 10%
 		background rgba(0,71,125,0.2)
 		text-align center
 		padding-top 13px
 		// padding-bottom 20px
+		overflow hidden
 		width 100%
-		position absolute
+		position fixed
 		bottom 0px
 		.foot_mess
 			white-space nowrap
 			overflow hidden
+			width 100%
 			font-size 14px
 			margin 0
 		    // height h=50px
-		    line-height 30px
+		    line-height 30px; 
 		    text-align center
 		    color #C9C9C9
 </style>

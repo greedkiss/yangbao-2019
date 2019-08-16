@@ -35,6 +35,8 @@ export const getGeneaRec = id => fetch(`/gf/find/${id}`)
 
 export const deleteGeneaRec = id => fetch('/gf/' + id, null, 'DELETE')
 
+export const getSheepStyle = () => fetch('/var/getAll')
+
 // 获取羊的种类
 export const getSheepTypes = id => fetch('/gf/types')
 
@@ -106,6 +108,18 @@ export const getBreeding = (id, data) => fetch(`/breeding/find/${id}`, data)
 export const findNutrition = data => fetch(`/breeding/findN`, data, 'POST')
 
 export const deleteBreeding = id => fetch(`/breeding/${id}`, null, 'DELETE')
+/**
+ * 育种选育
+ */
+export const postSele = data => fetch('/selection', data, 'POST')
+
+export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'PATCH')
+
+export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
+
+export const getSele= (id, data) => fetch(`/selection/find/${id}`, data)
+
+export const deleteSele = id => fetch(`/selection/${id}`, null, 'DELETE')
 
 /**
  * 消毒RD
@@ -181,6 +195,11 @@ export const getAllPrevention = (id, data) => fetch('/diagnosis/' + id, data)
 export const getPrevention = id => fetch('/diagnosis/find/' + id)
 
 export const deletePrevention = id => fetch(`/diagnosis/${id}`, null, 'DELETE')
+
+export const getIllness= data => fetch(`/disease/prediction`, data)
+
+export const geteveryDay= (id, data) => fetch(`/disease/getDailyStatistics/${id}`, data)
+
 
 /**
  * 用户管理
@@ -264,6 +283,13 @@ export const deleteSlaughter = id => fetch(`/customer/delete/${id}`, null, 'DELE
 
 export const updateSlaughter = ( data) => fetch(`/customer/update`, data, 'POST')
 
+export const postSlaughter = ( data) => fetch(`/slaughter/`, data, 'POST')
+
+export const getSegmentSheep = (id, data) => fetch('/slaughter/d/' + id, data,'GET')
+
+export const getStockManageNum = id => fetch('/d/order/number/' + id)
+
+
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
 
@@ -274,6 +300,12 @@ export const deleteConsumer = id => fetch(`/customer/delete/${id}`, null, 'DELET
 export const getConsumerById = id => fetch(`/customer/getOne/${id}`)
 
 export const updateConsumer = ( data) => fetch(`/customer/update`, data, 'POST')
+
+export const getoutWareManageNum = id => fetch('/d/out/number/' + id)
+
+export const getoutWareManageDetailed = (data) => fetch('/d/out', data,'POST')
+
+
 
 
 /**
@@ -317,12 +349,15 @@ export const mergeRole = (first, second, data) => fetch('/role/merge/'+ first + 
 
 export const getRoleName = () => fetch('/role/name/get', 'GET')
 
+//疾病预警
+export const getDanger= (id, data) => fetch(`/disease/getDangerDiseases/${id}`, data)
+
 /**
  * 短信平台
  */
-export const postMessage = data => fetch('/psend', data, 'GET')
+export const postMessage = data => fetch('/msg/send_group', data, 'POST')
 
-export const postWarningInfo = data => fetch('/gedit', data, 'GET')
+export const postWarningInfo = data => fetch('/msg/setconfig', data, 'POST')
 
 /**
  * 专家课堂视频发布
@@ -402,7 +437,7 @@ export const moveSheep = (id, data) => fetch('/bc/changeBC/' + id, data, 'POST')
 
 export const moveSheepAll = data => fetch('/bc/changeBC/w', data, 'POST')
 
-export const getSaleFac = (id) => fetch('/factory/in/' + id, 'GET')
+export const getSaleFac = (data) => fetch('/customer/slaughter/',data, 'POST')
 
 export const makeSaleFac = (data) => fetch('/ds/ds', data,'POST')
 
@@ -420,8 +455,24 @@ export const moveSheepPart = data => fetch('/bc/changeBC/ids', data , 'POST')
 
 export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
-export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
 
+
+export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
+
+export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
+
+//商品羊销售管理
+export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
+export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
+export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
+export const submitSureSaleSheep= (data) => fetch('/saleOrder/add/confirm', data, 'POST')
+
+export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
+export const watchVideo = (data) => fetch('/s/u' ,data ,  'POST')
+
+export const getAllOrder= (id, data) => fetch('/saleOrder/factoryOrder/' + id, data,'GET')
+export const sureSaleOrder= (id, data) => fetch('/saleOrder/confirmedOrder/' + id, data,'GET')
+export const deleteOrder = (id) => fetch('/saleOrder/deleteOrder/' + id , null , 'DELETE')
 //卫生疫控
 
 
@@ -450,13 +501,47 @@ export const getFiveDetail = id => fetch('/nim/' + id + '/145' , 'GET')
 
 export const getDouble = (id , stage , type) => fetch('/nim/' + id + '/s/' + stage + '/' + type, 'GET')
 
-//认证证书
-export const getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
-
 //屠宰加工管理平台
 export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 'GET')
 
 export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
+
+//认购管理
+export const getCorrelationData = (id,data) => fetch(`/slaughter/`+ id , data, 'GET')
+
+export const getpicsOfFactory = (id,data) => fetch(`/QaPic/`+id, data, 'GET')
+
+export const getpicsByEarTagOrQaTag = (data) => fetch(`/QaPic/QueryQaPic/`, data, 'GET')
+
+//屠宰前管理
+
+export const getManageData = (data) => fetch(`/slaughter/s`, data, 'POST')
+
+export const getManageEdit = (data) => fetch(`/slaughter/m`, data, 'POST')
+
+//库存管理
+
+export const getstockData = (id,data) => fetch(`/d/order/`+id, data, 'GET')
+
+export const gettotalData = (id) => fetch(`/d/order/number/`+id,'GET')
+
+export const getFac = (data) => fetch(`/customer/customer`,data,'POST')
+
+export const orderCreate = (data) => fetch(`/d/order/add`,data,'POST')
+
+
+//订单管理
+
+export const getOrderData = (data) => fetch(`/d/order`,data,'POST')
+
+export const deleteOrderData = (id) => fetch(`/d/order/cancel/`+id,'GET')
+
+export const confirmOrderData = (id) => fetch(`/d/order/confirm/`+id,'GET')
+
+//车辆管理
+export const getCarData = (id,data) => fetch(`/vehicle/`+id, data, 'GET')
+
+export const deleteCarinfo = (id,data) => fetch(`/vehicle/delete/`+id, data, 'GET')
 
 //寻找有机
 export const getCustomerByAddress = ( data ) => fetch('/customer/getCustomerByAddress', data , 'POST')
@@ -466,6 +551,14 @@ export const getFactoryInformation = ( id ) => fetch('/factory/getFactoryFullInf
 export const getCustomerInformation = ( id ) => fetch('/customer/getFullCustomerInformation/' + id , 'GET')
 
 export const getPlace = (data) => fetch('/customer/cors', data, 'POST')
+
+export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
+
+export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
+
+export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
+
+export const countSheep = (id) => fetch('/factory/sheepCount?id=' + id)
 
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
@@ -477,11 +570,16 @@ export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
-
-export const  getRating= (tag) => fetch(`/re/star`,{earTag:tag});
+   
+//认证证书
+export const  getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 
 export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST');
 
 export const  getSheepVideo= (type, tag) => fetch(`/sheepVideo/${type}/${tag}`)
 
 export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag}`)
+
+//查询几条记录待审核
+
+export const getUsermsg = (tel) => fetch('/msg/msgcount/' + tel, 'GET')

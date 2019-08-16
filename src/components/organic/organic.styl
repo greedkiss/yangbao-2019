@@ -49,6 +49,7 @@
 					vertical-align middle
 				.area_select
 					display inline-block
+			
 			.o_check
 				font-size 14px
 				margin-top 20px
@@ -250,21 +251,51 @@
 					.containerHead
 						float left
 						width 60%
-						height 94px 
+						height 56px
 						background rgba(255,255,255,0.01)
-						p
-							font-size 16px
-							text-align left
-							padding-left 20px
+						// .total_num
+						// 	padding-top 5px
+						// 	width 100%
+						// 	float left
+						// 	color #f29512
+						// 	//border-bottom 1px dotted #f29512
+						// 	text-align left
+						// 	font-size 14px
+						.chargeTitle
+							padding-top 5px
+							height 25px
+							font-size 12px
+							background rgba(44,154,239,0.1)
+							.chargeman
+								float left
+								width 44%
+							.chargephone
+								float left
+								width 50%
+						.choseStyleOne,.choseStyleTwo
+							float left
+							border 0.5px solid #7fcdf4
+							width 49.5%
+							height 25px
+							text-align center
+							line-height 25px
+							cursor pointer
+						.choseStyleOne
+							background-color #7fcdf4
+							color black
 					.o_container
 						overflow auto
 						float left
 						width 60%
-						height calc(100%- 94px)
+						height calc(100%- 56px)
 						background rgba(255,255,255,0.01)
 						text-align left
+						overflow: -moz-hidden-unscrollable;
+						-ms-overflow-style: none//IE 10+滚动条
+						overflow: -moz-scrollbars-none//firefox
+					.o_company::-webkit-scrollbar { display: none }::-webkit-scrollbar { display: none }
 					.o_aside
-						overflow-x scroll
+						//overflow-x scroll
 						white-space nowrap
 						overflow auto
 						float left
@@ -277,9 +308,13 @@
 							height 20px
 							line-height 20px
 							background-color #021e86
+							overflow: -moz-hidden-unscrollable;
+							-ms-overflow-style: none//IE 10+滚动条
+							overflow: -moz-scrollbars-none//firefox
 						.o_company:hover
 							background-color #00b8ee
-							color #00459e	
+							color #00459e
+						.o_company::-webkit-scrollbar { display: none }
 	.o_foot
 		height 40px
 		background rgba(0,0,0,0)
