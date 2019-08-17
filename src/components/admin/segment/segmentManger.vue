@@ -815,6 +815,7 @@ export default {
           let num=str.substr(str.length-1,1) //第一个参数代表起始位置，第二个代表截取长度
           Form.domains.push({
           num:str2+(Number(num)+1),
+          file:null,
           key: Date.now()
         });
       },
@@ -895,6 +896,102 @@ export default {
                 form.append('divisions[1].number',this.twocut2.num)
                 form.append('divisions[1].weight',this.twocut2.weight)
                 form.append('divisions[1].video',this.twocut2.file)
+              }
+            if(this.radio==2){
+                form.append('divisionTime', this.carcass.time)
+                form.append('trademarkEarTag', this.carcass.earTag)
+                form.append('kidNumber', this.carcass.carNumber)
+                form.append('factoryId', this.user.userFactory)
+                form.append('operatorType', this.radio)
+                let i=0;
+                this.qiantuiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${index}].number`, item.num);
+                    form.append(`divisions[${index}].weight`, item.weight);
+                    form.append(`divisions[${index}].video`, item.file);
+                    i++;
+                        }
+                })
+                this.houtuiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.huangguaForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.yaojiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                        }
+                })
+                this.datuiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.yangleiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.furouForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.jianjiaForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.yangqianForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.waijiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    }
+                })
+                this.lijiForm.domains.forEach(function(item,index){
+                    if(item.file!==null){
+                    form.append(`divisions[${i}].number`, item.num);
+                    form.append(`divisions[${i}].weight`, item.weight);
+                    form.append(`divisions[${i}].video`, item.file);
+                    i++;
+                    } 
+                })
               }
 
               console.log(form)

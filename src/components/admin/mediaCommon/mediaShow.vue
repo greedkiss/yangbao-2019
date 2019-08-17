@@ -25,7 +25,7 @@
             </el-row>
             <div v-if="isBreed">
                 <el-row style="margin-top: 20px">
-                <div class="time el-input-group select" style="width: 250px; margin-right: 0px">
+                <div v-if="!isSale" class="time el-input-group select" style="width: 250px; margin-right: 0px">
                         <span class="time-span ellipse"  v-text="'栋号：'" style="width: 80px"></span><el-autocomplete
                             :disabled="disableAll"
                             size="small"
@@ -34,7 +34,7 @@
                             @select="selectBuilding">
                         </el-autocomplete>
                 </div>
-                <div class="time el-input-group select" style="width: 250px ; margin-right: 0px">
+                <div v-if="!isSale" class="time el-input-group select" style="width: 250px ; margin-right: 0px">
                         <span class="time-span ellipse"  v-text="'栏号：'" style="width: 80px"></span><el-autocomplete
                             :disabled="disableAll"
                             size="small"
@@ -57,8 +57,8 @@
             </div>
             <el-row style="margin-top: 20px">
             <el-button type="primary" @click="getAll()">搜索</el-button>
-            <el-button @click="getPicture()">图片</el-button>
-            <el-button @click="getVeido()">视频</el-button>
+            <el-button v-if="!isSale" @click="getPicture()">图片</el-button>
+            <el-button v-if="!isSale" @click="getVeido()">视频</el-button>
             </el-row>
         </div>
         <div class="production-view">
@@ -67,7 +67,8 @@
                     <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
                     <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
                     <p class="production-info" v-if="!isDiagnose">商标耳牌：{{ item.brand }}</p>
-                    <p class="production-info">时间：{{ item.time }}</p>
+                    <p v-if="isSale" class="production-info">时间：{{ item.udate }}</p>
+                    <p  v-if="!isSale" class="production-info">时间：{{ item.time }}</p>
                     <el-dialog
                       :visible.sync="productionShow[i]"
                       width="50%"
@@ -97,17 +98,28 @@
         </div>
 
         <el-pagination
+          v-if="!isSale"
           layout="prev, pager, next"
           :total="total"
           :page-size="12"
           :current-page.sync="pageNumb"
           @current-change="changePage">
         </el-pagination>
+
+        <el-pagination
+          v-if="isSale"
+          layout="prev, pager, next"
+          :total="total2"
+          :page-size="12"
+          :current-page.sync="page2"
+          @current-change="getAllSale">
+        </el-pagination>
     </div>
+    
 </template>
 
 <script>
-import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose } from '@/util/getdata'
+import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose,findSaleVideo } from '@/util/getdata'
 import { baseUrl } from '@/util/fetch'
 import { isReqSuccessful , getThumbPicture} from '@/util/jskit'
 import {getUserById , getSheepBuilding , getSheepCol ,getSheepEarTag} from '@/util/getdata'
@@ -118,7 +130,10 @@ export default {
             type: Boolean,
             default: true
         },
-
+        isSale:{
+            type: Boolean,
+            default: false
+        },
         conditions: {
             type: Array
         },
@@ -148,9 +163,10 @@ export default {
                 symptom: diaSearchBySymptom,
                 uploader: diaSearchByUploader
             },
+            disableAll:false,
             // 设置出错图片
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
-            // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"',
+            // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"', 
             condition: 'all',
             time: [],
             keyWords: '',
@@ -158,6 +174,8 @@ export default {
             proList: [],
             pageNumb: 1,
             total: 0,
+            page2:1,
+            total2:10,
             limit: 12,
             model:{
                 building: '',
@@ -178,7 +196,7 @@ export default {
         let id = this.$route.params.id
            getUserById(id).then(res => {
               this.user = res.data.model
-           }).then(this.getProList).then(this.fetchData)
+           }).then(this.fetchData).then(this.getProList)
     },
     methods: {
         fetchData(){
@@ -265,6 +283,9 @@ export default {
             this.pageNumb = 1
             this.getProList()
         },
+        getAllSale(){
+            this.getProList()
+        },
         getPicture(){
             this.pageNumb = 1
             if(this.isBreed)
@@ -283,6 +304,50 @@ export default {
         // 1 只获取视频
         // 2 获取全部（默认值）
         getProList (style = 2) {
+            
+            if(this.isSale){
+                let data={
+                    factory:this.user.userFactory,
+                    page:(this.page2-1)*10,
+                    size:10,
+                    earTag:this.model.earTag
+                }
+            findSaleVideo(data).then(res => {
+                    if(res.meta.code==0) {
+                        if(res.data.result==[]) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.total = 0
+                            return
+                        }
+                        this.proList=[];
+                        let arr = [];
+                        let i=0;
+                        res.data.result.forEach((item) => {
+                            i++;
+                            let v={
+                                url:item.address,
+                                brand:item.brand,
+                                udate:item.udate,
+                                urlSpecific:item.address,
+                                filetype:item.filetype
+                            }
+                            if(item.filetype == 1 || item.filetype == 6){
+                                v.url = getThumbPicture(item.filename)
+                            }
+                            this.proList.push(v)
+                        })
+                        this.total2 = i
+                        console.log(this.total2)
+                        this.productionShow = new Array(arr.length).fill(false);
+                        return
+                    }else{
+                    this.$message.error('查询失败')
+                    }
+                })
+
+                return
+            }
             this.isImg = style
             if(this.isBreed == false && this.isImg == 2){
                 this.isImg = 3

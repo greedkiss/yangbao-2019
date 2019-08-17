@@ -739,22 +739,20 @@ export default {
 			}	
 		},
 		getVideo (er) {
-								let videoMessage={}
-                watchVideo(er).then(res => {
+								let earTag=er
+								let data={
+										earTag
+								}
+                watchVideo(data).then(res => {
                     if(isReqSuccessful(res)) {
-												let arr = []
-												let obj={}
-														videoMessage.url=res.address
-														videoMessage.time=res.udate
-														videoMessage.filetype=res.filetype             
+														this.sheepVideo.erNumber=er;
+														this.sheepVideo.url=res.data.result.address;
+														this.sheepVideo.time=res.data.result.udate;
+														this.sheepVideo.filetype=res.data.result.filetype ;
                     }
                 }).catch(_ => {
                     this.$message.error('获取失败');
 								})
-								this.sheepVideo.erNumber=er
-								this.sheepVideo.url=videoMessage.url
-								this.sheepVideo.time=videoMessage.time
-								this.sheepVideo.filetype=videoMessage.filetype
         },
 		
 		provinceChoose(item){

@@ -167,7 +167,7 @@
                 <el-table-column
                     label="产品份数"
                     width="120"
-                    prop="productCopies">
+                    prop="counts">
                 </el-table-column>
 
             </el-table>
@@ -220,27 +220,29 @@
             highlight-current-row
             style="width: 100%;margin-top:20px;"
             :border="true"
+            @cell-click="watchMakeUpVideo"
             >
-                <el-table-column
-                    type="index">
+                <el-table-column v-show="false"
+                    label="#"
+                    width="120"  
+                    prop="id">
                 </el-table-column>
 
                 <el-table-column
                     label="成品编号"
-                    width="180"
-                    prop="madeupNumber">
+                    width="220"
+                    prop="partNumber">
                 </el-table-column>
 
                 <el-table-column
                     label="时间"
                     width="180"
-                    prop="madeupTime">
+                    prop="outBoundTime">
                 </el-table-column>
                 
                 <el-table-column
-                    label="产品视频"
+                    label="成品视频"
                     width="120"
-                    prop="madeupVideo"
                     center>
                     <el-button type="text">查看</el-button>
                 </el-table-column>
@@ -261,7 +263,7 @@
             </el-table>
       
                 <div class="block" style="margin-left: 46px">
-                        <el-pagination layout="prev, pager, next" :total="total2" :page-size="1"  @current-change="getDetailed"  :current-page.sync="page2">
+                        <el-pagination layout="prev, pager, next" :total="total2" :page-size="1" :current-page.sync="page2">
                         </el-pagination>
                 </div>
                 </div>
@@ -280,7 +282,25 @@
                     </div>
                     <div class="show-list">
                             <ul>
-                                    <li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
+                                    <li><el-tag>产品编号</el-tag> {{ sheepVideo.erNumber }}</li>
+                            </ul>
+                    </div>
+            </el-dialog>
+
+            <el-dialog
+            title="成品视频"
+            :visible.sync="dialogMakeUpVideoVisible"
+            width="50%"
+                center>
+
+                    <!-- FIXME: video 标签兼容性处理 -->
+                    <div class="show-detail">
+                            <video v-if="makeUpVideoWatch.filetype === 1 || makeUpVideoWatch.filetype === 6" :src="makeUpVideoWatch.url" class="production-video" controls="controls" height="400" width="400"></video>
+                            <img v-else class="production-image-detail" :src="makeUpVideoWatch.url" :onerror="defaultImg">
+                    </div>
+                    <div class="show-list">
+                            <ul>
+                                    <li><el-tag>成品编号</el-tag> {{ makeUpVideoWatch.Number }}</li>
                             </ul>
                     </div>
             </el-dialog>
@@ -317,7 +337,7 @@
 <script>
 import { isReqSuccessful} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
-import { getUserById,getoutWareManageNum,getoutWareManageDetailed } from '@/util/getdata'
+import { getUserById,getoutWareManageNum,getoutWareManageDetailed,PostProductNumber,nextPrint,findMakeUpVideo} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 export default {
@@ -328,36 +348,12 @@ export default {
 					this.user = res.data.model
                 let {userFactory} = this.user
             }
-			}).then(this.getNum)
+			}).then(this.getNum).then(this.getDetailed)
    },
     data () {
         return {
-            tableData:[{partNumber:'G123456DE1'},{partNumber:'G456789DF2'}],
-            tableData2:[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''}],
+            tableData:[],
+            tableData2:[],
             numtableData:[],
             sheepVideo:{
 				url:null,
@@ -369,102 +365,130 @@ export default {
                 file:null,
                 fileName:null,
             },
+            makeUpVideoWatch:{
+                url:null,
+				filetype:0,
+				Number:null
+            },
             captures: [{model: null , per : null}],
             madeupVideo:null,
             dialogAddPictureVisible:false,
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
-            total:0,
+            total:10,
             page:1,
-            total2:100,
+            total2:1,
             page2:1,
+            dialogMakeUpVideoVisible:false,
             dialogVideoVisible:false,
             dialogMessage:{
                 number:null,
                 name:null,
                 copies:null,
+                id:null
             },
             dialogFormVisible:false,
             user:{},
             codeNumber:null,
-            hasCopies:false,
+            hasCopies:true,
         }
     },
     methods: {
-        //份数
+        //份数and查看
         changeCopies(row,column,cell){
             if(column.label=='产品份数'){
-                this.dialogMessage.number=row.partNumber
-                this.dialogMessage.name=row.productName
-                this.dialogMessage.copies=row.productCopies
-                this.dialogFormVisible=true
+                if(row.counts>0){
+                    return 
+                }else{
+                    this.dialogMessage.number=row.partNumber
+                    this.dialogMessage.name=row.productName
+                    this.dialogMessage.copies=row.counts
+                    this.dialogMessage.id=row.id
+                    this.dialogFormVisible=true
+                }
             }
             if(column.label=="产品视频"){
+                
+                let url='';
+                this.sheepVideo.filetype=0
+                this.sheepVideo.url=''
 				this.dialogVideoVisible=true;
-				this.videoEr=row.tradeMarkEartag;
-
                 this.sheepVideo.erNumber=row.partNumber
                 this.tableData.some(function(item,index){
                 if(item.partNumber==row.partNumber){
-                    this.sheepVideo.url=item.video
+                    url=item.video
                     return
                 }
             })
-                
-                this.sheepVideo.filetype=videoMessage.filetype
+                this.sheepVideo.url=url
 			}	
             
             
         },
         //份数确认
         sureCopies(){
-            this.tableData2=[{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''},{madeupNumber:''},{madeupNumber:''},
-            {madeupNumber:''},{madeupNumber:''}];
-            this.dialogFormVisible = false
-            let number=this.dialogMessage.number
-            let copies=this.dialogMessage.copies
-            this.tableData.some(function(item,index){
-                if(item.partNumber==number){
-                    item.productCopies=copies
-                    return
+            this.tableData2=[];
+            let param = {   
+                            customerId:this.user.userFactory,
+                		    divisionId:this.dialogMessage.id,
+                            partNumber:this.dialogMessage.number,
+                            productName:this.dialogMessage.name,
+                            number:parseInt(this.dialogMessage.copies),
+                           } 
+            PostProductNumber(param).then(res => {
+                if (isReqSuccessful(res)) {
+                    this.tableData.some(function(item,index){
+                            if(item.partNumber==param.partNumber){
+                                console.log(111)
+                                item.counts=parseInt(param.number)
+                                return
+                            }
+                        })
+                    let data = res.data.List
+               		   	this.tableData2.push(data)
+                    this.$message.success('分块成功')
+                }else{
+                    this.$message.error('获取数据失败')
                 }
             })
-            let i=0
-            let now=new Date();
-            let time=now.toLocaleDateString()+' '+now.toTimeString().slice(0,8)
-            //console.log(this.tableData2[0].madeupNumber)
-            for(i=0;i<copies;i++){
-                this.tableData2[i].madeupNumber=String(number)+i
-                this.tableData2[i].madeupTime=time.substr()
-            }
+            this.dialogFormVisible = false
             this.hasCopies=true
             
         },
+        watchMakeUpVideo(row,column){
+            if(column.label=="成品视频"){
+                let url='';
+                this.makeUpVideoWatch.url=''
+				this.dialogMakeUpVideoVisible=true;
+                this.makeUpVideoWatch.Number=row.partNumber
+                let id = row.id
+                findMakeUpVideo(id).then(res => {
+                    if(res.meta.code==0) {
+                            let data=res.data.List;
+                            console.log(data)
+                            this.makeUpVideoWatch.url=data.video;
+                            this.makeUpVideoWatch.filetype=data.fileType
+                    }else{
+                    this.$message.error('查询失败')
+                    }
+                })
+			}	
+        },
         async cellClick(row){
-			this.codeNumber=row.madeupNumber;
-
+            this.tableData2=[];
+            this.codeNumber=row.partNumber;
+            let id = row.id
+                nextPrint(id).then(res => {
+                if (isReqSuccessful(res)) {
+                    let data = res.data.List
+                    if(data===null){
+                        this.$message.warning('已打印完毕，请分割其他产品！')
+                        return
+                    }
+               		   	this.tableData2.push(data)
+                }else{
+                    this.$message.error('获取数据失败')
+                }
+            })
 			document.getElementById("qrcode1").innerHTML = "";
 
 			//异步，等待结果
@@ -559,27 +583,26 @@ export default {
         },
         getDetailed(){
             let param = {
-                			page: (this.page - 1)*10,
-               				size: 10,
-               				fatory: this.user.userFactory
+                        page: (this.page - 1)*10,
+                        size: 10,
+                        factory: this.user.userFactory
            				} 
             getoutWareManageDetailed(param).then(res => {
                 if (isReqSuccessful(res)) {
                		 this.total = Math.ceil(res.data.number/param.size)*10
-               		 let data = res.data.all
+               		 let data = res.data.List
                		 data.forEach((v) => {
                		   	this.tableData.push(v)
                		 })
+                }else{
+                    this.$message.error('获取数据失败')
                 }
             })
 
         },
         selectFile(item,file){
-            console.log(file)
             item.file = file
             item.fileName=file.name
-            console.log(item.file);
-            console.log(item.fileName)
         },
         //添加视频
       	addPicture(row){
@@ -588,32 +611,28 @@ export default {
                 number:null,
                 file:null,
                 fileName:null,
+                id:null
             },
-        this.addPic.number=row.madeupNumber
+        this.addPic.number=row.partNumber
+        this.addPic.id=row.id
         this.dialogAddPictureVisible=true
 		},
 
         postPicture(){
-            let form=new FormData()
-                form.append('factoryId', this.user.userFactory)
-                form.append('divisions[0].number', this.addPic.number)
-                form.append('divisions[0].video', this.addPic.file)
-                let headers = {}
+            let form=new FormData();
+                form.append('id', this.addPic.id);
+                form.append('video', this.addPic.file);
+                let headers = {};
+                this.dialogAddPictureVisible=false;
               headers[authStr] = window.localStorage.getItem(tokenStr)
-              window.fetch(baseUrl + '/division', {
+              window.fetch(baseUrl + '/d/out/video', {
                   method: 'POST',
                   headers,
                   body: form
               }).then(async res => {
                   let body = await res.json()
                     if (isReqSuccessful(body)) {
-                        this.captures2.forEach((item ,index) => {
-                            this.captures2[index].per = 100
                             this.$message.success('上传成功')
-                        // let path = `/admin/${pathid}/slaughterManage/segmentManagerlist`
-                        // this.$router.push(path)
-                            this.fetchData()
-                        })
                     }
                     else{
                     this.$message.error('上传失败')

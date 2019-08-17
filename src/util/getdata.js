@@ -305,6 +305,12 @@ export const getoutWareManageNum = id => fetch('/d/out/number/' + id)
 
 export const getoutWareManageDetailed = (data) => fetch('/d/out', data,'POST')
 
+export const PostProductNumber = (data) => fetch('/d/out/division', data,'POST')
+
+export const nextPrint = (id) => fetch('/d/out/print/'+id)
+
+export const findMakeUpVideo = (id) => fetch('/d/out/find/'+id)
+
 
 
 
@@ -322,6 +328,7 @@ export const getAllWelfare = (id, data) => fetch(`/of/${id}`, data)
 export const getWelfare = id => fetch(`/of/find/${id}`)
 
 export const deleteWelfare = id => fetch(`/of/${id}`, null, 'DELETE')
+
 
 /**
  * 角色权限管理
@@ -429,7 +436,7 @@ export const getAllSheep = (id, data) => fetch('/ds/a/' + id, data)
 
 export const makeDeadSheep = (data) => fetch(`/ds/d/d`, data, 'PATCH')
 
-export const getSheepBuilding = (id) => fetch('/bc/b/' + id, 'GET')
+export const getSheepBuilding = (id) => fetch('/bc/b/' + id)
 
 export const getSheepCol = (id, data) => fetch('/bc/b/' + id + '/' + data, 'GET')
 
@@ -437,7 +444,7 @@ export const moveSheep = (id, data) => fetch('/bc/changeBC/' + id, data, 'POST')
 
 export const moveSheepAll = data => fetch('/bc/changeBC/w', data, 'POST')
 
-export const getSaleFac = (data) => fetch('/customer/slaughter/',data, 'POST')
+export const getSaleFac = (data) => fetch('/customer/slaughter',data, 'POST')
 
 export const makeSaleFac = (data) => fetch('/ds/ds', data,'POST')
 
@@ -468,11 +475,15 @@ export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 
 export const submitSureSaleSheep= (data) => fetch('/saleOrder/add/confirm', data, 'POST')
 
 export const updateSheepAllMe = (data) => fetch('/s/u' ,data ,  'POST')
-export const watchVideo = (data) => fetch('/s/u' ,data ,  'POST')
+export const watchVideo = (data) => fetch('/showPicOrVideo',data,'GET')
 
 export const getAllOrder= (id, data) => fetch('/saleOrder/factoryOrder/' + id, data,'GET')
 export const sureSaleOrder= (id, data) => fetch('/saleOrder/confirmedOrder/' + id, data,'GET')
 export const deleteOrder = (id) => fetch('/saleOrder/deleteOrder/' + id , null , 'DELETE')
+export const findSaleVideo = (data) => fetch('/showMedia', data)
+
+
+
 //卫生疫控
 
 
@@ -582,4 +593,4 @@ export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag
 
 //查询几条记录待审核
 
-export const getUsermsg = (tel) => fetch('/msg/msgcount/' + tel, 'GET')
+export const getUsermsg = (tel) => fetch('/msg/msgcount/' + tel)

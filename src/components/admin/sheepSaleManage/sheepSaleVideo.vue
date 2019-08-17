@@ -2,6 +2,7 @@
 	<mediaShow
 		:isDiagnose="false"
 		:conditions="conditions"
+        :isSale="true"
 	>
 	</mediaShow>
 </template>
@@ -11,7 +12,7 @@ import mediaShow from '@/components/admin/mediaCommon/mediaShow'
 export default {
     components: {
         mediaShow
-    },
+    }, 
 
     data () {
         return {
