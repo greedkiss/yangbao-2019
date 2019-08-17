@@ -330,11 +330,6 @@ export default {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
                 let {userFactory} = this.user
-         		getSaleFac(userFactory).then(res =>{
-	         		if (isReqSuccessful(res)) {
-	         	 		this.restaurants3 = res.data.data
-	            	}
-         		})
             }
          }).then(this.fetchData)
 	},
