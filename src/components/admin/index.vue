@@ -226,19 +226,19 @@ export default {
                 label: '屠宰加工管理中心',
                 children: [
                     {label: '单位信息管理', to: 'slaughterunit'},
-                    {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'slaughterMedia'},
-                        {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '认证证书', to: 'slaughterCertification'}
-                    ]},
-                    {label: '在栏羊只管理', to: '',
-                    children:[
-                            {label: '羊只管理', to: 'livestockList'},
-                            {label: '出售管理', to: 'livestockSale'},
-                            {label: '购进管理', to: 'livestockBuy'},
-                            {label: '死亡管理', to: 'livestockDead'}
-                        ]
-                    },
+                    // {label: '可视系统', to: 'visual', children: [
+                    //     {label: '生产可视', to: 'slaughterMedia'},
+                    //     {label: '生产可视一览', to: 'slaughterUnitVisual'},
+                    //     {label: '认证证书', to: 'slaughterCertification'}
+                    // ]},
+                    // {label: '在栏羊只管理', to: '',
+                    // children:[
+                    //         {label: '羊只管理', to: 'livestockList'},
+                    //         {label: '出售管理', to: 'livestockSale'},
+                    //         {label: '购进管理', to: 'livestockBuy'},
+                    //         {label: '死亡管理', to: 'livestockDead'}
+                    //     ]
+                    // },
                     {label: '认购管理', to: '',children:[
                             {label: '关联检疫证', to: 'correlation'},
                             {label: '检疫证书图片', to: 'correlationPicture'},
@@ -267,19 +267,19 @@ export default {
                 label: '消费实体管理中心',
                 children: [
                     {label: '单位信息管理', to: 'consumerunit'},
-                    {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'consumerUnitMedia'},
-                        {label: '生产可视一览', to: 'consumerUnitVisual'},
-                        {label: '认证证书', to: 'consumerCertification'}
-                    ]},
-                    {label: '在栏羊只管理', to: '',
-                        children:[
-                            {label: '羊只管理', to: 'livestockList'},
-                            {label: '出售管理', to: 'livestockSale'},
-                            {label: '购进管理', to: 'livestockBuy'},
-                            {label: '死亡管理', to: 'livestockDead'}
-                        ]
-                    },
+                    // {label: '可视系统', to: 'visual', children: [
+                    //     {label: '生产可视', to: 'consumerUnitMedia'},
+                    //     {label: '生产可视一览', to: 'consumerUnitVisual'},
+                    //     {label: '认证证书', to: 'consumerCertification'}
+                    // ]},
+                    // {label: '在栏羊只管理', to: '',
+                    //     children:[
+                    //         {label: '羊只管理', to: 'livestockList'},
+                    //         {label: '出售管理', to: 'livestockSale'},
+                    //         {label: '购进管理', to: 'livestockBuy'},
+                    //         {label: '死亡管理', to: 'livestockDead'}
+                    //     ]
+                    // },
                     {label: '出库管理', to: 'outWareManage'},
                 ]
             },

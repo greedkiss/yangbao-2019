@@ -1,9 +1,9 @@
 <template>
-<div>
+<div class="biggest_content">
 
-  <el-carousel indicator-position="none" height="753px" :autoplay="isAutoPlay">
+  <el-carousel  indicator-position="none" :height="banner.height+'px'" :autoplay="isAutoPlay">
 <el-carousel-item v-for="item in 3" :key="item">
- <div v-show="item==1" class="search-wrapper" ref='searchWrapper'>
+  <div v-show="item==1" class="search-wrapper" ref='searchWrapper'>
     <div class="header">
       <div class="img-wrapper">
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
@@ -15,11 +15,11 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          <video  id='factoryVideo' ref="video" autoplay='true' :src="videoUrl" controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
-        <div class='mod-wrapper'>
+              <div class='mod-wrapper'>
           <!-- <div class="modLeft"></div>
           <div class="modMiddle"></div>
           <div class="modRight"></div> -->
@@ -163,7 +163,7 @@
               </div>
 
               <div class='diagonal4'  @click="open(modules[0].name,modules[0].id)">
-                 <div class="diagonal-content4">
+                 <div class="diagonal-content1">
                 <div class = 'sleft'>优</div>
                 <div class = 'sright'>
                   <div class="modulesName">{{modules[0].text}}</div>
@@ -179,7 +179,7 @@
         <el-collapse v-model="activeNames" class='leftC'>
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
-              <el-tab-pane label="养殖场" name="first">
+              <el-tab-pane label="屠宰加工厂" name="first">
                   <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
@@ -201,32 +201,6 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    <!-- <div>
-                      <span class="color-gr">屠宰加工场:</span>
-                      <span v-text="sheepInfo.slaughterLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">屠宰时间:</span>
-                      <span v-text="sheepInfo.slaughterTime"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">消费点:</span>
-                      <span v-text="sheepInfo.consumeLocation"></span>
-                    </div>
-                    <div>
-                      <span class="color-gr">到店时间:</span>
-                      <span v-text="sheepInfo.arriveTime"></span>
-                    </div> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="产品简介" class="expand">
-                        <span v-text="item['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
-                    <!-- <el-collapse class="expand-wrapper">
-                      <el-collapse-item title="单位简介" class="expand">
-                        <span v-text="item.company['intro']"></span>
-                      </el-collapse-item>
-                    </el-collapse> -->
                   </div>
               </el-tab-pane>
             </el-tabs>
@@ -239,7 +213,7 @@
           <!--</el-collapse-item>-->
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
             <el-carousel height="150px" indicator-position="none">
-              <el-carousel-item v-for="(item,index) in pics" :key="index">
+              <el-carousel-item v-for="(item,index) in pics" :key="index" >
                 <video :src="item.url" autoplay='false' muted="muted" controls="controls" width='100%' height='100%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
@@ -294,7 +268,7 @@
                 <img src='../assets/imgs/complain.png'/>
               </div>
             </div>
-            <div class="qrcode" ref="qrcode" id="qrcode2"></div>
+            <div class="qrcode" id="qrcode2" ref="qrcode" ><img alt="Scan me!" style="display: block;" id="qrcodeImg" :src="qrcodeimg"></div>
           </el-collapse-item>
           <el-collapse-item title="产品地址" name="2" class='classD'>
             <div class='bmap'></div>
@@ -304,7 +278,6 @@
         <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>国家认证</div>
           <div class='certificate-inner'>
-
           <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
             <div class="cer-picture">
               <img height='100%' v-if='item' :src="item.url"/>
@@ -361,7 +334,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' controls="controls" loop="loop">
+          <video  id='factoryVideo2' ref="video" autoplay='true' :src="videoUrl" controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -680,14 +653,11 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' ref="video" autoplay='true' src=""  controls="controls" loop="loop">
+          <video  id='factoryVideo3' ref="video" autoplay='true' :src="videoUrl"  controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
                 <div class='mod-wrapper'>
-          <!-- <div class="modLeft"></div>
-          <div class="modMiddle"></div>
-          <div class="modRight"></div> -->
           <div class="mod-content">
            <div class="mod-title">
                 <span class="breedTitle">养殖端</span>
@@ -1772,6 +1742,10 @@ export default {
   
     data (){
       return {
+        banner:{
+          height:753,
+          },
+        newBodyHeight:null,
         auPicture:[
           {
             url: require("../../../1.png"), 
@@ -1810,6 +1784,7 @@ export default {
           latitude:'',
         },
         qrcodeimg:null,
+        videoUrl:null,
         //走马灯图片
         pics: [ {
             url: require("../../../video.mp4"),
@@ -1967,8 +1942,7 @@ export default {
             //this.pics.push(re.data.url);
           })
           getFactoryVideo('breeding',this.code).then((re) => {
-            var video = document.getElementById('factoryVideo');
-            video.src=re.data.url;
+            this.videoUrl=re.data.url;
             video.play().then(()=>{
             console.log('可以自动播放');
             }).catch((err)=>{
@@ -1988,11 +1962,17 @@ export default {
     mounted () {
       this.copyQr();
       //this.screenFit();
+      let ch=this.changeHeight;
+      window.onresize = function windowResize () {
+          // 通过捕获系统的onresize事件触发我们需要执行的事件
+        ch();
+      }
     },
     components: {
       BMap,
       RecordTable
     },
+
     methods: {
       watchBigPic(picUrl,picName){
         this.dialogBigPicVisible=true;
@@ -2024,7 +2004,6 @@ export default {
       await this.waitqr();
       this.docStr = document.getElementById("qrcode1").innerHTML;
       document.getElementById("qrcode2").innerHTML = this.docStr;
-      this.docStr = document.getElementById("qrcode2").innerHTML;
       this.qrcodeimg=document.getElementById("qrcode2").children[1].getAttribute("src");
       //获取第一个幻灯片的二维码图片的地址，
       //将这个地址赋给this.qrcodeimg，从而实现第二第三个页面二维码图片的显示
@@ -2137,6 +2116,11 @@ export default {
       },
       close (name) {
         this.$set(this.dialog, name, false)
+      },
+      changeHeight(){
+        let newBodyHeight = document.body.clientHeight;
+        this.$set(this.banner,'height',newBodyHeight)
+        console.log(this.banner.height)
       }
     }
 }
@@ -2145,12 +2129,14 @@ export default {
 <style  lang="stylus">
 @import '../assets/css/color'
   .search-wrapper
-    height 100%
     display flex
     flex-direction column
     background-image url(../assets/imgs/background.jpg)
     background-repeat no-repeat
     background-size cover
+    width 100%
+    height 100%
+    overflow-y auto
     .header
       flex 0 0 100px
       text-align center
@@ -2182,7 +2168,7 @@ export default {
       flex 1
       order 1
       .video-wrapper
-        flex 1
+        flex 1 
         video
           width 100%
           height 100%
@@ -2477,6 +2463,7 @@ export default {
   border-image-slice 30
   border-image-width 2.6
   margin 0px 20px 20px 20px
+  height 385px
 .t-item
   font-size 12px
   >div
