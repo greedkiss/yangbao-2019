@@ -9,7 +9,7 @@
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
-        <span class="name">云·羊宝可视化溯源平台1</span>
+        <span class="name">云·羊宝可视化溯源平台</span>
       </div>
     </div>
     <div class="search-contianer">
@@ -328,7 +328,7 @@
         <img class="header-img" src="../assets/imgs/header-logo2.png" alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
-        <span class="name">云·羊宝可视化溯源平台2</span>
+        <span class="name">云·羊宝可视化溯源平台</span>
       </div>
     </div>
     <div class="search-contianer">
@@ -647,7 +647,7 @@
         <img class="header-img" src="../assets/imgs/header-logo2.png"  alt="云羊宝" height="60px">
       </div>
       <div class="name-wrapper">
-        <span class="name">云·羊宝可视化溯源平台3</span>
+        <span class="name">云·羊宝可视化溯源平台</span>
       </div>
     </div>
     <div class="search-contianer">
