@@ -1743,7 +1743,7 @@ export default {
     data (){
       return {
         banner:{
-          height:753,
+          height:1000,
           },
         newBodyHeight:null,
         auPicture:[
@@ -1917,6 +1917,10 @@ export default {
         docStr:null
       }
     },
+    beforeCreate (){
+      let newBodyHeight = document.body.clientHeight;
+      this.$set(this.banner,'height',newBodyHeight);
+    },
     created (){
       this.code = this.$route.query.code || 'G400457';
       getSheepInfo(this.code).then((re) => {
@@ -1957,7 +1961,9 @@ export default {
               message: '没有该羊信息'
             });
         }
-      })
+      });
+      let newBodyHeight = document.body.clientHeight;
+      this.$set(this.banner,'height',newBodyHeight)
     },
     mounted () {
       this.copyQr();
@@ -2296,10 +2302,10 @@ export default {
     rgba(2,16,61,0.7)0%,
     rgba(2,16,61,0.7)59%,
     rgba(7,25,87,0.7)59%,
-    rgba(7,25,87,0.7)87%,
-    rgba(8,31,107,0.7)87%
+    rgba(7,25,87,0.7)88%,
+    rgba(8,31,107,0.7)88%
     )
-    width:721px
+    width:100%
     height:180px
     margin-top:2px
 
@@ -2520,7 +2526,7 @@ export default {
       top 40%
 .diagonal
   position: relative
-  width:  50px
+  width:  8%
   height: 80px
   background: linear-gradient(
     to top right,
@@ -2531,23 +2537,24 @@ export default {
       rgba(0,160, 234, 0) 100%
   )
 .arrows1
-  position: absolute
-  top: 27px
-  left: 13px
-  transform:rotate(25deg)
-  -ms-transform:rotate(25deg); /* Internet Explorer */
-  -moz-transform:rotate(25deg); /* Firefox */
-  -webkit-transform:rotate(25deg); /* Safari 和 Chrome */
-  -o-transform:rotate(25deg); /* Opera */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin -8px;
+  transform:rotate(20deg)
+  -ms-transform:rotate(20deg); /* Internet Explorer */
+  -moz-transform:rotate(20deg); /* Firefox */
+  -webkit-transform:rotate(20deg); /* Safari 和 Chrome */
+  -o-transform:rotate(20deg); /* Opera */
 .diagonal-content
   position: relative
   right:22px
   bottom: 10px 
-  width:  50px
+  width:  70px
   height: 50px
 .diagonal2
   position: relative
-  width:  50px
+  width:  8%
   height: 80px
   background:linear-gradient(
     to bottom right,
@@ -2558,32 +2565,20 @@ export default {
       rgba(0, 0, 0, 0) 100%
   )
 .arrows2
-  position: absolute
-  top: 30px
-  left: 15px
-  -ms-transform:rotate(-5deg); /* Internet Explorer */
-  -moz-transform:rotate(-5deg); /* Firefox */
-  -webkit-transform:rotate(-5deg); /* Safari 和 Chrome */
-  -o-transform:rotate(-5deg); /* Opera */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin -10px;
+  -ms-transform:rotate(5deg); /* Internet Explorer */
+  -moz-transform:rotate(5deg); /* Firefox */
+  -webkit-transform:rotate(5deg); /* Safari 和 Chrome */
+  -o-transform:rotate(5deg); /* Opera */
 .diagonal-content2
   position: relative
   right:22px
   top:25px
-  width:  50px
+  width:  70px
   height: 50px  
-// .diagonal3
-//   position: relative
-//   margin-top: 35px
-//   width:  70px
-//   height: 20px 
-//   background:linear-gradient(
-//     to bottom right,
-//       rgba(0, 0, 0, 0) 0%,
-//       rgba(0, 0, 0, 0) calc(50% - 1.5px),
-//       rgba(0,160, 234, 1) 50%,
-//       rgba(0, 0, 0, 0) calc(50% + 1.5px),
-//       rgba(0, 0, 0, 0) 100%
-//   )  
 .arrows3
   position: absolute
   left: 25px
@@ -2593,18 +2588,12 @@ export default {
   -moz-transform:rotate(30deg); /* Firefox */
   -webkit-transform:rotate(30deg); /* Safari 和 Chrome */
   -o-transform:rotate(30deg); /* Opera */
-// .diagonal-content3
-//   position: relative
-//   right:22px
-//   bottom 35px
 .diagonal4
   position: relative
   right:22px
   bottom: 10px 
-  width:  50px
+  width:  8%
   height: 50px
-.diagonal-content4   
-    width: 50px
 .mod-title
   display block
   height 50px
