@@ -179,7 +179,7 @@
         <el-collapse v-model="activeNames" class='leftC'>
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName">
-              <el-tab-pane label="屠宰加工厂" name="first">
+              <el-tab-pane label="养殖场" name="first">
                   <div class="t-item">     
                     <div>
                       <span class="color-gr">品种:</span>
@@ -1743,7 +1743,7 @@ export default {
     data (){
       return {
         banner:{
-          height:1000,
+          height:null,
           },
         newBodyHeight:null,
         auPicture:[
@@ -1768,7 +1768,7 @@ export default {
           url:null,
           name:null
         },
-        isAutoPlay:false,
+        isAutoPlay:true,
         dialogBigPicVisible:false,
         issue: false,
         value5: 3.7,
@@ -2297,6 +2297,32 @@ export default {
   border-image-width 2.6
   margin 0px 20px 0px 20px
 .mod-content
+    /*! autoprefixer: off */
+    background:-webkit-linear-gradient(
+    left,
+    rgba(2,16,61,0.7)0%,
+    rgba(2,16,61,0.7)62%,
+    rgba(7,25,87,0.7)62%,
+    rgba(7,25,87,0.7)92%,
+    rgba(8,31,107,0.7)92%
+    )
+    /* autoprefixer: on */
+    background:-moz-linear-gradient(
+    left,
+    rgba(2,16,61,0.7)0%,
+    rgba(2,16,61,0.7)59%,
+    rgba(7,25,87,0.7)59%,
+    rgba(7,25,87,0.7)88%,
+    rgba(8,31,107,0.7)88%
+    )
+    background:-o-linear-gradient(
+    left,
+    rgba(2,16,61,0.7)0%,
+    rgba(2,16,61,0.7)59%,
+    rgba(7,25,87,0.7)59%,
+    rgba(7,25,87,0.7)88%,
+    rgba(8,31,107,0.7)88%
+    )
     background:linear-gradient(
     left,
     rgba(2,16,61,0.7)0%,
@@ -2346,6 +2372,7 @@ export default {
   display inline-block
   position relative
 .equality
+  margin-top -5px
   text-align: center
   font-size: 20px
   color: rgb(229,168,87)
