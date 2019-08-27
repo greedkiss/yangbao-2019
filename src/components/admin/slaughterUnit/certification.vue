@@ -4,7 +4,7 @@
 <script>
 import certification from '@/components/admin/mediaCommon/certification'
 export default{
-    components: {
+    components: { 
         certification
     },
     data(){

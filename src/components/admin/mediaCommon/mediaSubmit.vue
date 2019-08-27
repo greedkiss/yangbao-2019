@@ -1,10 +1,10 @@
 <template>
     <div class="admin-form">
-        <p class="card-title">生产可视截图</p>
-
+        <p  v-if="!isSlaught" class="card-title">生产可视截图</p>
+        <p  v-if="isSlaught" class="card-title">屠宰厂视频</p>
         <div class="border-main">
             <div class="form-summary">
-                <div class="time el-input-group select">
+                <div v-if="!isSlaught" class="time el-input-group select">
                     <span class="time-span ellipse"  v-text="'图片/视频类型：'"></span><el-autocomplete
                         size="small"
                         v-model="pictureStyle"
@@ -14,15 +14,22 @@
                 </div>
                 <div style = "width: 500px"></div>
 
-                <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" disabled @click.native="$refs.erpai[i].click()" :value="item.model">
+                <el-input v-if="!isSlaught" v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" disabled @click.native="$refs.erpai[i].click()" :value="item.model">
                     <template slot="prepend">上传生产可视截图:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template> 
                 </el-input>
-                <el-button size="small" type="primary" @click="addCapture()">增设截图</el-button>
+                <el-input v-if="isSlaught" v-for="(item, i) in captures" :key="i" class="select-file" style="width:610px" size="small" disabled @click.native="$refs.erpai[i].click()" :value="item.model">
+                    <template slot="prepend">上传屠宰厂视频:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template> 
+                </el-input>
+                <el-button v-if="!isSlaught" size="small" type="primary" @click="addCapture()">增设截图</el-button>
                 <el-button v-if="deleteOne" size="small" type="primary" @click="deleteCapture()">删除截图</el-button>
             </div>
         </div>
-        <div class="card">
+        <div  v-if="!isSlaught" class="card">
             <p class="card-title">图片/视频上传进度:</p>
+            <el-progress v-for="(item, i) in captures" :text-inside="true" :stroke-width="18" :percentage="captures[i].per" style="margin-top: 10px" :key="i"></el-progress>
+        </div>
+        <div  v-if="isSlaught" class="card">
+            <p class="card-title">视频上传进度:</p>
             <el-progress v-for="(item, i) in captures" :text-inside="true" :stroke-width="18" :percentage="captures[i].per" style="margin-top: 10px" :key="i"></el-progress>
         </div>
         <div class="card">
@@ -47,10 +54,16 @@ export default {
             erpai: '',
             captures: [{model: null , per : 0}],
             note: '',
-            deleteOne:false
+            deleteOne:false,
+            slaughtVideo:null
         }
     },
-
+    props:{
+        isSlaught:{
+            type:Boolean,
+            default:false
+        },
+    },
     mounted () {
        let id = this.$route.params.id
        getUserById(id).then(res => {
@@ -73,6 +86,7 @@ export default {
             this.captures.pop()
         },
         submit () {
+            if(!this.isSlaught){
                 let form = new FormData()
                 form.append('userId', this.$route.params.id)
                 form.append('factoryId', this.user.userFactory)
@@ -136,6 +150,32 @@ export default {
                         })
                     }
                 })
+            }
+            if(this.isSlaught){
+                let form = new FormData()
+                form.append('uploader', this.user.userRealname)
+                form.append('factoryId', this.user.userFactory)
+                form.append('fileType', 1)
+                form.append('file', this.$refs.erpai[0].files[0])
+                let headers = {}
+                headers[authStr] = window.localStorage.getItem(tokenStr)
+                window.fetch(baseUrl + '/slaughterFactorySystem/upload/video', {
+                    method: 'POST',
+                    headers,
+                    body: form
+                }).then(async res => {
+                    let body = await res.json()
+                    if(body.data.results=='上传成功'){
+                        this.captures[0].per = 100
+                        this.$message.success('上传成功')
+                        
+                    }else{
+                        this.$message.error('上传失败')
+                    }
+                })
+            }
+
+              
         },
 
         getPictureStyle (q, cb) {

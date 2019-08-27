@@ -1,6 +1,8 @@
 <template>
 <div>
-	<media></media>
+	<media
+	:isSlaught="true"
+	></media>
 </div>
 </template>
 <script>
@@ -10,4 +12,4 @@ export default {
 		media
 	}
 }
-</script>
+</script>  

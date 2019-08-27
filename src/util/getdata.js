@@ -517,6 +517,8 @@ export const getSlaughterUnit = (id) => fetch(`/customer/getMyCustomer/` + id , 
 
 export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'POST')
 
+
+
 //认购管理
 export const getCorrelationData = (id,data) => fetch(`/slaughter/`+ id , data, 'GET')
 
@@ -540,6 +542,10 @@ export const getFac = (data) => fetch(`/customer/customer`,data,'POST')
 
 export const orderCreate = (data) => fetch(`/d/order/add`,data,'POST')
 
+//可视系统
+export const findSlaughterMedia = (data) => fetch(`/slaughterFactorySystem/searchAll/`,data)
+
+export const deleteSlaughterMedia = id => fetch('/slaughterFactorySystem/delete/' +id, null ,'DELETE')
 
 //订单管理
 
@@ -585,9 +591,9 @@ export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarT
 //认证证书
 export const  getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 
-export const  getAuPicture= (tag) => fetch(`/searchfile/getCertificationByEarTag`,{earTag:tag},'POST');
+export const  getAuPicture= (EarTag) => fetch(`/searchfile/getCertificationByEarTag`,{tradeMarkEartag:EarTag});
 
-export const  getSheepVideo= (type, tag) => fetch(`/sheepVideo/${type}/${tag}`)
+export const  getSheepVideo= (type, tradeMarkEartag) => fetch(`/sheepVideo/${type}/${tradeMarkEartag}`)
 
 export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag}`)
 

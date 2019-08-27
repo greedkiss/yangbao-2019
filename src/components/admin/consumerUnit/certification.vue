@@ -13,16 +13,15 @@ export default{
             {value: '防预条件许可证'},
             {value: '羊只检疫合格证'},
             {value: '品质证书'},
-            {value: '食品安全管理体系认证'}
+            {value: '食品安全管理体系认证'},
+            {value: '卫生条件许可证'}
         ]
-
         let getType = (q, cb) => {
             cb(types)
         }
         return{
             fetchSuggestions: getType
         }
-
     }
 }
 </script>

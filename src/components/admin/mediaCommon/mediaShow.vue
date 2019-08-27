@@ -66,9 +66,9 @@
                 <el-card>
                     <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
                     <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
-                    <p class="production-info" v-if="!isDiagnose">商标耳牌：{{ item.brand }}</p>
-                    <p v-if="isSale" class="production-info">时间：{{ item.udate }}</p>
-                    <p  v-if="!isSale" class="production-info">时间：{{ item.time }}</p>
+                    <p class="production-info" v-if="!isDiagnose&&!isSlaughter">商标耳牌：{{ item.brand }}</p>
+                    <p v-if="isSale||isSlaughter" class="production-info">时间：{{ item.udate }}</p>
+                    <p  v-if="!isSale&&!isSlaughter" class="production-info">时间：{{ item.time }}</p>
                     <el-dialog
                       :visible.sync="productionShow[i]"
                       width="50%"
@@ -93,7 +93,7 @@
                             <el-button size="small" type="primary" @click="deleteItem(item, i)">删除</el-button>
                         </div>
                     </el-dialog>
-                </el-card>
+                </el-card> 
             </div>
         </div>
 
@@ -114,12 +114,21 @@
           :current-page.sync="page2"
           @current-change="getAllSale">
         </el-pagination>
+        
+        <el-pagination
+          v-if="isSale"
+          layout="prev, pager, next"
+          :total="total3"
+          :page-size="12"
+          :current-page.sync="page3"
+          @current-change="getAllSlaught">
+        </el-pagination>
     </div>
     
 </template>
 
 <script>
-import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose,findSaleVideo } from '@/util/getdata'
+import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose,findSaleVideo,findSlaughterMedia,deleteSlaughterMedia } from '@/util/getdata'
 import { baseUrl } from '@/util/fetch'
 import { isReqSuccessful , getThumbPicture} from '@/util/jskit'
 import {getUserById , getSheepBuilding , getSheepCol ,getSheepEarTag} from '@/util/getdata'
@@ -169,13 +178,17 @@ export default {
             // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"', 
             condition: 'all',
             time: [],
-            keyWords: '',
+            keyWords: null,
             productionShow: [],
             proList: [],
+            videoList:[],
+            imgList:[],
             pageNumb: 1,
             total: 0,
             page2:1,
             total2:10,
+            page3:1,
+            total3:10,
             limit: 12,
             model:{
                 building: '',
@@ -262,6 +275,18 @@ export default {
         //old
 
         deleteItem (item, index) {
+            if(this.isSlaughter){
+                deleteSlaughterMedia(item.id).then(res => {
+                if (isReqSuccessful(res)) {
+                        this.$message.success('删除成功')
+                        this.$set(this.productionShow, index, true)
+                        this.getProList()
+                    }else{
+                        this.$message.error('操作失败')
+                    }
+                })
+                return
+            }
             deleteDiagnose(item.id).then(res => {
                 if (isReqSuccessful(res)) {
                     this.$message.success('删除成功')
@@ -286,7 +311,14 @@ export default {
         getAllSale(){
             this.getProList()
         },
+        getAllSlaught(){
+            this.getProList()
+        },
         getPicture(){
+            if(this.isSlaughter){
+                this.proList=this.videoList;
+                return
+            }
             this.pageNumb = 1
             if(this.isBreed)
                 this.getProList(0)
@@ -294,6 +326,10 @@ export default {
                 this.getProList(5)
         },
         getVeido(){
+            if(this.isSlaughter){
+                this.proList=this.imgList;
+                return
+            }
             this.pageNumb = 1
             if(this.isBreed)
                 this.getProList(1)
@@ -312,7 +348,7 @@ export default {
                     size:10,
                     earTag:this.model.earTag
                 }
-            findSaleVideo(data).then(res => {
+                findSaleVideo(data).then(res => {
                     if(res.meta.code==0) {
                         if(res.data.result==[]) {
                             this.$message.warning('未查询到数据')
@@ -345,7 +381,64 @@ export default {
                     this.$message.error('查询失败')
                     }
                 })
-
+                return
+            }
+            if(this.isSlaughter){
+                let data={
+                    factoryId:this.user.userFactory,
+                    page:(this.page3-1)*10,
+                    size:10,
+                }
+                if(this.keyWords!==null){
+                    data.uploader=this.keyWords
+                    }
+                if(this.time[0]){
+                    data.start=this.time[0]
+                }
+                if(this.time[1]){
+                    data.end=this.time[1]
+                }
+                findSlaughterMedia(data).then(res => {
+                    if(res.meta.code==0) {
+                        if(res.data.result==[]) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.videoList = []
+                            this.imgList = []
+                            this.total = 0
+                            return
+                        }
+                        this.proList=[];
+                        this.videoList = [];
+                        this.imgList = [];
+                        let arr = [];
+                        let i=0;
+                        res.data.results.forEach((item) => {
+                            i++;
+                            let v={
+                                url:item.pic_address,
+                                udate:item.upload_date,
+                                urlSpecific:item.pic_address,
+                                filetype:item.file_type,
+                                id:item.id
+                            }
+                            if(item.file_type == 1){
+                                v.url = getThumbPicture(item.file_name)
+                                this.videoList.push(v)
+                            }
+                            if(item.file_type != 1){
+                                this.imgList.push(v)
+                            }
+                            this.proList.push(v)
+                        })
+                        this.total3 = i
+                        console.log(this.total3)
+                        this.productionShow = new Array(arr.length).fill(false);
+                        return
+                    }else{
+                    this.$message.error('查询失败')
+                    }
+                })
                 return
             }
             this.isImg = style
@@ -365,10 +458,6 @@ export default {
                 }
                 if(this.isDiagnose == true){
                     let obj = {expert:this.user.userRealname}
-                    data = Object.assign(data, obj)
-                }
-                if(this.isSlaughter){
-                    let obj = {factoryType: 1}
                     data = Object.assign(data, obj)
                 }
                 if(this.isConsumer){
@@ -420,10 +509,6 @@ export default {
                     let obj = {expert:this.user.userRealname}
                     data = Object.assign(data, obj)
                 }
-                if(this.isSlaughter){
-                    let obj = {factoryType: 1}
-                    data = Object.assign(data, obj)
-                }
                 if(this.isConsumer){
                     let obj = {factoryType: 2}
                     data = Object.assign(data, obj)
@@ -470,10 +555,6 @@ export default {
                 }
                 if(this.isDiagnose == true){
                     let obj = {expert:this.user.userRealname}
-                    data = Object.assign(data, obj)
-                }
-                if(this.isSlaughter){
-                    let obj = {factoryType: 1}
                     data = Object.assign(data, obj)
                 }
                 if(this.isConsumer){

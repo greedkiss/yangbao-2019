@@ -109,7 +109,6 @@ import QRCode from 'qrcodejs2'
 import { getUserById , getAllSaleSheep ,watchVideo} from '@/util/getdata'
 export default {
 	mounted(){
-		
 		let id = this.$route.params.id
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
@@ -118,17 +117,13 @@ export default {
                 let {userFactory} = this.user
             }
 			}).then(this.fetchData)
-	
-
 	},
 
 	data() {
 		return {
 			total:0,
 			page:1,
-			tableData:[
-				{bodyNumber:'G123456Q0'},{bodyNumber:'G345678Q1'}
-			],
+			tableData:[],
 			searchEartag: '',//查询羊只
 			onlySheep:{
 				building:'',
@@ -202,11 +197,11 @@ export default {
 				let videoMessage={}
                 watchVideo(er).then(res => {
                     if(isReqSuccessful(res)) {
-												let arr = []
-												let obj={}
-														videoMessage.url=res.address
-														videoMessage.time=res.udate
-														videoMessage.filetype=res.filetype             
+					let arr = []
+					let obj={}
+							videoMessage.url=res.address
+							videoMessage.time=res.udate
+							videoMessage.filetype=res.filetype             
                     }
                 }).catch(_ => {
                     this.$message.error('获取失败');
