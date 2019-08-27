@@ -5,7 +5,9 @@
             modpath="prevention"
             @update:models="v => models = v"
             :models.sync="models"
+            :symptom="models.symptom"
             :items="items"
+            :get-illness="getIllness"
             :has-remark="true"
             :get-data="getPrevention"
             :post-data="postPrevention"
@@ -17,49 +19,29 @@
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
-import { getPrevention, postPrevention, updatePrevention} from '@/util/getdata'
+import { getPrevention, postPrevention, updatePrevention,getIllness} from '@/util/getdata'
 import { getDieaseTypes} from '@/util/jskit'
 export default {
     components: {
         dataCur
     },
-    // methods(){
-    //     let searchill = (id,data) => {
-    //         getIllness(id,data).then(res => {
-    //             this.models.diagnosisResult = res.data
-    //             console.log(0)
-    //         })
-    //     }
-    // },
-
     data () {
-        
-    //     var str1
-    //  if(this.$route.query.diagnosisResult==undefined){
-    //      str1=''
-    //  }
-    //  else{
-    //      str1=this.$route.query.diagnosisResult
-    //  }
         return {
-            
             getPrevention,
             postPrevention,
             updatePrevention,
+            getIllness,
             items: [
                 {label: '日期', type: 'time', model: 'diagnosisTime'},
-                //{label: '单位选择', model: 'style', type: 'selectStyle',mr: 1},
                 {label: '栏/栋', model: 'buildingNum', type: 'selectCrowd'},
                 {label: '商标耳牌号', model: 'earTag',type:'selectEartag'},
                 {label: '观察检测分析症状',model: 'symptom',mr: 1},
                 {label: '诊断结果' ,type:'illnessSearch', model: 'diagnosisResult' },
-                //{label: '诊断结果', model: 'diagnosisResult2' ,type: 'select' ,fetchSuggestions: getDieaseTypes },
                 {label: '治疗方案及用药剂量', model: 'diagnosisMethod'},
                 {label: '总用药量',model: 'dose', mr: 1},
                 {label: '治疗效果', model: 'treatEffect'}
             ],
             models: {
-                //style: null, 
                 diagnosisTime: null,
                 buildingNum: null,
                 earTag: null,

@@ -21,6 +21,17 @@
                     </el-date-picker>
                 </div>
 
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'illnessSearch'" class="time el-input-group select">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
+                        :disabled="disableAll"
+                        size="small"
+                        v-model="models[item.model]"
+                        :fetch-suggestions="illnessName"
+                        placeholder="选择诊断结果">
+                    </el-autocomplete>
+                </div>
+
+
                 <el-input :placeholder="item.placeholder" :class="{block: item.block, mr: item.mr}" :key="i" v-else-if="item.type === 'file'" :value="holder" class="select-file" size="small" disabled @click.native="$refs.erpai[0].click()">
                     <template slot="prepend">{{ item.label || '免疫耳牌号文件:'}}
                         <input type="file" @change="selectFile(item)" hidden ref="erpai">
@@ -37,10 +48,10 @@
                         type="datetime">
                     </el-date-picker>
                 </div>
-
-                <div :key="i" v-else-if="item.type === 'time_2'" class="time el-input-group" :class="{'double-width': item.doubleWidth, mr: item.mr}">
+                <div :key="i" v-else-if="item.type === 'time_2'" class="time el-input-group2" :class="{'double-width': item.doubleWidth, mr: item.mr}">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <el-date-picker
+                        style="width: 64%"
                         v-model="models[item.model]"
                         format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd"
@@ -49,18 +60,40 @@
                     </el-date-picker>
                 </div>
 
+                <div :key="i" v-else-if="item.type ==='time_3'" class="time3" style="float:left; width:100%; margin-top:10px;" :class="{'double-width': item.doubleWidth, mr: item.mr}">
+                    <span class="time3-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-date-picker
+                    v-model="models[item.model]"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    type="datetimerange"
+                    size="small" 
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                    </el-date-picker>
+                    
+                </div>
+                
                 <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number'" class="time el-input-group">
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <el-input-number :min="0" size="small" v-model="models[item.model]"></el-input-number>
                 </div>
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'select'" class="time el-input-group select">
-                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span><el-autocomplete
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-autocomplete
+                        style="width:66%"
                         :disabled="disableAll"
                         size="small"
                         v-model="models[item.model]"
                         :fetch-suggestions="item.fetchSuggestions">
                     </el-autocomplete>
+                </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'number_2'" class="time el-input-group">
+                    <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
+                    <el-input-number style="width: 66%" size="small" v-model="models[item.model]"></el-input-number>
                 </div>
 
 
@@ -73,6 +106,18 @@
                         :fetch-suggestions="operateStyle"
                         @select="judgeDisable(item.model)">
                     </el-autocomplete>
+                </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'cutline'">
+                    <div style="height:10px;"> </div>
+                    <el-alert  :title="item.label" type="info" center :closable="false" >
+                    </el-alert>
+                </div>
+
+                <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'button_disabled'">
+                    <el-row>
+                        <el-button  type="warning" :disabled="openIsDisabled" style="float:left;margin-left:300px; margin-top:10px;">{{item.label}}</el-button>
+                    </el-row>
                 </div>
 
                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectEartag'" class="time el-input-group select">
@@ -121,7 +166,7 @@
                         <el-radio-group v-model="checkColListOne" :v-if="tradeDListOne">
                             <el-radio v-for="(d, index) in crowdOneL" :label="d" :key="index"  @change="getlcOne(item.model)">{{d}}栏</el-radio>
                         </el-radio-group>
-                        <el-input slot="reference" style="width: 295px " v-model="models[item.model]" placeholder="请选择" ></el-input>
+                        <el-input slot="reference" style="width: 66% " v-model="models[item.model]" placeholder="请选择" ></el-input>
                     </el-popover>
                 </div>
 
@@ -223,6 +268,12 @@ export default {
             type: Number,
             default: 0
         },
+        getIllness:{
+            type: Function,
+        },
+        symptom:{
+            type:String,
+        },
         updateSubmitter: {
             type: Boolean,
             default: false
@@ -258,6 +309,7 @@ export default {
             checktag:'',
             checkList: '',
             crowdOneD:[],
+            illnessAllResult:[],
             checkOneList: '',
             user:null,
             tradeDListOne:false,
@@ -480,6 +532,28 @@ export default {
             cb(style)
         },
 
+        illnessName(queryString, cb) {
+            console.log(111)
+            if(this.symptom==null){
+                this.$message.warning('请填写症状！')
+                return
+            }
+            let symptom=this.symptom
+            let data={
+                symptom:symptom
+            }
+             this.getIllness(data).then(res =>{
+            let allIllness = res.data.List
+            let results=[]
+            allIllness.forEach((item)=>{
+                let v={
+                    value:item
+                }
+                results.push(v)
+            })
+	        cb(results)
+            })
+          },
         judgeDisable(item){
             let type = this.models[item]
             this.select.crowd = true

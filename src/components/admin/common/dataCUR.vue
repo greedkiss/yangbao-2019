@@ -1,10 +1,10 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info ref="info" :radio-index="radioIndex" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :is-produce="isProduce"></basic-info>
+        <basic-info ref="info" :get-illness="getIllness" :radio-index="radioIndex" :symptom="symptom" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :is-produce="isProduce"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
-            <el-input type="textarea" v-model="models.description"></el-input>
+            <el-input type="textarea" v-model="models.description"></el-input> 
         </div>
         <div class="card" v-if="hasRemark">
             <p class="card-title">备注:</p>
@@ -150,6 +150,12 @@ export default {
         },
         getData: {
             type: Function
+        },
+        getIllness:{
+            type: Function
+        },
+        symptom:{
+            type:String
         },
         updateData: {
             type: Function
