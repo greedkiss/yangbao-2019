@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-form">
+    <div class="admin-form outWare">
         <p class="card-title">出库管理</p>
             <div class="card">
                 <p class="card-title">羊肉库存列表</p>
@@ -643,16 +643,17 @@ export default {
     }
 }
 </script>
-<style lang="stylus">
-.num-form
-	.el-table
-		display table-caption
-	.el-table th
-			border-left 2px solid rgb(230,230,230)
-			background-color: rgb(238, 241, 246)!important
-.outWare-form
-    .el-table
-		display table-caption
+<style  lang="stylus">
+.outWare
+    .num-form
+        .el-table
+            display table-caption
+        .el-table th
+                border-left 2px solid rgb(230,230,230)
+                background-color: rgb(238, 241, 246)!important
+    .outWare-form
+        .el-table
+            display table-caption
     
 </style>
 

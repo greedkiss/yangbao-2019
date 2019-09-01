@@ -7,35 +7,43 @@
             </div>
         </div>
 		<state-info :data="chartData.rows[0].pm" :state="state.pm"  label="质量"></state-info>	
-		 <el-table
-			:data="tableData"
+		 <div>
+		<el-table
+			:data="tableData"  
 			:stripe="true"
+            highlight-current-row
+            style="width: 100%"
 			>
 			<el-table-column
 			prop="date"
 			label="日期"
+			width="150"
 			align="center"
 			>
 			</el-table-column>
 			<el-table-column
 			prop="pm"
 			label="PM2.5"
-			align="center"			
+			align="center"	
+			width="150"		
 			>
 			</el-table-column>
 			<el-table-column
 			prop="state"
 			label="状态"
-			align="center"			
+			align="center"		
+			width="150"	
 			>
 			</el-table-column>
 		</el-table>
+		 </div>
+
 		<div class="block">
         <el-pagination layout="prev, pager, next" :total="total" :page-size="5" @current-change="current_change">
         </el-pagination>
         </div>
     </div>
-</template>
+</template> 
 
 <script>
 import VeLine from  'v-charts/lib/line'
@@ -154,5 +162,4 @@ export default {
 
 .el-table 
 	margin 0 auto	
-	width 90%	
 </style>

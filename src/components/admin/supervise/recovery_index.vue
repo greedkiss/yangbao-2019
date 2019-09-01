@@ -25,14 +25,14 @@
                     
 				<el-table-column
 					label="达标"
-					width="80">
+					width="100">
                     <template slot-scope="scope">
                         <el-radio v-model="scope.row.radio" label="1">达标</el-radio>
                     </template>
 				</el-table-column>
 				<el-table-column
 					label="未达标"
-					width="80">
+					width="100">
                     <template slot-scope="scope">
                         <el-radio v-model="scope.row.radio" label="0">未达标</el-radio>
                     </template>

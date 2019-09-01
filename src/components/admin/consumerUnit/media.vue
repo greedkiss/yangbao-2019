@@ -1,6 +1,7 @@
 <template>
 <div>
-	<media></media>
+	<media
+	:isConsume="true"></media>
 </div>
 </template>
 <script>

@@ -45,7 +45,7 @@
 import BasicInfo from '@/components/admin/basic_info'
 const qiniu = require('qiniu-js')
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
-import { getUserById, deleteDiagnose, getCertification, findSlaughterMedia, deleteSlaughterMedia} from '@/util/getdata'
+import { getUserById, deleteDiagnose, getCertification, findSlaughterMedia, deleteSlaughterMedia, findCustomerMedia, deleteConsumerMedia} from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 export default {
     components: {
@@ -136,10 +136,27 @@ export default {
                 }).then(this.getProList)
             }
             if(this.isCustomer){
-                form.append('factoryType', 2)
-                form.append('filetype', 7)
+                form.append('uploader', this.user.userRealname)
+                form.append('factoryId', this.user.userFactory)
+                form.append('fileType', 0)
+                form.append('certification' ,this.models.type)
+                form.append('file' ,this.models.file)
+                let headers= {}
+                headers[authStr] = window.localStorage.getItem(tokenStr)
+                window.fetch(baseUrl+ '/comsumerEntitySystem/upload/pic' ,{
+                    method: 'POST',
+                    headers,
+                    body: form
+                }).then(async res=>{
+                    let body = await res.json()
+                    if(body.data.results=='上传成功'){
+                        this.$message.success('上传成功')
+                    }else{
+                        this.$message.error('上传失败')
+                    }
+                }).then(this.getProList)
             }
-            if(!this.isSlaughter){
+            if(!this.isSlaughter&&!isCustomer){
                 form.append('factoryId' ,this.user.userFactory)
                 form.append('certification' ,this.models.type)
                 form.append('file[]' ,this.models.file)
@@ -158,6 +175,18 @@ export default {
             if(this.isSlaughter){
                     deleteSlaughterMedia(item.id).then(res => {
                     if (isReqSuccessful(res)) {
+                        this.$message.success('删除成功')
+                        this.$set(this.productionShow, index, true)
+                        this.getProList()
+                    }else{
+                        this.$message.error('操作失败')
+                    }
+                })
+                return
+            }
+            if(this.isCustomer){
+                deleteConsumerMedia(item.id).then(res => {
+                if (isReqSuccessful(res)) {
                         this.$message.success('删除成功')
                         this.$set(this.productionShow, index, true)
                         this.getProList()
@@ -214,6 +243,45 @@ export default {
                     }
                 })
                 return
+            }
+            if(this.isCustomer){
+                let data={
+                    factoryId:this.user.userFactory,
+                    page:(this.pageNumb-1)*10,
+                    size:10,
+                }
+                findCustomerMedia(data).then(res => {
+                    if(res.meta.code==0) {
+                        if(res.data.result==[]) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.total = 0
+                            return
+                        }
+                        this.proList=[];
+                        let arr = [];
+                        let i=0;
+                        res.data.results.forEach((item) => {
+                            i++;
+                            let v={
+                                url:item.pic_address,
+                                udate:item.upload_date,
+                                filetype:item.file_type,
+                                certification:item.certification,
+                                id:item.id
+                            }
+                            if(item.file_type != 1){
+                                this.proList.push(v)
+                            }
+                        })
+                        this.total = i
+                        this.productionShow = new Array(arr.length).fill(false);
+                        return
+                    }else{
+                    this.$message.error('查询失败')
+                    }
+                })
+                return                
             }
 
             let data = {

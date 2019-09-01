@@ -311,9 +311,12 @@ export const nextPrint = (id) => fetch('/d/out/print/'+id)
 
 export const findMakeUpVideo = (id) => fetch('/d/out/find/'+id)
 
+//消费店 可视系统
+export const findCustomerMedia = (data) => fetch(`/comsumerEntitySystem/searchAll/`,data)
 
+export const findConsumerMedia = (data) => fetch(`/comsumerEntitySystem/searchAll/`,data)
 
-
+export const deleteConsumerMedia = id => fetch('/comsumerEntitySystem/delete/' +id, null ,'DELETE')
 /**
  * 动物福利
  */

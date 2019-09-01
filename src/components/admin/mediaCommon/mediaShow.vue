@@ -66,9 +66,9 @@
                 <el-card>
                     <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
                     <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
-                    <p class="production-info" v-if="!isDiagnose&&!isSlaughter">商标耳牌：{{ item.brand }}</p>
-                    <p v-if="isSale||isSlaughter" class="production-info">时间：{{ item.udate }}</p>
-                    <p  v-if="!isSale&&!isSlaughter" class="production-info">时间：{{ item.time }}</p>
+                    <p class="production-info" v-if="!isDiagnose&&!isSlaughter&&!isConsumer">商标耳牌：{{ item.brand }}</p>
+                    <p v-if="isSale||isSlaughter||isConsumer" class="production-info">时间：{{ item.udate }}</p>
+                    <p  v-if="!isSale&&!isSlaughter&&!isConsumer" class="production-info">时间：{{ item.time }}</p>
                     <el-dialog
                       :visible.sync="productionShow[i]"
                       width="50%"
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose,findSaleVideo,findSlaughterMedia,deleteSlaughterMedia } from '@/util/getdata'
+import { diaSearchAll, diaSearchByExpert, diaSearchByDate, diaSearchByBrand, diaSearchByVaccine, diaSearchBySymptom, diaSearchByUploader, deleteDiagnose,findSaleVideo,findSlaughterMedia,deleteSlaughterMedia ,findConsumerMedia,deleteConsumerMedia } from '@/util/getdata'
 import { baseUrl } from '@/util/fetch'
 import { isReqSuccessful , getThumbPicture} from '@/util/jskit'
 import {getUserById , getSheepBuilding , getSheepCol ,getSheepEarTag} from '@/util/getdata'
@@ -287,6 +287,18 @@ export default {
                 })
                 return
             }
+            if(this.isConsumer){
+                deleteConsumerMedia(item.id).then(res => {
+                if (isReqSuccessful(res)) {
+                        this.$message.success('删除成功')
+                        this.$set(this.productionShow, index, true)
+                        this.getProList()
+                    }else{
+                        this.$message.error('操作失败')
+                    }
+                })
+                return
+            }
             deleteDiagnose(item.id).then(res => {
                 if (isReqSuccessful(res)) {
                     this.$message.success('删除成功')
@@ -316,7 +328,11 @@ export default {
         },
         getPicture(){
             if(this.isSlaughter){
-                this.proList=this.videoList;
+                this.proList=this.imgList;
+                return
+            }
+            if(this.isConsumer){
+                this.proList=this.imgList;
                 return
             }
             this.pageNumb = 1
@@ -327,7 +343,11 @@ export default {
         },
         getVeido(){
             if(this.isSlaughter){
-                this.proList=this.imgList;
+                this.proList=this.videoList;
+                return
+            }
+            if(this.isConsumer){
+                this.proList=this.videoList;
                 return
             }
             this.pageNumb = 1
@@ -441,6 +461,65 @@ export default {
                 })
                 return
             }
+            if(this.isConsumer){
+                let data={
+                    factoryId:this.user.userFactory,
+                    page:(this.page3-1)*10,
+                    size:10,
+                }
+                if(this.keyWords!==null){
+                    data.uploader=this.keyWords
+                    }
+                if(this.time[0]){
+                    data.start=this.time[0]
+                }
+                if(this.time[1]){
+                    data.end=this.time[1]
+                }
+                findConsumerMedia(data).then(res => {
+                    if(res.meta.code==0) {
+                        if(res.data.result==[]) {
+                            this.$message.warning('未查询到数据')
+                            this.proList = []
+                            this.videoList = []
+                            this.imgList = []
+                            this.total = 0
+                            return
+                        }
+                        this.proList=[];
+                        this.videoList = [];
+                        this.imgList = [];
+                        let arr = [];
+                        let i=0;
+                        res.data.results.forEach((item) => {
+                            i++;
+                            let v={
+                                url:item.pic_address,
+                                udate:item.upload_date,
+                                urlSpecific:item.pic_address,
+                                filetype:item.file_type,
+                                id:item.id
+                            }
+                            if(item.file_type == 1){
+                                v.url = getThumbPicture(item.file_name)
+                                this.videoList.push(v)
+                            }
+                            if(item.file_type != 1){
+                                this.imgList.push(v)
+                            }
+                            this.proList.push(v)
+                        })
+                        this.total3 = i
+                        console.log(this.total3)
+                        this.productionShow = new Array(arr.length).fill(false);
+                        return
+                    }else{
+                    this.$message.error('查询失败')
+                    }
+                })
+                return
+            }
+
             this.isImg = style
             if(this.isBreed == false && this.isImg == 2){
                 this.isImg = 3
