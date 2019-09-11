@@ -13,6 +13,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch, faMapMarker, faPlayCircle, faStar, faThumbsUp, faQuestion, faHome, faComment, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAreaLinkage)
