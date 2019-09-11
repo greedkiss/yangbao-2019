@@ -10,6 +10,10 @@ import { tokenStr } from './util/fetch'
 import vuex from 'vuex'
 import router from './router'
 
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAreaLinkage)
