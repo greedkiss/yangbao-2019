@@ -2028,7 +2028,7 @@ export default {
       let qrcode = new QRCode(this.$refs.qrcode, {
         width: 70,
         height: 70,
-        text: `http://${window.location.host}/#/mS`
+        text: `http://${window.location.host}/#/mS?eT=${this.code}`
       })
     },
       //1 0 转换为是否
