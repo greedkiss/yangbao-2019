@@ -55,7 +55,7 @@ export default {
                     this.variety.push({value: item.varietyName})
                 })
             }
-        })                                                   
+        })                                     
     },
 
     data () {
