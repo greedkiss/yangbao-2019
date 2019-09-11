@@ -913,7 +913,7 @@ export default {
                 factoryNum: this.user.userFactory,
                 professor: this.$route.params.id
             }
-            // userRole 20羊场监督员
+            // userRole 20羊场监督员 
             if (this.user.userRole == 20) {
                 data.ispassSup = isPass
                 superviseMap[this.checkModule](id, data).then(res => {

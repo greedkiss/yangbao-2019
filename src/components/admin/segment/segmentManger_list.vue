@@ -106,7 +106,7 @@
 <script>
 import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
 import QRCode from 'qrcodejs2'
-import { getUserById , getAllSaleSheep ,watchVideo} from '@/util/getdata'
+import { getUserById , getAllSaleSheep ,watchVideo,getSegmentList} from '@/util/getdata'
 export default {
 	mounted(){
 		let id = this.$route.params.id
@@ -213,23 +213,17 @@ export default {
         },
         
 		async fetchData(){
-			let {userFactory } = this.user
-			let param = {
-                			start: (this.page - 1)*10,
-               				size: 10,
-               				prefix: this.searchEartag
-           				} 
-			// 			 this.tableData = []
-			// 			 this.tableWeight=[]
-			// getAllSaleSheep(userFactory , param).then(res => {
-            //     if (isReqSuccessful(res)) {
-            //    		 this.total = Math.ceil(res.data.number/param.size)*10
-            //    		 let data = res.data.all
-            //    		 data.forEach((v) => {
-			// 								this.tableData.push(v)
-            //    		 })
-            //     }
-            // })
+			let id= this.user.userFactory
+						 this.tableData = []
+			getSegmentList(id).then(res => {
+                if (isReqSuccessful(res)) {
+               		 //this.total = Math.ceil(res.data.number/param.size)*10
+               		 let data = res.data.all
+               		 data.forEach((v) => {
+							this.tableData.push(v)
+               		 })
+                }
+            })
 		},
 		
 

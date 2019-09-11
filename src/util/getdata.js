@@ -289,6 +289,12 @@ export const getSegmentSheep = (id, data) => fetch('/slaughter/d/' + id, data,'G
 
 export const getStockManageNum = id => fetch('/d/order/number/' + id)
 
+export const getSlaughterList= (id,data) => fetch('/slaughter/d/' + id,data,'GET')
+
+export const getSegmentList= (id) => fetch('/division/' + id)
+
+
+
 
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
@@ -525,9 +531,12 @@ export const updateSlaughterUnit = ( data) => fetch(`/customer/update`, data, 'P
 //认购管理
 export const getCorrelationData = (id,data) => fetch(`/slaughter/`+ id , data, 'GET')
 
-export const getpicsOfFactory = (id,data) => fetch(`/QaPic/`+id, data, 'GET')
+export const getpicsOfFactory = (data) => fetch(`/QaPic/`, data, 'GET')
 
 export const getpicsByEarTagOrQaTag = (data) => fetch(`/QaPic/QueryQaPic/`, data, 'GET')
+
+export const deletePicByQaTag = (id,data) => fetch(`/QaPic/delete/${id}/${data}`, data, 'DELETE')
+
 
 //屠宰前管理
 

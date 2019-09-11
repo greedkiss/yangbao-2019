@@ -839,7 +839,7 @@ export default {
                 }
             })
 		},
-                async printCode(segCodeNum){
+        async printCode(segCodeNum){
 			this.codeNumber=segCodeNum
 
 			document.getElementById("qrcode1").innerHTML = "";

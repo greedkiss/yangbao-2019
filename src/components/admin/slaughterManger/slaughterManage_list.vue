@@ -1,11 +1,9 @@
 <template>
     <div>
         <admin-table
-            modpath="nutrition/sele"
-            :getData="getAllSele"
-            :deleteData="deleteSele"
+            modpath="getSlaughter/list"
+            :getData="getSlaughterList"
             :headers="headers"
-            
             :isSlaughterManageList="true"
             :hideEartagFilter="true"
             >            
@@ -17,7 +15,7 @@
 
 <script>
 import AdminTable from '@/components/admin/breed_table'
-import {deleteSele, getAllSele } from '@/util/getdata'
+import {deleteSele, getSlaughterList } from '@/util/getdata'
 
 export default {
     components: {
@@ -26,8 +24,7 @@ export default {
 
     data () {
         return {
-            getAllSele,
-            deleteSele,
+            getSlaughterList,
     headers: [
                 {prop: 'factoryName', label: '工厂名'},
                 {label: '免疫耳牌号', prop: 'immuneEartag'},

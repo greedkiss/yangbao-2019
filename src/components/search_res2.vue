@@ -220,7 +220,7 @@
           </el-collapse-item>
           <el-collapse-item title="生产环境" name="4" class='leftC3'>
             <div class="organicEnvironment">
-              <div class='air' @click="open('air',9)">
+              <div class='air' @click="open('air',11)">
                 <img src='../assets/imgs/circle1.png'/>
                 <div class='equality'>优</div>
                 <div class='equality2'>空气质量</div>
@@ -230,7 +230,7 @@
                 <div class='equality'>优</div>
                 <div class='equality2'>水质量</div>
               </div>
-              <div class="solid" type="primary" @click="open('soi',11)">
+              <div class="solid" type="primary" @click="open('soi',9)">
                 <img src='../assets/imgs/circle3.png'/>
                 <div class='equality'>优</div>
                 <div class='equality2'>土壤质量</div>
@@ -1731,7 +1731,7 @@
                 <li><el-tag>图片类型</el-tag> {{ bigPic.name }}</li>
             </ul>
         </div>
-      </el-dialog>
+  </el-dialog>
   <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
 </div>
 
@@ -1984,13 +1984,6 @@ export default {
       closeBigPic(){
         this.isAutoPlay=true;
       },
-       qrcode () {
-      let qrcode = new QRCode(this.$refs.qrcode, {
-        width: 70,
-        height: 70,
-        text: window.location.href
-      })
-    },
       screenFit() {
       console.log(this.$refs.searchWrapper.style.height)
       if(window.screen.width!=1920){
@@ -2031,13 +2024,13 @@ export default {
         this.$router.push({name: 'search', query: { code: this.key }});
         this.$emit("searchTo");
       },
-      qrcode () {
-        let qrcode = new QRCode(this.$refs.qrcode, {
-          width: 80,
-          height: 80,
-          text: window.location.href
-        })
-      },
+       qrcode () {
+      let qrcode = new QRCode(this.$refs.qrcode, {
+        width: 70,
+        height: 70,
+        text: `http://${window.location.host}/#/mS`
+      })
+    },
       //1 0 转换为是否
       transfer (info) {
             for(let i in info){

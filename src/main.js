@@ -9,11 +9,25 @@ import 'vue-area-linkage/dist/index.css'
 import { tokenStr } from './util/fetch'
 import vuex from 'vuex'
 import router from './router'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSearch, faMapMarker, faPlayCircle, faStar, faThumbsUp, faQuestion, faHome, faComment, faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAreaLinkage)
 Vue.use(vuex)
+library.add(faSearch)
+library.add(faMapMarker)
+library.add(faPlayCircle)
+library.add(faStar)
+library.add(faThumbsUp)
+library.add(faQuestion)
+library.add(faHome)
+library.add(faComment)
+library.add(faUser)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 /* eslint-disable no-new */
 

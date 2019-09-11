@@ -184,7 +184,7 @@ export default {
 		        });
 				flag = 1
 				}
-				else if(start == "S" && this.trademarkEarTag.length != 9){
+				else if(start == "S" && this.trademarkEarTag.length != 7){
 				flag = 1
 				this.$alert('此字段需要以大写S开头并且加上7位数字', '错误', {
 		          confirmButtonText: '确定',

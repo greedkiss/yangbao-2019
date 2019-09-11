@@ -174,6 +174,7 @@ export default {
                         {label: '出售管理', to: 'livestockSale'},
                         {label: '购进管理', to: 'livestockBuy'},
                         {label: '死亡管理', to: 'livestockDead'},
+                        {label: '二维码打印', to: 'livestockQrcode'}
                     ]},
                     {label: '商品羊销售管理', to: 'sheepSaleManage', children: [
                         {label: '商品羊销售', to: 'sheepSale'},

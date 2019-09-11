@@ -81,7 +81,7 @@ export default {
             default: false
         },
         modpath: {
-            type: String
+            type: String 
         },
         title: {
             type: String

@@ -183,7 +183,7 @@ import { isReqSuccessful } from '@/util/jskit'
                         this.fetchData()
                      }
                     else{
-                    this.$message.error('上传失败')
+                    this.$message.error('请验证检疫合格证号，不能为空或者重复！')
                     }
                 })
       },
