@@ -12,9 +12,12 @@
             :hasSuNe="true"
             :itemsSN="itemsSN"
             :modelsSN="modelsSN"
+            :youngSheepNumber="youngSheepNumber"
             :isBreed = "true"
             :get-data = "getFactoryOne"
             :post-data="updateFactory"
+            :isFarmUnit="true"
+            :needBuildingInfo="true"
             >
         </data-cur>
     </div>
@@ -46,13 +49,13 @@ export default {
                 {label: '羊场名称', model: 'breedName'}, 
                 {label: '羊场地理位置', model: 'breedLocation', type: 'address'},
                 {label: '羊场详细位置', model: 'breedLocationDetail'},
-                {label: '羊场负责人', model: 'responsiblePersonId',disabled:'true'},
+                {label: '羊场负责人', model: 'responsiblePersonId',disabled:true},
                 // {label: '消毒场所', model: 'disinfectP'},
                 {label: '加入时间', model: 'createTime', type: 'time'},
-                {label: '单位负责人', model: 'responsiblePersonName', disabled:'true'},
-                {label: '单位负责人电话', model: 'responsiblePersonPhone',disabled:'true'},
-                {label: '单位联系人', model: 'contactPersonName',disabled:'true'},
-                {label: '单位联系人电话', model: 'contactPersonPhone',disabled:'true'},
+                {label: '单位负责人', model: 'responsiblePersonName', disabled:true},
+                {label: '单位负责人电话', model: 'responsiblePersonPhone',disabled:true},
+                {label: '单位联系人', model: 'contactPersonName',disabled:true},
+                {label: '单位联系人电话', model: 'contactPersonPhone',disabled:true},
             ],
             itemsSN: [
                 {label: '当前供应', model: 'output'},
@@ -79,7 +82,8 @@ export default {
                 outputUnit: null,
                 demand: null,
                 demandUnit: null
-            }
+            },
+            youngSheepNumber:20,
         }
     }
 }

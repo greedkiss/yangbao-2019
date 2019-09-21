@@ -498,16 +498,12 @@
 </template>
 
 <script>
-import BasicInfo from '@/components/admin/basic_info'
 import QRCode from 'qrcodejs2'
 import { isReqSuccessful, checkForm, postJump, patchJump } from '@/util/jskit'
 import { getUserById,getSegmentSheep} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 export default {
-    components: {
-        BasicInfo
-    },
     computed:{
         newName(){
             return this.carcass.carNumber;

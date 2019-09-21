@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form mod_production">
         <p class="card-title">认证证书</p>
-        <basic-info :items="items" :models="models" :radio-index="2"></basic-info>
+        <basic-info :items="items" :models="models" :radio-index="2" :is-produce="isProduce" :needBuildingInfo="needBuildingInfo"></basic-info>
         <div class="admin-send">
             <el-button type="primary" @click="submit()" style="margin-bottom: 20px">提交/更新</el-button>
         </div>
@@ -53,6 +53,10 @@ export default {
     },
 
     props: {
+        isProduce: {
+            type: Boolean,
+            default: true
+        },
         isBreed: {
             type: Boolean,
             default: false
@@ -67,6 +71,10 @@ export default {
         },
         getType: {
             type: Function
+        },
+        needBuildingInfo:{
+            type:Boolean,
+            default:false
         }
     },
 

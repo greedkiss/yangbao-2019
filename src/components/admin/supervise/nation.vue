@@ -1,5 +1,5 @@
 <template>
-    <certification :getType="fetchSuggestions" :isBreed="true"></certification>
+    <certification :getType="fetchSuggestions" :isBreed="true" :needBuildingInfo="true"></certification>
 </template>
 <script>
 import certification from '@/components/admin/mediaCommon/certification'

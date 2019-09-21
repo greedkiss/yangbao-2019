@@ -284,14 +284,18 @@ export default {
         },
         //判断是否为个人信息修改部分，如果是就不需要请栏栋信息
         isInfomChange: {
-            type: Boolean,
+            type: Boolean,  
             default: false
         },
         //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
         isProduce: {
             type: Boolean,
-            default: true
-        }
+            default: false
+        },
+        needBuildingInfo: {
+            type: Boolean,
+            default: false
+        },
     },
 
     data () {
@@ -332,7 +336,8 @@ export default {
                 crowd: false,
                 col: false,
                 building: false
-            }
+            },
+            i:0
         }
     },
 
@@ -360,8 +365,8 @@ export default {
                     }
                 })
             })
-        }
-        if(!this.isInfomChange && this.isProduce){
+        }   
+            if(this.needBuildingInfo){
             let id = this.$route.params.id
             getUserById(id).then(res => {
                 if (isReqSuccessful(res)) {
@@ -373,8 +378,8 @@ export default {
                     this.crowdD = ds
                     this.crowdOneD = ds
                 })
-            })
-        }
+                })
+            }
     },
 
     methods:{
@@ -399,6 +404,7 @@ export default {
         },
         getimmTag(){
             this.buildings=[]
+            console.log(this.user)
             let factory = this.user.userFactory
             let arr = this.selectD.split(';')
             arr.forEach((item) => {

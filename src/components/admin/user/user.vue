@@ -1,7 +1,7 @@
 <template>
     <div class="user-info admin-form">
         <p class="card-title">个人中心</p>
-        <basic-info :disable-all="disableInput" :items="items" :models="models" :isInfomChange = "true"></basic-info>
+        <basic-info :disable-all="disableInput" :items="items" :models="models" :isInfomChange = "true" :needBuildingInfo="false"></basic-info>
 
         <div class="card">
             <p class="card-title">用户备注信息:</p>

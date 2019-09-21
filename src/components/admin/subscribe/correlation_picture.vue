@@ -99,18 +99,18 @@ export default {
             }
             getpicsOfFactory(data).then(res => {
                     if(isReqSuccessful(res)) {
-                        if(!res.data.List.length) {
+                        if(!res.data.PicList.length) {
                             this.$message.warning('未查询到数据')
                             this.proList = [];
                             this.total = 0;
                             return
                         }
                         let arr = []
-                        res.data.List.forEach((item) => {
+                        res.data.PicList.forEach((item) => {
                             item.url = item.qaPic
                             item.qaId = item.qaTag
                         })
-                        this.proList = res.data.List
+                        this.proList = res.data.PicList
                         this.total = res.data.number;
                     }
                 }).catch(_ => {
@@ -149,18 +149,18 @@ export default {
                 }
                getpicsOfFactory(data).then(res => {
                     if(isReqSuccessful(res)) {
-                        if(!res.data.List.length) {
+                        if(!res.data.PicList.length) {
                             this.$message.warning('未查询到数据')
                             this.proList = []
                             this.total = 0;
                             return
                         }
                         let arr = []
-                        res.data.List.forEach((item) => {
+                        res.data.PicList.forEach((item) => {
                             item.url = item.qaPic
                             item.qaId = item.qaTag
                         })
-                        this.proList = res.data.List
+                        this.proList = res.data.PicList
                         this.total = res.data.number
                     }
                 }).catch(_ => {

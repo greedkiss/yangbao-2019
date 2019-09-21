@@ -34,7 +34,8 @@
             has-common-header
             has-common-tail-header
             :headers="headers"
-            releaseType="false"> 
+            releaseType="false"
+            :needBuildingInfo="true"> 
         </admin-table>   
     </div>
 </template>

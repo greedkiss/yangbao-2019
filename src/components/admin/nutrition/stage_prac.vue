@@ -2,7 +2,7 @@
     <div class="admin-form">
         <p class="card-title">阶段营养实施档案</p>
 
-        <basic-info :items="items" :models="models"></basic-info>
+        <basic-info :items="items" :models="models" :needBuildingInfo="needBuildingInfo"></basic-info>
         <div class="card" v-for="(card, index) in cards" :key="index">
             <p class="card-title" v-text="card.title"></p>
 
@@ -62,6 +62,7 @@ export default {
 
     data () {
         return {
+            needBuildingInfo:true,
             items: [
                 {label: '单位选择', model: 'style', type: 'selectStyle'},
                 {label: '栏/栋', model: 'building' ,type: 'selectCrowd'},
@@ -143,7 +144,6 @@ export default {
             showReturn:false
         }
     },
-
     watch: {
         '$route' (newV, oldV) {
             // from edit to post

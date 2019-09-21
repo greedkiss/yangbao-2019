@@ -272,7 +272,11 @@ export const getFarmByLocation = loc => fetch(`/factory/location`, {location: lo
 
 export const deleteFarm = id => fetch(`/factory/${id}`, null, 'DELETE')
 
+export const postYoungSheep = data => fetch('/over/all/statistics/add/sheep', data, 'POST')
+
  //屠宰加工客户管理
+//  export const getCustomerOfSla = (id) => fetch('/customer/getOne/' + id,'GET')
+
 export const insertSlaughter = data => fetch(`/customer/insert`, data, 'POST')
 
 export const getSlaughter = (facid, data) => fetch(`/customer/${facid}`, data)
@@ -291,7 +295,7 @@ export const getStockManageNum = id => fetch('/d/order/number/' + id)
 
 export const getSlaughterList= (id,data) => fetch('/slaughter/d/' + id,data,'GET')
 
-export const getSegmentList= (id) => fetch('/division/' + id)
+export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET')
 
 
 
@@ -445,7 +449,7 @@ export const getAllSheep = (id, data) => fetch('/ds/a/' + id, data)
 
 export const makeDeadSheep = (data) => fetch(`/ds/d/d`, data, 'PATCH')
 
-export const getSheepBuilding = (id) => fetch('/bc/b/' + id)
+export const getSheepBuilding = (id) => fetch('/bc/b/' + id)  
 
 export const getSheepCol = (id, data) => fetch('/bc/b/' + id + '/' + data, 'GET')
 
@@ -454,6 +458,8 @@ export const moveSheep = (id, data) => fetch('/bc/changeBC/' + id, data, 'POST')
 export const moveSheepAll = data => fetch('/bc/changeBC/w', data, 'POST')
 
 export const getSaleFac = (data) => fetch('/customer/slaughter',data, 'POST')
+
+export const getFarmCus = () => fetch('/factory/factory', 'GET')
 
 export const makeSaleFac = (data) => fetch('/ds/ds', data,'POST')
 
@@ -585,6 +591,8 @@ export const getAllSaleable = () => fetch('/s/allSaleableSheepEarTag', 'GET')
 
 export const gelAllSheep = () => fetch('/s/allSheepEarTag', 'GET')
 
+export const getLocationSheep =(data) => fetch(`/customer/GetCustomerAllSheepByAdress/${data}`, 'GET')
+
 export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
 
 export const countSheep = (id) => fetch('/factory/sheepCount?id=' + id)
@@ -599,7 +607,15 @@ export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
 export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
-   
+
+export const  getTraceAfterSlaughterInfo= (id,tag) => fetch(`/tr/slaughter/${id}`,{trademarkEarTag:tag});
+
+export const  getSlaughterInfoByearTag = (earTag) => fetch(`/platform/slaughter?earTag=${earTag}`, null,'POST')
+
+export const  getConsumerInfoByearTag = (earTag) => fetch(`/platform/consumer?earTag=${earTag}`, null,'POST')
+
+
+
 //认证证书
 export const  getCertification = (data) => fetch(`/searchfile/certification`, data, 'POST')
 

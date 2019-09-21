@@ -10,7 +10,8 @@
             :get-data="getSele"
             :post-data="postSele"
             :update-data="updateSele"
-            :checkFull="false">
+            :checkFull="false"
+            :needBuildingInfo="true">
         </data-cur>
     </div>
 </template>

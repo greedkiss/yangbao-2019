@@ -127,6 +127,7 @@
                 <template slot-scope="scope">
                     <div class="opr" v-if="!releaseType && !isCheck">
                         <span v-if="!hideView" @click="edit(scope.$index, 1)">查看</span>
+                        
                         <template>
                             <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
                             <span @click="deleteItem(scope.$index)">删除</span>
@@ -204,7 +205,7 @@ export default {
             type: Function
         },
         deleteData: {
-            type: Function,
+            type: Function, 
             default () {
                 return () => {}
             }
@@ -316,10 +317,9 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
-                // this.isSpv = res.data.model.userRole === 20
             }
-        })
-        judgeSupervisor().then(res => {
+        }).then(()=>{
+            judgeSupervisor().then(res => {
             this.isSpv = res.data.model[1]
             this.isProfession = res.data.model[2]
             if(this.isReview){
@@ -331,6 +331,7 @@ export default {
             if(this.isSpv || this.isProfession || !this.isReview){
                 this.fetchData()
             }
+            })
         })
     },
 
@@ -523,6 +524,7 @@ export default {
         },
 
         async fetchData () {
+            console.log(this.user)
             let param = {
                 page: this.page - 1,
                 size: 10
@@ -554,7 +556,10 @@ export default {
             }
 
             let pathid
-            let { userFactory, userRealname, id, factoryName } = this.user
+            let userFactory = this.user.userFactory
+            let userRealname = this.user.userRealname
+            let id = this.user.id
+            let factoryName = this.user.factoryName
             // 代理 工厂 游客
             if (userFactory !== undefined) {
                 pathid = userFactory
@@ -673,7 +678,7 @@ export default {
                 }
             } else if (!this.isCheck) {
                 if (isView) {
-                    path = `/admin/${pathid}/${this.modpath}/prac?view=${id}`
+                    path = `/admin/${pathid}/${this.modpath}/prac?view=${id}&isView=${isView}`
                 } else {
                     path = `/admin/${pathid}/${this.modpath}/prac?edit=${id}`
                 }
@@ -681,6 +686,7 @@ export default {
                 path = `/admin/${pathid}/${this.checkModule}/prac?check=${id}`
             }
             this.$router.push(path)
+            
         },
 
         deleteItem (index) {

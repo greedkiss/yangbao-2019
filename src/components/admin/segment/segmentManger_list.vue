@@ -6,21 +6,21 @@
 			<el-table-column
 				label="部件编码"
 				width="120"
-				prop="bodyNumber"
+				prop="partNumber"
 			>
 			</el-table-column>
 
 			<el-table-column
 				label="部件名称"
 				width="120"
-				prop="bodyName"
+				prop="partName"
 			>
 			</el-table-column>
 
 			<el-table-column
 				label="重量"
 				width="120"
-                prop="bodyWeight"
+                prop="weight"
 			>
 			</el-table-column>
 
@@ -29,34 +29,38 @@
 				width="120"
 				prop=""
 			>
-            <el-button type="text">查看</el-button>
+            <template slot-scope="scope">
+                  <div class="opr" >
+                      <span @click="mediaWatch(scope)">查看</span>
+                  </div>
+            </template>
 			</el-table-column>
 
 			<el-table-column
 				label="价格"
 				width="120"
-				prop="bodyprice"
+				prop="price"
 			>
 			</el-table-column>
 
 			<el-table-column
 				label="养殖场"
 				width="120"
-				prop="farm"
+				prop="breedName"
 			>
 			</el-table-column>
 			
 			<el-table-column
 				label="货主"
 				width="120"
-				prop="master"
+				prop="responsiblePersonName"
 			>
 			</el-table-column>
 
 			<el-table-column
 				label="联系电话"
 				width="120"
-				prop="telephone"
+				prop="responsiblePersonPhone"
 			>
 			</el-table-column>
 
@@ -100,7 +104,12 @@
         <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="fetchData" :current-page.sync="page">
         </el-pagination>
        </div>
-
+		<el-dialog
+        title="羊只视频"
+        :visible.sync="slaughterManageVisible"
+        width="30%">
+                <video :src="mediaVideo" class="production-video" controls="controls" height="400" width="100%"></video>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -130,6 +139,8 @@ export default {
 				col:'',
 				colInt:''
 			},
+			mediaVideo:null,
+			slaughterManageVisible:false,
 			freshCode:false,
 			 // 设置出错图片
            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
@@ -147,9 +158,19 @@ export default {
         }
 	},
 	methods: {
+		mediaWatch(scope){
+                if(scope.row.video!==null){
+                    this.mediaVideo=scope.row.video
+                    console.log(this.mediaVideo)
+                    this.slaughterManageVisible=true
+                }
+                else{
+                this.$message.error('暂无相关视频！')
+                }
+        },
 		//查看二维码
 		async cellClick(row){
-			this.codeNumber=row.bodyNumber;
+			this.codeNumber=row.partNumber;
 
 			document.getElementById("qrcode1").innerHTML = "";
 
@@ -166,8 +187,6 @@ export default {
 			newWindow.print();
 			newWindow.close();
 		},
-
-
 		//获取二维码
 		waitqr(codeNumber){
 				this.qrcode(codeNumber)
@@ -214,14 +233,19 @@ export default {
         
 		async fetchData(){
 			let id= this.user.userFactory
-						 this.tableData = []
-			getSegmentList(id).then(res => {
+			let data={
+				page:this.page-1,
+				size:15
+			}
+			this.tableData = []
+			getSegmentList(id,data).then(res => {
                 if (isReqSuccessful(res)) {
                		 //this.total = Math.ceil(res.data.number/param.size)*10
-               		 let data = res.data.all
-               		 data.forEach((v) => {
+               		let data = res.data.List
+               		data.forEach((v) => {
 							this.tableData.push(v)
-               		 })
+						})
+					this.total=res.data.number
                 }
             })
 		},

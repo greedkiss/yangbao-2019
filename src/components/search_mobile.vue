@@ -28,9 +28,9 @@
       </div>
     <!-- 栏目切换 -->
     <div class="tab-bar">
-      <a class="active" href="#">养殖生产溯源</a>
-      <a href="#">屠宰加工</a>
-      <a href="#">终端消费</a>
+      <a class="active" >养殖生产溯源</a>
+      <a >屠宰加工</a>
+      <a >终端消费</a>
     </div>
     <!-- 内容块 -->
     <section class="block block-text-video">
@@ -78,31 +78,31 @@
       <div class="row">
         <div class="field">
           <label>耳号：</label>
-          <span>137783993</span>
+          <span>{{sheepInfo.trademarkEarTag}}</span>
         </div>
         <div class="field">
           <label>颜色：</label>
-          <span>黑色</span>
+          <span>{{sheepInfo.color}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
           <label>品种：</label>
-          <span>特优</span>
+          <span>{{sheepInfo.typeName}}</span>
         </div>
         <div class="field">
           <label>品类：</label>
-          <span>极品</span>
+          <span>{{sheepInfo.varietyName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
           <label>体重：</label>
-          <span>45KG</span>
+          <span>{{sheepInfo.weight}}</span>
         </div>
         <div class="field">
           <label>年龄：</label>
-          <span>1.5岁</span>
+          <span>{{sheepInfo.age}}</span>
         </div>
       </div>
       <div class="video">
@@ -121,92 +121,92 @@
       <div class="content">
         <div class="items items-1" >
           <div class="item"  @click="open(modules[0].name,modules[0].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
+            <a class="value" >优</a>
+            <a class="text" >
               <b>系谱</b>
             </a>
           </div>
           <div class="item" @click="open(modules[1].name,modules[1].id)">
-            <a class="value" href="#">良</a>
-            <a class="text" href="#">
+            <a class="value" >良</a>
+            <a class="text" >
               <b>福利</b>
             </a>
           </div>
         </div>
         <div class="items items-2"  >
           <div class="item" @click="open(modules[2].name,modules[2].id)">
-            <a class="value" href="#">中</a>
-            <a class="text" href="#">
-              <b>防疫</b>
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>消毒</b>
             </a>
           </div>
           <div class="item" @click="open(modules[3].name,modules[3].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
-              <b>消毒</b>
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>防疫</b>
             </a>
           </div>
         </div>
         <div class="items items-3" >
           <div class="item" @click="open(modules[4].name,modules[4].id)">
-            <a class="value" href="#">良</a>
-            <a class="text" href="#">
+            <a class="value" >良</a>
+            <a class="text" >
               <b>驱虫</b>
             </a>
           </div>
           <div class="item" @click="open(modules[5].name,modules[5 ].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
+            <a class="value" >优</a>
+            <a class="text" >
               <b>营养</b>
             </a>
           </div>
         </div>
         <div class="items items-4" >
           <div class="item" @click="open(modules[6].name,modules[6].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
+            <a class="value" >优</a>
+            <a class="text" >
               <b>配种</b>
             </a>
           </div>
           <div class="item" @click="open(modules[7].name,modules[7].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
+            <a class="value" >优</a>
+            <a class="text" >
               <b>疾病</b>
             </a>
           </div>
         </div>
         <div class="items items-5">
-          <div class="item" @click="open(modules[8].name,modules[8].id)">
-            <a class="value" href="#">中</a>
-            <a class="text" href="#">
+          <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >中</a>
+            <a class="text" >
               <b>宰前</b>
             </a>
           </div>
-          <div class="item" @click="open(modules[9].name,modules[9].id)">
-            <a class="value" href="#">良</a>
-            <a class="text" href="#">
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+            <a class="value" >良</a>
+            <a class="text" >
               <b>屠宰</b>
             </a>
           </div>
         </div>
         <div class="items items-6">
-          <div class="item" @click="open(modules[10].name,modules[10].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
-              <b>储存</b>
+          <div class="item" @click="open2(modules[10].name,modules[10].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
             </a>
           </div>
-          <div class="item" @click="open(modules[11].name,modules[11].id)">
-            <a class="value" href="#">中</a>
-            <a class="text" href="#">
+          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+            <a class="value" >中</a>
+            <a class="text" >
               <b>分隔</b>
             </a>
           </div>
         </div>
         <div class="items items-7">
-          <div class="item" @click="open(modules[12].name,modules[12].id)">
-            <a class="value" href="#">优</a>
-            <a class="text" href="#">
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
               <b>终端</b>
             </a>
           </div>
@@ -1040,31 +1040,299 @@
             </ul>
         </div>
   </el-dialog>
+        <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.befsla"
+        width="800px"
+        :show-close="false">
+        <div class="dialog_btn">
+          <span class="btn_print">打印</span>
+          <span @click="close('befsla')" class="btn_close">关闭</span>
+        </div>
+          <el-table
+            :data="befslaData"
+            style="width: 100%">
+            <el-table-column
+              prop="trademarkEarTag"
+              label="商标耳牌号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="breedFactory"
+              label="来自养殖场"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="sheepType"
+              label="羊只品类"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="weight"
+              label="重量"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="time"
+              label="时间"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="age"
+              label="年龄"
+              width='120px'>
+            </el-table-column>
+          </el-table>
+        
+      </el-dialog>
+
       <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.sla"
+        width="800px"
+        :show-close="false">
+        <div class="dialog_btn">
+          <span class="btn_print">打印</span>
+          <span @click="close('sla')" class="btn_close">关闭</span>
+        </div>
+          <el-table
+            :data="slaData"
+            style="width: 100%">
+            <el-table-column
+              prop="fatherNumber"
+              label="商标耳牌号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="slaughterTime"
+              label="屠宰时间"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="appendageNumber"
+              label="附属物编号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="appendageWeight"
+              label="附属物重量"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              label="附属物视频"
+              width='120px'>
+              <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="mediaWatch(scope)">查看</span>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column
+              prop="kidNumber"
+              label="胴体编号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="kidWeight"
+              label="胴体重量"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              label="胴体视频"
+              width='120px'>
+              <template slot-scope="scope">
+                  <div class="opr" >
+                      <span @click="mediaWatch(scope)">查看</span>
+                  </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        
+      </el-dialog>
+
+      <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.segm"
+        width="800px"
+        :show-close="false">
+        <div class="dialog_btn">
+          <span class="btn_print">打印</span>
+          <span @click="close('segm')" class="btn_close">关闭</span>
+        </div>
+          <el-table
+            :data="segmData"
+            style="width: 100%">
+            <el-table-column
+              prop="fatherNumber"
+              label="商标耳牌号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="partNumber"
+              label="部件编号"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="weight"
+              label="部件重量"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              label="分割视频"
+              width='120px'>
+              <template slot-scope="scope">
+                  <div class="opr" >
+                      <span @click="mediaWatch(scope)">查看</span>
+                  </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        
+      </el-dialog>
+
+      <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.trans"
+        width="800px"
+        :show-close="false">
+        <div class="dialog_btn">
+          <span class="btn_print">打印</span>
+          <span @click="close('trans')" class="btn_close">关闭</span>
+        </div>
+          <el-table
+            :data="transData"
+            style="width: 100%">
+
+            <el-table-column
+              prop="customerName"
+              label="客户单位名称"
+              width='120px'>
+            </el-table-column>
+
+            <el-table-column
+              prop="sumWeight"
+              label="总重量"
+              width='120px'>
+            </el-table-column>
+
+            <el-table-column
+              prop="partNumber"
+              label="部件编码"
+              width='120px'>
+            </el-table-column>
+
+            <el-table-column
+              prop="numberPlate"
+              label="车牌号"
+              width='120px'>
+            </el-table-column>
+
+            <el-table-column
+              prop="driverName"
+              label="司机名称"
+              width='120px'>
+            </el-table-column>
+
+            <el-table-column
+              label="车牌照片"
+              width='120px'>
+              
+                <template slot-scope="scope">
+                  <div class="opr" >
+                      <span @click="mediaWatchPic(scope)">查看</span>
+                  </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        
+      </el-dialog>
+
+      <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.end"
+      width="800px"
+      :show-close="false">
+      <div class="dialog_btn">
+        <span class="btn_print">打印</span>
+        <span @click="close('end')" class="btn_close">关闭</span>
+      </div>
+        <el-table
+          :data="endData"
+          style="width: 100%">
+          <el-table-column
+            prop="partNumber"
+            label="成品编号"
+            width='200px'>
+          </el-table-column>
+          <el-table-column
+            prop="outBoundTime"
+            label="时间"
+            width='200px'>
+          </el-table-column>
+          <el-table-column
+            label="终端视频"
+            width='200px'>
+            <template slot-scope="scope">
+                  <div class="opr" >
+                      <span @click="mediaWatch(scope)">查看</span>
+                  </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      
+    </el-dialog>
+    
+  <el-dialog
         title="产品地址"
         :visible.sync="mapVisible"
         style="margin-top:-50px"
         width="50%"
         center
         >
-  <div class='bmap'></div>
-  <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+  <div class='bmap'><b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map></div>
+  
   </el-dialog>
   <el-dialog
   custom-class="mod_search_dialog"
   :visible.sync="noSheep"
-  width="400px"
+  width="800px"
   :show-close="false">
-    <span style="margin-top:30px">没有该羊信息！</span>
+    <span style="margin-top:30px;font-size:30px;">没有该羊信息！</span>
 </el-dialog>
 
   <el-dialog
   custom-class="mod_search_dialog"
   :visible.sync="goodRatingVisible"
-  width="400px"
+  width="800px"
   :show-close="false">
-    <span style="margin-top:30px">点赞成功，感谢您对我们的肯定!</span>
+    <span style="margin-top:30px;font-size:30px;">点赞成功，感谢您对我们的肯定!</span>
 </el-dialog>
+
+  <el-dialog
+  custom-class="mod_search_dialog"
+  :visible.sync="noGenDataVisible"
+  width="800px"
+  :show-close="false">
+    <span style="margin-top:30px;font-size:30px;">未建立系谱，请完善！</span>
+</el-dialog>
+
+  <el-dialog
+        title="视频"
+        :visible.sync="mediaVisible"
+        width="80%">
+        <div class="show-detail">
+            <video :src="mediaUrl" class="production-video" controls="controls" height="500" width="500"></video>
+        </div>
+  </el-dialog>             
+
+  <el-dialog
+        title="车辆照片"
+        :visible.sync="mediaPicVisible"
+        width="80%">
+        <div class="show-detail">
+            <img  class="production-image-detail" :src="mediaUrl" :onerror="defaultImg">
+        </div>
+  </el-dialog> 
   </div>
 </template>
 
@@ -1073,7 +1341,7 @@ import BMap from './map'
 import RecordTable from './table'
 import QRCode from 'qrcodejs2'
 import {getSheepInfo } from '@/util/getdata'
-import {getTraceInfo} from '@/util/getdata'
+import {getTraceInfo,getTraceAfterSlaughterInfo} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
@@ -1091,6 +1359,7 @@ export default {
           url:null,
           name:null
         },
+        noGenDataVisible:false,
         intervalTime:30000,
         isAutoPlay:true,
         dialogBigPicVisible:false,
@@ -1108,6 +1377,9 @@ export default {
           latitude:'',
           responsiblePersonName:'',
         },
+        defaultImg:'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+        mediaVisible:false,
+        mediaPicVisible:false,
         noSheep:false,
         qrcodeimg:null,
         videoUrl:null,
@@ -1124,6 +1396,7 @@ export default {
             label:"商品介绍",
           }]
         }],
+        mediaUrl:null,
         //输入值
         key: null,
         //公司照片
@@ -1144,6 +1417,11 @@ export default {
           air: false,
           wat: false,
           soi: false,
+          befsla: false,
+          sla: false,
+          segm: false,
+          trans: false,
+          end: false
         },
         tab_san: 'first',
         tab_nut: 'first',
@@ -1196,6 +1474,20 @@ export default {
           {
           }
         ],
+        befslaData: [
+
+        ],
+        slaData: [
+        ],
+        segmData: [
+
+        ],
+        transData: [
+
+        ],
+        endData: [
+
+        ],
         item: {
 
         },
@@ -1217,14 +1509,11 @@ export default {
           {icon: 'smile', text: '营养', name: 'nut', id: '6'},
           {icon: 'smile', text: '疾病', name: 'dea', id: '7'},
           {icon: 'smile', text: '配种', name: 'bre', id: '8'},         
-          {icon: 'smile', text: '宰前', name: 'air', id: '9'},
-          {icon: 'smile', text: '屠宰', name: 'wat', id: '10'},
-          {icon: 'smile', text: '分割', name: 'soi', id: '11'},
-          {icon: 'smile', text: '运输', name: 'soi', id: '11'},
-          {icon: 'smile', text: '终端', name: 'soi', id: '11'},
-          // {icon: 'smile', text: '空气', name: 'air', id: '9'},
-          // {icon: 'smile', text: '水质', name: 'wat', id: '10'},
-          // {icon: 'smile', text: '土壤', name: 'soi', id: '11'}
+          {icon: 'smile', text: '宰前', name: 'befsla', id: '21'},
+          {icon: 'smile', text: '屠宰', name: 'sla', id: '22'},
+          {icon: 'smile', text: '分割', name: 'segm', id: '23'},
+          {icon: 'smile', text: '运输', name: 'trans', id: '24'},
+          {icon: 'smile', text: '终端', name: 'end', id: '25'},
         ],
         reports: [
           {text: '土壤检测报告'},
@@ -1266,6 +1555,12 @@ export default {
           info.longitude = data.model.longitude;
           info.latitude = data.model.latitude;
           info.responsiblePersonName=data.model.responsiblePersonName
+          info.trademarkEarTag=data.model.trademarkEarTag
+          info.color=data.model.color
+          info.varietyName=data.model.varietyName
+          info.typeName=data.model.typeName
+          info.weight=data.model.weight
+          info.age=data.model.age
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           let EarTag={
@@ -1303,6 +1598,48 @@ export default {
       RecordTable
     },
   methods: {
+          mediaWatch(scope){
+            if(scope.column.label=='附属物视频'){
+                if(scope.row.appendageVideo!==null){
+                    this.mediaUrl=scope.row.appendageVideo
+                    console.log(this.mediaUrl)
+                    this.mediaVisible=true
+                }
+                else{
+                this.$message.warning('暂无相关视频！')
+                }
+            }
+                if(scope.column.label=='胴体视频'){
+                  if(scope.row.kidVideo!==null){
+                      this.mediaUrl=scope.row.kidVideo
+                      console.log(this.mediaUrl)
+                      this.mediaVisible=true
+                  }
+                  else{
+                  this.$message.warning('暂无相关视频！')
+                  }
+            }
+                if(scope.column.label=='分割视频'){
+                    if(scope.row.video!==null){
+                        this.mediaUrl=scope.row.video
+                        console.log(this.mediaUrl)
+                        this.mediaVisible=true
+                    }
+                    else{
+                    this.$message.warning('暂无相关视频！')
+                    }
+            }
+                if(scope.column.label=='终端视频'){
+                  if(scope.row.video!==null){
+                      this.mediaUrl=scope.row.video
+                      console.log(this.mediaUrl)
+                      this.mediaVisible=true
+                  }
+                  else{
+                  this.$message.warning('暂无相关视频！')
+                  }
+            }
+      },
     search () {
       if (!this.key) {
         this.$message({
@@ -1323,11 +1660,71 @@ export default {
     openissue() {
         this.issue = true;
       },
+      open2(name, id){
+        this.$set(this.dialog, name, true);
+        if(id==21){
+            id=1
+            getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.befslaData=[]
+            let data=res.data.lists
+            data.forEach((item) =>{
+              this.befslaData.push(item)
+            })
+          })  
+        }
+        else if(id==22){
+          id=2
+          getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.slaData=[]
+            let data=res.data.lists
+            data.forEach((item) =>{
+              this.slaData.push(item)
+            })
+          })  
+        }
+        else if(id==23){
+          id=3
+          getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.segmData=[]
+            let code = this.code
+            let data=res.data.lists
+            data.forEach((item) =>{
+              item.fatherNumber = code
+              this.segmData.push(item)
+            })
+          })  
+        }
+        else if(id==24){
+          id=4
+          getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.transData=[]
+            let data=res.data.lists
+            data.forEach((item) =>{
+              this.transData.push(item)
+            })
+          })  
+        }
+        else if(id==25){
+          id=5
+          getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.endData=[]
+            let data=res.data.lists
+            data.forEach((item) =>{
+              this.endData.push(item)
+            })
+          })  
+        }
+      },
     open (name,id) {
         this.$set(this.dialog, name, true);
         getTraceInfo(id,this.code).then((res) => {
           let data = res.data;
           if(id =='1'){
+            if(data.lists.length==0){
+              this.$set(this.dialog, name, false)
+              this.noGenDataVisible=true
+              return
+            }
               this.genData.forEach(el => {
                 if(data.lists[0].hasOwnProperty(el.name)){
                   el.fieldValue = data.lists[0][el.name];

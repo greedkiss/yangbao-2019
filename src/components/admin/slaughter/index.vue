@@ -1,7 +1,7 @@
 <template>
     <div>
         <data-cur
-            title="屠宰加工客户管理"
+            title="屠宰加工客户管理"  
             modpath="slaughter"
             is-agent
             :isSuper="true"
@@ -13,7 +13,9 @@
             :get-data="getSlaughterById"
             :update-data="updateSlaughter"
             :update-unit="$route.query.edit > 0"
-            :isProduce= "false"
+            :isProduce="false"
+            :isCustomer="true"
+            :needBuildingInfo="true"
             >
         </data-cur>
     </div>

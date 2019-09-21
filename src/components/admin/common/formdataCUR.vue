@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info :items="items" :models.sync="models"></basic-info>
+        <basic-info :items="items" :models.sync="models"  :needBuildingInfo.sync="needBuildingInfo"  ></basic-info>
         <div class="card" v-if="isDisinfect">
             <p class="card-title">消毒方法:</p>
             <el-input type="textarea" v-model="models.disinfectWay"></el-input>
@@ -68,6 +68,14 @@ export default {
         getData: {
             type: Function
         },
+        needBuildingInfo: {
+            type: Boolean,
+            default: false
+        },
+        isDisinfect:{
+            type: Boolean,
+            default: false
+        }
     },
 
     components: {

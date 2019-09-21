@@ -2,7 +2,7 @@
     <div class="admin-form">
         <p class="card-title">诊断可视</p>
 
-        <basic-info :items="items" :models="models"></basic-info>
+        <basic-info :items="items" :models="models" :needBuildingInfo="true"></basic-info>
         <div class="card">
             <p class="card-title">图片/视频上传进度:</p>
             <el-progress v-for="(item, i) in captures" :text-inside="true" :stroke-width="18" :percentage="captures[i].per" style="margin-top: 10px" :key="i"></el-progress>

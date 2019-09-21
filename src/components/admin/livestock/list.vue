@@ -74,6 +74,18 @@
 				prop="issale"
 			>
 			</el-table-column>
+			<!-- <el-table-column
+				label="体重"
+				width="120"
+				prop="Weight"
+			>
+			</el-table-column>
+			<el-table-column
+				label="年龄"
+				width="120"
+				prop="Age"
+			>
+			</el-table-column> -->
 			<el-table-column
 				label="sheepid"
 				width="120"
@@ -317,7 +329,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getSaleFac ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable} from '@/util/getdata'
+import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getFarmCus ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
@@ -331,7 +343,12 @@ export default {
                 this.user = res.data.model
                 let {userFactory} = this.user
             }
-         }).then(this.fetchData)
+         }).then(this.fetchData).then(getFarmCus().then(res=>{
+					 if (isReqSuccessful(res)) {
+					 			this.restaurants3 = res.data.saleable
+            	}
+						 })
+				 )
 	},
 
 	data() {
@@ -395,7 +412,9 @@ export default {
 				immu:null,
 				earTag:null,
 				style:null,
-				period:null
+				period:null,
+				age:null,
+				weight:null
 			},
 			showMoveSheepOnly:false,
 			showMoveSheepAll:false,
@@ -473,18 +492,20 @@ export default {
                		 this.total = Math.ceil(res.data.number/param.size)*10
                		 let data = res.data.all
                		 data.forEach((v) => {
-               		   	 let {building , col , immuneEarTag , trademarkEarTag ,id , type, stage, isSale} = v
+               		   	 let {building , col , immuneEarTag , trademarkEarTag ,id , type, stage, isSale , age , weight} = v
                		   	 let d = building
                		   	 let l = col
                		   	 let tradeMarkEartag=trademarkEarTag
                		   	 let immuneEartag = immuneEarTag
                		   	 let style = type
                		   	 let Stage = this.propName.get(stage)
-               		   	 let issale = '否'
+											 let issale = '否'
+											 let Age = age
+											 let Weight = weight	 
                		   	 if(isSale){
                		   	 	issale = '是'
                		   	 }
-               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage, issale}
+               		   	 let obj = {tradeMarkEartag , immuneEartag,  d , l , id, style, Stage, issale, Age, Weight}
                		   	 this.tableData.push(obj)
                		 })
                 }
@@ -514,12 +535,16 @@ export default {
 			this.upda.earTag = row.tradeMarkEartag
 			this.upda.immuTag = row.immuneEartag
 			this.dialogUpdateVisible = true
+			//updateData用来头部数据显示
 			this.updateData.immu = row.immuneEartag
 			this.updateData.earTag = row.tradeMarkEartag
 			this.updateData.style = row.style
 			this.updateData.period = row.Stage
+			//
 			this.currentRow = row
-			this.sheepid=row.id	
+			this.sheepid = row.id	
+			this.upda.year = row.Age
+			this.upda.weight = row.Weight
 		},
 
 		updateSheep(){
@@ -534,13 +559,17 @@ export default {
 				if(this.upda.stage ==this.stageList[i])
 					stage = i
 			}
+			let age = this.upda.year
+			let weight = this.upda.weight
 			let param = {
 				factory,
 				sheepid,
 				tradeMarkEartag,
 				breedingSheepBase,
 				type,
-				stage
+				stage,
+				weight,
+				age
 			}
 			updateSheepAllMe(param).then(res=>{
 				this.fetchData()

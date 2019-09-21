@@ -11,7 +11,8 @@
             :has-remark="true"
             :get-data="getPrevention"
             :post-data="postPrevention"
-            :update-data="updatePrevention" 
+            :update-data="updatePrevention"
+            :needBuildingInfo="true" 
             >
         </data-cur>
     </div>

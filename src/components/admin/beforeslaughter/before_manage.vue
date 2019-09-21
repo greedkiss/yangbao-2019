@@ -192,9 +192,14 @@ import { isReqSuccessful } from '@/util/jskit'
       
       //查看视频
       view(index){
+        if(this.video!==null){
             this.video=this.tableData[index].video
             this.dialogFormVisible=true
-            console.log(this.tableData[index].video)
+        }
+        else{
+          this.$message.error('该羊只暂无相关视频！')
+        }
+
       },
       //同步体重及视频
       Syn(row){

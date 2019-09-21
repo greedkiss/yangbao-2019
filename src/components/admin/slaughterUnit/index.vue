@@ -9,12 +9,15 @@
             :items="items"
             :hasRemark="false"
             :hasUnitRecommand="true"
+            :isInfomChange="true"
+            :isProduce="true"
             :hasSuNe="true"
             :itemsSN="itemsSN"
             :modelsSN.sync="modelsSN"
             :get-data="getSlaughterUnit"
             :isCustomer="true"
             :post-data="updateSlaughterUnit"
+            :needBuildingInfo="false"
             >
         </data-cur>
     </div>
@@ -28,7 +31,6 @@ export default {
     components: {
         dataCur
     },
-
     data () {
         let types = [
             {value: '屠宰厂'},

@@ -271,23 +271,23 @@
 		</el-dialog>
 
 		<el-dialog
-  title="羊只视频"
-  :visible.sync="dialogVideoVisible"
-  width="50%"
-	center>
+				title="羊只视频"
+				:visible.sync="dialogVideoVisible"
+				width="50%"
+				center>
 
-		<!-- FIXME: video 标签兼容性处理 -->
-		<div class="show-detail">
-				<video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
-				<img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
-		</div>
-		<div class="show-list">
-				<ul>
-						<li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
-						<li><el-tag>上传日期</el-tag> {{ sheepVideo.time }}</li>
-				</ul>
-		</div>
-</el-dialog>
+			<!-- FIXME: video 标签兼容性处理 -->
+			<div class="show-detail">
+					<video v-if="sheepVideo.filetype === 1 || sheepVideo.filetype === 6" :src="sheepVideo.url" class="production-video" controls="controls" height="400" width="400"></video>
+					<img v-else class="production-image-detail" :src="sheepVideo.url" :onerror="defaultImg">
+			</div>
+			<div class="show-list">
+					<ul>
+							<li><el-tag>商标耳牌</el-tag> {{ sheepVideo.erNumber }}</li>
+							<li><el-tag>上传日期</el-tag> {{ sheepVideo.time }}</li>
+					</ul>
+			</div>
+	</el-dialog>
 
 
 		<div class="block" style="margin-left: 46px">

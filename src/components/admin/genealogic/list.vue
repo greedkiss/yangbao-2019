@@ -12,7 +12,7 @@
         </admin-table>
     </div>
 </template>
-
+ 
 <script>
 import AdminTable from '@/components/admin/table'
 import { getGeneas, deleteGeneaRec } from '@/util/getdata'

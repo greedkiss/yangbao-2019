@@ -8,7 +8,8 @@
             :is-disinfect="true"
             :models.sync="models"
             :items="items"
-            :get-data="getDisinfect">
+            :needBuildingInfo ="true"
+            :get-data="getDisinfect" >
         </formdata-cur>
     </div>
 </template>

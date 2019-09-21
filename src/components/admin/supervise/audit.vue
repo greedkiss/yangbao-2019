@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title">操作流程审核</p>
-		<basic-info :items="items" :models="models" :radio-index="2"></basic-info>
+		<basic-info :items="items" :models="models" :radio-index="2" :needBuildingInfo="needBuildingInfo"></basic-info>
 
 		<div class="check">
 			<el-table
@@ -57,6 +57,7 @@ export default {
     data() {
 
     	return {
+			needBuildingInfo:true,
     		items: [{
     			label: '公司名称',
     			model: 'companyName'

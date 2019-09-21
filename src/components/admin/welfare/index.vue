@@ -10,7 +10,8 @@
             :items="items"
             :get-data="getWelfare"
             :post-data="postWelfare"
-            :update-data="updateWelfare">
+            :update-data="updateWelfare"
+            :needBuildingInfo="true">
         </data-cur>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title">修改密码</p>
-        <basic-info :items="items" :models.sync="models"></basic-info>
+        <basic-info :items="items" :models.sync="models" :needBuildingInfo="false"></basic-info>
         <div class="admin-send">
             <el-button type="primary" @click="submit()">提交/更新</el-button>
         </div>

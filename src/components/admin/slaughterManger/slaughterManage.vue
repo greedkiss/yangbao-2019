@@ -155,7 +155,6 @@
 </template>
 
 <script>
-import dataCur from '@/components/admin/common/dataCUR'
 import { isReqSuccessful} from '@/util/jskit'
 import {getUserById,postSlaughter,getManageData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
@@ -163,7 +162,6 @@ import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 //getSlaughterManage
 export default {
     components: {
-        dataCur,
     },
     mounted(){
         // var myDate=new Date();

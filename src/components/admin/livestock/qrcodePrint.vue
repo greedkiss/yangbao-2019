@@ -37,7 +37,6 @@
 
 <script>
 import QRCode from 'qrcodejs2'
-import BasicInfo from '@/components/admin/basic_info'
 import { isReqSuccessful } from '@/util/jskit'
 import { getUserById} from '@/util/getdata'
 export default {
@@ -75,6 +74,11 @@ export default {
                 newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
                 newWindow.print();
                 newWindow.close();
+                // var newWindow=window.open("打印窗口","_blank");	
+                // for(let i=115301;i<=115800;i++){
+                //     let docStr=`<p>{path: '/mS=S${i}', name: 'mobileSearch', component: mobileSearchRes},</p>`;
+                //     newWindow.document.write(docStr);
+                // }
             }
             else if(arguments.length===2){
                 if(start===null&&end===null){

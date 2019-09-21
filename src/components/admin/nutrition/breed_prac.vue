@@ -11,7 +11,8 @@
             :post-data="postBreeding"
             :update-data="updateBreeding"
             :checkFull="false"
-            :isPrac="true">
+            :isPrac="true"
+            :needBuildingInfo="true">
         </data-cur>
     </div>
 </template>

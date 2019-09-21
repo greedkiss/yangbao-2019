@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <p class="card-title" v-text="title"></p>
-        <basic-info ref="info" :get-illness="getIllness" :radio-index="radioIndex" :symptom="symptom" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :is-produce="isProduce"></basic-info>
+        <basic-info ref="info" :isInfomChange="isInfomChange" :needBuildingInfo="needBuildingInfo" :get-illness="getIllness" :radio-index="radioIndex" :symptom="symptom" :items="items" :models.sync="models" :update-submitter="updateSubmitter" :update-unit="updateUnit" :isProduce="isProduce"></basic-info>
         <div class="card" v-if="hasNote">
             <p class="card-title">品种详情:</p>
             <el-input type="textarea" v-model="models.description"></el-input> 
@@ -22,6 +22,15 @@
         <div class="card" v-if="hasSuNe">
             <p class="card-title" style="text-align: center; padding-left: 0px">供需信息发布</p>
             <basic-info ref="info" :radio-index="radioIndex" :items="itemsSN" :models.sync="modelsSN" :Function1 ="SearchResult"></basic-info>
+        </div>
+        
+        <div class="card" v-if="isFarmUnit">
+            <p class="card-title" style="text-align: center; padding-left: 0px">羔羊信息发布</p>
+            <div  class="time el-input-group" style="width:30%; margin-top:20px;"  >
+                <span class="time-span ellipse" style="width:25%;" title="羔羊数" >羔羊数:</span>
+                <el-input-number :min="0" size="small" v-model="youngSheepNumber"></el-input-number>
+            </div>
+            <el-button @click="submitYoungSheep" style="margin-right:-100px" size="small" type="primary">提交数量</el-button>
         </div>
 
 
@@ -69,7 +78,8 @@
 <script>
 import BasicInfo from '@/components/admin/basic_info'
 import { checkForm, isReqSuccessful, postJump, patchJump, addressToArray  } from '@/util/jskit'
-import { getUserById, patchWelfare, patchBreeding, patchPrevention, patchProWelfare, patchProPrevention, patchProBreeding } from '@/util/getdata'
+import { getUserById, patchWelfare, patchBreeding, patchPrevention, patchProWelfare, patchProPrevention, patchProBreeding ,postYoungSheep} from '@/util/getdata'
+import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 export default {
     props: {
         isAgent: {
@@ -92,6 +102,10 @@ export default {
         itemsSN: {
             type: Array
         },
+        itemsFU: {
+            type: Array
+        },
+
         itemsBreed:{
             type:Array
         },
@@ -103,6 +117,9 @@ export default {
         },
         models:{
             type: Object
+        },
+        youngSheepNumber:{
+            type: Number
         },
         modelsBreed:{
             type: Object
@@ -184,13 +201,29 @@ export default {
         //判断是否是消费实体和屠宰加工，是则不请求/bc/b接口
         isProduce: {
             type: Boolean,
-            default: true
+            default: false
+        },
+        isInfomChange:{
+            type: Boolean,
+            default: false
+        },
+        needBuildingInfo:{
+            type: Boolean,
+            default: false
         },
         //判断是否是养殖端
         isBreed: {
             type: Boolean,
             default: false
-        }
+        },
+        isGenealogic:{
+            type: Boolean,
+            default: false
+        },
+        isFarmUnit:{
+            type: Boolean,
+            default: false
+        },
     },
 
     components: {
@@ -213,6 +246,7 @@ export default {
         this.supervise = this.$route.query.supervise
         this.view = this.$route.query.view
         this.edit = this.$route.query.edit || this.$route.query.check || this.$route.query.supervise || this.view
+        this.isView = this.$route.query.isView
         this.intel = this.$route.query.intel
         let id = this.$route.params.id
         getUserById(id).then(res => {
@@ -242,18 +276,51 @@ export default {
                     Object.keys(this.modelsSN).forEach(v => {
                         objSN[v] = res.data.customer[v]
                     })
-                    Object.keys(this.modelsBreed).forEach(v => {
+                    if(this.modelsBreed){
+                        Object.keys(this.modelsBreed).forEach(v => {
                         objBreed[v] = res.data.customer[v]
-                    })
-                    Object.keys(this.modelsPart).forEach(v => {
-                        objPart[v] = res.data.customer[v]
-                    })
+                        })
+                    }
+                    if(this.modelsPart){
+                        Object.keys(this.modelsPart).forEach(v => {
+                            objPart[v] = res.data.customer[v]
+                        })
+                    }
                     this.$emit('update:models', obj)
                     this.$emit('update:modelsSN', objSN)
                     this.$emit('update:modelsBreed', objBreed)
                     this.$emit('update:modelsPart', objPart)
                 }
             })
+        }
+        //系谱档案
+        if(this.isGenealogic){
+            if(this.edit){
+                this.getData(this.edit).then((res) => {
+                if(isReqSuccessful(res)){
+                    let data=res.data.model
+                    this.models.tradeMarkEartag = data.tradeMarkEartag 
+                    this.models.birthTime=data.birthTime
+                    this.models.birthWeight=data.birthWeight
+                    this.models.color=data.color
+                    this.models.eartagOfFather=data.eartagOfFather
+                    this.models.eartagOfMother=data.eartagOfMother
+                    this.models.eartagOfFathersFather=data.eartagOfFathersFather
+                    this.models.eartagOfFathersMother=data.eartagOfFathersMother
+                    this.models.eartagOfMothersFather=data.eartagOfMothersFather
+                    this.models.eartagOfMothersMother=data.eartagOfMothersMother
+                    this.models.sex=data.sex
+                    this.models.remark=data.remark
+                    this.models.typeName=data.typeName
+                    this.models.isFromList=true
+                    return
+                }
+                else{
+                    this.$message.error('请求失败！')
+                }  
+            })
+            }
+            return 
         }
         if (this.edit) {
             this.getData(this.edit).then(res => {
@@ -308,6 +375,7 @@ export default {
 
     data () {
         return {
+            isView :null,
             edit: false,
             check: false,
             supervise: false,
@@ -422,7 +490,26 @@ export default {
             //     })
             // }
         },
-
+        submitYoungSheep(){
+            let form = new FormData();
+            form.append('sheepNumber',this.youngSheepNumber)
+            form.append('factoryId',this.user.userFactory)
+            let headers = {}
+            headers[authStr] = window.localStorage.getItem(tokenStr)
+            window.fetch(baseUrl + '/over/all/statistics/add/sheep', {
+                  method: 'POST',
+                  headers,
+                  body: form
+              }).then(async res => {
+                  let body = await res.json()
+                    if (isReqSuccessful(body)) {
+                            this.$message.success('上传成功')
+                    }
+                    else{
+                    this.$message.error('上传失败')
+                    }
+                })
+        },
         submit ( checkFull ) {
             if (! checkForm(this.models, checkFull)) {
                 return

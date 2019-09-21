@@ -60,7 +60,6 @@ export default {
             tradeMarkEarTag:'',
             productionShow: [],
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
-            // defaultImg: 'this.src="//otxtxlg3e.bkt.clouddn.com/FA4EA1F6F081AAC90EA490C18481189C.jpg"',
             proList: [],
             pageNumb: 1,
             total: 0,
@@ -88,7 +87,7 @@ export default {
                 }
                 getManageData(data).then(res => {
                     if(isReqSuccessful(res)) {
-                        if(!res.data.List.length) {
+                        if(!res.data.number) {
                             this.$message.warning('未查询到数据')
                             this.proList = []
                             this.total = 0
@@ -96,7 +95,12 @@ export default {
                         }
                         let arr = []
                         res.data.List.forEach((item) => {
-                            item.url = getThumbPicture(item.fileName)
+                            if(item.video!=null){
+                                item.url = getThumbPicture(item.fileName)
+                            }
+                            else{
+                                item.url= 'this.src="//qiniu.yunyangbao.cn/logo.jpg"'
+                            }
                         })
                         this.proList = res.data.List
                         this.productionShow = new Array(arr.length).fill(false);

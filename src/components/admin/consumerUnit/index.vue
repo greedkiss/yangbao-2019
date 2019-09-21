@@ -9,12 +9,15 @@
             :items="items"
             :hasRemark="false"
             :hasUnitRecommand="true"
+            :isInfomChange='true'
             :hasSuNe="true"
             :itemsSN="itemsSN"
             :modelsSN.sync="modelsSN"
             :get-data="getSlaughterUnit"
             :isCustomer="true"
+            :isProduce="true"
             :post-data="updateSlaughterUnit"
+            :needBuildingInfo="false"
             >
         </data-cur>
     </div>

@@ -8,7 +8,8 @@
             :models.sync="models"
             :items="items"
             :get-data="getAntiscolic"
-            :showr="showr">
+            :showr="showr"
+            :needBuildingInfo="true">
         </formdata-cur>
     </div>
 </template>

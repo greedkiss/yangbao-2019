@@ -11,7 +11,8 @@
             :hasRecommand="true"
             :get-data="getFarmById"
             :post-data="postFarm"
-            :update-data="updateFarm">
+            :update-data="updateFarm"
+            :needBuildingInfo="true">
         </data-cur>
     </div>
 </template>

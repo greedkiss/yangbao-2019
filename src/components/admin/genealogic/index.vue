@@ -6,13 +6,15 @@
             :radio-index="0"
             :models.sync="models"
             :items="items"
+            :isGenealogic="true"
             :get-data="getGeneaRec"
             :post-data="postGeneaRec"
-            :update-data="updateGeneaRec">
+            :update-data="updateGeneaRec"
+            :needBuildingInfo="true">
         </data-cur>
     </div>
 </template>
-
+ 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
 import { getTypeName } from '@/util/dataselect'
@@ -27,6 +29,9 @@ export default {
     watch: {
         'models.sex': {
             handler (newV) {
+                if(this.models.isFromList){
+                    return
+                }
                 this.models.tradeMarkEartag = newV ? 'M' : 'G'
             },
             immediate: true
@@ -116,7 +121,8 @@ export default {
                 eartagOfMothersMother: null,
                 sex: 0,
                 remark: '',
-                typeName: null
+                typeName: null,
+                isFromList:0
             }
         }
     }

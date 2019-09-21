@@ -7,7 +7,8 @@
             @update:models="v => models = v"
             :models.sync="models"
             :items="items"
-            :get-data="getImmune">
+            :get-data="getImmune"
+            :needBuildingInfo="true">
         </formdata-cur>
     </div>
 </template>
