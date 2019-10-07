@@ -164,7 +164,7 @@ export default {
                     }
                 }).then(this.getProList)
             }
-            if(!this.isSlaughter&&!isCustomer){
+            if(!this.isSlaughter&&!this.isCustomer){
                 form.append('factoryId' ,this.user.userFactory)
                 form.append('certification' ,this.models.type)
                 form.append('file[]' ,this.models.file)

@@ -252,6 +252,7 @@ export default {
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
                 this.user = res.data.model
+                this.agent = res.data.agent
                 this.fetchBreedData(this.user.userFactory)
             }
         })
@@ -375,6 +376,7 @@ export default {
 
     data () {
         return {
+            agent:0,
             isView :null,
             edit: false,
             check: false,
@@ -550,6 +552,7 @@ export default {
             }
 
             let { userFactory, userRealname, id, factoryName } = this.user
+            let agent = this.agent
             data.factoryNum = this.models.factoryNum || userFactory
             
             if(this.isBreed){
@@ -571,6 +574,10 @@ export default {
                 }
                 data.responsibleId = -1
                 data.agent = id
+                if(this.isFarmUnit){
+                    data.agent = agent
+                    console.log(data.agent)
+                }
             } else if(this.isSuper && this.edit){
                 data.supAgentId = parseInt(userFactory)
                 data.id = this.edit

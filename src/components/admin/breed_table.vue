@@ -1199,19 +1199,42 @@ export default {
         },
 
         deleteItem (index) {
-            this.$confirm('将永久删除此条记录, 是否继续?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                let id = this.tableData[index].id
-                this.deleteData(id).then(res => {
-                    if (isReqSuccessful(res)) {
-                        this.fetchData()
-                        this.$message.success('删除成功!')
-                    }
+            if(this.isSaleOrder==true){
+                this.$confirm('将取消此条订单, 是否继续?', '提示', {
+                    type: 'warning'
+                }).then(() => {
+                    let id = this.tableData[index].id
+                    this.deleteData(id).then(res => {
+                        if (isReqSuccessful(res)) {
+                            if(res.data.msg=='订单已经完成，不能取消！'){
+                                this.$message.warning('订单已经完成，不能取消!')
+                                return
+                            }
+                            this.fetchData()
+                            this.$message.success('删除成功!')
+                            return 
+                        }
+                    })
+                }).catch(() => {
+                    return false
                 })
-            }).catch(() => {
-                return false
-            })
+            }
+            else{
+                this.$confirm('将永久删除此条记录, 是否继续?', '提示', {
+                type: 'warning'
+                }).then(() => {
+                    let id = this.tableData[index].id
+                    this.deleteData(id).then(res => {
+                        if (isReqSuccessful(res)) {
+                            this.fetchData()
+                            this.$message.success('删除成功!')
+                        }
+                    })
+                }).catch(() => {
+                    return false
+                })
+            }
+            
         }
     }
 }

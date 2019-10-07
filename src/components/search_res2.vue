@@ -26,8 +26,8 @@
           <div class="mod-content">
            <div class="mod-title">
                 <span class="breedTitle">养殖端</span>
-                <span class="slaugTitle">屠宰端</span>
-                <span class="consuTitle">消费端</span>
+                <span class="slaugTitle2">屠宰端</span>
+                <span class="consuTitle2">消费端</span>
             </div>
           <div class="mod">
              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
@@ -394,9 +394,9 @@
           <div class="modRight"></div> -->
           <div class="mod-content">
            <div class="mod-title">
-                <span class="breedTitle">养殖端</span>
+                <span class="breedTitle2">养殖端</span>
                 <span class="slaugTitle">屠宰端</span>
-                <span class="consuTitle">消费端</span>
+                <span class="consuTitle2">消费端</span>
             </div>
           <div class="mod">
              <div class='diagonal'  @click="open(modules[0].name,modules[0].id)">
@@ -759,8 +759,8 @@
                 <div class='mod-wrapper'>
           <div class="mod-content">
            <div class="mod-title">
-                <span class="breedTitle">养殖端</span>
-                <span class="slaugTitle">屠宰端</span>
+                <span class="breedTitle2">养殖端</span>
+                <span class="slaugTitle2">屠宰端</span>
                 <span class="consuTitle">消费端</span>
             </div>
           <div class="mod">
@@ -2441,10 +2441,11 @@ export default {
             }
           })
         }else{
-            this.$notify.info({
-              title: '消息',
-              message: '屠宰端没有该羊信息'
-            });
+            // this.$notify.info({
+            //   title: '消息',
+            //   message: '屠宰端没有该羊信息'
+            // });
+            return
         }
       })
         getConsumerInfoByearTag(this.code).then(re =>{
@@ -2476,10 +2477,11 @@ export default {
             }
           })
         }else{
-            this.$notify.info({
-              title: '消息',
-              message: '消费终端没有该羊信息'
-            });
+            // this.$notify.info({
+            //   title: '消息',
+            //   message: '消费终端没有该羊信息'
+            // });
+            return 
         }
       })
       let newBodyHeight = document.body.clientHeight;
@@ -3316,6 +3318,17 @@ export default {
   margin-left 38%
 .consuTitle
   color rgb(232,97,0)
+  float right
+  margin-right 10px
+.breedTitle2
+  color rgb(0,160,234)
+  margin-top 20px
+  margin-left 27%
+.slaugTitle2
+  color rgb(0,160,234)
+  margin-left 38%
+.consuTitle2
+  color rgb(0,160,234)
   float right
   margin-right 10px
 // .modLeft

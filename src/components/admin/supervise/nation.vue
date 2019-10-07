@@ -9,7 +9,7 @@ export default{
     },
     data(){
         let types = [
-            {value: '营业执照'},
+            {value: '营业执照'}, 
             {value: '防预条件许可证'},
             {value: '羊只检疫合格证'},
             {value: '品质证书'},

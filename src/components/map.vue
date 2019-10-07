@@ -1,5 +1,5 @@
 <template>
-	<div ref="bmap" class="mod_map"></div>
+	<div ref="bmap" :class="mapClass" ></div>
 </template>
 
 <script>
@@ -14,11 +14,22 @@ export default {
 		},
 		latitude: {
 			type: String
+		},
+		mobile:{
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
 		return {
-			city: ""
+			city: "",
+			mapClass:'mobile_map'
+		}
+	},
+	created () {
+		console.log(1111)
+		if(!this.mobile){
+			this.mapClass='mod_map'
 		}
 	},
     watch: {
@@ -64,4 +75,7 @@ export default {
 .mod_map
 	width 100%
 	height 175px
+.mobile_map
+	width 100%
+	height 400px
 </style>

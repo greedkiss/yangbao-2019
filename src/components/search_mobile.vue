@@ -28,11 +28,12 @@
       </div>
     <!-- 栏目切换 -->
     <div class="tab-bar">
-      <a class="active" >养殖生产溯源</a>
-      <a >屠宰加工</a>
-      <a >终端消费</a>
+      <a :class="{active : isActive}" @click="tabChange(1)">养殖生产溯源</a>
+      <a :class="{active : isActive2}" @click="tabChange(2)">屠宰加工</a>
+      <a :class="{active : isActive3}" @click="tabChange(3)">终端消费</a>
     </div>
     <!-- 内容块 -->
+    <div v-if="tabShow===1">
     <section class="block block-text-video">
       <h2>羊场基本信息</h2>
       <div class="row">
@@ -72,7 +73,10 @@
         />
       </div>
     </section>
-    <!-- 内容块 -->
+    <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
+      <b-map height='100%' :mobile="true" :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+    </section>
+    <!-- 内容块  -->
     <section class="block block-text-video">
       <h2>羊只基本信息</h2>
       <div class="row">
@@ -101,7 +105,7 @@
           <span>{{sheepInfo.weight}}</span>
         </div>
         <div class="field">
-          <label>年龄：</label>
+          <label>月龄：</label>
           <span>{{sheepInfo.age}}</span>
         </div>
       </div>
@@ -199,7 +203,7 @@
           <div class="item" @click="open2(modules[11].name,modules[11].id)">
             <a class="value" >中</a>
             <a class="text" >
-              <b>分隔</b>
+              <b>分割</b>
             </a>
           </div>
         </div>
@@ -261,7 +265,7 @@
     <section class="block block-yhpj">
       <h2>用户评级</h2>
       <div class="content">
-        <h4>养殖雄端评级：</h4>
+        <h4>养殖端评级：</h4>
         <div class="stars">
           <font-awesome-icon icon="star" class="active" />
           <font-awesome-icon icon="star" class="active" />
@@ -279,6 +283,514 @@
         <font-awesome-icon icon="question" />
       </a>
     </section>
+    </div>
+
+    <!--屠宰加工-->
+    <div v-if="tabShow===2">
+    <section class="block block-text-video">
+      <h2>屠宰场基本信息</h2>
+      <div class="row">
+        <div class="field">
+          <label>负责人：</label>
+          <span>{{slaughterInfo.responsiblePersonName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>联系电话：</label>
+          <span>{{slaughterInfo.telNumber}}</span>
+        </div>
+        <div class="field">
+          <label>屠宰场名称：</label>
+          <span>{{slaughterInfo.breedName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>地理位置：</label>
+          <span>{{slaughterInfo.breedLocation}}</span>
+          <a class="map" @click="openMap">
+            导航过去
+            <font-awesome-icon icon="map-marker" />
+          </a>
+        </div>
+      </div>
+      <div class="video">
+        <video
+          id="factoryVideo"
+          autoplay="autoplay"
+          controls="controls"
+          muted="muted"
+          loop="loop"
+          :src="slaughterFactoryPics"
+        />
+      </div>
+    </section>
+    <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
+      <b-map height='100%' :mobile="true" :longitude = 'slaughterInfo.longitude' :latitude = 'slaughterInfo.latitude'></b-map>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-text-video">
+      <h2>羊只基本信息</h2>
+      <div class="row">
+        <div class="field">
+          <label>耳号：</label>
+          <span>{{sheepInfo.trademarkEarTag}}</span>
+        </div>
+        <div class="field">
+          <label>颜色：</label>
+          <span>{{sheepInfo.color}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>品种：</label>
+          <span>{{sheepInfo.typeName}}</span>
+        </div>
+        <div class="field">
+          <label>品类：</label>
+          <span>{{sheepInfo.varietyName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>体重：</label>
+          <span>{{sheepInfo.weight}}</span>
+        </div>
+        <div class="field">
+          <label>月龄：</label>
+          <span>{{sheepInfo.age}}</span>
+        </div>
+      </div>
+      <div class="video">
+        <video
+          id="factoryVideo"
+          controls="controls"
+          muted="muted"
+          loop="loop"
+          :src="slaughterSheepPics[0]"
+          />
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-sc">
+      <h2>生产基本信息</h2>
+      <div class="content">
+        <div class="items items-1" >
+          <div class="item"  @click="open(modules[0].name,modules[0].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>系谱</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[1].name,modules[1].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>福利</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-2"  >
+          <div class="item" @click="open(modules[2].name,modules[2].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>消毒</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[3].name,modules[3].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>防疫</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-3" >
+          <div class="item" @click="open(modules[4].name,modules[4].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>驱虫</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[5].name,modules[5 ].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>营养</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-4" >
+          <div class="item" @click="open(modules[6].name,modules[6].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>配种</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[7].name,modules[7].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>疾病</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-5">
+          <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>宰前</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>屠宰</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-6">
+          <div class="item" @click="open2(modules[10].name,modules[10].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>分割</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-7">
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>终端</b>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-yzhjzs">
+      <h2>养殖环境追溯</h2>
+      <div class="content">
+        <span  @click="open('air',11)">
+          <img  src="../assets/imgs/mobile/yzhjzs/1.png" />
+          <label>空气</label>
+        </span>
+        <span @click="open('wat',10)">
+          <img src="../assets/imgs/mobile/yzhjzs/2.png" />
+          <label>水</label>
+        </span>
+        <span  @click="open('soi',9)">
+          <img src="../assets/imgs/mobile/yzhjzs/3.png" />
+          <label>土壤</label>
+        </span>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-gjzs">
+      <h2>国家证书</h2>
+      <div class="content">
+        
+        <span v-for="(item) in auPictureOfSlaught" @click="watchBigPic(item.url,item.name)">
+          <img v-if='item' :src="item.url" />
+        </span>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-ptpj">
+      <div class="content">
+        <h3>
+          平台评级
+          <i>/品质认证</i>
+        </h3>
+        <div class="stars">
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" />
+        </div>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-yhpj">
+      <h2>用户评级</h2>
+      <div class="content">
+        <h4>屠宰端评级：</h4>
+        <div class="stars">
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" />
+        </div>
+      </div>
+      <a @click="goodSuccess" >
+        点赞
+        <font-awesome-icon icon="thumbs-up" />
+      </a>
+      <a @click="openissue">
+        投诉
+        <font-awesome-icon icon="question" />
+      </a>
+    </section>
+    </div>
+
+    <!--终端消费-->
+  <div v-if="tabShow===3">
+    <section class="block block-text-video">
+      <h2>消费终端基本信息</h2>
+      <div class="row">
+        <div class="field">
+          <label>负责人：</label>
+          <span>{{ConsumerInfo.responsiblePersonName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>联系电话：</label>
+          <span>{{ConsumerInfo.telNumber}}</span>
+        </div>
+        <div class="field">
+          <label>终端名称：</label>
+          <span>{{ConsumerInfo.breedName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>地理位置：</label>
+          <span>{{ConsumerInfo.breedLocation}}</span>
+          <a class="map" @click="openMap">
+            导航过去
+            <font-awesome-icon icon="map-marker" />
+          </a>
+        </div>
+      </div>
+      <div class="video">
+        <video
+          id="factoryVideo"
+          autoplay="autoplay"
+          controls="controls"
+          muted="muted"
+          loop="loop"
+          :src="consumerFactoryPics"
+        />
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
+      <b-map height='100%' :mobile="true" :longitude = 'ConsumerInfo.longitude' :latitude = 'ConsumerInfo.latitude'></b-map>
+    </section>
+    <section class="block block-text-video">
+      <h2>羊只基本信息</h2>
+      <div class="row">
+        <div class="field">
+          <label>耳号：</label>
+          <span>{{sheepInfo.trademarkEarTag}}</span>
+        </div>
+        <div class="field">
+          <label>颜色：</label>
+          <span>{{sheepInfo.color}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>品种：</label>
+          <span>{{sheepInfo.typeName}}</span>
+        </div>
+        <div class="field">
+          <label>品类：</label>
+          <span>{{sheepInfo.varietyName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>体重：</label>
+          <span>{{sheepInfo.weight}}</span>
+        </div>
+        <div class="field">
+          <label>年龄：</label>
+          <span>{{sheepInfo.age}}</span>
+        </div>
+      </div>
+      <div class="video">
+        <video
+          id="factoryVideo"
+          controls="controls"
+          muted="muted"
+          loop="loop"
+          :src="ConsumerSheepPics[0]"
+          />
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-sc">
+      <h2>生产基本信息</h2>
+      <div class="content">
+        <div class="items items-1" >
+          <div class="item"  @click="open(modules[0].name,modules[0].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>系谱</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[1].name,modules[1].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>福利</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-2"  >
+          <div class="item" @click="open(modules[2].name,modules[2].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>消毒</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[3].name,modules[3].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>防疫</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-3" >
+          <div class="item" @click="open(modules[4].name,modules[4].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>驱虫</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[5].name,modules[5 ].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>营养</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-4" >
+          <div class="item" @click="open(modules[6].name,modules[6].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>配种</b>
+            </a>
+          </div>
+          <div class="item" @click="open(modules[7].name,modules[7].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>疾病</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-5">
+          <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>宰前</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+            <a class="value" >良</a>
+            <a class="text" >
+              <b>屠宰</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-6">
+          <div class="item" @click="open2(modules[10].name,modules[10].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+            <a class="value" >中</a>
+            <a class="text" >
+              <b>分割</b>
+            </a>
+          </div>
+        </div>
+        <div class="items items-7">
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>终端</b>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-yzhjzs">
+      <h2>养殖环境追溯</h2>
+      <div class="content">
+        <span  @click="open('air',11)">
+          <img  src="../assets/imgs/mobile/yzhjzs/1.png" />
+          <label>空气</label>
+        </span>
+        <span @click="open('wat',10)">
+          <img src="../assets/imgs/mobile/yzhjzs/2.png" />
+          <label>水</label>
+        </span>
+        <span  @click="open('soi',9)">
+          <img src="../assets/imgs/mobile/yzhjzs/3.png" />
+          <label>土壤</label>
+        </span>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-gjzs">
+      <h2>国家证书</h2>
+      <div class="content">
+        
+        <span v-for="(item) in auPictureOfConsumer" @click="watchBigPic(item.url,item.name)">
+          <img v-if='item' :src="item.url" />
+        </span>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-ptpj">
+      <div class="content">
+        <h3>
+          平台评级
+          <i>/品质认证</i>
+        </h3>
+        <div class="stars">
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" />
+        </div>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-yhpj">
+      <h2>用户评级</h2>
+      <div class="content">
+        <h4>消费端评级：</h4>
+        <div class="stars">
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" class="active" />
+          <font-awesome-icon icon="star" />
+        </div>
+      </div>
+      <a @click="goodSuccess" >
+        点赞
+        <font-awesome-icon icon="thumbs-up" />
+      </a>
+      <a @click="openissue">
+        投诉
+        <font-awesome-icon icon="question" />
+      </a>
+    </section>
+    </div>
+
     <el-dialog
       title="投诉"
       :visible.sync="issue"
@@ -1079,7 +1591,7 @@
             </el-table-column>
             <el-table-column
               prop="age"
-              label="年龄"
+              label="月龄"
               width='120px'>
             </el-table-column>
           </el-table>
@@ -1282,16 +1794,17 @@
       
     </el-dialog>
     
-  <el-dialog
+  <!-- <el-dialog
         title="产品地址"
         :visible.sync="mapVisible"
         style="margin-top:-50px"
         width="50%"
         center
         >
-  <div class='bmap'><b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map></div>
+  <div class='bmap'></div>
+    <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
   
-  </el-dialog>
+  </el-dialog> -->
   <el-dialog
   custom-class="mod_search_dialog"
   :visible.sync="noSheep"
@@ -1340,7 +1853,7 @@
 import BMap from './map'
 import RecordTable from './table'
 import QRCode from 'qrcodejs2'
-import {getSheepInfo } from '@/util/getdata'
+import {getSheepInfo, getSlaughterInfoByearTag, getConsumerInfoByearTag } from '@/util/getdata'
 import {getTraceInfo,getTraceAfterSlaughterInfo} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
@@ -1352,6 +1865,8 @@ export default {
         location:window.location.href,
         newBodyHeight:null,
         auPicture:[],
+        auPictureOfSlaught:[],
+        auPictureOfConsumer:[],
         autoplay1:false,
         autoplay2:false,
         autoplay3:false,
@@ -1377,12 +1892,38 @@ export default {
           latitude:'',
           responsiblePersonName:'',
         },
+        slaughterInfo:{
+          name:'',
+          breedName:'',
+          arriveTime:'',
+          telNumber:'',
+          breedLocation:'',
+          longitude:'',
+          latitude:'',        
+        },
+        ConsumerInfo:{
+          name:'',
+          breedName:'',
+          arriveTime:'',
+          telNumber:'',
+          breedLocation:'',
+          longitude:'',
+          latitude:'',        
+        },
+        slaughterFactoryPics:null,
+        consumerFactoryPics:null,
+        slaughterSheepPics:[],
+        ConsumerSheepPics:[],
         defaultImg:'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
         mediaVisible:false,
         mediaPicVisible:false,
         noSheep:false,
         qrcodeimg:null,
         videoUrl:null,
+        isActive:true,
+        isActive2:false,
+        isActive3:false,
+        tabShow:1,
         //走马灯图片
         pics: [],
         //左侧展开的选项
@@ -1557,8 +2098,8 @@ export default {
           info.responsiblePersonName=data.model.responsiblePersonName
           info.trademarkEarTag=data.model.trademarkEarTag
           info.color=data.model.color
-          info.varietyName=data.model.varietyName
-          info.typeName=data.model.typeName
+          info.varietyName=data.model.typeName
+          info.typeName=data.model.varietyName
           info.weight=data.model.weight
           info.age=data.model.age
           console.log('long',info.longitude)
@@ -1592,12 +2133,103 @@ export default {
           this.noSheep=true;
         }
       });
+      getSlaughterInfoByearTag(this.code).then(re =>{
+        let info = this.slaughterInfo;
+        let data = re.data;
+        console.log(this.code,data);
+        if(data != null){
+          info.name = data.factory.type;
+          info.breedName = data.factory.name;
+          info.arriveTime = data.factory.date&&data.factory.date.slice(0,10);
+          info.telNumber = data.factory.charge_person_phone;
+          info.breedLocation = data.factory.simple_address + data.factory.detail_address;
+          info.longitude = data.factory.longitude;
+          info.latitude = data.factory.latitude;
+          console.log('long',info.longitude)
+          console.log('latitude',info.latitude)
+          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
+          re.data.sheep.forEach((item) => {
+              this.slaughterSheepPics.push(item.video);
+          })
+          re.data.certification.forEach(item =>{
+            if(item !== null){
+              let v={
+                url:item.pic_address,
+                name:item.certification
+              }
+              this.auPictureOfSlaught.push(v)
+            }
+          })
+        }else{
+            // this.$notify.info({
+            //   title: '消息',
+            //   message: '屠宰端没有该羊信息'
+            // });
+            return
+        }
+      })
+        getConsumerInfoByearTag(this.code).then(re =>{
+        let info = this.ConsumerInfo;
+        let data = re.data;
+        console.log(this.code,data);
+        if(data != null){
+          info.name = data.factory[0].type;
+          info.breedName = data.factory[0].name;
+          info.arriveTime = data.factory[0].date&&data.factory[0].date.slice(0,10);
+          info.telNumber = data.factory[0].charge_person_phone;
+          info.breedLocation = data.factory[0].simple_address + data.factory.detail_address;
+          info.longitude = data.factory[0].longitude;
+          info.latitude = data.factory[0].latitude;
+          console.log('long',info.longitude)
+          console.log('latitude',info.latitude)
+          this.consumerFactoryPics = re.data.factoryVideo.pic_address
+          re.data.sheepVideo.forEach((item) => {
+              this.ConsumerSheepPics.push(item);
+          })
+          re.data.certification[0].forEach(item =>{
+            if(item !== null){
+              let v={
+                url:item.pic_address,
+                name:item.certification
+              }
+              console.log(v)
+              this.auPictureOfConsumer.push(v)
+            }
+          })
+        }else{
+            // this.$notify.info({
+            //   title: '消息',
+            //   message: '消费终端没有该羊信息'
+            // });
+            return
+        }
+      })
     },
     components: {
       BMap,
       RecordTable
     },
   methods: {
+          tabChange(id){
+            if(id===1){
+              this.isActive = true
+              this.isActive2 = false
+              this.isActive3 = false
+              this.tabShow = 1
+            }
+            else if(id===2){
+              this.isActive = false
+              this.isActive2 =  true
+              this.isActive3 = false
+              this.tabShow = 2
+            }
+            else if(id===3){
+              this.isActive = false
+              this.isActive2 = false
+              this.isActive3 =  true
+              this.tabShow =3
+            }
+          },
           mediaWatch(scope){
             if(scope.column.label=='附属物视频'){
                 if(scope.row.appendageVideo!==null){
@@ -1797,7 +2429,7 @@ export default {
             }
       },
       openMap(){
-        this.mapVisible=true;
+        this.mapVisible = !this.mapVisible;
       },
       goodSuccess(){
         let th=this;
@@ -2270,5 +2902,16 @@ export default {
       overflow-x: auto;
     }
     }
+    .bmap{
+      margin-top: -10px;
+      .el-collapse-item__wrap{
+        position: relative;
+        width: 100%;
+        top: 5%;
+      }
+        
+    }
+      
+      
 }
 </style>

@@ -53,9 +53,9 @@ export default {
                 // {label: '消毒场所', model: 'disinfectP'},
                 {label: '加入时间', model: 'createTime', type: 'time'},
                 {label: '单位负责人', model: 'responsiblePersonName', disabled:true},
-                {label: '单位负责人电话', model: 'responsiblePersonPhone',disabled:true},
-                {label: '单位联系人', model: 'contactPersonName',disabled:true},
-                {label: '单位联系人电话', model: 'contactPersonPhone',disabled:true},
+                {label: '单位负责人电话', model: 'responsiblePersonPhone'},
+                {label: '单位联系人', model: 'contactPersonName'},
+                {label: '单位联系人电话', model: 'contactPersonPhone'},
             ],
             itemsSN: [
                 {label: '当前供应', model: 'output'},

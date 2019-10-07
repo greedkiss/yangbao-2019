@@ -218,6 +218,11 @@ export default {
         headers: {
             type: Array
         },
+        //系谱档案
+        isGenea:{
+            type: Boolean,
+            default: false
+        },
 
 
         // 是否显示操作栏的审核功能
@@ -553,6 +558,12 @@ export default {
                 console.log(this.gmtCreate)
                 param.startTime = this.gmtCreate[0]
                 param.endTime = this.gmtCreate[1]
+            }
+            
+            if(this.eartag!==null){
+                if(this.isGenea){
+                  param.tradeMarkEartag = this.eartag
+                }
             }
 
             let pathid

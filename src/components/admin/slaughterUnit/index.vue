@@ -59,7 +59,7 @@ export default {
                 {label: '加入时间', model: 'inDate', type: 'time'},
                 {label: '单位地址', model: 'simpleAddress', type: 'address'},
                 {label: '单位详细地址', model: 'detailAddress'},
-                {label: '单位负责人', model: 'chargePerson'},
+                {label: '单位负责人', model: 'chargePerson',disabled:true},
                 {label: '单位负责人电话', model: 'chargePersonPhone'},
                 {label: '单位联系人', model: 'contactPerson'},
                 {label: '单位联系人电话', model: 'contactPersonPhone'},

@@ -5,7 +5,7 @@
             :has-unpass="false"
             :has-sup="false"
             :getData="getGeneas"
-            :deleteData="deleteGeneaRec"
+            :deleteData="deleteGeneaRec" 
             :isGenea="true"
             :headers="headers"
             :searchAddress="true">

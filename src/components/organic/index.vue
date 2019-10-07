@@ -701,13 +701,16 @@ export default {
         this.$refs.two.style.background = "#7fcdf4";
         this.$refs.one.style.color = "#2c9aef";
         this.$refs.one.style.background = "rgba(255,255,255,0.01)";
-        // if (this.factoryId == -1) {
-        //   getLocationSheep().then(res => {
-        //     this.eartagList = res.data.sheep;
-        //     this.corpation.chargeMan = "";
-        //     this.corpation.phone = "";
-        //   });} 
-        if(this.factoryId != -1){
+        if (this.factoryId == -1) {
+          let simpleAddress = this.geographic.province + this.geographic.city + this.geographic.district
+          getLocationSheep(simpleAddress).then(res => {
+            res.data.sheeps.forEach(item =>{
+              this.eartagList.push(item.trademarkEarTag)
+            })
+            this.corpation.chargeMan = "";
+            this.corpation.phone = "";
+          });
+          }else {
           if (this.factoryType) {
             getFactoryInformation(this.factoryId).then(res => {
               res.data.sheeps.forEach(item => {
@@ -719,7 +722,8 @@ export default {
               if (res.data.factory !== null) {
                 this.corpation.chargeMan =
                   res.data.factory.responsiblePersonName;
-                this.corpation.phone = res.data.factory.responsiblePersonPhone;
+                this.corpation.phone = 
+                res.data.factory.responsiblePersonPhone;
               }
             });
           } else {
@@ -746,7 +750,7 @@ export default {
           getLocationSheep(simpleAddress).then(res => {
             res.data.sheeps.forEach(item =>{
               if(item.canSale){
-                _this.eartagList.push(res.data.sheeps.res.data.sheep)
+                _this.eartagList.push(item.trademarkEarTag)
               }
             })
           });
@@ -768,11 +772,11 @@ export default {
     },
     search(start) {
       let message = {};
+      let simpleAddress = ''
       if (start) {
         let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超";
         message = { type, simpleAddress: "", detailAddress: "" };
       } else {
-        let simpleAddress = "";
         if (this.value.province != "") {
           this.mapCenter.level = 5;
           simpleAddress += this.value.province.label;
@@ -784,7 +788,9 @@ export default {
             simpleAddress += this.value.city.label;
           }
         }
-        if (this.value.country != "") simpleAddress += this.value.country.label;
+        if (this.value.country != "") {
+          simpleAddress += this.value.country.label;
+        }
         let detailAddress = this.value.town;
         let type = "";
         if (this.style.checked1) type += "养殖厂,";
@@ -809,7 +815,20 @@ export default {
       }
       this.data = [];
       this.items = [];
+      let _this = this 
+      getLocationSheep(simpleAddress).then(res => {
+            _this.saleAll = 0;
+            res.data.sheeps.forEach(item =>{
+              if(item){
+                if(item.canSale){
+                _this.saleAll++
+                }
+              }
+            })
+            _this.liveAll = res.data.count;
+          });
       getCustomerByAddress(message).then(res => {
+        //this.getCount()
         if (res.data.factories.length != 0) {
           res.data.factories.forEach(item => {
             let coordinates = [];
@@ -981,6 +1000,7 @@ export default {
           // this.chartSettings.legendName['羔羊']=`羔羊:${res.data.young_sheep}`
           // aaa[8]['羔羊'] = res.data.young_sheep
         }
+        
       });
     },
     getXYbyIP() {
@@ -1190,14 +1210,14 @@ export default {
             }
           })
           getLocationSheep(simpleAddress).then(res => {
-            _this.eartagList.push(res.data.sheeps.res.data.sheep)
-            _this.liveAll = res.data.count;
             _this.saleAll = 0;
             res.data.sheeps.forEach(item =>{
+              _this.eartagList.push(item.trademarkEarTag)
               if(item.canSale){
                 _this.saleAll++
               }
             })
+            _this.liveAll = res.data.count;
             _this.corpation.chargeMan = "";
             _this.corpation.phone = "";
           });
