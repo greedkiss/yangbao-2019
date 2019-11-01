@@ -60,13 +60,13 @@
         </div>
         <div class="admin-send">
             <el-button type="primary">取消</el-button>
-            <el-button type="primary" @click="submit()">提交/更新</el-button>
+            <el-button type="primary" @click="submit()">提交/更新</el-button> 
         </div>
     </div>
 </template>
 <script>
 const qiniu = require('qiniu-js')
-import { getUserById, getSheepBuilding, getSheepCol, getSheepEarTag} from '@/util/getdata'
+import { getUserById, getSheepBuilding, getSheepCol, getSheepEarTag,CreateThumb} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 export default {
     data () {
@@ -213,16 +213,30 @@ export default {
                     let body = await res.json()
                     if(body.data.token != null){
                         this.captures.forEach((item, index) => {
-                            let file = this.$refs.erpai[index].files[0]
-                            let key = body.data.names[index]
+                            let file = this.$refs.erpai[index].files[0] //对象，上传的文件
+                            let key = body.data.names[index] // 文件资源名
                             let token = body.data.token
+                            /*
+                            * fname: string，文件原文件名.
+                            * params: object，用来放置自定义变量;
+                            * mimeType: null || array，用来限制上传文件类型，为 null 时表示不对文件类型限制；
+                            * 限制类型放到数组里： ["image/png", "image/jpeg", "image/gif"]
+                            */
                             let putExtra = {
                                 fname: "",
-                                    params: {},
-                                    mimeType: null
+                                params: {},
+                                mimeType: null
                               }
+                              /*
+                            * config.useCdnDomain: 是否使用 cdn 加速域名，true or false，默认为 false。
+                            * config.disableStatisticsReport: 是否禁用日志报告，为布尔值，默认为false。
+                            * config.region: 选择上传域名区域；当为 null 或 undefined 时，自动分析上传域名区域
+                            * config.retryCount: 上传自动重试次数（整体重试次数）；默认3次（即上传失败后最多重试两次）；
+                            * config.concurrentRequestLimit: 分片上传的并发请求量，number，默认为3；
+                            * config.checkByMD5: 是否开启 MD5 校验，在断点续传时校验分片，默认为 false，不开启。
+                            */
                               let config = {
-                                useCdnDomain: true,
+                                useCdnDomain: true, 
                                     disableStatisticsReport: false,
                                     retryCount: 6,
                               }
@@ -235,18 +249,23 @@ export default {
                                     self.$message.error()('上传失败')
                                 },
                                 complete(res){
+                                    //完成后的操作
+                                    //上传成功以后会返回key 和 hash  key就是文件名了！
                                     self.$message.success('上传成功')
-                                    let obj = new FormData()
-                                    obj.append('name' , key)
-                                    let headers = {}
-                                    headers[authStr] = window.localStorage.getItem(tokenStr)
-                                    window.fetch(baseUrl + '/createThumb', {
-                                        method: 'POST',
-                                        headers,
-                                        body: obj
-                                    }).then(async res => {
-                                        let body = await res.json()
+                                    CreateThumb(key).then(res=>{
+                                        return
                                     })
+                                    // let obj = new FormData()
+                                    // obj.append('name' , key)
+                                    // let headers = {}
+                                    // headers[authStr] = window.localStorage.getItem(tokenStr)
+                                    // window.fetch(baseUrl + '/createThumb', {
+                                    //     method: 'POST',
+                                    //     headers,
+                                    //     body: obj
+                                    // }).then(async res => {
+                                    //     let body = await res.json()
+                                    // })
                                 }
                               }
                               let observable = qiniu.upload(file, key, token, putExtra, config)

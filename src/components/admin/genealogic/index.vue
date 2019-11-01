@@ -8,7 +8,7 @@
             :items="items"
             :isGenealogic="true"
             :get-data="getGeneaRec"
-            :post-data="postGeneaRec"
+            :post-data="postGeneaRec"  
             :update-data="updateGeneaRec"
             :needBuildingInfo="true">
         </data-cur>
@@ -82,7 +82,6 @@ export default {
         let getVariety = (q, cb) => {
             cb(this.variety)
         }
-
         return {
             getGeneaRec,
             postGeneaRec,

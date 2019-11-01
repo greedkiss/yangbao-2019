@@ -48,7 +48,7 @@
 </template>
 <script>
 const qiniu = require('qiniu-js')
-import { getUserById } from '@/util/getdata'
+import { getUserById,CreateThumb } from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 export default {
     data () {
@@ -135,17 +135,21 @@ export default {
                                 },
                                 complete(res){
                                     self.$message.success('上传成功')
-                                    let obj = new FormData()
-                                    obj.append('name' , key)
-                                    let headers = {}
-                                    headers[authStr] = window.localStorage.getItem(tokenStr)
-                                    window.fetch(baseUrl + '/createThumb', {
-                                        method: 'POST',
-                                        headers,
-                                        body: obj
-                                    }).then(async res => {
-                                        let body = await res.json()
+                                    self.$message.success('上传成功')
+                                    CreateThumb(key).then(res=>{
+                                        return
                                     })
+                                    // let obj = new FormData()
+                                    // obj.append('name' , key)
+                                    // let headers = {}
+                                    // headers[authStr] = window.localStorage.getItem(tokenStr)
+                                    // window.fetch(baseUrl + '/createThumb', {
+                                    //     method: 'POST',
+                                    //     headers,
+                                    //     body: obj
+                                    // }).then(async res => {
+                                    //     let body = await res.json()
+                                    // })
                                 }
                               }
                               let observable = qiniu.upload(file, key, token, putExtra, config)

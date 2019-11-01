@@ -27,8 +27,7 @@
                 <el-button 
                 type="primary" 
                 size="small" 
-                @click.prevent="printCode(earTagStart,earTagEnd)" 
-                v-loading.fullscreen.lock="fullscreenLoading">打印</el-button>
+                @click.prevent="printCode(earTagStart,earTagEnd)">打印</el-button>
             </div>
         </div>
         <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
@@ -46,14 +45,14 @@ export default {
             earTagStart:null,
             earTagEnd:null,
             codeNumber:null,
-            qrcodeimg:[],
+            qrcodeimgs:[],
             fullscreenLoading: false
         }
     },
     methods: {
         async printCode(start,end){
             if(arguments.length===1){
-                this.qrcodeimg=[];
+                this.qrcodeimgs=[];
                 this.codeNumber=start;
                 let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
                 document.getElementById("qrcode1").innerHTML = "";
@@ -74,11 +73,6 @@ export default {
                 newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
                 newWindow.print();
                 newWindow.close();
-                // var newWindow=window.open("打印窗口","_blank");	
-                // for(let i=115301;i<=115800;i++){
-                //     let docStr=`<p>{path: '/mS=S${i}', name: 'mobileSearch', component: mobileSearchRes},</p>`;
-                //     newWindow.document.write(docStr);
-                // }
             }
             else if(arguments.length===2){
                 if(start===null&&end===null){
@@ -105,7 +99,13 @@ export default {
                         this.$message.warning('起始耳牌必须小于终止耳牌！')
                         return
                     }
-                    this.qrcodeimg=[];//重置二维码地址数组
+                    const loading = this.$loading({
+                        lock: true,
+                        text: '正在加载二维码，请稍后！',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    this.qrcodeimgs=[];//重置二维码地址数组
                     for(let i=startNum;i<=endNum;i++){
                         this.codeNumber= letter+i
                         let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
@@ -116,18 +116,30 @@ export default {
                             src:document.getElementById("qrcode1").children[1].getAttribute("src"),
                             codeNumber:this.codeNumber
                         }
-                        this.qrcodeimg.push(o);//将每一个二维码地址以及编号推入数组中
+                        this.qrcodeimgs.push(o);//将每一个二维码地址以及编号推入数组中
                     }
+                    loading.close();
                     let newWindow=window.open("打印窗口","_blank");		
-                    for(let j=0;j<this.qrcodeimg.length;j++){
-                        await this.waitDocument(newWindow,this.qrcodeimg[j].src,this.qrcodeimg[j].codeNumber);
-                    }
-                    var styles=document.createElement("style");
-                    styles.setAttribute('type','text/css');//media="print";
-                    styles.innerHTML="" ;
-                    newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
-                    newWindow.print();
-                    newWindow.close();
+                    //并发执行所有的waitDocument函数，提高效率
+                    const promises = this.qrcodeimgs.map((qrcodeimg) => this.waitDocument(newWindow , qrcodeimg.src , qrcodeimg.codeNumber))
+                    Promise.all(promises).then(res => {
+                        var styles=document.createElement("style");
+                        styles.setAttribute('type','text/css');//media="print";
+                        styles.innerHTML="" ;
+                        newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+                        newWindow.print();
+                        newWindow.close();
+                    })
+                    //下面这种是继发调用，速度很慢
+                    // for(let j=0;j<this.qrcodeimgs.length;j++){
+                    //     await this.waitDocument(newWindow,this.qrcodeimgs[j].src,this.qrcodeimgs[j].codeNumber);
+                    // }
+                    // var styles=document.createElement("style");
+                    // styles.setAttribute('type','text/css');//media="print";
+                    // styles.innerHTML="" ;
+                    // newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+                    // newWindow.print();
+                    // newWindow.close();
                 }
                 else{
                     this.$message.warning('请输入正确的耳牌号，字母与数字的组合！')
@@ -139,7 +151,7 @@ export default {
 
 		//获取二维码
 		waitqr(codeNumber){
-                //先调用qrcode,生成二维码，然后0.1秒之后返回成功
+                //先调用qrcode,生成二维码，然后0.01秒之后返回成功
 				this.qrcode(codeNumber)
 				return new Promise((resolve)=>{
 					setTimeout(resolve,10)

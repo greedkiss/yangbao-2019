@@ -644,7 +644,7 @@ export default {
         }).then(this.fetchData)
         let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 		let obj = {url}
-				 getPlace(obj).then(res => {
+		getPlace(obj).then(res => {
 			res.result.forEach((item) =>{
 				item.forEach((ipv)=>{
 					this.area.province.push({
@@ -663,7 +663,7 @@ export default {
 				city: [],
 				country: [],
 				town: []
-			},
+            },
 			value: {
 				province: null,
 				city: null,
@@ -917,8 +917,7 @@ export default {
                         this.fetchData()   
                     }
 				});
-						
-					             
+             
         },
 
         // this.updateData(this.edit, data).then(res => {
@@ -1210,9 +1209,10 @@ export default {
                                 this.$message.warning('订单已经完成，不能取消!')
                                 return
                             }
-                            this.fetchData()
-                            this.$message.success('删除成功!')
-                            return 
+                            else{
+                                this.$message.success('取消成功!')
+                                this.fetchData()
+                            }
                         }
                     })
                 }).catch(() => {

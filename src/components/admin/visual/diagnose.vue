@@ -25,7 +25,7 @@
 
 <script>
 import BasicInfo from '@/components/admin/basic_info'
-import { diagnoseUp, getUserById ,getImmuneEarTag } from '@/util/getdata'
+import { diagnoseUp, getUserById ,getImmuneEarTag,CreateThumb } from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit'
 import {config} from '@/util/config'
@@ -160,17 +160,20 @@ export default {
                             },
                             complete(res){
                                     self.$message.success('上传成功')
-                                    let obj = new FormData()
-                                    obj.append('name' , key)
-                                    let headers = {}
-                                    headers[authStr] = window.localStorage.getItem(tokenStr)
-                                    window.fetch(baseUrl + '/createThumb', {
-                                        method: 'POST',
-                                        headers,
-                                        body: obj
-                                    }).then(async res => {
-                                        let body = await res.json()
+                                    CreateThumb(key).then(res=>{
+                                        return
                                     })
+                                    // let obj = new FormData()
+                                    // obj.append('name' , key)
+                                    // let headers = {}
+                                    // headers[authStr] = window.localStorage.getItem(tokenStr)
+                                    // window.fetch(baseUrl + '/createThumb', {
+                                    //     method: 'POST',
+                                    //     headers,
+                                    //     body: obj
+                                    // }).then(async res => {
+                                    //     let body = await res.json()
+                                    // })
                                 }
                             }
                           let observable = qiniu.upload(file, key, token, putExtra, config)

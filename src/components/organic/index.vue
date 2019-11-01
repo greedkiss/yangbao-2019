@@ -421,7 +421,8 @@ import {
   gelAllSheep,
   getSalableSheep,
   countSheep,
-  getLocationSheep
+  getLocationSheep,
+  getDataOfChartByAddress
 } from "@/util/getdata";
 export default {
   components: {
@@ -432,9 +433,9 @@ export default {
           dimension: ['month'],
           xAxisType: 'time',
           legendName: {
-          种母羊:'种母羊:4423',
-          种公羊:'种公羊:3993',
-          商品羊:'商品羊:3193',
+          种母羊:'种母羊:0',
+          种公羊:'种公羊:0',
+          商品羊:'商品羊:0',
           羔羊:'羔羊:0'          
         },
         //可以通过生命周期，在页面加载的时候，从后台请求当前的羊只数量，然后改变legendName后面的数量
@@ -453,20 +454,7 @@ export default {
     return {
         chartData: {
           columns: ['month', '种母羊','种公羊', '商品羊', '羔羊'],
-          rows: [
-            {  'month': '1',  '种母羊': 1093,  '种公羊': 1293, '商品羊': 1093,  '羔羊': 0},
-            {  'month': '2',  '种母羊': 3230,  '种公羊': 1493, '商品羊': 1293,  '羔羊': 0},
-            {  'month': '3',  '种母羊': 2623,  '种公羊': 2093, '商品羊': 1393,  '羔羊': 0},
-            {  'month': '4',  '种母羊': 1423,  '种公羊': 3093, '商品羊': 1193,  '羔羊': 0},
-            {  'month': '5', '种母羊': 3492,  '种公羊': 4093, '商品羊': 1993,  '羔羊': 0},
-            { 'month': '6',  '种母羊': 4293,  '种公羊': 1293, '商品羊': 2993,  '羔羊': 0},
-            { 'month': '7',  '种母羊': 3492,  '种公羊': 1993, '商品羊': 1993,  '羔羊': 0},
-            { 'month': '8',  '种母羊': 4293,  '种公羊': 1993, '商品羊': 2993,  '羔羊': 0},
-            { 'month': '9',  '种母羊': 4423,  '种公羊': 3993, '商品羊': 3193,  '羔羊': 0},
-            { 'month': '10', },
-            { 'month': '11', },
-            { 'month': '12', },
-          ]
+          rows: []
         },
         yAxis : {
               name:'数量(只)',
@@ -615,6 +603,17 @@ export default {
         });
       });
     });
+    let row = this.chartData.rows
+    let date = new Date()
+    let month = date.getMonth()+1
+    for(let i =1; i<=month; i++){
+      let obj = { 'month': i,  '种母羊': 0,  '种公羊': 0, '商品羊': 0,  '羔羊': 0}
+      row.push(obj)
+    }
+    for(let i = month+1; i<=12; i++){
+      let obj = { 'month': i}
+      row.push(obj)
+    }
     //this.getXYbyIP()
     //this.search(1);
     this.changeColor(1, 0);
@@ -829,7 +828,7 @@ export default {
           });
       getCustomerByAddress(message).then(res => {
         //this.getCount()
-        if (res.data.factories.length != 0) {
+        if (res.data.factories.length != 0) { 
           res.data.factories.forEach(item => {
             let coordinates = [];
             let type = "Point";
@@ -977,31 +976,74 @@ export default {
         if (res.data.statistics["养殖厂"].count != 0) {
           this.sum.breed = res.data.statistics["养殖厂"].count;
         }
-        if (res.data.young_sheep !==null ){
-          let youngline=this.chartData.rows
-          let youngsheep = res.data.young_sheep
-          let len = Object.getOwnPropertyNames(youngsheep).length
-          let top = this.chartSettings.legendName
-          for(let i=1 ; i<=len ; i++){
-            if(youngsheep[i]!==null){
-              console.log(youngsheep[i])
-              youngline[i-1]['羔羊'] = youngsheep[i]
-            }
-            else {
-              youngline[i-1]['羔羊'] = 0
-            }
-            if(i==len){
-              top['羔羊']=`羔羊:${youngsheep[i]}`
-            }
-          }
-          // let index=0
-          // for(var )
-          // youngline[index]=youngline.[index++]
-          // this.chartSettings.legendName['羔羊']=`羔羊:${res.data.young_sheep}`
-          // aaa[8]['羔羊'] = res.data.young_sheep
-        }
-        
       });
+      getDataOfChartByAddress(message).then(res =>{
+            let row = this.chartData.rows
+            let youngsheep = res.data['羔羊']
+            let ewe = res.data['种母羊']
+            let ram = res.data['种公羊']
+            let saleSheep = res.data['商品羊']
+            let len = Object.getOwnPropertyNames(youngsheep).length
+            let top = this.chartSettings.legendName
+            for(let i=1 ; i<=len ; i++){
+              if(youngsheep[i]!==null){
+                row[i-1]['羔羊'] = youngsheep[i]
+              }
+              else {
+                row[i-1]['羔羊'] = 0
+              }
+              if(ewe[i]!==null){
+                row[i-1]['种母羊'] = ewe[i]
+              }
+              else {
+                row[i-1]['种母羊'] = 0
+              }
+              if(ram[i]!==null){
+                row[i-1]['种公羊'] = ram[i]
+              }
+              else {
+                row[i-1]['种公羊'] = 0
+              }
+              if(saleSheep[i]!==null){
+                row[i-1]['商品羊'] = saleSheep[i]
+              }
+              else {
+                row[i-1]['商品羊'] = 0
+              }
+              if(i==len){
+                if(youngsheep[i]!==null){
+                  top['羔羊']=`羔羊:${youngsheep[i]}`
+                  row[i-1]['羔羊'] = youngsheep[i]
+                  }
+                else{
+                  top['羔羊']='羔羊:0'
+                  }
+                if(ewe!==null){
+                  top['种母羊']=`种母羊:${ewe[i]}`
+                  row[i-1]['种母羊'] = ewe[i]
+                  console.log(row[i-1]['种母羊'])
+                }
+                else{
+                  top['种母羊']='种母羊:0'
+                }
+                if(ram[i]!==null){
+                  top['种公羊']=`种公羊:${ram[i]}`
+                  row[i-1]['种公羊'] = ram[i]
+                }
+                else{
+                  top['种公羊']='种公羊:0'
+                }
+                if(saleSheep[i]!==null){
+                  top['商品羊']=`商品羊:${saleSheep[i]}`
+                  row[i-1]['商品羊'] = saleSheep[i]
+                }
+                else{
+                  top['商品羊']='商品羊:0'
+                }
+              }
+            }
+
+        })
     },
     getXYbyIP() {
       let _this = this;
@@ -1180,47 +1222,91 @@ export default {
           _this.sum.process = res.data.statistics["加工厂"].count;
         }
         if (res.data.statistics["屠宰厂"].count != 0) {
-          this.sum.slaughter = res.data.statistics["屠宰厂"].count;
+          _this.sum.slaughter = res.data.statistics["屠宰厂"].count;
         }
         if (res.data.statistics["养殖厂"].count != 0) {
           _this.sum.breed = res.data.statistics["养殖厂"].count;
         }
-        if (res.data.young_sheep !==null ){
-          let youngline = _this.chartData.rows
-          let youngsheep = res.data.young_sheep
-          let len = Object.getOwnPropertyNames(youngsheep).length
-          let top = _this.chartSettings.legendName
-          for(let i=1 ; i<=len ; i++){
-            if(youngsheep[i]!==null){
-              console.log(youngsheep[i])
-              youngline[i-1]['羔羊'] = youngsheep[i]
-            }
-            else {
-              youngline[i-1]['羔羊'] = 0
-            }
-            if(i==len){
-              top['羔羊']=`羔羊:${youngsheep[i]}`
-            }
+      })
+      getLocationSheep(simpleAddress).then(res => {
+        _this.saleAll = 0;
+        res.data.sheeps.forEach(item =>{
+          _this.eartagList.push(item.trademarkEarTag)
+          if(item.canSale){
+            _this.saleAll++
           }
-          // let index=0
-          // for(var )
-          // youngline[index]=youngline.[index++]
-          // _this.chartSettings.legendName['羔羊']=`羔羊:${res.data.young_sheep}`
-          // aaa[8]['羔羊'] = res.data.young_sheep
-            }
-          })
-          getLocationSheep(simpleAddress).then(res => {
-            _this.saleAll = 0;
-            res.data.sheeps.forEach(item =>{
-              _this.eartagList.push(item.trademarkEarTag)
-              if(item.canSale){
-                _this.saleAll++
-              }
+        })
+        _this.liveAll = res.data.count;
+        _this.corpation.chargeMan = "";
+        _this.corpation.phone = "";
+      });
+          getDataOfChartByAddress(message).then(res =>{
+                let row = _this.chartData.rows
+                let youngsheep = res.data['羔羊']
+                let ewe = res.data['种母羊']
+                let ram = res.data['种公羊']
+                let saleSheep = res.data['商品羊']
+                let len = Object.getOwnPropertyNames(youngsheep).length
+                let top = _this.chartSettings.legendName
+                for(let i=1 ; i<=len ; i++){
+                  if(youngsheep[i]!==null){
+                    row[i-1]['羔羊'] = youngsheep[i]
+                  }
+                  else {
+                    row[i-1]['羔羊'] = 0
+                  }
+                  if(ewe[i]!==null){
+                    row[i-1]['种母羊'] = ewe[i]
+                  }
+                  else {
+                    row[i-1]['种母羊'] = 0
+                  }
+                  if(ram[i]!==null){
+                    row[i-1]['种公羊'] = ram[i]
+                  }
+                  else {
+                    row[i-1]['种公羊'] = 0
+                  }
+                  if(saleSheep[i]!==null){
+                    row[i-1]['商品羊'] = saleSheep[i]
+                  }
+                  else {
+                    row[i-1]['商品羊'] = 0
+                  }
+                  if(i==len){
+                    if(youngsheep[i]!==null){
+                      top['羔羊']=`羔羊:${youngsheep[i]}`
+                      }
+                    else{
+                      top['羔羊']='羔羊:0'
+                      }
+                  }
+                  if(i==len){
+                    if(ewe!==null){
+                      top['种母羊']=`种母羊:${ewe[i]}`
+                    }
+                    else{
+                      top['种母羊']='种母羊:0'
+                    }
+                    
+                  }
+                  if(i==len){
+                    if(ram[i]!==null){
+                      top['种公羊']=`种公羊:${ram[i]}`
+                    }
+                    else{
+                      top['种公羊']='种公羊:0'
+                    }
+                  }
+                  if(i==len){
+                    if(saleSheep[i]!==null){
+                      top['商品羊']=`商品羊:${saleSheep[i]}`
+                    }
+                    top['商品羊']='商品羊:0'
+                  }
+                }
+
             })
-            _this.liveAll = res.data.count;
-            _this.corpation.chargeMan = "";
-            _this.corpation.phone = "";
-          });
         },
         error: function(data) {}
       })

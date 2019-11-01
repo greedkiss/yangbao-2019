@@ -207,8 +207,9 @@ export default {
             }
             headers[authStr] = window.localStorage.getItem(tokenStr)
             if (this.supervise) {
+                console.log(11111)
                 window.fetch(baseUrl + '/' + this.apiurl + '/s/' + this.supervise, {
-                    method: 'PATCH',
+                    method: 'POST',
                     headers,
                     body: JSON.stringify({factoryNum: this.user.userFactory, ispassSup: isPass, supervisor: this.$route.params.id})
                 }).then(async res => {
@@ -220,8 +221,9 @@ export default {
                     this.$message.success('修改监督状态失败')
                 })
             } else if (this.check) {
+                console.log(2222)
                 window.fetch(baseUrl + '/' + this.apiurl + '/p/' + this.check, {
-                    method: 'PATCH',
+                    method: 'POST',
                     headers,
                     body: JSON.stringify({factoryNum: this.user.userFactory, ispassCheck: isPass, professor: this.$route.params.id})
                 }).then(async res => {
@@ -236,30 +238,29 @@ export default {
         },
 
         submit () {
-            // console.log(this.models)
             if (!checkForm(this.models)) {
                 return
             }
 
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
+            headers['Content-Type'] = 'application/json'
             let { userFactory, userRealname, factoryName } = this.user
             this.models.operatorName = userRealname
             this.models.operatorId = this.$route.params.id
             this.models.factoryNum = userFactory
             this.models.factoryName = factoryName
             console.log(this.models)
-
-            let form = new FormData()
+            let data ={}
             Object.keys(this.models).forEach(v => {
-                form.append(v, this.models[v])
+                data[v]= this.models[v]
             })
-
+            console.log(data)
             if (this.edit) {
-                form.append('id', this.edit)
+                data.id = this.edit
                 window.fetch(baseUrl + '/' + this.apiurl + '/' + this.edit, {
                     method: 'POST',
-                    body: form,
+                    body: JSON.stringify(data),
                     headers
                 }).then(async res => {
                     let body = await res.json()
@@ -268,10 +269,11 @@ export default {
                     }
                 })
             } else {
+                console.log(4444)
                 window.fetch(baseUrl + '/' + this.apiurl, {
                     method: 'POST',
-                    body: form,
-                    headers
+                    body: JSON.stringify(data),
+                    headers 
                 }).then(async res => {
                     let body = await res.json()
                     if (isReqSuccessful(body)) {

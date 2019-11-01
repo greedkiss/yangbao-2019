@@ -565,6 +565,8 @@ export const findSlaughterMedia = (data) => fetch(`/slaughterFactorySystem/searc
 
 export const deleteSlaughterMedia = id => fetch('/slaughterFactorySystem/delete/' +id, null ,'DELETE')
 
+//缩略图
+export const CreateThumb = data => fetch(`/createThumb?name=${data}` , null ,'POST')
 //订单管理
 
 export const getOrderData = (data) => fetch(`/d/order`,data,'POST')
@@ -596,6 +598,8 @@ export const getLocationSheep =(data) => fetch(`/customer/GetCustomerAllSheepByA
 export const getSalableSheep =  (id) =>fetch('/factory/saleableSheep/'+ id, 'GET')
 
 export const countSheep = (id) => fetch('/factory/sheepCount?id=' + id)
+
+export const getDataOfChartByAddress = ( data ) => fetch('/over/all/statistics/show/graphic/' , data , 'GET')
 
 //养殖客户管理
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')

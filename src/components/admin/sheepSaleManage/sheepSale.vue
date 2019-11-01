@@ -670,14 +670,14 @@ export default {
 					}else{
 						submitSureSaleSheep(param).then(res => {
                     if (isReqSuccessful(res)) {
-											this.$message.success('保存成功')
+											this.$message.success('销售成功')
 											let pathid = this.$route.params.id
      									let path = `/admin/${pathid}/sheepSaleManage/sheepSaleOrder`
 											this.$router.push(path)
 											this.dialogFormVisible = false;
                     }
 								 }, _ => {
-                    this.$message.error('保存失败')
+                    this.$message.error('销售失败')
                 })
 						
 					 }
