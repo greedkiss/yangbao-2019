@@ -24,20 +24,21 @@
       </div>
           <div class="navigation">
                 <ul class="nav-tabs">
-                  <li><button type="submit"><i class="el-icon-search"></i></button></li>
-                  <li><router-link to="/contact">联系我们</router-link></li>
-                  <li><a href="http://vr.suliankj.cn/tour/e1a81ed75f880b06" target="_blank">AR全景</a></li>
-                  <el-dropdown class="drop">
-                  <li><router-link to="/appDonload">APP下载</router-link></li>
-                  <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>iPad端</el-dropdown-item>
-                      <el-dropdown-item>手机端</el-dropdown-item>
-                  </el-dropdown-menu>
-                  </el-dropdown>
-                  <li><router-link to="/docDonload">资料下载</router-link></li>
-                  <li><router-link to="/news">新闻动态</router-link></li>
-                  <li><router-link to="/company">集团介绍</router-link></li>
-                  <li><router-link to="/">首页</router-link></li>    
+                    <!-- <li><div id="qrcode" class="qrcode" ref="qrcode"></div></li> -->
+                    <li><button type="submit"><i class="el-icon-search"></i></button></li>
+                    <li><router-link to="/contact">联系我们</router-link></li>
+                    <li><a href="http://vr.suliankj.cn/tour/e1a81ed75f880b06" target="_blank">AR全景</a></li>
+                    <el-dropdown class="drop">
+                    <li><router-link to="/appDonload">APP下载</router-link></li>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>Pad端</el-dropdown-item>
+                        <el-dropdown-item>安卓版</el-dropdown-item>
+                    </el-dropdown-menu>
+                    </el-dropdown>
+                    <li><router-link to="/docDonload">资料下载</router-link></li>
+                    <li><router-link to="/news">新闻动态</router-link></li>
+                    <li><router-link to="/company">集团介绍</router-link></li>
+                    <li><router-link to="/">首页</router-link></li>
                 </ul>
             </div>
       </header>
@@ -47,7 +48,7 @@
 
 <script>
   import { tokenStr } from '@/util/fetch'
-
+import QRCode from 'qrcodejs2'
 export default {
     data () {
         return {
@@ -61,6 +62,16 @@ export default {
         if (this.hasLoggedIn) {
             this.uid = this.hasLoggedIn.substr(0, this.hasLoggedIn.indexOf(':'))
         }
+        // this.qrcode()
+    },
+    methods: {
+        // qrcode () {
+        //     let qrcode = new QRCode(this.$refs.qrcode, {
+        //         width: 70,
+        //         height: 70,
+        //         text: `http://${window.location.host}/#/mS?eT=${this.code}`
+        //     })
+        // },
     }
 }
 </script>

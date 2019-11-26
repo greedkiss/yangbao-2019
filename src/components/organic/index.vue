@@ -779,16 +779,19 @@ export default {
         if (this.value.province != "") {
           this.mapCenter.level = 5;
           simpleAddress += this.value.province.label;
+          this.geographic.province = this.value.province.label
           if (simpleAddress.indexOf("市") != -1) {
             this.mapCenter.level = 6;
             simpleAddress += this.value.city;
           } else if (this.value.city != "") {
             this.mapCenter.level = 11;
             simpleAddress += this.value.city.label;
+            this.geographic.district = this.value.city.label
           }
         }
         if (this.value.country != "") {
           simpleAddress += this.value.country.label;
+          this.geographic.district = this.value.country.label
         }
         let detailAddress = this.value.town;
         let type = "";
@@ -1018,7 +1021,7 @@ export default {
                 else{
                   top['羔羊']='羔羊:0'
                   }
-                if(ewe!==null){
+                if(ewe[i]!==null){
                   top['种母羊']=`种母羊:${ewe[i]}`
                   row[i-1]['种母羊'] = ewe[i]
                   console.log(row[i-1]['种母羊'])

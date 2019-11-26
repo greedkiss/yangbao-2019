@@ -28,7 +28,7 @@ export default {
     data () {
         return {
             getWelfare,
-            postWelfare,
+            postWelfare, 
             updateWelfare,
             items: [
                 {label: '自检/主管上级检查时间', model: 'checkTime', type: 'time', block: 1},

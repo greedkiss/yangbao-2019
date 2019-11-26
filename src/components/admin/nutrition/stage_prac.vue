@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-form">
+    <div class="admin-form">  
         <p class="card-title">阶段营养实施档案</p>
 
         <basic-info :items="items" :models="models" :needBuildingInfo="needBuildingInfo"></basic-info>

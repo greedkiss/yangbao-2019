@@ -447,7 +447,7 @@ export const getBuySheep = (id, data) => fetch('/ds/b/' + id, data)
 
 export const getAllSheep = (id, data) => fetch('/ds/a/' + id, data)
 
-export const makeDeadSheep = (data) => fetch(`/ds/d/d`, data, 'PATCH')
+export const makeDeadSheep = (data) => fetch(`/ds/d/d`, data, 'POST')
 
 export const getSheepBuilding = (id) => fetch('/bc/b/' + id)  
 
@@ -477,14 +477,15 @@ export const moveSheepPart = data => fetch('/bc/changeBC/ids', data , 'POST')
 
 export const querySheepStage = () => fetch('/cf/stage' , 'GET')
 
+export const deleteSheep = id => fetch(`/ds/delete/sheep?id=${id}`, null , 'POST')
 
 
-export const changeSaleable = (data) => fetch('/s/c/s', data, 'PATCH')
+export const changeSaleable = (data) => fetch('/s/c/s', data, 'POST')
 
 export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 
 //商品羊销售管理
-export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
+export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET') 
 export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
 export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
 export const submitSureSaleSheep= (data) => fetch('/saleOrder/add/confirm', data, 'POST')

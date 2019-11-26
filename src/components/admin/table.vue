@@ -79,7 +79,7 @@
                     width="150"
                     prop="operatorName"
                     label="操作人员">
-                </el-table-column>
+                </el-table-column> 
                 <!-- <el-table-column
                     align='center'
                     width="150"

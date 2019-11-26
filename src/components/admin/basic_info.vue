@@ -539,7 +539,6 @@ export default {
         },
 
         illnessName(queryString, cb) {
-            console.log(111)
             if(this.symptom==null){
                 this.$message.warning('请填写症状！')
                 return
@@ -548,7 +547,7 @@ export default {
             let data={
                 symptom:symptom
             }
-             this.getIllness(data).then(res =>{
+            this.getIllness(data).then(res =>{
             let allIllness = res.data.List
             let results=[]
             allIllness.forEach((item)=>{

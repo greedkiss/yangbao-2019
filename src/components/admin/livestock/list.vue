@@ -116,6 +116,12 @@
 						type="primary"
 						@click="handleUpdate(scope.row)">羊只信息编辑
 					</span>
+					<span
+						style="cursor:pointer"
+						size="small"
+						type="danger"
+						@click="handleDelete(scope.row)">删除
+					</span>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -176,6 +182,14 @@
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogDeadVisible  = false" size="small">取 消</el-button>
 				<el-button type="primary" @click="submitSheep" size="small">确 定</el-button>
+			</div>
+		</el-dialog>
+
+		<el-dialog :visible.sync="dialogDeleteVisible" class="dead">
+				<span>您将删除该羊只的所有信息！</span><br/>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogDeleteVisible  = false" size="small">取 消</el-button>
+				<el-button type="primary" @click="submitDelete" size="small">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -329,7 +343,7 @@
 
 <script>
 import { isReqSuccessful } from '@/util/jskit'
-import { getUserById , getAllSheep , makeDeadSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getFarmCus ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable} from '@/util/getdata'
+import { getUserById , getAllSheep , makeDeadSheep,deleteSheep, getSheepBuilding ,getSheepCol ,moveSheep ,getFarmCus ,makeSaleFac ,updateSheepTog ,moveSheepAll ,moveSheepPart ,querySheepStage ,updateSheepAllMe, changeSaleable} from '@/util/getdata'
 export default {
 	watch: {
 		searchEartag(n){
@@ -384,8 +398,10 @@ export default {
 			checked: 1,
 			id: 1,
 			sheepid:0,
+			deleteSheepId:-1,
 			dialogMoveVisible: false,
 			dialogDeadVisible: false,
+			dialogDeleteVisible:false,
 			dialogUpdateVisible:false,
 			form: {
 				reason:'',
@@ -530,7 +546,21 @@ export default {
 			this.dialogDeadVisible = true	
 			this.sheepid=row.id	
 		},
-
+		handleDelete(row){
+			this.deleteSheepId = row.id
+			this.dialogDeleteVisible = true
+		},
+		submitDelete(){
+			deleteSheep(this.deleteSheepId).then(res =>{
+				if(res.meta.errorMsg == null){
+					this.dialogDeleteVisible = false
+					this.$message.success('删除成功！')
+					this.fetchData()
+				}else{
+					this.$message.error('删除失败！')
+				}
+			})
+		},
 		handleUpdate(row){		
 			this.upda.earTag = row.tradeMarkEartag
 			this.upda.immuTag = row.immuneEartag
@@ -600,7 +630,7 @@ export default {
 			this.upda.stage = item
 		},
 
-		current_change(currentPage){
+		current_change(currentPage){ 
             this.page=currentPage;
             let id = this.$route.params.id
 			this.fetchData()

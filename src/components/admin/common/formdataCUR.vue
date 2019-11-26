@@ -207,7 +207,6 @@ export default {
             }
             headers[authStr] = window.localStorage.getItem(tokenStr)
             if (this.supervise) {
-                console.log(11111)
                 window.fetch(baseUrl + '/' + this.apiurl + '/s/' + this.supervise, {
                     method: 'POST',
                     headers,
@@ -269,7 +268,6 @@ export default {
                     }
                 })
             } else {
-                console.log(4444)
                 window.fetch(baseUrl + '/' + this.apiurl, {
                     method: 'POST',
                     body: JSON.stringify(data),

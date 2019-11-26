@@ -381,7 +381,7 @@ import { getUserById , getAllSaleSheep ,findAllSheep, submitSaleSheep,submitSure
 export default {
 	watch: {
 		searchEartag(n){
-			this.fetchData()
+			this.watchAllSheep()
 		},
 		newProvince(provice){
 			let simpleaddress={
@@ -825,6 +825,7 @@ export default {
            				} 
 						 this.tableData = []
 						 this.tableWeight=[]
+						 //'/saleOrder/saleAbleSheep/
 			getAllSaleSheep(userFactory , param).then(res => {
                 if (isReqSuccessful(res)) {
                		 this.total = Math.ceil(res.data.number/param.size)*10
@@ -1072,12 +1073,14 @@ export default {
 				this.allSheepFlag=1;
 				let id
 				let userFactory = this.user.userFactory
-			let param = {
+				let param = {
                 			start: (this.page - 1)*10,
-               				size: 10,
+											size: 10,
+											prefix: this.searchEartag
            				} 
 						 this.tableData = []
 						 this.tableWeight=[]
+						 ///saleOrder/allSheep/
 						 findAllSheep(userFactory , param).then(res => {
                 if (isReqSuccessful(res)) {
                		 this.total = Math.ceil(res.data.number/param.size)*10
