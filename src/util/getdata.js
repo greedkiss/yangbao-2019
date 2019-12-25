@@ -99,7 +99,7 @@ export const evaluateChat = data => fetch('/evaluation', data, 'POST')
  */
 export const postBreeding = data => fetch('/breeding', data, 'POST')
 
-export const updateBreeding = (id, data) => fetch(`/breeding/${id}`, data, 'PATCH')
+export const updateBreeding = (id, data) => fetch(`/breeding/${id}`, data, 'POST')
 
 export const getAllBreeding = (id, data) => fetch(`/breeding/${id}`, data)
 
@@ -113,7 +113,7 @@ export const deleteBreeding = id => fetch(`/breeding/${id}`, null, 'DELETE')
  */
 export const postSele = data => fetch('/selection', data, 'POST')
 
-export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'PATCH')
+export const updateSele = (id, data) => fetch(`/selection/${id}`, data, 'POST')
 
 export const getAllSele = (id, data) => fetch(`/selection/factory/${id}`, data)
 

@@ -794,6 +794,7 @@ export default {
         },
 
         selectFile(item,i,file){
+            console.log(file)
             this.$nextTick(() => {
             item.file = file
             this.$set(item,'fileName',file.name)

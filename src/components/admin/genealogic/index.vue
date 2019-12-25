@@ -1,7 +1,7 @@
 <template>
     <div class="admin-form">
         <data-cur
-            title="系谱档案"
+            title="羊只录入"
             modpath="genealogic"
             :radio-index="0"
             :models.sync="models"
@@ -93,8 +93,8 @@ export default {
                 {label: '商标耳牌', model: 'tradeMarkEartag', trade: true, block: 1},
                 {label: '羊场地理位置', model: 'breedLocation', type: 'address'},
                 {label: '出生基地', model: 'breedingSheepBase'},
-                {label: '出生时间', model: 'birthTime', type: 'time', mr: 1},
-                {label: '初生体重(kg)', model: 'birthWeight'},
+                {label: '录入时间', model: 'birthTime', type: 'time', mr: 1},
+                {label: '初登体重(kg)', model: 'birthWeight'},
                 {label: '颜色', model: 'color', type: 'select' ,fetchSuggestions: getType},
                 {label: '品种名', model: 'typeName',type: 'select' ,fetchSuggestions: getVariety, mr: 1},
                 {label: '父号', model: 'eartagOfFather'},
