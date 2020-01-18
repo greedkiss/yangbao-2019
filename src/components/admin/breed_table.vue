@@ -209,14 +209,14 @@
             v-loading="load"
             ref="table"
             tooltip-effect="dark"
-            class="admin-table"
+            class="admin-table shortTable"
             :data="tableData"
             >
 
             <el-table-column
                 show-overflow-tooltip
                 v-for="(th, i) in headers"
-                v-if=" th.prop=='immuneNumber'||th.prop=='fatherNumber'||th.prop=='quarNumber'||th.prop=='breedName'||th.prop=='goodman'||th.prop=='type'"
+                v-if=" th.prop=='kidNumber'||th.prop=='kidWeight'||th.prop=='appendageNumber'||th.prop=='appendageWeight'||th.prop=='immuneNumber'||th.prop=='fatherNumber'||th.prop=='quarNumber'||th.prop=='breedName'||th.prop=='goodman'||th.prop=='type'"
                 :key="i" 
                 align='center'
                 :prop="th.prop"
@@ -226,21 +226,10 @@
             >
             </el-table-column>
 
-
-            <el-table-column label="附属物信息">
             <el-table-column
-				label="附属物编号"
-				width="120"
-				prop="appendageNumber">
-			</el-table-column>
-            <el-table-column
-				label="附属物重量"
-				width="120"
-				prop="appendageWeight">
-			</el-table-column>
-            <el-table-column
-            label="附属物视频"
+            label="附属物照片"
             width="120"
+            v-if="isAppendage"
             >
                 <template slot-scope="scope">
                     <div class="opr" >
@@ -248,29 +237,17 @@
                     </div>
                 </template>
             </el-table-column>
-            </el-table-column>
 
-            <el-table-column label="胴体信息">
             <el-table-column
-				label="胴体编号"
-				width="120"
-				prop="kidNumber">
-			</el-table-column>
-            <el-table-column
-				label="胴体重量"
-				width="120"
-				prop="kidWeight">
-			</el-table-column>
-            <el-table-column
-            label="胴体视频"
+            label="胴体照片"
             width="120"
+            v-if="isKid"
             >
                 <template slot-scope="scope">
                     <div class="opr" >
                         <span @click="slauManWatch(scope)">查看</span>
                     </div>
                 </template>
-            </el-table-column>
             </el-table-column>
 
 
@@ -282,7 +259,7 @@
                 align='center'
                 :prop="th.prop"
                 :label="th.label"
-                :width="130"
+                :width="200"
                 
             >
             </el-table-column>
@@ -290,7 +267,6 @@
             
             <el-table-column
                 class="action"
-                fixed="right"
                 label="操作"
                 align='center'
                 width="160">
@@ -500,10 +476,11 @@
         </el-pagination>
 
         <el-dialog
-        title="羊只视频"
+        title="照片/视频"
         :visible.sync="slaughterManageVisible"
         width="30%">
-                <video :src="slaughterManageVideo" class="production-video" controls="controls" height="400" width="100%"></video>
+                <img v-if="isImg" :src="slaughterManageVideo" class="production-video" height="400" width="100%" :onerror="defaultImg">
+                <video v-else :src="slaughterManageVideo" class="production-video" controls="controls" height="400" width="100%"></video>
         </el-dialog>
     </div>
 </template>
@@ -553,6 +530,14 @@ export default {
             default: false
         },
         isSlaughterManageList:{
+            type: Boolean,
+            default: false
+        },
+        isAppendage:{
+            type: Boolean,
+            default: false
+        },
+        isKid:{
             type: Boolean,
             default: false
         },
@@ -658,6 +643,7 @@ export default {
 
     data () {
         return {
+            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
             area: {
 				province: [],
 				city: [],
@@ -700,8 +686,8 @@ export default {
             dialogFormVisible: false,
             dialogAllTimeVisible:false,
             slaughterManageVisible:false,
-            slaughterManageVideo:null,
             formLabelWidth: '70px',	
+            isImg:true,
             timeorder:{
                 allprice:0,
                 sumWeight:0,
@@ -726,18 +712,30 @@ export default {
 
     methods: {
         slauManWatch(scope){
-            if(scope.column.label=='附属物视频'){
+            if(scope.column.label=='附属物照片'){
                 if(scope.row.appendageVideo!==null){
+                    let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+                    if(reg.test(scope.row.appendageVideo)){
+                        this.isImg = true;
+                    }else{
+                        this.isImg = false;
+                    }
                     this.slaughterManageVideo=scope.row.appendageVideo
                     console.log(this.slaughterManageVideo)
                     this.slaughterManageVisible=true
                 }
                 else{
-                this.$message.error('暂无相关视频！')
+                    this.$message.error('暂无相关视频！')
                 }
             }
-            if(scope.column.label=='胴体视频'){
-                if(scope.row.appendageVideo!==null){
+            if(scope.column.label=='胴体照片'){
+                if(scope.row.kidVideo!==null){
+                    let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+                    if(reg.test(scope.row.kidVideo)){
+                        this.isImg = true;
+                    }else{
+                        this.isImg = false;
+                    }
                     this.slaughterManageVideo=scope.row.kidVideo
                     console.log(this.slaughterManageVideo)
                     this.slaughterManageVisible=true

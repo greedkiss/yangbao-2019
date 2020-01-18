@@ -163,8 +163,13 @@
 			</div>
 
 			
-			<div style="margin-top:20px;">
+			<div class="admin-form" style="margin-top:20px;">
 				<span style="margin-bottom:10px;">选择售卖</span>
+				<div class="time" >
+                        <span class="time-span ellipse">耳牌号</span>
+                        <el-input  size="small" v-model="searchCode"></el-input>
+                    </div>
+                <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
 			<el-table 
 			ref="multipleTable"
 			:data="tableData"
@@ -250,6 +255,11 @@
 
 	export default {
 		watch: {
+			searchCode(newVal){
+				let reg = /[MSG]\d+/;
+            	this.searchCode = this.searchCode.match(reg)[0];
+				this.fetchData();
+			},
 			newProvince(provice){
 				let simpleaddress={
 				province:this.value.province.label,
@@ -331,6 +341,7 @@
 				total:0,
 				defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
 				dialogFormVisible:false,
+				searchCode:null
 			}
 		},
 
@@ -513,29 +524,29 @@
 				console.log(this.tableData[index].pictureOfCar)
 			},
 			fetchData(){
-			let id=this.user.userFactory;
-			let param={
-				page:this.page-1,
-				size:10
+				let id=this.user.userFactory;
+				let param={
+					page:this.page-1,
+					size:10
+				}
+				if(this.searchCode){
+					param.trademark = this.searchCode;
+				}
+				getstockData(id, param).then(res => {
+							if (isReqSuccessful(res)) {
+								let data = res.data;
+								this.tableData = data.List;
+								this.total = data.number;
+							}
+						},)
+				getCarData(id, param).then(res => {
+							if (isReqSuccessful(res)) {
+								let data = res.data;
+								this.options1 = data.List
+							}
+							
+						},)
 			}
-			getstockData(id, param).then(res => {
-						if (isReqSuccessful(res)) {
-							let data = res.data;
-							this.tableData = data.List
-							this.total = data.number
-						}
-						
-					},)
-			getCarData(id, param).then(res => {
-						if (isReqSuccessful(res)) {
-							let data = res.data;
-							this.options1 = data.List
-							this.total = data.number
-						}
-						
-					},)
-					
-		}
 		},
 
 		mounted(){
@@ -570,27 +581,15 @@
 	}
 
 	</script>
-	<style scoped>
-	form.table {
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
-	border-width: 1px;
-	border-color: #666666;
-	border-collapse: collapse;
-	}
-	.area_management{
-		margin-left:25px;
-	}
-	</style>
-	<style lang="stylus">
+<style lang="stylus">
+	.area_management
+		margin-left 25px
 	.stockManage-form
 		.el-table
 			display table-caption
-		.el-table th
-				border-left 2px solid rgb(230,230,230)
-				background: rgb(238, 241, 246)!important
-			
-	</style>
+		.el-table th 	
+			border-left 2px solid rgb(230, 230, 230) !important
+			background-color rgb(238, 241, 246) !important
+</style>
 
 

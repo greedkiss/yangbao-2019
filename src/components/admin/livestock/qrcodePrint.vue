@@ -54,17 +54,13 @@ export default {
             if(arguments.length===1){
                 this.qrcodeimgs=[];
                 this.codeNumber=start;
-                let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
+                let urlCode=`http://yyb8.cn/#/mS?eT=${this.codeNumber}`
                 document.getElementById("qrcode1").innerHTML = "";
                 //异步，等待结果
                 await this.waitqr(urlCode);
                 let src=document.getElementById("qrcode1").children[1].getAttribute("src");
                 let docStr=
-                `<canvas width="" height="300" style="display: none;"></canvas>
-                <div style="margin-top:30px">
-                <p style="font-size:10px">${this.codeNumber}</p>
-                <img alt="Scan me!" src="${src}"style="display: block; margin-top:-10px" width="38">
-                </div>`;
+                `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px">${this.codeNumber}</p></div>`;
                 var newWindow=window.open("打印窗口","_blank");			
                 newWindow.document.write(docStr);
                 var styles=document.createElement("style");
@@ -108,7 +104,7 @@ export default {
                     this.qrcodeimgs=[];//重置二维码地址数组
                     for(let i=startNum;i<=endNum;i++){
                         this.codeNumber= letter+i
-                        let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
+                        let urlCode=`http://yyb8.cn/#/mS?eT=${this.codeNumber}`
                         document.getElementById("qrcode1").innerHTML = "";
                         //异步，等待结果
                         await this.waitqr(urlCode);
@@ -158,11 +154,7 @@ export default {
 				});
             },
         waitDocument(thisWindow,src,number){
-            let docStr=`<canvas width="" height="300" style="display: none;"></canvas>
-            <div style="margin-top:30px">
-            <p style="font-size:10px">${number}</p>
-            <img alt="Scan me!" src="${src}"style="display: block; margin-top:-10px" width="38">
-            </div>`
+            let docStr=`<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px"">${number}</p></div></div>`
             thisWindow.document.write(docStr);
             return new Promise((resolve)=>{
 					setTimeout(resolve,10)

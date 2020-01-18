@@ -293,7 +293,9 @@ export const getSegmentSheep = (id, data) => fetch('/slaughter/d/' + id, data,'G
 
 export const getStockManageNum = id => fetch('/d/order/number/' + id)
 
-export const getSlaughterList= (id,data) => fetch('/slaughter/d/' + id,data,'GET')
+export const getSlaughterAppendageList= (id,data) => fetch('/slaughter/d/appendage/' + id,data,'GET')
+
+export const getSlaughterBodyList= (id,data) => fetch('/slaughter/d/body/' + id,data,'GET')
 
 export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET')
 
@@ -548,6 +550,10 @@ export const deletePicByQaTag = (id,data) => fetch(`/QaPic/delete/${id}/${data}`
 //屠宰前管理
 
 export const getManageData = (data) => fetch(`/slaughter/s`, data, 'POST')
+
+export const getBodyData = (data) => fetch(`/slaughter/s/body`, data, 'POST')
+
+export const getAppendageData = (data) => fetch(`/slaughter/s/appendage`, data, 'POST')
 
 export const getManageEdit = (data) => fetch(`/slaughter/m`, data, 'POST')
 

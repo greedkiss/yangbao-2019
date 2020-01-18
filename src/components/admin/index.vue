@@ -226,15 +226,14 @@ export default {
             slaughterTree: {
                 label: '屠宰加工管理中心',
                 children: [
-                    {label: '单位信息管理', to: 'slaughterunit'},
-                    // {label: '在栏羊只管理', to: '',
-                    // children:[
-                    //         {label: '羊只管理', to: 'livestockList'},
-                    //         {label: '出售管理', to: 'livestockSale'},
-                    //         {label: '购进管理', to: 'livestockBuy'},
-                    //         {label: '死亡管理', to: 'livestockDead'}
-                    //     ]
-                    // },
+                    {label: '单位信息管理', to: 'slaughterInfoManage',children:[
+                        {label: '基本信息', to: 'slaughterunit'},
+                        {label: '宣传视频', to: 'slaughterMedia'},
+                        {label: '认证证书', to: 'slaughterCertification'},
+                        {label: '生产可视一览', to: 'slaughterUnitVisual'},
+                        {label: '生产流程设置', to: 'slaughterProcessSet'}
+                    ]},
+
                     {label: '认购管理', to: 'subscription',children:[
                             {label: '关联检疫证', to: 'correlation'},
                             {label: '检疫证书图片', to: 'correlationPicture'},
@@ -245,8 +244,8 @@ export default {
                             
                     ]},
                     {label: '屠宰管理', to: 'slaughter',children:[
-                        {label: '屠宰管理', to: 'slaughterManage'},
-                        
+                        {label: '附属物', to: 'appendageMange'},
+                        {label: '胴体', to: 'kidMange'}
                     ]},
                     {label: '分割管理', to: 'segment',children:[
                         {label: '分割管理', to: 'segmentManger'},
@@ -257,31 +256,28 @@ export default {
                             {label: '订单管理', to: 'orderManage'},
                             {label: '车辆管理', to: 'vehicleManage'}
                     ]},
-                    {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'slaughterMedia'},
-                        {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '认证证书', to: 'slaughterCertification'}
-                    ]}
+                    // {label: '可视系统', to: 'visual', children: [
+                    //     {label: '生产可视', to: 'slaughterMedia'},
+                    //     {label: '生产可视一览', to: 'slaughterUnitVisual'},
+                    //     {label: '认证证书', to: 'slaughterCertification'}
+                    // ]}
                 ]
             },
             consumptionTree: {
                 label: '消费实体管理中心',
                 children: [
-                    {label: '单位信息管理', to: 'consumerunit'},
-                    // {label: '在栏羊只管理', to: '',
-                    //     children:[
-                    //         {label: '羊只管理', to: 'livestockList'},
-                    //         {label: '出售管理', to: 'livestockSale'},
-                    //         {label: '购进管理', to: 'livestockBuy'},
-                    //         {label: '死亡管理', to: 'livestockDead'}
-                    //     ]
-                    // },
-                    {label: '出库管理', to: 'outWareManage'},
-                    {label: '可视系统', to: 'visual', children: [
-                        {label: '生产可视', to: 'consumerUnitMedia'},
-                        {label: '生产可视一览', to: 'consumerUnitVisual'},
-                        {label: '认证证书', to: 'consumerCertification'}
+                    {label: '单位信息管理', to: 'consumerInfoManage', children: [
+                        {label: '基本信息', to: 'consumerunit'},
+                        {label: '宣传视频', to: 'consumerUnitMedia'},
+                        {label: '认证证书', to: 'consumerCertification'},
+                        {label: '生产可视一览', to: 'consumerUnitVisual'}
                     ]},
+                    {label: '出库管理', to: 'outWareManage'},
+                    // {label: '可视系统', to: 'visual', children: [
+                    //     {label: '生产可视', to: 'consumerUnitMedia'},
+                    //     {label: '生产可视一览', to: 'consumerUnitVisual'},
+                    //     {label: '认证证书', to: 'consumerCertification'}
+                    // ]},
                 ]
             },
             options: [],
@@ -400,7 +396,7 @@ export default {
 
         isProdModule () {           
             let name = this.$route.name 
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer','slaughterManage','segmentManger'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer','kidMange','appendageMange','segmentManger'].includes(name) || name.endsWith('prac') || name.endsWith('list')
         },
 
         changeActive (item, isTo) {

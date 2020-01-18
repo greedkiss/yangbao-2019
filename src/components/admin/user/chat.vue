@@ -169,21 +169,24 @@ export default {
                 this.talkid = data.talk_id
                 return
             }
-
             let html = ''
             if (data.order === 'link') {
                 let msg = data.message
                 let idx = msg.lastIndexOf(':')
                 let name = msg.substr(idx + 1)
                 let addr = msg.substr(0, idx)
-                html = `<a href="${addr}"><i class="el-icon-document"></i>${name}</a>`
+                let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                if(reg.test(msg)){
+                    html = `<img src="${msg}" width="300px" height="200px">`
+                }else{
+                    html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
+                }
             } else {
                 html = data.message
-                this.pushChatMessage(html, data.order === 'self')
             }
+            this.pushChatMessage(html, data.sender === this.$route.params.id)
         }
-
-        window.onbeforeunload = function () {
+        window.onbeforeunload = function (){
             return false
         }
     },
@@ -275,7 +278,6 @@ export default {
                 data.mode = 2
                 data.talk_id = this.talk_to
             }
-            console.log(data)
             try {
                 this.websocket.send(JSON.stringify(data))
             } catch (e) {
@@ -302,9 +304,11 @@ export default {
             let form = new FormData()
             form.append('file', file)
             form.append('user_id', this.user.id)
+            form.append('isExpert', false)
             form.append('user_name', this.user.name)
             form.append('talk_id', this.expert.id)
             form.append('role_id', this.user.userRole)
+            form.append('mode', 0)
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
 
@@ -332,7 +336,9 @@ export default {
             this.items.push({html, self: isSelf})
             this.$nextTick(_ => {
                 let dialog = this.$refs.dialog
-                dialog.scrollTop = dialog.scrollHeight
+                if (dialog) { 
+                    dialog.scrollTop = dialog.scrollHeight
+                }
             })
         }
     }

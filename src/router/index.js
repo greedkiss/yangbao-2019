@@ -135,8 +135,10 @@ const Correlation = () => import('@/components/admin/subscribe/correlation')
 const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
 const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
 const BeforeVideo = () => import('@/components/admin/beforeslaughter/before_video')
-const SlaughterManage= () => import('@/components/admin/slaughterManger/slaughterManage')
-const SlaughterManageList= () => import('@/components/admin/slaughterManger/slaughterManage_list')
+const kidMange= () => import('@/components/admin/slaughterManger/kid')
+const kidMangeList= () => import('@/components/admin/slaughterManger/kid_list')
+const appendageMange= () => import('@/components/admin/slaughterManger/appendage')
+const appendageMangeList= () => import('@/components/admin/slaughterManger/appendage_list')
 const SegmentManger= () => import('@/components/admin/segment/segmentManger')
 const SegmentMangerList= () => import('@/components/admin/segment/segmentManger_list')
 const StockManage = () => import('@/components/admin/stock/stock_manage')
@@ -172,6 +174,7 @@ const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
 const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
 const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
 const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
+const SlaughterProcessSet = () => import('@/components/admin/slaughterUnit/processSet')
 
 
 
@@ -346,12 +349,15 @@ export default new Router({
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
             {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
             {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
+            {path: 'slaughterProSet', name: 'slaughterProcessSet', component: SlaughterProcessSet},
             {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
             {path: 'subscribe/correlationPicture', name: 'correlationPicture', component: CorrelationPicture},
             {path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
             {path: 'beforeslaughter/beforeVideo', name: 'beforeVideo', component: BeforeVideo},
-            {path: 'slaughterManage/slaughterManage', name: 'slaughterManage', component: SlaughterManage},
-            {path: 'slaughterManage/slaughterManagelist', name: 'slaughterManagelist', component: SlaughterManageList},
+            {path: 'slaughterManage/kidMange', name: 'kidMange', component: kidMange},
+            {path: 'slaughterManage/kidMangelist', name: 'kidMangelist', component: kidMangeList},
+            {path: 'slaughterManage/appendage', name: 'appendageMange', component: appendageMange},
+            {path: 'slaughterManage/appendagelist', name: 'appendageMangelist', component: appendageMangeList},
             {path: 'segment/segmentManger', name: 'segmentManger', component: SegmentManger},
             {path: 'segment/segmentMangerlist', name: 'segmentMangerlist', component: SegmentMangerList},
             {path: 'stock/stockManage', name: 'stockManage', component: StockManage},

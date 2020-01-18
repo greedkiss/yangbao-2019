@@ -88,21 +88,22 @@ export default {
                 getManageData(data).then(res => {
                     if(isReqSuccessful(res)) {
                         if(!res.data.number) {
-                            this.$message.warning('未查询到数据')
-                            this.proList = []
-                            this.total = 0
+                            this.$message.warning('未查询到数据');
+                            this.proList = [];
+                            this.total = 0;
                             return
                         }
                         let arr = []
                         res.data.List.forEach((item) => {
                             if(item.video!=null){
-                                item.url = getThumbPicture(item.fileName)
+                                item.url = getThumbPicture(item.fileName);
                             }
                             else{
-                                item.url= 'this.src="//qiniu.yunyangbao.cn/logo.jpg"'
+                                item.url= 'this.src="//qiniu.yunyangbao.cn/logo.jpg"';
                             }
                         })
-                        this.proList = res.data.List
+                        this.total = res.data.number;
+                        this.proList = res.data.List;
                         this.productionShow = new Array(arr.length).fill(false);
                     }
                 },)

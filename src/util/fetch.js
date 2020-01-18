@@ -6,6 +6,8 @@ import md5 from 'md5'
 
 export const wsUrl = 'ws://120.79.79.43:9010/websocket'
 
+//export const wsUrl = 'ws://192.168.3.137:9020/websocket'
+
 // const baseUrl = 'http://180.76.180.95:9010'
 //const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
 // const baseUrl = 'http://192.168.1.107:9020'//akun
@@ -21,7 +23,9 @@ const baseUrl = 'http://120.79.79.43:9010' //生产服务器
 //const baseUrl = 'http://192.168.1.106:9021' //akunnew
 //const baseUrl = 'http://web.ngrok.qianzhouzi.com:8081' //kun origin
 //const baseUrl = 'http://192.168.1.110:9010' //殷超
-//const baseUrl = 'http://192.168.3.227:9020' //kun地下室
+//const baseUrl = 'http://192.168.3.137:9020' //kun地下室
+// const baseUrl = 'http://192.168.43.37:9010' //殷超
+//const baseUrl = 'http://192.168.43.182:9020' //坤
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
 let app = new Vue()

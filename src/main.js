@@ -12,6 +12,7 @@ import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch, faMapMarker, faPlayCircle, faStar, faThumbsUp, faQuestion, faHome, faComment, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueRecord from '@codekraft-studio/vue-record'
 
 import $ from 'jquery';
 window.jQuery = $;
@@ -21,6 +22,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAreaLinkage)
 Vue.use(vuex)
+Vue.use(VueRecord)
 library.add(faSearch)
 library.add(faMapMarker)
 library.add(faPlayCircle)

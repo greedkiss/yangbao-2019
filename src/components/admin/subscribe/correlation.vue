@@ -1,21 +1,31 @@
 <template>
 <!--关联检疫证-->
-<div class="correlation-list">
- <el-form :inline="true"  class="correlation" style="width:100%">
-  <el-form-item label="">
-    <el-input v-model="qaId" placeholder="" style="width:100%">
-    <template slot="prepend">检疫合格证号:</template>
-    </el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:337px"  @click.native="$refs.erpai[i].click()" :value="item.model">
-      <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
-    </el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary"  @click="submit()">上传关联</el-button>
-  </el-form-item>
-</el-form> 
+<div class="admin-form">
+  <div class="card" >
+    <p class="card-title" >胴体管理</p>
+    <div class="border-main">
+        <div class="time" >
+            <span class="time-span ellipse">耳牌号</span>
+            <el-input  size="small" v-model="tradeMarkEarTag"></el-input>
+        </div>
+        <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
+        <el-form :inline="true"  class="correlation" style="width:100% ;margin-top:10px" >
+            <el-form-item label="">
+                <el-input v-model="qaId" placeholder="" style="width:100%">
+                  <template slot="prepend">检疫合格证号:</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:337px"  @click.native="$refs.erpai[i].click()" :value="item.model">
+                  <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary"  @click="submit()">上传关联</el-button>
+            </el-form-item>
+        </el-form> 
+    </div>
+  </div>
 <!--待选屠宰羊-->
 <div>
     <el-table 
@@ -117,6 +127,7 @@ import { isReqSuccessful } from '@/util/jskit'
          qaId:null,
         multipleSelection:[],
         dialogFormVisible:false,
+        tradeMarkEarTag:''
       }
     },
     mounted () {
@@ -219,4 +230,27 @@ import { isReqSuccessful } from '@/util/jskit'
   }
   
 </script>
+<style scope lang="stylus">
+    .time
+        display inline-block
+        font-size 0 !important
+        width 21% !important
+        .time-span
+            box-sizing border-box
+            display inline-block
+            height h=32px
+            width 30%
+            line-height h       
+            vertical-align top
+            font-size 14px
+            border 1px solid color-main
+            background-color color-main
+            color #fff
+            &+.el-input
+                width calc(100% - 141px)
+        .ellipse
+            text-overflow ellipsis
+            white-space nowrap
+            overflow hidden
+</style>
 

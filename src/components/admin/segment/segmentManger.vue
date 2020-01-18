@@ -4,37 +4,42 @@
 
         <div class="card" >
             <p class="card-title" >胴体信息</p>
+                <div class="border-main">
+                    <div class="time" >
+                        <span class="time-span ellipse">耳牌号</span>
+                        <el-input  size="small" v-model="searchCode"></el-input>
+                    </div>
+                    <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
 
-            <div class="border-main">
-                <div class="time el-input-group" style="width:330px">
-                    <span class="time-span ellipse" >时间</span>
-                    <el-date-picker
-                        v-model="carcass.time"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        size="small"
-                        type="datetime">
-                    </el-date-picker>
-                </div>
+                    <div class="time el-input-group" style="width:330px">
+                        <span class="time-span ellipse" >时间</span>
+                        <el-date-picker
+                            v-model="carcass.time"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            size="small"
+                            type="datetime">
+                        </el-date-picker>
+                    </div>
+<!-- 
+                    <div class="time">
+                        <span class="time-span ellipse">商标耳牌号</span>
+                        <el-input  size="small" v-model="carcass.earTag"></el-input>
+                    </div> -->
+                    <div class="time">
+                        <span class="time-span ellipse">胴体编号</span>
+                        <el-input  size="small" v-model="carcass.carNumber"></el-input>
+                    </div>
 
-                <div class="time">
-                    <span class="time-span ellipse">商标耳牌号</span>
-                    <el-input  size="small" v-model="carcass.earTag"></el-input>
+                    <div>
+                        <el-radio-group class="checkbox_segment" v-model="radio">
+                        <el-radio :label="0">不分割</el-radio>
+                        <el-radio :label="1">二分体分割</el-radio>
+                        <el-radio :label="2">细分</el-radio>
+                        </el-radio-group>
+                    </div>
+                    
                 </div>
-                <div class="time">
-                    <span class="time-span ellipse">胴体编号</span>
-                    <el-input  size="small" v-model="carcass.carNumber"></el-input>
-                </div>
-
-                <div>
-                    <el-radio-group class="checkbox_segment" v-model="radio">
-                    <el-radio :label="0">不分割</el-radio>
-                    <el-radio :label="1">二分体分割</el-radio>
-                    <el-radio :label="2">细分</el-radio>
-                    </el-radio-group>
-                </div>
-                
-            </div>
         </div>
 
     <div class="card" v-if="radio==0">
@@ -93,46 +98,44 @@
 
         <div class="card" v-if="radio==1">
             <p class="card-title" >二分体</p>
-
             
-                
             <div class="border-main"> 
-                <div class="time" style="margin-top:10px;width:30%">
-                    <span class="time-span ellipse">羊二分体1编号</span>
-                    <el-input  size="small" v-model="twocut1.num"></el-input>
+                <div>
+                    <div class="time" style="margin-top:10px;width:30%">
+                        <span class="time-span ellipse">羊二分体1编号</span>
+                        <el-input  size="small" v-model="twocut1.num"></el-input>
+                    </div>
+
+                    <div class="time" style="margin-top:10px; width:30%">
+                        <span class="time-span ellipse" >羊二分体1重量</span>
+                        <el-input  size="small" v-model="twocut1.weight"></el-input>
+                    </div>
+
+                    <div class="time" style="width:20%">
+                        <el-input v-for="(item, i) in captures"  :key="i" class="select-file" style="postion:relative;bottom:10px;"  size="small"  @click.native="$refs.erfen[0].click()" :value="twocut1.fileName">
+                                <template slot="prepend">上传二分体1视频<input type="file" @change="selectFile(twocut1,0,$refs.erfen[0].files[0])" hidden ref="erfen"></template>
+                        </el-input> 
+                    </div>
+                    <el-button type="primary" size="small" @click.prevent="printCode(twocut1.num)">打印</el-button>
                 </div>
+                <div>
+                    <div class="time" style="margin-top:10px;width:30%">
+                        <span class="time-span ellipse">羊二分体2编号</span>
+                        <el-input  size="small" v-model="twocut2.num"></el-input>
+                    </div>
 
-            <div class="time" style="margin-top:10px; width:30%">
-                <span class="time-span" >羊二分体1重量</span>
-                <el-input  size="small" v-model="twocut1.weight"></el-input>
-            </div>
-
-            <div class="time" style="width:20%">
-               <el-input v-for="(item, i) in captures"  :key="i" class="select-file" style="postion:relative;bottom:10px;"  size="small"  @click.native="$refs.erfen[0].click()" :value="twocut1.fileName">
-                    <template slot="prepend">上传二分体1视频<input type="file" @change="selectFile(twocut1,0,$refs.erfen[0].files[0])" hidden ref="erfen"></template>
-                </el-input>
+                    <div class="time" style="margin-top:10px;width:30%">
+                        <span class="time-span ellipse">羊二分体2重量</span>
+                        <el-input  size="small" v-model="twocut2.weight"></el-input>
+                    </div>
                 
-            </div>
-            <el-button type="primary" size="small" @click.prevent="printCode(twocut1.num)">打印</el-button>
-            
-                <div class="time" style="margin-top:10px;width:30%">
-                    <span class="time-span ellipse">羊二分体2编号</span>
-                <el-input  size="small" v-model="twocut2.num"></el-input>
+                    <div class="time" style="width:20%">
+                        <el-input  v-for="(item, i) in captures2"  :key="i" class="select-file" style="postion:relative;bottom:10px;" size="small"  @click.native="$refs.erfen[1].click()" :value="twocut2.fileName">
+                            <template slot="prepend">上传二分体2视频<input type="file" @change="selectFile(twocut2, 1,$refs.erfen[1].files[0])" hidden ref="erfen"></template>
+                        </el-input>
+                    </div>
+                    <el-button type="primary" size="small" @click.prevent="printCode(twocut2.num)">打印</el-button>
                 </div>
-
-            <div class="time" style="margin-top:10px;width:30%">
-                <span class="time-span ellipse">羊二分体2重量</span>
-                <el-input  size="small" v-model="twocut2.weight"></el-input>
-            </div>
-            
-            <div class="time" style="width:20%">
-                <el-input  v-for="(item, i) in captures2"  :key="i" class="select-file" style="postion:relative;bottom:10px;" size="small"  @click.native="$refs.erfen[1].click()" :value="twocut2.fileName">
-                    <template slot="prepend">上传二分体2视频<input type="file" @change="selectFile(twocut2, 1,$refs.erfen[1].files[0])" hidden ref="erfen"></template>
-                </el-input>
-                
-            
-            </div>
-            <el-button type="primary" size="small" @click.prevent="printCode(twocut2.num)">打印</el-button>
          </div>
     
         <div class="card">
@@ -624,6 +627,11 @@ export default {
              this.waijiForm.domains[0].num=val
              this.lijiForm.domains[0].num=val
             }
+        },
+        searchCode(newVal){
+            let reg = /[MSG]\d+/;
+            this.searchCode = this.searchCode.match(reg)[0];
+            this.fetchData()
         }
     },
 
@@ -639,6 +647,7 @@ export default {
             user:[],
             radio:0,
             holder:null,
+            fatherNumber:'',
         total:0,
         page:1,
         tableData:[],
@@ -648,6 +657,7 @@ export default {
             file:null,
             fileName:null
          },
+         searchCode:null,
          twocut2:{
             num:null,
             weight:null,
@@ -819,13 +829,16 @@ export default {
       async fetchData(){
 			let id = this.user.userFactory
 			let param = {
-                			page: (this.page - 1)*10,
+                			page: this.page - 1,
                				size: 10,
-           				} 
-					 this.tableData = []
+                           } 
+            if(this.searchCode){
+                param.trademark = this.searchCode
+            }
+		    this.tableData = []
 			getSegmentSheep(id , param).then(res => {
                 if (isReqSuccessful(res)) {
-               		 this.total = Math.ceil(res.data.number/param.size)*10
+               		 this.total = res.data.number //Math.ceil(res.data.number/param.size)*10
                		 let data = res.data.List
                		 data.forEach((v) => {
                               console.log(v)

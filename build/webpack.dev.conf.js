@@ -28,6 +28,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
       ],
     },
+    // https:true,
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
@@ -42,7 +43,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
   },
   plugins: [
     new webpack.DefinePlugin({

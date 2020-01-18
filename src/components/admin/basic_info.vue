@@ -190,8 +190,6 @@
                 </div>
 
 
-                
-                
                 <div :class="{mr: item.mr}" :key="i" v-else-if="item.type === 'radio'" class="time el-input-group radio">
                     <span class="ellipse" :title="item.label" v-text="item.label + ':'"></span>
                     <div class="radios-el">

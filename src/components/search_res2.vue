@@ -384,7 +384,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo2'   muted  :src="slaughterFactoryPics" controls="controls" loop="loop">
+          <video  id='factoryVideo2' autoplay="autoplay"  muted  :src="slaughterFactoryPics" controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -632,7 +632,7 @@
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
             <el-carousel height="150px" indicator-position="none">
               <el-carousel-item v-for="(item,index) in slaughterSheepPics" :key="index" >
-                <video :src="item"  muted="muted" controls="controls" width='100%' height='140%' loop="loop"></video>
+                <video :src="item" autoplay="autoplay"  muted="muted" controls="controls" width='100%' height='140%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
@@ -752,7 +752,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo3'   muted  :src="consumerFactoryPics"   controls="controls" loop="loop">
+          <video  id='factoryVideo3' autoplay="autoplay"  muted  :src="consumerFactoryPics"   controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -999,7 +999,7 @@
           <el-collapse-item title="可视化视频" name="3" class='leftC2'>
             <el-carousel height="150px" indicator-position="none">
               <el-carousel-item v-for="(item,index) in ConsumerSheepPics" :key="index">
-                <video :src="item"  muted="muted" controls="controls" width='100%' height='140%' loop="loop"></video>
+                <video :src="item" autoplay="autoplay" muted="muted" controls="controls" width='100%' height='140%' loop="loop"></video>
               </el-carousel-item>
             </el-carousel>
           </el-collapse-item>
@@ -2366,7 +2366,13 @@ export default {
       }
     },
     created (){
-      this.code = this.$route.query.code || 'G400457';
+      if(this.$route.query.code){
+        let reg = /(G|M|S)\d+/;
+        this.code = this.$route.query.code.match(reg)[0];
+        console.log(this.code); 
+      }else{
+        this.code =  'G400457';
+      }
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;
         let data = re.data;
@@ -2462,7 +2468,7 @@ export default {
           info.latitude = data.factory[0].latitude;
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          this.consumerFactoryPics = re.data.factoryVideo.pic_address
+          this.consumerFactoryPics = re.data.factoryVideo[0].pic_address
           re.data.sheepVideo.forEach((item) => {
               this.ConsumerSheepPics.push(item);
           })
@@ -2657,7 +2663,9 @@ export default {
           })
           return
         }
-        this.$router.push({name: 'search', query: { code: this.key }});
+        let reg = /(G|M|S)\d+/;
+        let searchCode = this.key.match(reg)[0];
+        this.$router.push({name: 'search', query: { code: searchCode }});
         this.$emit("searchTo");
       },
        qrcode () {

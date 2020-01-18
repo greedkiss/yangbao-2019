@@ -172,18 +172,22 @@ export default {
                     id: data.talk_id,
                     name: data.name
                 }
-                console.log(this.user)
             }
             if (data.order === 'link') {
                 let msg = data.message
                 let idx = msg.lastIndexOf(':')
                 let name = msg.substr(idx + 1)
                 let addr = msg.substr(0, idx)
-                html = `<a href="${addr}"><i class="el-icon-document"></i>${name}</a>`
-            } else {
+                let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                if(reg.test(msg)){
+                    html = `<img src="${msg}" width="300px" height="200px">`
+                }else{
+                    html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
+                }
+            }else {
                 html = data.message
             }
-            this.pushChatMessage(html, data.order === 'self')
+            this.pushChatMessage(html, data.sender === this.$route.params.id)
         }
 
         window.onbeforeunload = function () {
@@ -203,13 +207,31 @@ export default {
                 let id = this.$route.params.id
                 res.data.List.forEach(v => {
                     let obj = {}
-                    if (v.talker_id === id) {
+                    if (v.talker_id == id) {
                         obj.self = 1
                         this.expert.name = v.talker_name
                     } else {
                         this.user.name = v.talker_name
+                        this.user.id = v.talker_id
                     }
-                    obj.html = v.content
+                    if (v.link){
+                        console.log(v.link,1111)
+                        let msg = v.content
+                        let idx = msg.lastIndexOf(':')
+                        let name = msg.substr(idx + 1)
+                        let addr = msg.substr(0, idx)
+                        let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                        if(reg.test(msg)){
+                            console.log("thisispic")
+                            obj.html = `<img src="${msg}" width="300px" height="200px">`
+                        }else{
+                            console.log("not pic")
+                            obj.html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
+                        }
+                    } else {
+                        console.log("nolink")
+                        obj.html = v.content
+                    }
                     arr.push(obj)
                 })
                 this.items = arr
@@ -283,7 +305,7 @@ export default {
                 message: edit.innerHTML,
                 isExpert: true,
                 user_id: this.expert.id,
-                name: this.user.name,
+                name: this.expert.name,
                 talk_id: this.user.id,
                 mode: 0
             }
@@ -305,9 +327,10 @@ export default {
             }
             let form = new FormData()
             form.append('file', file)
-            form.append('user_id', this.user.id)
-            form.append('user_name', this.user.name)
-            form.append('talk_id', this.expert.id)
+            form.append('user_id', this.expert.id)
+            form.append('isExpert', true)
+            form.append('user_name', this.expert.name)
+            form.append('talk_id', this.user.id)
             form.append('mode', 0)
 
             let headers = {}
@@ -317,11 +340,11 @@ export default {
                 method: 'POST',
                 body: form,
                 headers
-            }).then(res => {
+            }).then( async res => {
+                res = await res.json()
                 if (isReqSuccessful(res)) {
                     this.$message.success('文件发送成功')
-                    this.data.push({html: '<i class="el-icon-document"></i>' + file.name})
-                    console.log(res)
+                    //this.data.push({html: '<i class="el-icon-document"></i>' + file.name})
                 }
             }, _ => {
                 this.$notify.error({
