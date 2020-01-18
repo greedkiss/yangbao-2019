@@ -180,9 +180,9 @@ const SlaughterProcessSet = () => import('@/components/admin/slaughterUnit/proce
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
-const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
-const ConsumerUnitMedia = () => import('@/components/admin/consumerunit/media')
-const ConsumerCertification = () => import('@/components/admin/consumerunit/certification')
+const ConsumerUnitVisual = () => import('@/components/admin/consumerUnit/productionVisual')
+const ConsumerUnitMedia = () => import('@/components/admin/consumerUnit/media')
+const ConsumerCertification = () => import('@/components/admin/consumerUnit/certification')
 
 //寻找有机
 const FindOrganic = () => import('@/components/organic/index')
