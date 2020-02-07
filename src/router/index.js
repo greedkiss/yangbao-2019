@@ -179,7 +179,7 @@ const SlaughterProcessSet = () => import('@/components/admin/slaughterUnit/proce
 
 
 //消费实体管理平台
-const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
+const ConsumerUnit = () => import('@/components/admin/consumerunit/index')
 const ConsumerUnitVisual = () => import('@/components/admin/consumerunit/productionVisual')
 const ConsumerUnitMedia = () => import('@/components/admin/consumerunit/media')
 const ConsumerCertification = () => import('@/components/admin/consumerunit/certification')

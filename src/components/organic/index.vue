@@ -339,7 +339,7 @@
         </div>
         <div class="o_line" >
             <div>
-                <ve-line :data="chartData" :settings="chartSettings" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
+                <ve-line :data="chartData" :settings="chartSettings" :position="relative" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
             </div>
         </div>
         <div class="o_detail">
@@ -1322,7 +1322,7 @@ export default {
 .o_organic
 	overflow hidden
 	height 100%
-	background url(http://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
+	background url(https://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
 	background-size cover
 	color #01ffff
 	.head

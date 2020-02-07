@@ -7,7 +7,7 @@
             <div class="left-box">
                 <div class="profession">
                 <router-link to="/">
-                    <img src="http://qiniu.yunyangbao.cn/professionalLesson.png" alt="profession" style="border: 0">
+                    <img src="https://qiniu.yunyangbao.cn/professionalLesson.png" alt="profession" style="border: 0">
                 </router-link>
                 </div>
                 <div class="title_box">
@@ -145,7 +145,7 @@ export default{
 </script>
 <style lang="stylus">
 .login-main
-    background url(http://qiniu.yunyangbao.cn/login.jpg) no-repeat center
+    background url(https://qiniu.yunyangbao.cn/login.jpg) no-repeat center
     background-size cover
     width 100%
     height 100%
@@ -205,7 +205,7 @@ export default{
             left -16px
             z-index 100
             top -230px
-            background url(http://qiniu.yunyangbao.cn/login_back6.png) no-repeat center
+            background url(https://qiniu.yunyangbao.cn/login_back6.png) no-repeat center
             background-size cover
             // background #FFFFFF
             .el-form-item

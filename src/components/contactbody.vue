@@ -3,7 +3,7 @@
         <h1 class="title_head_3">联系我们 <span class="title_eng"> COMPANY PROFILE</span></h1>
         <hr align="center" width="96%"></hr>
         <div id="infor">
-            <img id="map" src="..\assets\imgs\map_yc.png"></img>
+            <img id="map" src="../assets/imgs/map_yc.png"></img>
             <p id="phone" class="con_infor">联系电话 : 0856-6995166</p>
             <p class="con_infor">邮 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱 : 1694478121@qq.com</p>
             <p id="address" class="con_infor">地 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址 : 贵州省铜仁市沿河土家族自治县官舟镇枣树坝村</p>
