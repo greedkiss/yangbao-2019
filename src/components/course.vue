@@ -128,7 +128,7 @@ export default {
                     res.data.List.forEach((item) => {
                         this.videoList.push({
                             id: item.id,
-                            expertName:item.name,
+                            expertName:item.professorName,
                             uploadTime: item.gmtCreate,
                             videoName: item.fileName,
                             link: `${vedioUrl}/${item.fileName}`

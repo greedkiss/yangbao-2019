@@ -319,7 +319,7 @@ export const getoutWareManageDetailed = (data) => fetch('/d/out', data,'POST')
 
 export const PostProductNumber = (data) => fetch('/d/out/division', data,'POST')
 
-export const nextPrint = (id) => fetch('/d/out/print/'+id)
+export const nextPrint = (data) => fetch('/d/out/print/', data)
 
 export const findMakeUpVideo = (id) => fetch('/d/out/find/'+id)
 

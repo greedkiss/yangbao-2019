@@ -26,6 +26,8 @@ const baseUrl = 'https://yunyangbao.cn:9010' //生产服务器
 //const baseUrl = 'http://192.168.3.137:9020' //kun地下室
 //const baseUrl = 'http://192.168.43.37:9010' //殷超
 //const baseUrl = 'http://192.168.43.182:9020' //坤
+//const baseUrl = 'http://yinchao.frp.yunyangbao.cn:9041' //超
+
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
 let app = new Vue()

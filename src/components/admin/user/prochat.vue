@@ -458,6 +458,7 @@ export default {
                     padding-left 15px
                     padding-right 15px
                     border-radius 10px
+                    overflow-wrap break-word
                     color #000
                     background-color rgba(240,240,240,0.5)
                     i
