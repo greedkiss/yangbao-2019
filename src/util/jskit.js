@@ -342,6 +342,6 @@ export const getModule = name => {
 }
 
 export const getThumbPicture = filename => {
-  return 'http://qiniu.yunyangbao.cn/thumb_' + filename.substring(0 , filename.lastIndexOf('.') + 1) + 'jpg'
+  return 'https://qiniu.yunyangbao.cn/thumb_' + filename.substring(0 , filename.lastIndexOf('.') + 1) + 'jpg'
 }
 

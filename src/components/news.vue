@@ -34,7 +34,7 @@ export default {
 @import '../assets/css/color'
 .index-home
     height 100%
-    background url(http://qiniu.yunyangbao.cn/homepage.png) no-repeat center
+    background url(https://qiniu.yunyangbao.cn/homepage.png) no-repeat center
     background-size cover
     .headindex
         height 15%

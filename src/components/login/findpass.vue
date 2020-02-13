@@ -168,7 +168,7 @@ export default {
 <style lang="stylus" scoped>
 @import '~@/assets/css/login-common'
 .newlogin-main
-    background url(http://qiniu.yunyangbao.cn/login.jpg) no-repeat center
+    background url(https://qiniu.yunyangbao.cn/login.jpg) no-repeat center
     background-size cover
     width 100%
 .find-pass
