@@ -337,9 +337,9 @@
             </tr>
           </table>
         </div>
-        <div class="o_line" >
+        <div class="o_sheep_line" >
             <div>
-                <ve-line :data="chartData" :settings="chartSettings" :position="relative" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
+                <ve-line :data="chartData" :settings="chartSettings" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
             </div>
         </div>
         <div class="o_detail">
@@ -351,7 +351,7 @@
                 :key="i"
                 @click="handleClick(item.id, item.style)"
               >
-                <span>{{i+1}}.&nbsp</span>
+                <span>{{i+1}.&nbsp</span>
                 <span v-text="item.name"></span>
               </div>
             </div>
@@ -1050,12 +1050,6 @@ export default {
     },
     getXYbyIP() {
       let _this = this;
-      // let headers = 'Access-Control-Allow-Origin'
-      // window.fetch('https://api.map.baidu.com/location/ip?ak=HQi0eHpVOLlRuIFlsTZNGlYvqLO56un3&coor=bd09ll', {
-      //       method: 'POST',
-      //       headers,
-      //       body: ''
-      //   }).
       let url =
         "https://api.map.baidu.com/location/ip?ak=HQi0eHpVOLlRuIFlsTZNGlYvqLO56un3&coor=bd09ll"; //百度
       let res = $.ajax({
@@ -1552,7 +1546,7 @@ export default {
 							padding-right 10px
 						.o_total
 							background-color #eb6100
-			.o_line
+			.o_sheep_line
         z-index -1
         font-size 12px
 				margin-top 10px
