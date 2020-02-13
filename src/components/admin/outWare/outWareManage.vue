@@ -405,8 +405,26 @@ export default {
         //份数and查看
         changeCopies(row,column,cell){
             if(column.label=='产品份数'){
-                if(row.counts>0){
-                    return 
+                if(row.counts != -1){
+                    this.tableData2=[];
+                    let param = {   
+                            customerId: this.user.userFactory,
+                            divisionId: row.id,
+                        } 
+                    nextPrint(param).then(res => {
+                        if (isReqSuccessful(res)) {
+                        let data = res.data.List
+                        if(data===null){
+                            this.$message.warning('已打印完毕，请分割其他产品！')
+                            return
+                        }
+                            this.tableData2.push(data)
+                            this.picSuccess = "";
+                        }else{
+                            this.$message.error('获取数据失败')
+                        }
+                    })
+                    this.hasCopies=true      
                 }else{
                     this.dialogMessage.number=row.partNumber
                     this.dialogMessage.name=row.productName
@@ -479,8 +497,11 @@ export default {
         async cellClick(row){
             this.tableData2=[];
             this.codeNumber=row.partNumber;
-            let id = row.id
-                nextPrint(id).then(res => {
+            let param = {   
+                customerId: this.user.userFactory,
+                divisionId: row.divisionId,
+            }
+                nextPrint(param).then(res => {
                 if (isReqSuccessful(res)) {
                     let data = res.data.List
                     if(data===null){
