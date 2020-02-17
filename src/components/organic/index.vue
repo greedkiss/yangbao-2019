@@ -351,7 +351,7 @@
                 :key="i"
                 @click="handleClick(item.id, item.style)"
               >
-                <span>{i+1}.&nbsp</span>
+                <span>{{i+1}}.&nbsp</span>
                 <span v-text="item.name"></span>
               </div>
             </div>
