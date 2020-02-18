@@ -39,6 +39,7 @@ const CommentResult = () => import('@/components/admin/comment/commentResults')
 const AuthRole = () => import('@/components/admin/auth/role')
 const AuthRoleInput = () => import('@/components/admin/auth/input')
 const Account = () => import('@/components/admin/account/index')
+const AppAccount = () => import('@/components/admin/appAccount/index')
 // 系谱档案
 const Genealogic = () => import('@/components/admin/genealogic/index')
 const GenealogicList = () => import('@/components/admin/genealogic/list')
@@ -305,6 +306,7 @@ export default new Router({
             {path: 'nutrition/stage/list', name: 'stagelist', component: StageList},
             // auth, comment, account
             {path: 'account', name: 'account', component: Account},
+            {path: 'appAccount', name: 'appAccount', component: AppAccount},
             // 疾病防治
             {path: 'prevention/plan', name: 'preventionplan', component: PreventionPlan},
             {path: 'prevention/prac', name: 'preventionprac', component: PreventionPrac},
