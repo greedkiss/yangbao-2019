@@ -37,7 +37,7 @@ export default {
     data() {
         return{
             headers: [
-                {label:'单位个人名称',prop:'unitName'},
+                {label:'单位(个人)名称',prop:'unitName'},
                 {label:'单位地址',prop:'unitAddress'},
                 {label:'详细地址',prop:'detailAddress'},
                 {label:'法人姓名',prop:'responsibleName'},

@@ -25,6 +25,11 @@ export default {
       handler: function(){
         this.repaint(this.data)
       }
+    },
+    'mapCenter.lon':{
+      handler: function(){
+        this.repaint(this.data)
+      }
     }
   },
   mounted() {
@@ -32,8 +37,6 @@ export default {
   },
   methods: {
     repaint(data) {
-      console.log(this.mapCenter);
-      console.dir(data, 222)
       var map = new window.BMap.Map(this.$refs.omap); // 创建Map实例
       if (this.mapCenter.level == 0) {
         map.centerAndZoom(
