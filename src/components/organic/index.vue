@@ -41,15 +41,6 @@
               :value="item"
             ></el-option>
           </el-select>
-          <!-- <span>乡镇</span>
-				<el-select v-model="value.town" placeholder=" ">
-			    <el-option
-			      v-for="item in area.town"
-			      :key="item.value"
-			      :label="item.label"
-			      :value="item.value">
-			    </el-option>
-          </el-select>-->
           <span class="sub-title">乡镇</span>
           <el-autocomplete
             class="inline-input"
@@ -284,7 +275,6 @@
                 style="color: #01ffff; font-size: 12px;background: #001e85; border:0px; border-left:1px solid #0090d4;"
                 colspan="2"
               >厂家(个)</th>
-              <!-- <td class="o_noBack">厂家(个)</td> -->
               <td colspan="2" class="o_double">
                 <div class="o_font">养殖厂</div>
               </td>
@@ -351,7 +341,7 @@
                 :key="i"
                 @click="handleClick(item.id, item.style)"
               >
-                <span>{i+1}.&nbsp</span>
+                <span>{{i+1}}.&nbsp</span>
                 <span v-text="item.name"></span>
               </div>
             </div>
@@ -626,7 +616,6 @@ export default {
         item.value +
         "&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM";
       let obj = { url };
-      console.log(url);
       this.value.city = "";
       this.value.country = "";
       this.value.town = "";
@@ -811,7 +800,7 @@ export default {
           !this.style.checked6 &&
           !this.style.checked7
         )
-          type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,";
+        type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,";
         type = type.substring(0, type.lastIndexOf(","));
         message = { type, simpleAddress, detailAddress };
       }
@@ -819,16 +808,16 @@ export default {
       this.items = [];
       let _this = this 
       getLocationSheep(simpleAddress).then(res => {
-            _this.saleAll = 0;
-            res.data.sheeps.forEach(item =>{
-              if(item){
-                if(item.canSale){
+          _this.saleAll = 0;
+          res.data.sheeps.forEach(item =>{
+            if(item){
+              if(item.canSale){
                 _this.saleAll++
-                }
               }
-            })
-            _this.liveAll = res.data.count;
-          });
+            }
+          })
+          _this.liveAll = res.data.count;
+      });
       getCustomerByAddress(message).then(res => {
         //this.getCount()
         if (res.data.factories.length != 0) { 
@@ -877,6 +866,24 @@ export default {
             let style = 0; //0表示屠宰加工消费
             this.items.push({ id, name, style });
           });
+        }
+        //当没有factory时候定位mapcenter
+        if(res.data.customers.length == 0 && res.data.factories.length == 0){
+            console.log(simpleAddress,"地理位置")
+            let url = "http://api.map.baidu.com/geocoding/v3/?address=" +
+            simpleAddress + "&output=json&ak=BMsRuPgitTR8eMopPH7FraZSz0t5HP9X&callback=showLocation"
+            let new_this = this
+            $.ajax({
+              url: url,
+              type: "POST",
+              dataType: "JSONP",
+              async: true, 
+              cache: true,
+              success: function(data) {
+                new_this.mapCenter.lon = data.result.location.lng
+                new_this.mapCenter.lan = data.result.location.lat
+              }
+            })
         }
         this.detail = {};
         if (res.data.total_output_sheep != 0) {
@@ -1045,7 +1052,6 @@ export default {
                 }
               }
             }
-
         })
     },
     getXYbyIP() {
@@ -1056,7 +1062,7 @@ export default {
         url: url,
         type: "POST",
         dataType: "JSONP",
-        async: true,
+        async: true, 
         cache: true,
         success: function(data) {
           _this.place.lon = data.content.point.x;

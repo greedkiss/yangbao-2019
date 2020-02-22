@@ -12,8 +12,8 @@
 
             <div class="admin-tabs">
                 <el-button>溯源管理</el-button>
-                <el-button>进销存</el-button>
-                <el-button>财务管理</el-button>
+                <!-- <el-button>进销存</el-button>
+                <el-button>财务管理</el-button> -->
                 <el-button @click="logout()">退出</el-button>
             </div>
 
