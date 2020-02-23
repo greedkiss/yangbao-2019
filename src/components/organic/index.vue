@@ -870,7 +870,7 @@ export default {
         //当没有factory时候定位mapcenter
         if(res.data.customers.length == 0 && res.data.factories.length == 0){
             console.log(simpleAddress,"地理位置")
-            let url = "http://api.map.baidu.com/geocoding/v3/?address=" +
+            let url = "https://api.map.baidu.com/geocoding/v3/?address=" +
             simpleAddress + "&output=json&ak=BMsRuPgitTR8eMopPH7FraZSz0t5HP9X&callback=showLocation"
             let new_this = this
             $.ajax({
