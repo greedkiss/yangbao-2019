@@ -709,18 +709,18 @@ export default {
               this.getCount(this.factoryId);
               if (res.data.factory !== null) {
                 this.corpation.chargeMan =
-                  res.data.factory.responsiblePersonName;
+                res.data.factory.contactPersonName;
                 this.corpation.phone = 
-                res.data.factory.responsiblePersonPhone;
+                res.data.factory.contactPersonPhone;
               }
             });
           } else {
             getCustomerInformation(this.factoryId).then(res => {
               if (res.data.factory !== null) {
                 this.corpation.phone =
-                  res.data.responsiblePerson.chargePersonPhone;
+                  res.data.responsiblePerson.contactPerson;
                 this.corpation.chargeMan =
-                  res.data.responsiblePerson.chargePerson;
+                  res.data.responsiblePerson.contactPersonPhone;
               }
               this.getCount(this.factoryId);
             });
@@ -745,8 +745,8 @@ export default {
         } else {
           getSalableSheep(this.factoryId).then(res => {
             this.eartagList = res.data.sheep;
-            this.corpation.chargeMan = res.data.factory.responsiblePersonName;
-            this.corpation.phone = res.data.factory.responsiblePersonPhone;
+            this.corpation.chargeMan = res.data.factory.contactPersonName;
+            this.corpation.phone = res.data.factory.contactPersonPhone;
           });
           this.getCount(this.factoryId);
         }
