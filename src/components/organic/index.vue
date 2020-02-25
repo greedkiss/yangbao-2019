@@ -718,9 +718,9 @@ export default {
             getCustomerInformation(this.factoryId).then(res => {
               if (res.data.factory !== null) {
                 this.corpation.phone =
-                  res.data.responsiblePerson.contactPerson;
-                this.corpation.chargeMan =
                   res.data.responsiblePerson.contactPersonPhone;
+                this.corpation.chargeMan =
+                  res.data.responsiblePerson.contactPerson;
               }
               this.getCount(this.factoryId);
             });
