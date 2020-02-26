@@ -1,7 +1,7 @@
 <template>
     <div class="user-table">
         <el-button @click="addUser">添加用户</el-button>
-
+        <el-button @click="searchUser">用户查询</el-button>
         <el-table
             v-loading="load"
             ref="table"
@@ -149,6 +149,29 @@
             </div>
         </el-dialog>
 
+        <el-dialog title="用户查询" :visible.sync="searchVisable">
+            <el-form :model="searchInfo">
+                <div style="padding-left: 49px">
+                    <span>字段名称</span>
+                    <el-select v-model="searchInfo.labelName" placeholder="请选择需查询字段名称" style="padding-left: 11px;padding-bottom:10px">
+                        <el-option 
+                            v-for="(item, i) in labelOption"
+                            :key="i"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <el-form-item label="查询内容" :label-width="formLabelWidth">
+                    <el-input size="small" v-model="searchInfo.searchName" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer" style="text-align: center">
+                    <el-button size="small" @click="cancleSearch()">取消</el-button>
+                    <el-button size="small" type="primary" @click="searchConfirm()">确定</el-button>
+            </div>
+        </el-dialog>
+
         <el-pagination
             layout="prev, pager, next"
             :total="total"
@@ -248,6 +271,7 @@ export default {
             },
             formLabelWidth: '120px',
             dialogVisible: false,
+            searchVisable: false,
             changeVisible: false,
             headers: [
                 {label: '单位', prop: 'factoryName'},
@@ -279,6 +303,16 @@ export default {
                 slaughter: false,
                 consumer: false,
                 self: false
+            },
+            labelOption: [
+                {label: "单位", value: "0"},
+                {label: "用户名", value: "1"},
+                {label: "用户姓名", value: "2"},
+                {label: "角色名", value: "3"}
+            ],
+            searchInfo: {
+                labelName: null,
+                searchName: null
             }
         }
     },
@@ -297,6 +331,12 @@ export default {
 
 
     methods: {
+        searchUser(){
+            this.searchVisable = true
+        },
+        cancleSearch(){
+            this.searchVisable = false
+        },
         getByType(){
             getNameByType({type: this.form.unitName}).then(res => {
                 this.customerOptions = []
