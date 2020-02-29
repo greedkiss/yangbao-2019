@@ -90,7 +90,7 @@ export default {
                             {label: '屠宰加工客户管理', to: 'slaughter'},
                             {label: '消费实体客户管理', to: 'consumer'},
                             {label: '用户管理', to: 'account'},
-                            {label: '安卓端用户管理', to: 'appAccount'},
+                            {label: 'APP新用户申请', to: 'appAccount'},
                             {label: '角色权限管理', to: 'authrole'},
                             {label: '短信服务平台', to: 'message'},
                             {label: '留言统计', to: 'commentsum'},
@@ -106,6 +106,7 @@ export default {
                             {label: '下级代理管理', to: 'agent'},
                             {label: '客户管理', to: 'farm'},
                             {label: '用户管理', to: 'account'},
+                            {label: 'APP新用户申请', to: 'appAccount'},
                             {label: '角色权限管理', to: 'authrole'},
                             {label: '专家客户评价结果', to: 'commentres'},
                         ]

@@ -13,7 +13,7 @@
                 align='center'
                 :prop="th.prop"
                 :label="th.label"
-                :width="th.width || 200">
+                :width="th.width || 150">
             </el-table-column>
             <el-table-column
                 prop="id"
@@ -25,11 +25,11 @@
                 fixed="right"
                 label="操作"
                 align='center'
-                width="160">
+                width="180">
                 <template slot-scope="scope">
                     <div class="opr">
                         <span @click="editUser(scope.row)">编辑</span>
-                        <span @click="agreeUser(scope.row)">开户</span>
+                        <span @click="agreeUser(scope.row)">{{scope.row.factoryType}}开户</span>
                         <span @click="disAgreeUser(scope.row)">删除</span>
                     </div>
                 </template>
@@ -79,10 +79,10 @@ export default {
     data() {
         return{
             headers: [
-                {label:'单位(个人)名称',prop:'factoryName'},
                 {label:'单位类型',prop:'factoryType'},
-                {label:'单位地址',prop:'simpleAddress'},
-                {label:'详细地址',prop:'detailAddress'},
+                {label:'单位(个人)名称',prop:'factoryName', width:'200px'},
+                {label:'单位地址',prop:'simpleAddress', width:'200px'},
+                {label:'详细地址',prop:'detailAddress', width:'200px'},
                 {label:'法人姓名',prop:'responsiblePersonName'},
                 {label:'是否开户',prop:'isEnable'},
                 {label:'电话',prop:'responsiblePersonPhone'}
@@ -121,13 +121,14 @@ export default {
                     else
                         item.isEnable = "是"
                 });
+                this.total = res.data.size
                 this.tableData = res.data.List
                 this.load = false
             })
         },
 
         disAgreeUser(row) {
-            deleteAPPUser(row.id).then(this.fetchData())
+            deleteAPPUser(row.id).then(res => {this.fetchData()})
         },
 
         agreeUser(row) {
@@ -146,7 +147,14 @@ export default {
         },
 
         editUser(row) {
-            this.formChange = row
+            this.formChange.factoryName = row.factoryName
+            this.formChange.isEnable = row.isEnable
+            this.formChange.factoryType = row.factoryType
+            this.formChange.simpleAddress = row.simpleAddress
+            this.formChange.detailAddress = row.detailAddress
+            this.formChange.responsiblePersonName = row.responsiblePersonName
+            this.formChange.responsiblePersonPhone = row.responsiblePersonPhone
+            this.formChange.id = row.id
             this.changeVisible = true
         },
 
