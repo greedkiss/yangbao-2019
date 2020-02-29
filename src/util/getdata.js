@@ -639,3 +639,11 @@ export const  getFactoryVideo= (type, tag) => fetch(`/factoryVideo/${type}/${tag
 //查询几条记录待审核
 
 export const getUsermsg = (tel) => fetch('/msg/msgcount/' + tel)
+
+//APP端用户接口
+
+export const getAPPUser = (id, page) => fetch(`/userRegister/${id}?page=${page}`)
+
+export const deleteAPPUser = (id) => fetch(`/userRegister/${id}`, null, 'DELETE')
+
+export const editAPPUser = (id, data) => fetch(`/userRegister/${id}`, data, 'PUT')
