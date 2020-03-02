@@ -179,9 +179,12 @@ export default {
                 let name = msg.substr(idx + 1)
                 let addr = msg.substr(0, idx)
                 let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                let regVideo =  /^http.+qiniu\.yunyangbao\.cn.+\.(mp4|flv|m3u8)$/i
                 if(reg.test(msg)){
                     html = `<img src="${msg}" width="300px" height="200px">`
-                }else{
+                }else if(regVideo.test(msg)){
+                    html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
+				}else{
                     html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
                 }
             }else {
@@ -221,10 +224,15 @@ export default {
                         let name = msg.substr(idx + 1)
                         let addr = msg.substr(0, idx)
                         let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                        let regVideo =  /^http.+qiniu\.yunyangbao\.cn.+\.(mp4|flv|m3u8)$/i
                         if(reg.test(msg)){
+                            
                             console.log("thisispic")
                             obj.html = `<img src="${msg}" width="300px" height="200px">`
-                        }else{
+                        }else if(regVideo.test(msg)){
+                            html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
+					    }
+                        else{
                             console.log("not pic")
                             obj.html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
                         }

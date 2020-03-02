@@ -447,6 +447,14 @@ export default {
                                 this.videoList.push(v)
                             }
                             if(item.file_type != 1){
+                                let img = new Image();
+                                let urlarr = v.url.split("yunyangbao.cn/");
+                                let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+                                img.src = timeMarkUrl;
+                                console.log(timeMarkUrl);
+                                img.onload = function(){
+                                    v.url = timeMarkUrl;
+                                }
                                 this.imgList.push(v)
                             }
                             this.proList.push(v)

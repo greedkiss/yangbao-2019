@@ -3,8 +3,8 @@
     <el-upload
       class="professorCourseVideo_upload"
       ref="upload"
-      :action="url"
-      :data="data"
+      :action="upload.url"
+      :data="upload.data"
       name="file"
       :file-list="fileList"
       :disabled="disabled"
@@ -16,8 +16,13 @@
       :on-success="success"
       :on-error="error"
       :auto-upload="false">
-      <el-button slot="trigger" size="small" type="primary">选取课堂视频</el-button>
-      <el-button style="margin-left: 10px;" :disabled="disabled" size="small" type="success" @click="submitUpload">上传</el-button>
+      <el-button slot="trigger" size="small" type="primary">选取课堂/用户手册视频</el-button>
+      <el-button style="margin-left: 10px;" :disabled="disabled" size="small" type="success" @click="submitUpload">上传专家课堂视频</el-button>
+      <el-select style="margin-left: 30px;" size="small" v-model="videoKind" placeholder="请选择用户手册视频类型">
+        <el-option value="理念培训" >理念培训</el-option>
+        <el-option value="操作培训" >操作培训</el-option>  
+      </el-select>
+      <el-button style="margin-left: 10px;" :disabled="disabled" size="small" type="success" @click="UploadToUserBook">上传用户手册视频</el-button>
       <div slot="tip" class="el-upload__tip">只能上传视频文件，且不超过500M</div>
     </el-upload>
 
@@ -68,17 +73,21 @@
 </template>
 
 <script>
-  import { baseUrl } from '@/util/fetch.js'
+  import { baseUrl, authStr, tokenStr } from '@/util/fetch.js'
   import { getVideo, deleteVideo, getUserById } from '@/util/getdata.js'
   import { isReqSuccessful } from '@/util/jskit'
   export default {
     data() {
       return {
         // 上传 URL
-        url: `${baseUrl}/video/upload`,
+        upload:{
+          url: `${baseUrl}/video/upload`,
+          data: {},
+        },
         fileList: [],
         // 上传视频参数
-        data: {},
+        proInfor:{},
+        videoKind:"",
         disabled: false,
         videoList: [],
         // 数据总数
@@ -91,7 +100,7 @@
       let id = this.$route.params.id
       getUserById(id).then(res => {
         if (isReqSuccessful(res)) {
-          this.data = {
+          this.proInfor = {
             professorId: id,
             professorName: res.data.pkUserid
           }
@@ -105,8 +114,52 @@
           this.$message.warning('请选取视频文件')
           return false
         }
-        this.$refs.upload.submit()
-        this.disabled = true
+        //直接改变url值，
+        this.$set(this.upload, 'url',  `${baseUrl}/video/upload`);
+        this.$set(this.upload, 'data',  this.proInfor);
+        //再下一帧到来之后执行这个任务，让url能够更新过来
+        this.$nextTick(()=>{
+          this.$refs.upload.submit()
+          this.disabled = true
+        })
+      },
+      UploadToUserBook(){
+        if(!this.fileList.length) {
+          this.$message.warning('请选取视频文件')
+          return false
+        }
+        if(!this.videoKind){
+          this.$message.warning('请选择视频类型')
+          return false
+        }
+        this.$set(this.upload, 'url', `${baseUrl}/document`);
+        this.$set(this.upload, 'data',  {filetype :this.videoKind});
+        this.$nextTick(()=>{  
+          this.$refs.upload.submit()
+          this.disabled = true
+        })
+        // let form = new FormData();
+        
+        // form.append("file", this.$refs.upload.fileList[0])
+        // let headers = {}
+        // headers[authStr] = window.localStorage.getItem(tokenStr)
+        // window.fetch(baseUrl + '/document', {
+        //     method: 'POST',
+        //     headers,
+        //     body: form
+        // }).then(async res => {
+        //     let body = await res.json()
+        //       if (isReqSuccessful(body)) {
+        //           this.captures2.forEach((item ,index) => {
+        //               this.captures2[index].per = 100
+        //               this.$message.success('上传成功')
+        //               this.fetchData()
+        //           })
+        //       }
+        //       else{
+        //       this.$message.error('上传失败')
+        //       }
+        //   })
       },
       exceed () {
         this.$message.warning('每次只能上传一个视频')
