@@ -709,18 +709,18 @@ export default {
               this.getCount(this.factoryId);
               if (res.data.factory !== null) {
                 this.corpation.chargeMan =
-                  res.data.factory.responsiblePersonName;
+                res.data.factory.contactPersonName;
                 this.corpation.phone = 
-                res.data.factory.responsiblePersonPhone;
+                res.data.factory.contactPersonPhone;
               }
             });
           } else {
             getCustomerInformation(this.factoryId).then(res => {
               if (res.data.factory !== null) {
                 this.corpation.phone =
-                  res.data.responsiblePerson.chargePersonPhone;
+                  res.data.responsiblePerson.contactPersonPhone;
                 this.corpation.chargeMan =
-                  res.data.responsiblePerson.chargePerson;
+                  res.data.responsiblePerson.contactPerson;
               }
               this.getCount(this.factoryId);
             });
@@ -745,8 +745,8 @@ export default {
         } else {
           getSalableSheep(this.factoryId).then(res => {
             this.eartagList = res.data.sheep;
-            this.corpation.chargeMan = res.data.factory.responsiblePersonName;
-            this.corpation.phone = res.data.factory.responsiblePersonPhone;
+            this.corpation.chargeMan = res.data.factory.contactPersonName;
+            this.corpation.phone = res.data.factory.contactPersonPhone;
           });
           this.getCount(this.factoryId);
         }
@@ -870,7 +870,7 @@ export default {
         //当没有factory时候定位mapcenter
         if(res.data.customers.length == 0 && res.data.factories.length == 0){
             console.log(simpleAddress,"地理位置")
-            let url = "http://api.map.baidu.com/geocoding/v3/?address=" +
+            let url = "https://api.map.baidu.com/geocoding/v3/?address=" +
             simpleAddress + "&output=json&ak=BMsRuPgitTR8eMopPH7FraZSz0t5HP9X&callback=showLocation"
             let new_this = this
             $.ajax({
