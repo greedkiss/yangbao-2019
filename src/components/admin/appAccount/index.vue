@@ -140,9 +140,28 @@ export default {
                 this.load = false
                 row.isEnable = 1
                 let id = this.$route.params.id
+                let path = null
                 editAPPUser(id, row).then(res => {
                     this.fetchData()
                 })
+                localStorage.setItem("APP_factoryName", row.factoryName)
+                localStorage.setItem("APP_simplyAddress", row.simpleAddress)
+                localStorage.setItem("APP_detailAddress", row.detailAddress)
+                localStorage.setItem("APP_responsiblePersonName", row.responsiblePersonName)
+                if(row.factoryType == "养殖场"){
+                    path = `/admin/${id}/farm?app=1`
+                    this.$router.push(path)
+                }else if(row.factoryType == "屠宰加工"){
+                    path = `/admin/${id}/slaughter?app=1`
+                    this.$router.push(path)
+                }else if(row.factoryType == "消费终端"){
+                    path = `/admin/${id}/consumer?app=1`
+                    this.$router.push(path)
+                }else{
+                    this.$confirm('该单位类型不存在', '错误', {
+                        type: 'warning'
+                    })
+                }
             }
         },
 

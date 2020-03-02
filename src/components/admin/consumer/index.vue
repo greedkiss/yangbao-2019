@@ -23,11 +23,24 @@
 
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
+import { addressToArray } from '@/util/jskit'
 import { insertConsumer, getConsumerById, updateConsumer } from '@/util/getdata'
 
 export default {
     components: {
         dataCur
+    },
+
+    mounted () {
+        if(this.$route.query.app){
+            this.models.name = localStorage.getItem("APP_factoryName")
+            this.models.chargePerson = localStorage.getItem("APP_responsiblePersonName")
+            this.models.simpleAddress = addressToArray(localStorage.getItem("APP_simplyAddress"))
+            localStorage.removeItem("APP_responsiblePersonName")
+            localStorage.removeItem("APP_detailAddress")
+            localStorage.removeItem("APP_simplyAddress")
+            localStorage.removeItem("APP_factoryName")
+        }
     },
 
     data () {

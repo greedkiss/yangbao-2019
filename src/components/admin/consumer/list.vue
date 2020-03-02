@@ -1,5 +1,20 @@
 <template>
     <div>
+        <el-select v-model="searchInfo.labelName" placeholder="请选择查询信息" style="padding-left: 11px;width: 150px">
+            <el-option 
+                v-for="(item, i) in labelOption"
+                :key="i"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+        </el-select>
+        <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="searchInfo.searchName"
+            style="width: 150px">
+        </el-input>
+        <el-button @click="searchUser">查询</el-button>
         <admin-table
             modpath="consumer"
             :has-unpass="false"
@@ -43,7 +58,15 @@ export default {
                 {prop: 'nowSupply', label: '当前供应量'},
                 {prop: 'nowNeed', label: '当前需求量'},
                 {prop: 'inDate', label: '加入时间'}
-            ]
+            ],
+            labelOption: [
+                {label: "单位名称", value: "0"},
+                {label: "单位负责人", value: "1"}
+            ],
+            searchInfo: {
+                labelName: null,
+                searchName: null
+            }
         }
     }
 }

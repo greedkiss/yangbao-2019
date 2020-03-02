@@ -20,10 +20,24 @@
 <script>
 import dataCur from '@/components/admin/common/dataCUR'
 import { postFarm, updateFarm, getFarmById } from '@/util/getdata'
+import { addressToArray } from '@/util/jskit'
 
 export default {
     components: {
         dataCur
+    },
+
+    mounted () {
+        if(this.$route.query.app){
+            this.models.breedName = localStorage.getItem("APP_factoryName")
+            this.models.responsiblePersonId = localStorage.getItem("APP_responsiblePersonName")
+            this.models.breedLocationDetail = localStorage.getItem("APP_detailAddress")
+            this.models.breedLocation = addressToArray(localStorage.getItem("APP_simplyAddress"))
+            localStorage.removeItem("APP_responsiblePersonName")
+            localStorage.removeItem("APP_detailAddress")
+            localStorage.removeItem("APP_simplyAddress")
+            localStorage.removeItem("APP_factoryName")
+        }
     },
 
     data () {
