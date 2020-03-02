@@ -201,10 +201,6 @@
             </el-table-column>
         </el-table>
 
-
-
-
-        
         <el-table v-if="isSlaughterManageList"
             v-loading="load"
             ref="table"
@@ -715,14 +711,26 @@ export default {
             if(scope.column.label=='附属物照片'){
                 if(scope.row.appendageVideo!==null){
                     let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
-                    if(reg.test(scope.row.appendageVideo)){
+                    let imgsrc = scope.row.appendageVideo;
+                    if(reg.test(imgsrc)){
+                        let img = new Image();
+                        let urlarr = imgsrc.split("yunyangbao.cn/");
+                        let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+                        img.src = timeMarkUrl;
+                        img.onload = () => {
+                            this.slaughterManageVideo = timeMarkUrl;
+                            this.slaughterManageVisible = true;
+                        }
+                        img.onerror = ()=>{
+                            this.slaughterManageVideo = imgsrc;
+                            this.slaughterManageVisible = true;
+                        }
                         this.isImg = true;
                     }else{
                         this.isImg = false;
+                        this.slaughterManageVideo = imgsrc
+                        this.slaughterManageVisible = true
                     }
-                    this.slaughterManageVideo=scope.row.appendageVideo
-                    console.log(this.slaughterManageVideo)
-                    this.slaughterManageVisible=true
                 }
                 else{
                     this.$message.error('暂无相关视频！')
@@ -731,14 +739,26 @@ export default {
             if(scope.column.label=='胴体照片'){
                 if(scope.row.kidVideo!==null){
                     let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+                    let imgsrc = scope.row.kidVideo;
                     if(reg.test(scope.row.kidVideo)){
+                        let img = new Image();
+                        let urlarr = imgsrc.split("yunyangbao.cn/");
+                        let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+                        img.src = timeMarkUrl;
+                        img.onload = () => {
+                            this.slaughterManageVideo = timeMarkUrl;
+                            this.slaughterManageVisible = true;
+                        }
+                        img.onerror = ()=>{
+                            this.slaughterManageVideo = imgsrc;
+                            this.slaughterManageVisible = true;
+                        }
                         this.isImg = true;
                     }else{
                         this.isImg = false;
+                        this.slaughterManageVideo = imgsrc
+                        this.slaughterManageVisible=true
                     }
-                    this.slaughterManageVideo=scope.row.kidVideo
-                    console.log(this.slaughterManageVideo)
-                    this.slaughterManageVisible=true
                 }
                 else{
                     this.$message.error('暂无相关视频！')

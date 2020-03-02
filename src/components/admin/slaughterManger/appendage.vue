@@ -247,7 +247,7 @@ export default {
             console.log(form)
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
-            window.fetch(baseUrl + '/slaughter/appendage/', {
+            window.fetch(baseUrl + '/slaughter/appendage', {
                 method: 'POST',
                 headers,
                 body: form
