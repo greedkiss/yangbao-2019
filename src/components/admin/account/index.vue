@@ -2,21 +2,22 @@
     <div class="user-table">
         <el-button @click="addUser">添加用户</el-button>
        
-        <el-select v-model="searchInfo.labelName" placeholder="请选择查询信息" style="padding-left: 11px;width: 150px">
+        <el-select v-model="searchInfo.param" placeholder="请选择查询信息" style="padding-left: 11px;width: 150px">
             <el-option 
                 v-for="(item, i) in labelOption"
                 :key="i"
                 :label="item.label"
-                :value="item.value">
+                :value="item.label">
             </el-option>
         </el-select>
         <el-input
             placeholder="请输入内容"
             prefix-icon="el-icon-search"
-            v-model="searchInfo.searchName"
+            v-model="searchInfo.value"
             style="width: 150px">
         </el-input>
-         <el-button @click="searchUser">查询</el-button>
+        <el-button @click="searchUser">查询</el-button>
+        <el-button @click="exitSearch" v-show="this.isSearch" >退出查询</el-button>
         <el-table
             v-loading="load"
             ref="table"
@@ -176,7 +177,7 @@
 
 <script>
 import AdminTable from '@/components/admin/table'
-import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType, getRoleName, updateUserMessage } from '@/util/getdata'
+import { getRoles, getUserById, getUsers, deleteUser, postUser, getFactories, getAgentUnit, getFactoryUnit, getFactoryUsers, getNameByType, getRoleName, updateUserMessage, searchUserInfo } from '@/util/getdata'
 import { isReqSuccessful } from '@/util/jskit'
 import { validatePassword, validateTelephone, validateUsername } from '@/util/validate'
 import md5 from 'md5'
@@ -302,9 +303,11 @@ export default {
                 {label: "角色名", value: "3"}
             ],
             searchInfo: {
-                labelName: null,
-                searchName: null
-            }
+                param: null,
+                value: null
+            },
+            //判断是否是查询状态的分页
+            isSearch: false
         }
     },
 
@@ -322,6 +325,21 @@ export default {
 
 
     methods: {
+        searchUser(){
+            this.load = true
+            searchUserInfo(this.searchInfo, this.page - 1).then(res => {
+                this.total = res.data.size
+                this.tableData = res.data.List
+                this.load = false
+                this.isSearch = true
+            })
+        },
+        //退出查询状态
+        exitSearch(){
+            this.isSearch = false
+            this.fetchData()
+        },
+
         getByType(){
             getNameByType({type: this.form.unitName}).then(res => {
                 this.customerOptions = []
@@ -330,6 +348,7 @@ export default {
                 })
             })
         },
+
         change(item){
             this.form.factoryId = null
             this.form.unitName = item.label
@@ -414,10 +433,17 @@ export default {
         },
 
         async fetchData () {
+            //判断是否时查询状态
             this.load = true
-            let res = await getFactoryUsers(this.user.userFactory, {page: this.page - 1})
-            this.tableData = res.data.List
-            this.total = res.data.size
+            if(this.isSearch){
+                let res = await searchUserInfo(this.searchInfo, this.page - 1)
+                this.tableData = res.data.List
+                this.total = res.data.size
+            }else{   
+                let res = await getFactoryUsers(this.user.userFactory, {page: this.page - 1})
+                this.tableData = res.data.List
+                this.total = res.data.size
+            }
             this.load = false
         },
 
@@ -624,5 +650,5 @@ export default {
             .el-input
                 width 300px
     .el-input__inner
-        height 32px
+        height 38px
 </style>

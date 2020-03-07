@@ -226,6 +226,8 @@ export const getFactoryUnit = () => fetch('/factory/fr')
 
 export const getNameByType = (type) =>fetch('/customer/getAllByType', type , "POST")
 
+export const searchUserInfo = (data, page) => fetch(`/user/query?page=${page}`, data, 'POST')
+
 /**
  * 品种管理
  */
@@ -612,6 +614,8 @@ export const getDataOfChartByAddress = ( data ) => fetch('/over/all/statistics/s
 export const getFactoryOne = (id) => fetch('/factory/find/'+ id, 'GET')
 
 export const updateFactory= (data) => fetch('/factory/update', data , 'PUT')
+
+export const searchFtyInfo = (data, page) => fetch(`/factory/query?page=${page}`, data, 'POST')
 
 //搜索平台查询羊信息
 

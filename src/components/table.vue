@@ -2,7 +2,7 @@
   <div class="mod_table">
     <h3 class="table_title">{{ title }}</h3>
     <ul v-if="type === 'table'" class="table_body">
-      <li class="item" :class="{'item_large': item.size === 'large'}" v-for="item in data">
+      <li class="item" :class="{'item_large': item.size === 'large'}" v-for="(item, i) in data" :key="i">
         <span class="item_name" :class="{item_name_bold: !!item.noValue}" :style="{width: getNameWidth(item.fieldNameWidth, item.size, item.noValue)}">{{ item.fieldName }}：</span>
         <span v-if="item.type === 'radio'" class="item_value" :class="{item_hide: !!item.noValue}" :style="{width: `calc(100% - ${getNameWidth(item.fieldNameWidth, item.size, item.noValue)})`}">
           <el-radio-group v-model="item.fieldValue" disabled>

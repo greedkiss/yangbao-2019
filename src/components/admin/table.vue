@@ -30,6 +30,24 @@
             <el-button @click="fetchData()" size="small" type="primary">查询</el-button>
             <el-button @click="export2xls()" size="small" type="primary" icon="el-icon-download">导出表格</el-button>
         </div>
+        <div v-if="searchEnable">
+            <el-select v-model="searchInfo.param" placeholder="请选择查询信息" style="padding-left: 11px;width: 150px">
+            <el-option 
+                v-for="(item, i) in labelOption"
+                :key="i"
+                :label="item.label"
+                :value="item.label">
+            </el-option>
+            </el-select>
+            <el-input
+                placeholder="请输入内容"
+                prefix-icon="el-icon-search"
+                v-model="searchInfo.value"
+                style="width: 150px">
+            </el-input>
+            <el-button @click="searchUser" style="margin-bottom:15px">查询</el-button>
+            <el-button @click="exitSearch" v-show="this.isSearch" >退出查询</el-button>
+        </div>
         <el-table
             v-loading="load"
             ref="table"
@@ -65,7 +83,7 @@
                 :label="th.label"
                 :width="th.width || 150">
                 <el-table-column
-                    v-if="th.children"
+                    v-show="th.children"
                     v-for="(thc, j) in th.children"
                     :key="j"
                     :prop="thc.prop"
@@ -147,7 +165,7 @@
         <el-pagination
             layout="prev, pager, next"
             :total="total"
-            @current-change="fetchData"
+            @current-change="fetchAllData"
             :current-page.sync="page">
         </el-pagination>
     </div>
@@ -182,6 +200,11 @@ import {
 
 export default {
     props: {
+        //是否启用search
+        searchEnable: {
+            type: Boolean,
+            default: false  
+        },
         //判断是不是监督界面
         isReview: {
             type: Boolean,
@@ -200,6 +223,9 @@ export default {
         // 跳转路径
         modpath: {
             type: String
+        },
+        searchMethod: {
+            type: Function
         },
         getData: {
             type: Function
@@ -291,6 +317,10 @@ export default {
         isSlaughter: {
             type: Boolean,
             default: true
+        },
+        //查询功能的内容
+        labelOption:{
+            type: Array
         }
     },
 
@@ -361,11 +391,40 @@ export default {
 
             eartag: null,
             gmtCreate: null,
-            pcaa
+            pcaa,
+
+            isSearch: false, //是否为查询状态
+            searchInfo: {//查询参数
+                param: null,
+                value: null
+            }
         }
     },
 
     methods: {
+        //分页调用函数，判断时在查询时分页还是普通状态下的分页
+        fetchAllData(){
+            if(this.isSearch){
+                this.searchUser()
+            }else{
+                this.fetchData()
+            }
+        },
+
+        searchUser(){
+            this.load = true
+            this.searchMethod(this.searchInfo, this.page - 1).then(res => {
+                this.tableData = res.data.List
+                this.total = res.data.size
+                this.load = false
+                this.isSearch = true
+            })
+        },
+
+        exitSearch(){
+            this.load = true
+            this.isSearch = false
+        },
         // 导出表格数据为 xls 表单并自动下载
         export2xls () {
             if (!this.tableData.length) {
@@ -529,7 +588,6 @@ export default {
         },
 
         async fetchData () {
-            console.log(this.user)
             let param = {
                 page: this.page - 1,
                 size: 10
