@@ -170,6 +170,8 @@ const ProfessorCourseVideo = () => import('@/components/admin/professorCourseVid
 const NotFound = () => import('@/components/not_found')
 
 const TableFound = () => import('@/components/table/app')
+
+const AppVideoUpload = () => import('@/components/admin/appVideoUpload/AppVideoUpload')
 //屠宰加工管理平台
 const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
 const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
@@ -344,6 +346,8 @@ export default new Router({
             // 专家课堂视频发布
             {path: 'professorCourseVideo', name: 'professorCourseVideo', component: ProfessorCourseVideo},
             {path: 'courseintro', name: 'courseintro', component: CourseIntro},
+            //app用户手册视频发布
+            {path: 'appVideoUpload', name: 'appVideoUpload', component: AppVideoUpload},
             // 客户关系一览表
             {path: 'table', name: 'table', component: TableFound},
             //屠宰加工管理平台

@@ -4,8 +4,7 @@ import { jumpToLogin } from './jskit'
 import Vue from 'vue'
 import md5 from 'md5'
 
-// export const wsUrl = 'ws://akun.frp.yunyangbao.cn:9040/websocket'
-// export const wsUrl = 'ws://120.79.79.43:9042/websocket'
+// export const wsUrl = 'ws://akun.frp.yunyangbao.cn:9042/websocket'
 // const baseUrl = 'http://akun.frp.yunyangbao.cn:9041'
 
 // const baseUrl = 'http://180.76.180.95:9010'

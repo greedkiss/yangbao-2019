@@ -4,7 +4,7 @@
             <el-container>
                 <el-main>
                     <div class="pro-dialog_box" ref="dialog">
-                        <div class="pro-dialog-item" :class="{self: item.self}" v-for="(item, i) in items" :key="i"><span v-text="item.self ? expert.name : user.name"></span><span class="msg" v-html="item.html"></span></div>
+                        <div class="pro-dialog-item" :class="{self: item.self}" v-for="(item, i) in items" :key="i"><span v-text="item.self ? expert.name : item.name"></span><span class="msg" v-html="item.html"></span></div>
                     </div>
                     <div class="my_input_box">
                         <div class="my_chat_option">
@@ -53,15 +53,36 @@
                         v-model="filterUser">
                         <i slot="prefix" class="el-input__icon el-icon-search"></i>
                     </el-input>
-
+                    <div>
+                        <span
+                            type="text"
+                            size="mini"
+                            style="color:red; padding-left:10px"
+                            v-if="missMsg">
+                            请注意查收新消息！
+                        </span>
+                    </div>
                     <el-tree
                         @node-click="selectClient"
                         class="filter-tree"
                         :data="userList"
-                        :props="defaultProps"
+                        :props="name"
                         empty-text="用户列表为空"
                         :filter-node-method="filterNode"
                         ref="userTree">
+                         <span class="custom-tree-node" slot-scope="{ node, data }">
+                            <span>{{ node.label }}</span>
+                            <span>
+                                <span>{{data.name}}</span>
+                                <span
+                                type="text"
+                                size="mini"
+                                v-if="data.hasNew"
+                                style="color:red; padding-left:10px">
+                                新
+                                </span>
+                            </span>
+                        </span>
                     </el-tree>
                 </el-aside>
             </el-container>
@@ -92,18 +113,21 @@ export default {
 
             options: [],
             filterUser: '',
-            
+            missMsg: false,
+            missArr:[],
             currentExpression: '',
             expressionList: [],
             userList: [
                 {label: '所有用户', children: []}
+                //{name:"陈玲", hasNew:true, id:2000},{name:"王二", hasNew:false, id:2001}
             ],
             defaultProps: {
                 children: 'children',
                 label: 'label'
             },
 
-            msgCount: 0
+            msgCount: 0,
+            nowServer:""
         }
     },
 
@@ -135,7 +159,8 @@ export default {
                     res.data.List.forEach((item) => {
                         arr.push({
                             id: item.id,
-                            label: item.user_realname || `用户${item.id}`
+                            name: item.user_realname || `用户${item.id}`,
+                            hasNew: false
                         })
                     })
                     this.userList[0].children = arr
@@ -163,10 +188,44 @@ export default {
         this.websocket.onclose = cb
 
         this.websocket.onmessage = evt => {
-            console.log(evt)
-            let data = JSON.parse(evt.data)
-            let html = ''
-            this.msgCount++
+            console.log(evt);
+            let data = JSON.parse(evt.data);
+            let html = '';
+            this.msgCount++;
+            if(this.items.length <= 0){
+                this.nowServer = data.name;
+                let index = this.userList[0].children.findIndex((item) => item.name == data.name);
+                if(index == -1){
+                    this.userList[0].children.push({
+                        id: data.sender,
+                        name: data.name,
+                        hasNew: true
+                    });
+
+                }else{
+                    this.userList[0].children[index].hasNew = true;
+                };
+            }else{
+                //当出现新的消息的时候，更新右边得所有用户处，如果已经存在用户，那就显示"新"，没有的话，就添加用户.
+                if(data.name != this.nowServer && data.name != this.expert.name){
+                    this.missArr.push(data.name);
+                    this.missMsg = true;
+                    let index = this.userList[0].children.findIndex((item) => item.name == data.name);
+                    if(index == -1){
+                        this.userList[0].children.push({
+                            id: data.sender,
+                            name: data.name,
+                            hasNew: true
+                        });
+
+                    }else{
+                        this.userList[0].children[index].hasNew = true;
+                    };
+                    console.log("bieren")
+                    //因为是别的用户的消息，所以直接返回，不将信息添加到对话框中
+                    return;
+                }
+            }
             if (this.msgCount === 1) {
                 this.user = {
                     id: data.talk_id,
@@ -181,16 +240,19 @@ export default {
                 let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
                 let regVideo =  /^http.+qiniu\.yunyangbao\.cn.+\.(mp4|flv|m3u8)$/i
                 if(reg.test(msg)){
+                    msg = encodeURI(msg)
                     html = `<img src="${msg}" width="300px" height="200px">`
                 }else if(regVideo.test(msg)){
+                    msg = encodeURI(msg)
                     html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
 				}else{
+                    msg = encodeURI(msg)
                     html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
                 }
             }else {
                 html = data.message
             }
-            this.pushChatMessage(html, data.sender === this.$route.params.id)
+            this.pushChatMessage(html, data.sender === this.$route.params.id, data.name)
         }
 
         window.onbeforeunload = function () {
@@ -204,6 +266,15 @@ export default {
 
     methods: {
         async selectClient (data, node) {
+            data.hasNew = false;
+            this.nowServer = data.name;
+            let index = this.missArr.indexOf(data.name);
+            if(index != -1){
+                this.missArr.splice(index, 1);
+            }
+            if(this.missArr.length <= 0){
+                this.missMsg = false;
+            }
             if (node.isLeaf) {
                 let res = await getTalkRecord(data.id)
                 let arr = []
@@ -215,6 +286,7 @@ export default {
                         this.expert.name = v.talker_name
                     } else {
                         this.user.name = v.talker_name
+                        obj.name = v.talker_name
                         this.user.id = v.talker_id
                     }
                     if (v.link){
@@ -226,14 +298,14 @@ export default {
                         let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
                         let regVideo =  /^http.+qiniu\.yunyangbao\.cn.+\.(mp4|flv|m3u8)$/i
                         if(reg.test(msg)){
-                            
-                            console.log("thisispic")
+                            msg = encodeURI(msg)
                             obj.html = `<img src="${msg}" width="300px" height="200px">`
                         }else if(regVideo.test(msg)){
-                            html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
+                            msg = encodeURI(msg)
+                            obj.html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
 					    }
                         else{
-                            console.log("not pic")
+                            msg = encodeURI(msg)
                             obj.html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
                         }
                     } else {
@@ -242,14 +314,14 @@ export default {
                     }
                     arr.push(obj)
                 })
-                this.items = arr
+                this.items = arr;
+                console.log(this.items);
                 this.$nextTick(_ => {
                     let dialog = this.$refs.dialog
                     if (dialog) {
                         dialog.scrollTop = dialog.scrollHeight
                     }
                 })
-                // console.log(arr)
             }
         },
 
@@ -382,15 +454,15 @@ export default {
             })
         },
 
-        pushChatMessage (html, isSelf) {
-            this.items.push({html, self: isSelf})
+        pushChatMessage (html, isSelf, name) {
+            this.items.push({html, self: isSelf, name})
             this.$nextTick(_ => {
                 let dialog = this.$refs.dialog
                 if (dialog) { 
                     dialog.scrollTop = dialog.scrollHeight
                 }
             })
-        }
+        },
     },
     watch: {
         filterUser (val) {
