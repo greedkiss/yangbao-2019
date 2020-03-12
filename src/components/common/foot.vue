@@ -1,9 +1,9 @@
 <template>
 	<footer class="foot">
 		<p class="foot_mess">
-            Copyright &copy; 2018.贵州省东骏有机农业科技有限公司(Guizhou Dongjun Organic Agriculture Technology Co., Ltd.) 版权所有 <br/>
+            Copyright &copy; 2020.贵州省东骏有机农业科技有限公司(Guizhou Dongjun Organic Agriculture Technology Co., Ltd.) 版权所有 <br/>
             软件著作编号: 2018SR504492; 2018SR503550; 2018SR503571; 2018SR503580; 2018SR503575; 2018SR503564;2018SR504500;
-            <a href="http://www.miitbeian.gov.cn/" style="color:#C9C9C9">黔ICP备18003179号</a><br/>
+            <a href="http://www.beian.miit.gov.cn/" style="color:#C9C9C9">黔ICP备18003179号</a><br/>
         </p>
 	</footer>
 </template>
