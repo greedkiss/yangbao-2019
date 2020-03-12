@@ -96,8 +96,8 @@ export default {
                             {label: '留言统计', to: 'commentsum'},
                             {label: '专家客户监管', to: 'commentres'},
                             {label: '发布系统', to: 'release'},
+                            {label: 'app用户手册发布', to:'appVideoUpload' },
                             {label: '供需调配', to: 'release'},
-
                         ]
                     },
                     {label: '代理管理员区', to: 'agenttwo' ,

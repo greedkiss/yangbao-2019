@@ -46,7 +46,7 @@
                             <el-input v-model="form.name" auto-complete="off" placeholder="用户姓名"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-input v-model="form.email" auto-complete="off" placeholder="邮件地址"></el-input>
+                            <el-input v-model="form.wechat" auto-complete="off" placeholder="微信"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-input type="textarea" :rows="4" v-model="form.message" placeholder="留言内容"></el-input>
@@ -131,6 +131,11 @@ export default {
                         email,
                         type
                     }
+                    this.form = {
+                        wechat: phone,
+                        name: name,
+                        message: message
+                    }
                 }
             }, _ => {
                 this.$notify.error({
@@ -176,9 +181,15 @@ export default {
                 let name = msg.substr(idx + 1)
                 let addr = msg.substr(0, idx)
                 let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i
+                let regVideo =  /^http.+qiniu\.yunyangbao\.cn.+\.(mp4|flv|m3u8)$/i
                 if(reg.test(msg)){
+                    msg = encodeURI(msg)
                     html = `<img src="${msg}" width="300px" height="200px">`
-                }else{
+                }else if(regVideo.test(msg)){
+                    msg = encodeURI(msg)
+                    html = `<video src="${msg}" controls="controls"  width="300px" height="200px"></video>`;
+				}else{
+                    msg = encodeURI(msg)
                     html = `<a href="${msg}"><i class="el-icon-document"></i>${name}</a>`
                 }
             } else {
@@ -201,7 +212,7 @@ export default {
             dialogFormVisible: false, // 评价弹框是否可见
             description: '',
             form: {
-                email: '',
+                wechat: '',
                 name: '',
                 message: ''
             },
@@ -289,9 +300,8 @@ export default {
 
         // send chat file with formdata
         sendFile () {
-            let filedom = this.$refs.file
-            let file = filedom.files[0]
-
+            let filedom = this.$refs.file;
+            let file = filedom.files[0];
             if (file === undefined) {
                 this.$message.warning('未选择文件')
                 return

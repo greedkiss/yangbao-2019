@@ -388,6 +388,10 @@ export const getVideo = data => fetch('/video/find', data, 'POST')
 
 export const deleteVideo = id => fetch('/video/' + id, null, 'DELETE')
 
+export const getUserBook = (data) => fetch('/document/all', data, 'GET')
+
+export const deleteUserBook = (id) => fetch('/document/' + id, null, 'DELETE')
+
 // 审核，监督执行七个生产档案
 export const patchWelfare = (id, data) => fetch('/of/s/' + id, data, 'PATCH')
 export const patchBreeding = (id, data) => fetch('/breeding/s/' + id, data, 'PATCH')
