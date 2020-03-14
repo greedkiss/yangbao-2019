@@ -301,6 +301,8 @@ export const getSlaughterBodyList= (id,data) => fetch('/slaughter/d/body/' + id,
 
 export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET')
 
+export const searchSlaInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=0`, data, 'POST')
+
 
 
 
@@ -324,6 +326,8 @@ export const PostProductNumber = (data) => fetch('/d/out/division', data,'POST')
 export const nextPrint = (data) => fetch('/d/out/print/', data)
 
 export const findMakeUpVideo = (id) => fetch('/d/out/find/'+id)
+
+export const searchCuInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=1`, data, 'POST')
 
 //消费店 可视系统
 export const findCustomerMedia = (data) => fetch(`/comsumerEntitySystem/searchAll/`,data)

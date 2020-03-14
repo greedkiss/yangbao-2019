@@ -142,14 +142,17 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="编辑用户" :visible.sync="changeVisible">
-            <el-form :model="formChange">
+        <el-dialog title="编辑用户" :visible.sync="changeVisible" width="50%">
+            <el-form :model="formChange" style="margin: 0 auto">
                 <el-form-item label="办公电话" :label-width="formLabelWidth">
                     <el-input size="small" v-model="formChange.telephone" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="密码修改" :label-width="formLabelWidth">
+                    <el-input size="small" v-model="formChange.passwd" auto-complete="off"></el-input>
+                </el-form-item>
                 <div style="padding-left: 49px">
                     <span>角色名称</span>
-                    <el-select style="padding-left:10px;padding-bottom: 30px" v-model="formChange.roleName" placeholder="选择角色名称">
+                    <el-select style="padding-left:10px;padding-bottom:30px;width: 150px" v-model="formChange.roleName" placeholder="选择角色名称">
                         <el-option
                             v-for="(item, i) in roleOptions"
                             :key="i"
@@ -260,7 +263,8 @@ export default {
             formChange: {
                 userId: null,
                 telephone: null,
-                roleName: null
+                roleName: null,
+                passwd: null
             },
             formLabelWidth: '120px',
             dialogVisible: false,
@@ -615,13 +619,19 @@ export default {
         confirmChange(){
             let phone = this.formChange.telephone
             let valPh = validateTelephone(phone)
-            if (phone && valPh !== true) {
-                warn(valPh)
+            let userPass = this.formChange.passwd
+            let valPa = validatePassword(userPass)
+            if(userPass && valPa !== true){
+                this.$message.error('密码必须是6-20位字符数字和下划线')
                 return
             }
-            console.log(this.formChange.roleName)
+            let password = md5(valPa)
+            if (phone && valPh !== true) {
+                this.$message.error('手机号格式不正确')
+                return
+            }
             let role = this.formChange.roleName
-            let obj = {phone, role}
+            let obj = {phone, role, password}
             updateUserMessage(this.formChange.userId, obj).then(res => {
                 if (isReqSuccessful(res)) {
                     this.$message.success('编辑用户成功')

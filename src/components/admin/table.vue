@@ -98,18 +98,6 @@
                     prop="operatorName"
                     label="操作人员">
                 </el-table-column> 
-                <!-- <el-table-column
-                    align='center'
-                    width="150"
-                    :prop="isProName ? 'professorName' : 'professor'"
-                    label="技术审核">
-                </el-table-column>
-                <el-table-column
-                    align='center'
-                    width="150"
-                    :prop="isProName ? 'supervisorName' : 'supervisor'"
-                    label="监督执行">
-                </el-table-column> -->
                 <el-table-column
                     align='center'
                     width="150"
@@ -414,7 +402,8 @@ export default {
         searchUser(){
             this.load = true
             this.searchMethod(this.searchInfo, this.page - 1).then(res => {
-                this.tableData = res.data.List
+                //后台接口不统一有的返回是List有的是data.list
+                this.tableData = res.data.List || res.data.data.list
                 this.total = res.data.size
                 this.load = false
                 this.isSearch = true
@@ -730,6 +719,7 @@ export default {
             } else {
                 let res = await getReleaseByName(this.releaseType)
                 this.tableData = res.data.List
+                console.log(this.tableData)
                 this.total = res.data.size
                 this.load = false
             }
