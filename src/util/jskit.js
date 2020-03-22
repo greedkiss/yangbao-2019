@@ -345,3 +345,10 @@ export const getThumbPicture = filename => {
   return 'https://qiniu.yunyangbao.cn/thumb_' + filename.substring(0 , filename.lastIndexOf('.') + 1) + 'jpg'
 }
 
+export const judgeAuthorization = data => {
+    for(let item in data){
+        if(data[item])
+            return 1;
+    }
+    return 0;
+}

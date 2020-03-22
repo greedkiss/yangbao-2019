@@ -659,3 +659,6 @@ export const getAPPUser = (id, page) => fetch(`/userRegister/${id}?page=${page}`
 export const deleteAPPUser = (id) => fetch(`/userRegister/${id}`, null, 'DELETE')
 
 export const editAPPUser = (id, data) => fetch(`/userRegister/${id}`, data, 'PUT')
+
+//权限表获取
+export const getPermitTable = (id) => fetch(`/permit/permitTable/${id}`, 'GET')

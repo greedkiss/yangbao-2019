@@ -46,8 +46,10 @@
 <script>
 import AdminHead from '@/components/common/admin_head'
 import AdminFoot from '@/components/common/admin_foot'
-import { getUserById, getUsermsg} from '@/util/getdata'
-import { isReqSuccessful ,getModule} from '@/util/jskit'
+import { getUserById, getUsermsg, getPermitTable} from '@/util/getdata'
+import { isReqSuccessful ,getModule, judgeAuthorization } from '@/util/jskit'
+//导入权限表s
+import { auth } from '@/util/authorization'
 
 /* eslint-disable object-property-newline */
 export default {
@@ -138,8 +140,8 @@ export default {
             productionTree: {
                 label: '养殖生产管理中心',
                 children: [
-                {label: '单位基本信息管理', to: 'farmUnit'},
-                {label: '生产节点智能统计管理', to: 'intelManage', children: [
+                    {label: '单位基本信息管理', to: 'farmUnit'},
+                    {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
                             {label: '引种应激期' , to: 'nonpregnantOne'},
                             {label: '体况调理期' , to: 'nonpregnantTwo'}
@@ -333,7 +335,23 @@ export default {
                 })
             }
         })
+        // getPermitTable(id).then(res => {
+        //     console.log(res)
+        // })
+        // if(!judgeAuthorization(auth.authorization)){
+        //     this.adminTree.children[0].children.splice(this.adminTree.children[0].children.findIndex(item => item.to == 'account'), 1)
+        // }
+
+        //配种产子
+        for(let info in breeding.name){
+            this.productionTree.children[breeding.rank].children.splice(this.productionTree.children[rank].children.findIndex(item => item.to == info), 1)
+        }
+        
+
+
+
         this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+      
     },
 
     mounted () {
@@ -406,7 +424,6 @@ export default {
                 // itemprac -> itemlist
                 let idx = item.to.indexOf('prac')
                 if (idx === -1) {
-                    console.log(item)
                     this.$router.push({name: item.to + 'list'})
                 } else {
                     this.$router.push({name: item.to.substr(0, item.to.indexOf('prac')) + 'list'})
@@ -457,6 +474,20 @@ export default {
                 node.to && this.$router.push({name: node.to})
             }
         }
+    },
+
+
+    //build the tree
+    buildTree(){
+        //there is no need to delete any item in treeData
+        //权限表
+        if(!judgeAuthorization(auth.authorization)){
+            this.adminTree.children.children.splice(this.adminTree.children.children.findIndex(item => item.to == 'account'), 1)
+        }
+
+
+
+        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     }
 }
 </script>
