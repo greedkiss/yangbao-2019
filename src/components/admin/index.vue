@@ -49,7 +49,7 @@ import AdminFoot from '@/components/common/admin_foot'
 import { getUserById, getUsermsg, getPermitTable} from '@/util/getdata'
 import { isReqSuccessful ,getModule, judgeAuthorization } from '@/util/jskit'
 //导入权限表s
-import { auth } from '@/util/authorization'
+import { relationShip, tableMap } from '@/util/authorization'
 
 /* eslint-disable object-property-newline */
 export default {
@@ -335,22 +335,8 @@ export default {
                 })
             }
         })
-        // getPermitTable(id).then(res => {
-        //     console.log(res)
-        // })
-        // if(!judgeAuthorization(auth.authorization)){
-        //     this.adminTree.children[0].children.splice(this.adminTree.children[0].children.findIndex(item => item.to == 'account'), 1)
-        // }
-
-        //配种产子
-        for(let info in breeding.name){
-            this.productionTree.children[breeding.rank].children.splice(this.productionTree.children[rank].children.findIndex(item => item.to == info), 1)
-        }
-        
-
-
-
-        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        //构建树
+        this.buildTree(id)
       
     },
 
@@ -445,6 +431,58 @@ export default {
             }
         },
 
+        //递归
+        deleteItem(tree, item){
+            if(tree.children === undefined)
+                return
+            tree = tree.children
+            for(let i in tree){
+                this.deleteItem(tree[i], item)
+                if(tree[i].to == item)
+                    tree.splice(i, 1)
+            }
+        },
+
+        //删除操作
+        deleteAction(deleteTree){
+            for(let item in deleteTree.productionTree)
+                this.deleteItem(this.productionTree, deleteTree.productionTree[item])
+            for(let item in deleteTree.adminTree)
+                this.deleteItem(this.adminTree, deleteTree.adminTree[item])
+            for(let item in deleteTree.consumptionTree)
+                this.deleteItem(this.consumptionTree, deleteTree.consumptionTree[item])
+            for(let item in deleteTree.slaughterTree)
+                this.deleteItem(this.slaughterTree, deleteTree.slaughterTree[item])
+            for(let item in deleteTree.professorTree)
+                this.deleteItem(this.professorTree, deleteTree.professorTree[item])
+        },
+
+        //build the tree
+        async buildTree(id){
+            var res = await getPermitTable(id)
+            var deleteTree = {
+                slaughterTree: [],
+                consumptionTree: [],
+                productionTree: [],
+                adminTree: [],
+                professorTree: []
+            }
+            for(let i in tableMap){
+                if(res.data.tables.indexOf(i) == -1){
+                    let item = tableMap[i]
+                    if(relationShip[item].path !== null){
+                        for(let key in relationShip[item].name){
+                            deleteTree[relationShip[item].path].push(relationShip[item].name[key])
+                        }
+                    }
+                }
+            }
+            await this.deleteAction(deleteTree)
+            this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        },
+
+        
+
         clickTree (node, data) {
             if(node.to=='intelManage'){
                 this.module = {label: node.label, to: node.to}
@@ -474,20 +512,6 @@ export default {
                 node.to && this.$router.push({name: node.to})
             }
         }
-    },
-
-
-    //build the tree
-    buildTree(){
-        //there is no need to delete any item in treeData
-        //权限表
-        if(!judgeAuthorization(auth.authorization)){
-            this.adminTree.children.children.splice(this.adminTree.children.children.findIndex(item => item.to == 'account'), 1)
-        }
-
-
-
-        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
     }
 }
 </script>
