@@ -462,7 +462,7 @@ export default {
             var res = await getPermitTable(id)
             var deleteTree = {
                 slaughterTree: [],
-                consumptionTree: [],
+                consumptionTree: [], 
                 productionTree: [],
                 adminTree: [],
                 professorTree: []
