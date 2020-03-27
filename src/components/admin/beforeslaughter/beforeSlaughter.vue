@@ -262,7 +262,7 @@ export default {
                 return 
             }
             let res = await readSerialPort()
-            this.appendageWeight = res || 0
+            this.weight = res || 0
         },
         async printCode(start){
                 this.qrcodeimgs=[];
