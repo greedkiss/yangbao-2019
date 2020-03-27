@@ -336,7 +336,9 @@ export default {
             }
         })
         //构建树
-        this.buildTree(id)
+        // this.buildTree(id)
+        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+
       
     },
 
@@ -443,7 +445,8 @@ export default {
             }
         },
 
-        //删除操作
+        //删除操作,此函数和deleteItem没必要做修改
+        //分别对5个大标签树实行删除操作
         deleteAction(deleteTree){
             for(let item in deleteTree.productionTree)
                 this.deleteItem(this.productionTree, deleteTree.productionTree[item])

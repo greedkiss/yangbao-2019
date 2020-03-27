@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { isReqSuccessful} from '@/util/jskit'
+import { isReqSuccessful, readSerialPort, isInstalled} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
 import {getUserById,postSlaughter,getBodyData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
@@ -273,9 +273,16 @@ export default {
                 }
             })
         },
-        getWeight(){
-            this.kidWeight = 50;
+
+        async getWeight(){
+            if(!isInstalled()){
+                window.location='https://qiniu.yunyangbao.cn/goserial.exe'
+                return 
+            }
+            let res = await readSerialPort()
+            this.appendageWeight = res || 0
         },
+
         async printCode(start){
             this.qrcodeimgs=[];
             this.codeNumber=start;

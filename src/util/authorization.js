@@ -18,7 +18,7 @@ export const relationShip = {
     //疾病防治
     //对应整个疾病防治
     disease: {
-        path: 'productionTree',
+        path: 'productionTree', 
         name: [
             'prevention'
         ],
@@ -172,6 +172,7 @@ export const relationShip = {
             'consumer'
         ]
     },
+    //
     professorJudge: {
         path: null,
         name: []
