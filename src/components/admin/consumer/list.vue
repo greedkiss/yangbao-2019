@@ -1,20 +1,5 @@
 <template>
     <div>
-        <el-select v-model="searchInfo.labelName" placeholder="请选择查询信息" style="padding-left: 11px;width: 150px">
-            <el-option 
-                v-for="(item, i) in labelOption"
-                :key="i"
-                :label="item.label"
-                :value="item.value">
-            </el-option>
-        </el-select>
-        <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="searchInfo.searchName"
-            style="width: 150px">
-        </el-input>
-        <el-button @click="searchUser">查询</el-button>
         <admin-table
             modpath="consumer"
             :has-unpass="false"
@@ -24,6 +9,9 @@
             :headers="headers"
             :isUnit="true"
             :isSlaughter="false"
+            :searchEnable="true"
+            :labelOption="labelOption"
+            :searchMethod="searchCuInfo"
             :getData="getConsumer"
             :deleteData="deleteConsumer"
             >
@@ -33,7 +21,7 @@
 
 <script>
 import AdminTable from '@/components/admin/table'
-import { getConsumer, deleteConsumer } from '@/util/getdata'
+import { getConsumer, deleteConsumer, searchCuInfo } from '@/util/getdata'
 
 export default {
     components: {
@@ -44,9 +32,11 @@ export default {
         return {
             getConsumer,
             deleteConsumer,
+            searchCuInfo,
             headers: [
                 {prop: 'id', label: '单位编号'},
                 {prop: 'type', label: '单位类型'},
+                {prop: 'supAgentName', label: '上级代理名称'},
                 {prop: 'supAgentId', label: '上级代理编号'},
                 {prop: 'name', label: '单位名称'},
                 {prop: 'unitLocation', label: '单位地理位置'},
@@ -61,12 +51,10 @@ export default {
             ],
             labelOption: [
                 {label: "单位名称", value: "0"},
-                {label: "单位负责人", value: "1"}
-            ],
-            searchInfo: {
-                labelName: null,
-                searchName: null
-            }
+                {label: "单位负责人", value: "1"},
+                {label: "上级代理名称", value: "2"},
+                {label: "联系人", value: "3"}
+            ]
         }
     }
 }

@@ -47,8 +47,10 @@
 <script>
 import AdminHead from '@/components/common/admin_head'
 import AdminFoot from '@/components/common/admin_foot'
-import { getUserById, getUsermsg} from '@/util/getdata'
-import { isReqSuccessful ,getModule} from '@/util/jskit'
+import { getUserById, getUsermsg, getPermitTable} from '@/util/getdata'
+import { isReqSuccessful ,getModule, judgeAuthorization } from '@/util/jskit'
+//导入权限表s
+import { relationShip, tableMap } from '@/util/authorization'
 
 /* eslint-disable object-property-newline */
 export default {
@@ -139,8 +141,8 @@ export default {
             productionTree: {
                 label: '养殖生产管理中心',
                 children: [
-                {label: '单位基本信息管理', to: 'farmUnit'},
-                {label: '生产节点智能统计管理', to: 'intelManage', children: [
+                    {label: '单位基本信息管理', to: 'farmUnit'},
+                    {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
                             {label: '引种应激期' , to: 'nonpregnantOne'},
                             {label: '体况调理期' , to: 'nonpregnantTwo'}
@@ -337,7 +339,11 @@ export default {
                 })
             }
         })
+        //构建树
+        // this.buildTree(id)
         this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+
+      
     },
 
     mounted () {
@@ -434,6 +440,59 @@ export default {
                 this.$refs.hidespan.classList.add('el-icon-arrow-left')
             }
         },
+
+        //递归
+        deleteItem(tree, item){
+            if(tree.children === undefined)
+                return
+            tree = tree.children
+            for(let i in tree){
+                this.deleteItem(tree[i], item)
+                if(tree[i].to == item)
+                    tree.splice(i, 1)
+            }
+        },
+
+        //删除操作,此函数和deleteItem没必要做修改
+        //分别对5个大标签树实行删除操作
+        deleteAction(deleteTree){
+            for(let item in deleteTree.productionTree)
+                this.deleteItem(this.productionTree, deleteTree.productionTree[item])
+            for(let item in deleteTree.adminTree)
+                this.deleteItem(this.adminTree, deleteTree.adminTree[item])
+            for(let item in deleteTree.consumptionTree)
+                this.deleteItem(this.consumptionTree, deleteTree.consumptionTree[item])
+            for(let item in deleteTree.slaughterTree)
+                this.deleteItem(this.slaughterTree, deleteTree.slaughterTree[item])
+            for(let item in deleteTree.professorTree)
+                this.deleteItem(this.professorTree, deleteTree.professorTree[item])
+        },
+
+        //build the tree
+        async buildTree(id){
+            var res = await getPermitTable(id)
+            var deleteTree = {
+                slaughterTree: [],
+                consumptionTree: [], 
+                productionTree: [],
+                adminTree: [],
+                professorTree: []
+            }
+            for(let i in tableMap){
+                if(res.data.tables.indexOf(i) == -1){
+                    let item = tableMap[i]
+                    if(relationShip[item].path !== null){
+                        for(let key in relationShip[item].name){
+                            deleteTree[relationShip[item].path].push(relationShip[item].name[key])
+                        }
+                    }
+                }
+            }
+            await this.deleteAction(deleteTree)
+            this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        },
+
+        
 
         clickTree (node, data) {
             if(node.to=='intelManage'){

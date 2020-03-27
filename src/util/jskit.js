@@ -345,3 +345,41 @@ export const getThumbPicture = filename => {
   return 'https://qiniu.yunyangbao.cn/thumb_' + filename.substring(0 , filename.lastIndexOf('.') + 1) + 'jpg'
 }
 
+export const judgeAuthorization = data => {
+    for(let item in data){
+        if(data[item])
+            return true
+    }
+    return false
+}
+
+//检测工具是否安装和是否开启
+export const isInstalled = () => {
+    fetch('http://localhost:8090/list').then( res => {
+        return true
+    }).catch( res => {
+        return false
+    })
+}
+
+//读串口数据
+export const readSerialPort = () => {
+    fetch('http://localhost:8090/read').then( res => {
+        console.log(res)
+        let type = 1, weight = 0, on = 0, temp
+        let dv = new DataView(res)
+        for(let i = 0; i < dv.byteLength; i++, type++){
+            if(dv.getUint8(i, ture) == 255)
+                type = 1, weight = 0, on = 1
+            if(type == 3 && on)
+                weight = weight + (dv.getUint8(i, ture) & 15)*0.001 + (dv.getUint8(i, true) & 240)*0.01
+            if(type == 4 && on)
+                weight = weight + (dv.getUint8(i, ture) & 15)*0.1 + (dv.getUint8(i, true) & 240)/16
+            if(type == 5 && on)
+                weight = weight + (dv.getUint8(i, ture) & 15)*10 + (dv.getUint8(i, true) & 240)*100
+            if(type == 13 && on)
+                return weight.toFixed(3)
+        }
+    })
+
+}

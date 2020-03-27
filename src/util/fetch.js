@@ -8,14 +8,16 @@ import md5 from 'md5'
 // const baseUrl = 'http://akun.frp.yunyangbao.cn:9041'
 
 // const baseUrl = 'http://180.76.180.95:9010'
-//const baseUrl = 'http://39.108.154.79:9020'//测试 服务器
+//const baseUrl = 'http://39.108.154.79:9020'//测试服务器
 // const baseUrl = 'http://192.168.1.107:9020'//akun
 
 
 export const vedioUrl = 'https://qiniu.yunyangbao.cn/'
 export const wsUrl = 'wss://yunyangbao.cn:9010/websocket'
-const baseUrl = 'https://yunyangbao.cn:9010' //生产服务器
-//const baseUrl = 'http://guicai.frp.yunyangbao.cn:9041'
+// export const wsUrl = 'ws://120.79.79.43:9042/websocket'
+const baseUrl = 'https://yunyangbao.cn:9010' //生产服务器`
+// const baseUrl = 'http://akun.frp.yunyangbao.cn:9041' 
+// const baseUrl = 'http://guicai.frp.yunyangbao.cn:9041'
 //const baseUrl = 'http://192.168.1.103:9010'//bobo
 //const baseUrl = 'http://yinchao.frp.yunyangbao.cn:9041' //超
 

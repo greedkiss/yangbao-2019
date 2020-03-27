@@ -308,8 +308,9 @@ export const getSlaughterBodyList= (id,data) => fetch('/slaughter/d/body/' + id,
 
 export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET')
 
-// 自动认购
+export const searchSlaInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=0`, data, 'POST')
 
+//自动认购
 export const getAutoSubscribe= (id) => fetch('/slaughter/auto/subscribe?factory='+id , null , 'POST')
 
 // 自动分割
@@ -336,6 +337,8 @@ export const PostProductNumber = (data) => fetch('/d/out/division', data,'POST')
 export const nextPrint = (data) => fetch('/d/out/print/', data)
 
 export const findMakeUpVideo = (id) => fetch('/d/out/find/'+id)
+
+export const searchCuInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=1`, data, 'POST')
 
 //消费店 可视系统
 export const findCustomerMedia = (data) => fetch(`/comsumerEntitySystem/searchAll/`,data)
@@ -670,3 +673,6 @@ export const getAPPUser = (id, page) => fetch(`/userRegister/${id}?page=${page}`
 export const deleteAPPUser = (id) => fetch(`/userRegister/${id}`, null, 'DELETE')
 
 export const editAPPUser = (id, data) => fetch(`/userRegister/${id}`, data, 'PUT')
+
+//权限表获取
+export const getPermitTable = (id) => fetch(`/permit/permitTable/${id}`, 'GET')

@@ -256,8 +256,13 @@ export default {
                 }
             })
         },
-        getWeight(){
-            this.weight = 50;
+        async getWeight(){
+            if(!isInstalled()){
+                window.location='https://qiniu.yunyangbao.cn/goserial.exe'
+                return 
+            }
+            let res = await readSerialPort()
+            this.appendageWeight = res || 0
         },
         async printCode(start){
                 this.qrcodeimgs=[];

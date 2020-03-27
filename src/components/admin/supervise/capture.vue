@@ -233,12 +233,12 @@ export default {
                             * config.region: 选择上传域名区域；当为 null 或 undefined 时，自动分析上传域名区域
                             * config.retryCount: 上传自动重试次数（整体重试次数）；默认3次（即上传失败后最多重试两次）；
                             * config.concurrentRequestLimit: 分片上传的并发请求量，number，默认为3；
-                            * config.checkByMD5: 是否开启 MD5 校验，在断点续传时校验分片，默认为 false，不开启。
+                            * config.checkBy: 是否开启 MD5 校验，在断点续传时校验分片，默认为 false，不开启。
                             */
                               let config = {
                                 useCdnDomain: true, 
-                                    disableStatisticsReport: false,
-                                    retryCount: 6,
+                                disableStatisticsReport: false,
+                                retryCount: 6,
                               }
                               let self = this
                               let observer = {
