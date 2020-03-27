@@ -14,6 +14,9 @@ import Header from '@/components/common/oldhead'
 
 const SearchRes = () => import('@/components/search_res2')
 const mobileSearchRes = () => import('@/components/search_mobile')
+// 隐私服务
+const Law = () => import('@/components/law/law')
+
 // 管理员模块首页
 const Admin = () => import('@/components/admin/index')
 // 专家在线咨询
@@ -130,11 +133,16 @@ const RecoveryIndex = () => import('@/components/admin/supervise/recovery_index'
 const Farm = () => import('@/components/admin/farm/index')
 const FarmList = () => import('@/components/admin/farm/list')
 //屠宰加工管理
+//认购管理
+const Correlation = () => import('@/components/admin/subscribe/correlation')
+const CorrelationList = () => import('@/components/admin/subscribe/correlation_list')
+const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
+
 const Slaughter = () => import('@/components/admin/slaughter/index')
 const SlaughterList = () => import('@/components/admin/slaughter/list')
-const Correlation = () => import('@/components/admin/subscribe/correlation')
-const CorrelationPicture = () => import('@/components/admin/subscribe/correlation_picture')
-const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
+//const BeforeManage = () => import('@/components/admin/beforeslaughter/before_manage')
+const BeforeSlaughterList = () => import('@/components/admin/beforeslaughter/beforeSlaughter_list')
+const BeforeSlaughter = () => import('@/components/admin/beforeslaughter/beforeSlaughter')
 const BeforeVideo = () => import('@/components/admin/beforeslaughter/before_video')
 const kidMange= () => import('@/components/admin/slaughterManger/kid')
 const kidMangeList= () => import('@/components/admin/slaughterManger/kid_list')
@@ -143,6 +151,7 @@ const appendageMangeList= () => import('@/components/admin/slaughterManger/appen
 const SegmentManger= () => import('@/components/admin/segment/segmentManger')
 const SegmentMangerList= () => import('@/components/admin/segment/segmentManger_list')
 const StockManage = () => import('@/components/admin/stock/stock_manage')
+const productOrder = () => import('@/components/admin/stock/productOrderManage')
 const OrderManage = () => import('@/components/admin/stock/order_manage')
 const VehicleManage = () => import('@/components/admin/stock/vehicle_manage')
 
@@ -177,9 +186,9 @@ const SlaughterUnit = () => import('@/components/admin/slaughterUnit/index')
 const SlaughterUnitVisual = () => import('@/components/admin/slaughterUnit/productionVisual')
 const SlaughterMedia = () => import('@/components/admin/slaughterUnit/media')
 const SlaughterCertification = () => import('@/components/admin/slaughterUnit/certification')
-const SlaughterProcessSet = () => import('@/components/admin/slaughterUnit/processSet')
-
-
+//const SlaughterProcessSet = () => import('@/components/admin/slaughterUnit/processSet')
+const SlaughterAllStock = () => import('@/components/admin/slaughterUnit/allStock')
+const PriceSet = () => import('@/components/admin/slaughterUnit/priceSet')
 
 //消费实体管理平台
 const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
@@ -226,6 +235,8 @@ export default new Router({
         {path: '/contact', name: 'contact', component:Contact},
         //寻找有机
         {path: '/findOrganic', name: 'findorganic', component: FindOrganic},
+
+        {path:'/law', name:'law', component: Law},
 
         // 管理员模块
         {path: '/admin/:id', component: Admin, meta: {requireAuth: true}, children: [
@@ -353,21 +364,28 @@ export default new Router({
             //屠宰加工管理平台
             {path: 'slaughterUnit', name: 'slaughterunit', component: SlaughterUnit},
             {path: 'SUnitVisual', name: 'slaughterUnitVisual', component: SlaughterUnitVisual},
-            {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
-            {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
-            {path: 'slaughterProSet', name: 'slaughterProcessSet', component: SlaughterProcessSet},
             {path: 'smedia', name: 'slaughterMedia', component: SlaughterMedia},
+            {path: 'SCertify', name: 'slaughterCertification', component: SlaughterCertification},
+            //{path: 'slaughterProSet', name: 'slaughterProcessSet', component: SlaughterProcessSet},
+            {path: 'allstock', name: 'slaughterAllStock', component: SlaughterAllStock},
+            {path: 'priceSet', name: 'priceSet', component: PriceSet},
+
+            {path: 'subscribe/correlation', name: 'correlation', component: Correlation},
+            {path: 'subscribe/correlation/list', name: 'correlationList', component: CorrelationList},
             {path: 'subscribe/correlationPicture', name: 'correlationPicture', component: CorrelationPicture},
-            {path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
+            //{path: 'beforeslaughter/beforeManage', name: 'beforeManage', component: BeforeManage},
+            {path: 'beforeslaughter/beforeslaughter/list', name: 'beforeslaughterList', component: BeforeSlaughterList},
+            {path: 'beforeslaughter/beforeslaughter', name: 'beforeslaughter', component: BeforeSlaughter},
             {path: 'beforeslaughter/beforeVideo', name: 'beforeVideo', component: BeforeVideo},
             {path: 'slaughterManage/kidMange', name: 'kidMange', component: kidMange},
-            {path: 'slaughterManage/kidMangelist', name: 'kidMangelist', component: kidMangeList},
+            {path: 'slaughterManage/kidMange/list', name: 'kidMangeList', component: kidMangeList},
             {path: 'slaughterManage/appendage', name: 'appendageMange', component: appendageMange},
-            {path: 'slaughterManage/appendagelist', name: 'appendageMangelist', component: appendageMangeList},
+            {path: 'slaughterManage/appendage/list', name: 'appendageMangeList', component: appendageMangeList},
             {path: 'segment/segmentManger', name: 'segmentManger', component: SegmentManger},
-            {path: 'segment/segmentMangerlist', name: 'segmentMangerlist', component: SegmentMangerList},
+            {path: 'segment/segmentManger/list', name: 'segmentMangerList', component: SegmentMangerList},
             {path: 'stock/stockManage', name: 'stockManage', component: StockManage},
-            {path: 'stock/orderManage', name: 'orderManage', component: OrderManage},
+            {path: 'stock/productOrder', name: 'productOrder', component: productOrder},
+            {path: 'stock/stockManage/list', name: 'orderManage', component: OrderManage},
             {path: 'stock/vehicleManage', name: 'vehicleManage', component: VehicleManage},
 
             //消费实体管理平台

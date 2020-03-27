@@ -41,7 +41,7 @@
 </template>
 <script>
 import SIdentify from '@/components/login/identify'
-import { Login } from '@/util/getdata'
+import { Login, getAutoSubscribe, postAutoDivision } from '@/util/getdata'
 import { userStr } from '@/util/fetch'
 import { validateName, isReqSuccessful } from '@/util/jskit'
 import { validatePassword } from '@/util/validate'
@@ -117,6 +117,20 @@ export default{
                             setTimeout(_ => {
                                 this.$router.push('/admin/' + res.data.id)
                             }, 600)
+                            if(res.data.flag == 2){
+                                getAutoSubscribe(res.data.factoryId).then(res => {
+                                    console.log(res);
+                                })
+                                postAutoDivision(res.data.factoryId, 0).then(res=>{
+                                    console.log(res);
+                                })
+                                postAutoDivision(res.data.factoryId, 1).then(res=>{
+                                    console.log(res);
+                                })
+                                postAutoDivision(res.data.factoryId, 2).then(res=>{
+                                    console.log(res);
+                                })
+                            }
                         }
                     })
                 } else {

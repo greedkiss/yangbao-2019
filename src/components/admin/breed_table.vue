@@ -268,8 +268,6 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
-                    <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
                         <span @click="deleteItem(scope.$index)">删除</span>
                     </div>
                 </template>

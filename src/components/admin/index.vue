@@ -29,6 +29,7 @@
    <!--                          <el-input class="search" placeholder="方案搜索" v-model="search_key" size="small">
                                 <el-button slot="append" icon="el-icon-search">搜索</el-button>
                             </el-input> -->
+                            <el-button v-if="isSlaughter()" class="admin-hl hl-btn" type="primary" style="margin-right:20px; float:right;" @click="gotoSlaughterList(module, 1)">{{ module.label }}列表</el-button>
                         </div>
 
                         <div class="main-content">
@@ -233,29 +234,32 @@ export default {
                         {label: '宣传视频', to: 'slaughterMedia'},
                         {label: '认证证书', to: 'slaughterCertification'},
                         {label: '生产可视一览', to: 'slaughterUnitVisual'},
-                        {label: '生产流程设置', to: 'slaughterProcessSet'}
+                        //{label: '生产流程设置', to: 'slaughterProcessSet'},
+                        {label: '库存统计', to: 'slaughterAllStock'},
+                        {label: '价格设置', to: 'priceSet'}
                     ]},
 
                     {label: '认购管理', to: 'subscription',children:[
                             {label: '关联检疫证', to: 'correlation'},
                             {label: '检疫证书图片', to: 'correlationPicture'},
                     ]},
-                    {label: '屠宰前管理', to: 'beforeSlaughter',children:[
-                            {label: '待屠宰羊只管理', to: 'beforeManage'},
-                            {label: '待屠宰羊只视频', to: 'beforeVideo'}
-                            
+                    {label: '屠宰前管理', to: 'beforeslaughter',children:[
+                            //{label: '宰前管理', to: 'beforeManage'},
+                            {label: '宰前管理', to: 'beforeslaughter'},
+                            {label: '宰前羊只照片', to: 'beforeVideo'}
                     ]},
                     {label: '屠宰管理', to: 'slaughter',children:[
-                        {label: '附属物', to: 'appendageMange'},
-                        {label: '胴体', to: 'kidMange'}
+                        {label: '胴体', to: 'kidMange'},
+                        {label: '附属物', to: 'appendageMange'} 
                     ]},
                     {label: '分割管理', to: 'segment',children:[
                         {label: '分割管理', to: 'segmentManger'},
                         
                     ]},
-                    {label: '库存管理', to: 'stock',children:[
-                            {label: '库存管理', to: 'stockManage'},
-                            {label: '订单管理', to: 'orderManage'},
+                    {label: '溯源管理', to: 'stock',children:[
+                            {label: '销售管理', to: 'stockManage'},
+                            {label: '货单管理', to: 'productOrder'},
+                            //{label: '订单管理', to: 'orderManage'},
                             {label: '车辆管理', to: 'vehicleManage'}
                     ]},
                     // {label: '可视系统', to: 'visual', children: [
@@ -360,11 +364,6 @@ export default {
                 break
             }
         }
-        // console.log(mod, submod)
-        // if (!child) {
-        //     arr.push({text: })
-        // }
-        // return
 
         if (mod && submod) {
             // open left tree
@@ -398,7 +397,11 @@ export default {
 
         isProdModule () {           
             let name = this.$route.name 
-            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'slaughter', 'consumer','kidMange','appendageMange','segmentManger'].includes(name) || name.endsWith('prac') || name.endsWith('list')
+            return ['welfare', 'genealogic', 'farm', 'agent', 'release' , 'category', 'consumer'].includes(name) || name.endsWith('prac') || (name.endsWith('list') && !['correlation','beforeslaughter','kidMange','appendageMange', 'slaughter','segmentManger'].includes(name))
+        },
+        isSlaughter(){
+            let name = this.$route.name;
+            return ['correlation','beforeslaughter','kidMange','appendageMange', 'slaughter','segmentManger', 'stockManage', 'productOrder'].includes(name);
         },
 
         changeActive (item, isTo) {
@@ -406,7 +409,6 @@ export default {
                 // itemprac -> itemlist
                 let idx = item.to.indexOf('prac')
                 if (idx === -1) {
-                    console.log(item)
                     this.$router.push({name: item.to + 'list'})
                 } else {
                     this.$router.push({name: item.to.substr(0, item.to.indexOf('prac')) + 'list'})
@@ -414,6 +416,11 @@ export default {
             } else {
                 this.$router.push({name: item.to})
             }
+        },
+        gotoSlaughterList(){
+            let id = this.$route.params.id;
+            let path = this.$route.path + "/list";
+            this.$router.push(path);
         },
 
         toggleAside () {

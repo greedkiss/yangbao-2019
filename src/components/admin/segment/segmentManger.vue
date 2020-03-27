@@ -1,6 +1,5 @@
 <template>
     <div class="admin-form">
-        <p class="card-title">分割</p>
 
         <div class="card" >
             <p class="card-title" >胴体信息</p>

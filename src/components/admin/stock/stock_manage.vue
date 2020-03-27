@@ -1,168 +1,110 @@
 	<template>
 		<div>
 			<div  class="area_management">
-					<span class="area_name" size='small'>省</span>
-					<el-select v-model="value.province" placeholder="省" size='small' @change="provinceChoose">
-					<el-option
-					v-for="item in area.province" 
-					:key="item.value"
-					:label="item.label"
-					:value="item"
-					>
-					</el-option>
-					</el-select>
-						<span class="area_name" size='small' style="margin-left:20px">市</span>				
-					<el-select v-model="value.city" placeholder="市" size='small' @change="cityChoose">
-					<el-option
-					v-for="item in area.city"
-					:key="item.value"
-					:label="item.label"
-					:value="item">
-					</el-option>
-					</el-select>
-					<span class="area_name" size='small' style="margin-left:20px">县</span>		
-					<el-select v-model="value.country" size='small' placeholder="县">
-					<el-option
-					v-for="item in area.country"
-					:key="item.value"
-					:label="item.label"
-					:value="item">
-					</el-option>
-				</el-select>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">省</span>
+						<el-select v-model="value.province" style="width:65% !important" placeholder="省" size='small' @change="provinceChoose">
+							<el-option
+							v-for="item in area.province" 
+							:key="item.value"
+							:label="item.label"
+							:value="item"
+							>
+							</el-option>
+						</el-select>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">市</span>
+						<el-select v-model="value.city" style="width:65% !important" placeholder="市" size='small' @change="cityChoose">
+							<el-option
+							v-for="item in area.city"
+							:key="item.value"
+							:label="item.label"
+							:value="item">
+							</el-option>
+						</el-select>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">县</span>
+						<el-select v-model="value.country" style="width:65% !important" size='small' placeholder="县">
+							<el-option
+							v-for="item in area.country"
+							:key="item.value"
+							:label="item.label"
+							:value="item">
+							</el-option>
+						</el-select>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse" size='small'>终端店</span>
+						<el-select v-model="values1" style="width:65% !important" size='small' placeholder="请选择终端店">
+							<el-option
+							placeholder="选择终端店"
+							v-for="item in options"
+							:key="item.id"
+							:label="item.name"
+							:value="item.id">
+							</el-option>
+						</el-select>
+					</div>
 			</div>
-
 			<div style="margin-top:10px">
-				<el-form :inline="true" style="width:100%">
-					<el-form-item>
-					<span class="car_name" size='small'>终端店</span>
-						<el-select v-model="values1"  size='small' placeholder="请选择终端店">
-						<el-option
-						placeholder="选择终端店"
-						v-for="item in options"
-						:key="item.id"
-						:label="item.name"
-						:value="item.id">
-						</el-option>
-					</el-select>
-					</el-form-item>
-					<el-form-item>
-						<span class="car_name" size='small'>车辆</span>
-						<el-select v-model="values2"  size='small' placeholder="请选择司机">
-						<el-option
-						placeholder="选择车辆"
-						v-for="item in options1"
-						:key="item.id"
-						:label="item.driverName"
-						:value="item.id">
-						</el-option>
-					</el-select>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="submit" size='small'>生成订单</el-button>
-					</el-form-item>
-				</el-form>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">取货</span>
+						<el-input  size="small"  style="width:65% !important" v-model="productNumber" placeholder="请输入/扫描取货单号"></el-input>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">总金额</span>
+						<el-input  size="small"  style="width:65% !important" v-model="allPrice"></el-input>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse">总重量</span>
+						<el-input  size="small"  style="width:65% !important" v-model="allWeight"></el-input>
+					</div>
+					<div class="inputWrapper">
+						<span class="inputSpan ellipse" size='small'>车辆</span>
+						<el-select v-model="values2" style="width:65% !important" size='small' placeholder="请选择司机">
+							<el-option
+							placeholder="选择车辆"
+							v-for="item in options1"
+							:key="item.id"
+							:label="item.driverName"
+							:value="item.id">
+							</el-option>
+						</el-select>
+					</div>
 			</div>
-			<div class="stockManage-form">
-				<span>各部分库存数量（个）</span>
-
-				<el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
-				<el-table-column
-					label="部位名称"
-					width="80"
-					>
-					<template>
-						<div>
-							<span>数量</span>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					label="胴体"
-					width="78"
-					prop="Dnum">
-				</el-table-column>
-				<el-table-column
-					label="二分体"
-					width="78"
-					prop="DEnum">
-				</el-table-column>
-				<el-table-column
-					label="羊腹肉"
-					width="78"
-					prop="DFnum">
-				</el-table-column>
-				<el-table-column
-					label="黄瓜条"
-					width="78"
-					prop="DHnum">
-				</el-table-column>
-				<el-table-column
-					label="羊肩胛"
-					width="78"
-					prop="DJnum">
-				</el-table-column>
-				<el-table-column
-					label="羊肋排"
-					width="78"
-					prop="DLnum">
-				</el-table-column>
-				<el-table-column
-					label="羊前"
-					width="78"
-					prop="DMnum">
-				</el-table-column>
-			</el-table>
-
-			<el-table :data="numtableData" :border="true" :header-cell-style="{background:'#eef1f6',color:'#606266'}" >
-				<el-table-column
-					label="部位名称"
-					width="80"
-					>
-					<template>
-						<div>
-							<span>数量</span>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					label="羊腰脊"
-					width="78"
-					prop="DYnum">
-				</el-table-column>
-				<el-table-column
-					label="羊后腿"
-					width="78"
-					prop="DRnum">
-				</el-table-column>
-				<el-table-column
-					label="羊大腿"
-					width="78"
-					prop="DDnum">
-				</el-table-column>
-				<el-table-column
-					label="羊前腿"
-					width="78"
-					prop="DQnum">
-				</el-table-column>
-				<el-table-column
-					label="羊外肌"
-					width="78"
-					prop="DWnum">
-				</el-table-column>
-				<el-table-column
-					label="羊里脊"
-					width="78"
-					prop="DInum">
-				</el-table-column>
-				<el-table-column
-					label=""
-					width="78"
-					prop="">
-				</el-table-column>
-			</el-table>
-			</div>
-
 			
+			<div class="submitOrder">
+				<el-table
+				class="submitOrdertable"
+				:data="allEarTag"
+				stripe
+				max-height="200">
+					<el-table-column
+						type="index"
+						width="50">
+					</el-table-column>
+					<el-table-column
+					label="已选货物"
+					width="120"
+					prop="number">
+					</el-table-column>
+					<el-table-column
+						class="action"
+						label="操作"
+						align='center'
+						width="80">
+						<template slot-scope="scope">
+							<div class="opr">
+								<el-button @click="deleteAllEarTag(scope.$index)" type="text">删除</el-button>
+							</div>
+						</template>
+					</el-table-column>
+				</el-table>
+				<div class="submitBtn"></div>
+				<div class="submitBtn"><el-button type="primary"   @click="submit" size='small'>提交打印</el-button></div>
+			</div>
 			<div class="admin-form" style="margin-top:20px;">
 				<span style="margin-bottom:10px;">选择售卖</span>
 				<div class="time" >
@@ -194,13 +136,7 @@
 				>
 				</el-table-column>
 				<el-table-column
-					label="重量"
-					width="120"
-					prop="weight"
-				>
-				</el-table-column>
-				<el-table-column
-					label="视频"
+					label="照片"
 					width="120">
 					<template slot-scope="scope">
 						<div class="opr" >
@@ -209,25 +145,22 @@
 					</template>
 				</el-table-column>
 				<el-table-column
-					label="价格"
+					label="重量"
 					width="120"
-					prop="price">
+					prop="weight"
+				>
 				</el-table-column>
 				<el-table-column
-					label="养殖场"
-					width="120"
-					prop="breedName">
-				</el-table-column>
-				<el-table-column
-					label="货主"
-					width="120"
-					prop="responsiblePersonName">
-				</el-table-column>
-				<el-table-column
-					label="联系电话"
-					width="120"
-					prop="responsiblePersonPhone">
-				</el-table-column>
+                class="action"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <el-button @click="Delete(scope.row, scope.column)" type="text">删除</el-button>
+                    </div>
+                </template>
+      			</el-table-column>
 			</el-table>
 			<el-pagination
 				layout="prev, pager, next"
@@ -236,14 +169,14 @@
 				:current-page.sync="page">
 			</el-pagination>
 			</div>
-			<el-dialog title="视频详情"    
-						:visible.sync="dialogFormVisible" 
-						width="50%">
-			<div>
-			<el-card :body-style="{ padding: '0px' }">
-			<video :src="tableData.video" class="production-video" controls="controls"  width="100%"></video>
-			</el-card>
-			</div>
+			<el-dialog title="图片详情"    
+				:visible.sync="dialogFormVisible" 
+				width="800px">
+					<div>
+					<el-card :body-style="{ padding: '0px' }">
+						<img :src="videoSrc" class="image" :onerror="defaultImg">
+					</el-card>
+					</div>
 			</el-dialog>
 
 		</div>
@@ -251,7 +184,7 @@
 
 	<script>
 	import { isReqSuccessful,getThumbPicture } from '@/util/jskit'
-	import { getUserById,getFac,getPlace , getstockData ,gettotalData ,getCarData,orderCreate,getStockManageNum} from '@/util/getdata'
+	import { getUserById,getFac,getPlace , getstockData ,gettotalData ,getCarData,orderCreate} from '@/util/getdata'
 
 	export default {
 		watch: {
@@ -266,12 +199,11 @@
 				city:this.value.city.label,
 				country:this.value.country.label
 				}
-			getFac(simpleaddress).then(res =>{
-						if (isReqSuccessful(res)) {
-									this.options = res.data.List
-							}
-					})
-
+				getFac(simpleaddress).then(res =>{
+					if (isReqSuccessful(res)) {
+								this.options = res.data.List
+						}
+				})
 			},
 			newCity(city){
 				let simpleaddress={
@@ -297,8 +229,27 @@
 							this.options = res.data.List
 							}
 					})
-
-
+			},
+			productNumber (newval) {
+				let reg = /[MSG]\d+[A-Z]/g;
+				let canPush = /[MSG]\d{6,}[A-Z]/g;
+				let res = this.productNumber.match(reg);
+				let canPushRes = this.productNumber.match(canPush);
+				if(res){
+					this.productNumber = res.join(",");
+				}else{
+					if(newval.length > 1){  
+					this.$message.warning("请输入合法耳牌");
+					}
+				}
+				if(canPushRes){
+					this.allEarTag = [];
+					canPushRes.forEach(v => {
+						this.allEarTag.push({
+							number:v
+						})
+					})
+				}
 			}
 		
 		},
@@ -315,7 +266,6 @@
 		},
 		data(){
 			return{
-				numtableData:[],
 				values1:'',
 				values2:'',
 				options:[],
@@ -341,36 +291,53 @@
 				total:0,
 				defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
 				dialogFormVisible:false,
-				searchCode:null
+				searchCode:null,
+				productNumber:'',
+				allPrice:'',
+				allWeight:'',
+				allEarTag:[],
+				videoSrc:''
 			}
 		},
 
 		methods:{ 
 		//生成订单
 			submit(){
-				let array = this.multipleSelection
-				let id=this.user.userFactory
-				let len=array.length-1
-				let sheep=''
-				let sumWeight=0
-				let sumPrice=0
-				let divisions=[]
-				for(let i = 0;i<len;i++){
-				let weight=array[i].weight
-				let price=array[i].price
-				let erNumber=array[i].partNumber+','
-				divisions[i]=array[i].id
-				sheep=sheep+erNumber
-				sumWeight=sumWeight+weight
-				sumPrice=sumPrice+price
+				let array = this.multipleSelection;
+				let id=this.user.userFactory;
+				let len=array.length;
+				let sheep='';
+				let sumWeight=0;
+				let sumPrice=0;
+				let divisions=[];
+				for(let i = 0; i < len-1; i++){
+					let weight=array[i].weight;
+					let price=array[i].price;
+					let erNumber=array[i].partNumber+',';
+					divisions[i]=array[i].id;
+					sheep=sheep+erNumber;
+					sumWeight=sumWeight+weight;
+					sumPrice=sumPrice+price;
 				}
-				let weight=array[len].weight
-				let price=array[len].price
-				let erNumber=array[len].partNumber
-				divisions[len]=array[len].id
-				sheep=sheep+erNumber
-				sumWeight=sumWeight+weight
-				sumPrice=sumPrice+price
+				let weight = 0;
+				let price = 0;
+				let erNumber = '';
+				if(len > 0){
+					erNumber = array[len-1].partNumber;
+					divisions[len-1] = array[len-1].id;
+					sumWeight += weight;
+					sumPrice += price;
+				}
+				sheep += erNumber;
+				if(this.productNumber != ''){
+					if(array.length > 0 ){
+						sheep +=  "," + this.productNumber
+					}else{
+						sheep += this.productNumber
+					}
+				}
+				console.log(sheep);
+				return;
 				let data={
 					slaughterId:id,
 					customerId:this.values1,
@@ -393,6 +360,14 @@
 					
 				}
 				
+			},
+			deleteAllEarTag(index){
+				this.allEarTag.splice(index, 1);
+				let str = '';
+				this.allEarTag.forEach(item => {
+					str += item.number;
+				})
+				this.productNumber = str;
 			},
 			provinceChoose(item){
 				let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
@@ -445,66 +420,6 @@
 					})
 				})
 			},
-			//获取数量
-		getNum(){
-			let id=this.user.userFactory
-			this.numtableData=[]
-			getStockManageNum(id).then(res => {
-                if (isReqSuccessful(res)) {
-               		let body = res.data.body
-					let partData = res.data.part
-					let v={Dnum:null,DEnum:null,DFnum:null,DHnum:null,DJnum:null,DLnum:null,DMnum:null,DYnum:null,DRnum:null,DDnum:null,DQnum:null,DWnum:null,DInum:null}
-					v.Dnum=body
-					 partData.forEach(function(item,index){
-                        switch (item.part) {
-                    case 'F':
-                        v.DFnum=Number(item.number)
-                        break;
-                    case 'H':
-                        v.DHnum=Number(item.number)
-                        break;
-                    case 'Y':
-                        v.DYnum=Number(item.number)
-                        break;
-                    case 'R':
-                        v.DRnum=Number(item.number)
-                        break;
-                    case 'D':
-                        v.DDnum=Number(item.number)
-                        break;
-                    case 'J':
-                        v.DJnum=Number(item.number)
-                        break;
-                    case 'M':
-                        v.DMnum=Number(item.number)
-                        break;
-                    case 'E':
-                        v.DEnum=Number(item.number)
-                        break;
-                    case 'Q':
-                        v.DQnum=Number(item.number)
-                        break;
-                    case 'L':
-                        v.DLnum=Number(item.number)
-                        break;
-                    case 'I':
-                        v.DInum=Number(item.number)
-                        break;
-                    case 'W':
-                        v.DWnum=Number(item.number)
-                        break;
-                
-                    default:
-                        break;
-                }
-                    })
-               		this.numtableData.push(v);
-					   }
-					else{
-						this.$message.error('获取数据失败')
-					}
-				})
-		},
 			//复选框
 			toggleSelection(rows) {
 			if (rows) {
@@ -546,7 +461,14 @@
 							}
 							
 						},)
-			}
+			},
+			Delete(){
+
+			},
+			view(index){
+				this.videoSrc=this.tableData[index].video;
+				this.dialogFormVisible=true;
+			},
 		},
 
 		mounted(){
@@ -563,7 +485,7 @@
 						}
 					})
 				}
-			}).then(this.fetchData).then(this.getNum)
+			}).then(this.fetchData)
 			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
 			let obj = {url}
 				getPlace(obj).then(res => {
@@ -581,9 +503,34 @@
 	}
 
 	</script>
-<style lang="stylus">
-	.area_management
-		margin-left 25px
+<style scoped lang="stylus">
+	.inputWrapper
+		display inline-block
+		font-size 0
+		width 20% 
+		.inputSpan
+			box-sizing border-box
+			display inline-block
+			height 32px
+			width 35%
+			line-height 32px  
+			text-align center    
+			vertical-align top
+			font-size 14px
+			color #2891d1
+			&+.el-input
+				width calc(100% - 80px)!important
+			&+.el-select
+				width calc(100% - 80px)!important
+	.submitOrder
+		display flex
+		height 220px
+		align-items center
+		justify-content right
+		.submitOrdertable
+			flex 0 1 30% 
+		.submitBtn
+			flex 0 1 10%
 	.stockManage-form
 		.el-table
 			display table-caption

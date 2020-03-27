@@ -1,37 +1,28 @@
 <template>
     <div class="admin-form">
         <div class="card" >
-            <p class="card-title" >胴体管理</p>
-
-            <div class="border-main">
                 <div class="formAndCarmera">
                     <div class="formWraaper">
                         <div class="inputWrapper" >
-                            <span class="inputSpan ellipse">耳牌号</span>
-                            <el-input  size="small" v-model="searchCode"></el-input>
-                        </div>
-                        <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
-
-                        <div style=" margin-bottom:10px;">
-                            <div style="height:10px;"> </div>
-                                <el-alert  title="胴体 信息" type="info"  center :closable="false" >
-                            </el-alert>
-                        </div> 
-
-                        <div class="inputWrapper">
-                            <span class="inputSpan ellipse">胴体编号</span>
-                            <el-input  size="small" v-model="kidNumber"></el-input>
+                            <span class="inputSpan ellipse">选择屠宰羊只</span>
+                            <el-input  size="small" style="width:65% !important" v-model="searchCode"></el-input>
                         </div>
                         <div class="inputWrapper">
-                            <span class="inputSpan ellipse" @click="getWeight" style="width:65%">点击获取胴体重量</span>
-                            <el-input  size="small"  style="width:35% !important" v-model="kidWeight" ></el-input>
+                                <span class="inputSpan ellipse">胴体编号</span>
+                                <el-input  size="small"  style="width:65% !important" v-model="kidNumber"></el-input>
                         </div>
-
-                        <div class="inputWrapper">
-                            <span class="inputSpan ellipse">照片</span>
-                            <el-input size="small" v-model="picSuccess"></el-input>
+                        <div style="margin-top:25px">
+                            <div class="inputWrapper">
+                                <el-button type="primary" size="small" style="width:35%; border-radius:15px" @click="getWeight" >点击获取重量</el-button>
+                                <el-input  size="small"  style="width:65% !important" v-model="kidWeight" ></el-input>
+                            </div>
+                            <div class="inputWrapper">
+                                <el-button type="primary" size="small" style="width:35%; border-radius:15px" @click="capture()" >点击获取照片</el-button>
+                                <el-input size="small" style="width:65% !important" v-model="picSuccess"></el-input>
+                            </div>
                         </div>
-                        <div class="admin-send" style="margin-top:100px">
+                        
+                        <div class="admin-send" style="margin-top:35px">
                             <template >
                                 <el-button type="primary" @click="submit()">提交/打印</el-button>
                             </template>
@@ -42,8 +33,8 @@
                             <video ref="video" id="video" width="320" height="240" autoplay></video>
                         </div>
                         <div class="takePhotoBtn">
-                            <el-button size="mini" type="primary" @click="capture()">拍照</el-button>
-                            <vue-record-video id="recordBtn" @result="onResult"/>
+                            <!--<el-button size="mini" type="primary" @click="capture()">拍照</el-button>-->
+                            <vue-record-video  v-show = "false" id="recordBtn" @result="onResult"/>
                         </div>
                         <canvas v-show="false" ref="canvas" id="canvas" width="320" height="240"></canvas>
                         <!-- <ul>
@@ -54,7 +45,6 @@
                     </div>
  
             </div>
-        </div>
     </div>
         <el-table
         :data="tableData"
@@ -62,73 +52,54 @@
         style="width: 100%;margin-top:20px;"
         :border="true"
         @current-change="handleCurrentChange"
-       >
+        >
             <el-table-column
 				type="index">
 			</el-table-column>
-
             <el-table-column
 				label="商标耳牌号"
 				width="120"
 				prop="trademarkEarTag">
 			</el-table-column>
-			<el-table-column
-				label="免疫耳牌号"
+            <el-table-column
+				label="照片"
 				width="120"
-				prop="immuneEarTag">
-			</el-table-column>
-			<!-- <el-table-column
-				label="栋号"
-				width="120"
-				prop="d">
-			</el-table-column>
-			<el-table-column
-				label="栏号"
-				width="120"
-				prop="l">
-			</el-table-column>
-      <el-table-column
-				label="来源地址"
-				width="120"
-				prop="originAddress">
-			</el-table-column>
-      <el-table-column
-				label="养殖场"
-				width="120"
-				prop="breedFactory">
-			</el-table-column> -->
-      <!-- <el-table-column
-				label="货主"
-				width="120"
-				prop="goodman">
-			</el-table-column> -->
-      
-			<el-table-column
-				label="羊只品类"
-				width="120"
-				prop="sheepType">
+			>
+                <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="view(scope.$index)">查看</span>
+                    </div>
+                </template>
 			</el-table-column>
 			<el-table-column
 				label="重量"
 				width="120"
 				prop="weight">
 			</el-table-column>
-      	<el-table-column
-				label="时间"
+      	    <el-table-column
+				label="屠宰前时间"
 				width="120"
 				prop="time">
 			</el-table-column>
-			<!-- <el-table-column
-				label="年龄"
-				width="120"
-				prop="age">
-			</el-table-column> -->
-      
- </el-table>
+            <el-table-column width="120" label="操作">
+                <template slot-scope="scope">
+                    <span size="small" style="cursor:pointer" @click="Delete(scope.row)" >删除</span>
+                </template>
+            </el-table-column>
+        </el-table>
     <div class="block" style="margin-left: 46px">
             <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="fetchData" :current-page.sync="page">
             </el-pagination>
     </div>
+    <el-dialog title="图片详情"    
+        :visible.sync="dialogFormVisible" 
+        width="800px">
+            <div>
+            <el-card :body-style="{ padding: '0px' }">
+                <img :src="pic" class="image" :onerror="defaultImg">
+            </el-card>
+            </div>
+    </el-dialog>
     <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
     </div>
 </template>
@@ -171,7 +142,7 @@ export default {
             multipleSelection:[],
                 slaughterTime:null,
                 fatherNumber:null,
-                searchCode:null,
+                searchCode:'',
                 appendageNumber:null,
                 appendageWeight:null,
                 appendVideo:{
@@ -192,32 +163,48 @@ export default {
             captures: [],
             picSuccess:'',
             picFlie:null,
-            videoFile:null
+            videoFile:null,
+            pic:"",
+            dialogFormVisible:false,
+            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
         }
     },
     watch: {
         searchCode(newval){
-            let reg = /[MSG]\d+/
-            this.searchCode = this.searchCode.match(reg)[0];
-            this.fetchData();
+            let reg = /[MSG]\d+/;
+            let res = this.searchCode.match(reg);
+            if(res){
+                this.searchCode = res[0];
+                //防抖，当长度小于 7 的时候，进行防抖处理，当长度大于7的时候，直接查询
+                if(newval.length < 7){
+                    if(this.debounce != null){
+                        clearTimeout(this.debounce);
+                    }
+                    this.debounce = setTimeout(()=>{
+                        this.fetchData();
+                    }, 800);
+                }else{
+                    clearTimeout(this.debounce);
+                    this.fetchData();
+                }
+            }
+            //删除到零的时候，直接查询所有数据
+            if(newval.length == 0){
+                this.fetchData();
+            }
         }
     },
     methods:{
         selectFile(item,i,file){
-            console.log(file)
             item.file = file
             item.fileName=file.name
-            console.log(item.file);
-            console.log(item.fileName)
         },
         handleCurrentChange(currentRow,oldCurrentRow) {
             this.selectRow = currentRow;
-            this.fatherNumber=this.selectRow.trademarkEarTag
-            this.appendageNumber=this.fatherNumber+'F';
+            this.fatherNumber=this.selectRow.trademarkEarTag;
             this.kidNumber=this.fatherNumber+'D';
         },
         getnumber(){
-            this.appendageNumber=this.fatherNumber+'F';
             this.kidNumber=this.fatherNumber+'D';
         },
         submit () {
@@ -231,7 +218,6 @@ export default {
               form.append('kid',this.picFlie )
               form.append('operator',this.user.id )
               form.append('operatorName',this.user.userRealname )
-              console.log(form)
               let headers = {}
               headers[authStr] = window.localStorage.getItem(tokenStr)
               window.fetch(baseUrl + '/slaughter/body', {
@@ -265,11 +251,24 @@ export default {
 		    this.tableData = []
 			getBodyData(param).then(res => {
                 if (isReqSuccessful(res)) {
-               		 this.total = res.data.number // Math.ceil(res.data.number/param.size)*10
-               		 let data = res.data.List
-               		 data.forEach((v) => {
-						this.tableData.push(v)
-               		 })
+               		this.total = res.data.number; // Math.ceil(res.data.number/param.size)*10
+               		let data = res.data.List;
+                    if(this.searchCode && this.searchCode.length >= 7 ){
+                        let flag = false;
+                        for(let i = 0; i < data.length; i++){
+                            if(data[i].trademarkEarTag == this.searchCode){
+                                this.kidNumber = this.searchCode+'D';
+                                flag = true;
+                                break;
+                            }
+                        }
+                        if(!flag){
+                            this.$message.warning('没有相关数据');
+                        }
+                    }
+               		data.forEach((v) => {
+					    this.tableData.push(v)
+               		})
                 }
             })
         },
@@ -337,7 +336,11 @@ export default {
                 u8arr[n] = bstr.charCodeAt(n);
             }
             return new Blob([u8arr], {type:mime});
-        }
+        },
+        view(index){
+            this.pic=this.tableData[index].video;
+            this.dialogFormVisible=true;
+        },
     }
 }
 </script>
@@ -346,7 +349,7 @@ export default {
     .inputWrapper
         display inline-block
         font-size 0
-        width 32% 
+        width 45% 
         .inputSpan
             box-sizing border-box
             display inline-block
@@ -356,9 +359,7 @@ export default {
             text-align center    
             vertical-align top
             font-size 14px
-            border 1px solid #2891d1
-            background-color #2891d1
-            color #fff
+            color #2891d1
             &+.el-input
                 width calc(100% - 80px)!important
     .formAndCarmera
@@ -368,8 +369,7 @@ export default {
         .cameraWrapper
             flex 0 1 40% 
             .videoWrapper
-                width 80%   
-                margin 10px auto
+                100%
             .takePhotoBtn
                 width 80%
                 margin 10px auto

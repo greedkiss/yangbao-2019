@@ -25,7 +25,7 @@
                       center>
                         <!-- FIXME: video 标签兼容性处理 -->
                         <div class="show-detail">
-                            <video :src="item.video" class="production-video" controls="controls" height="400" width="400"></video>
+                            <img class="production-image-detail" :src="item.url" :onerror="defaultImg">
                         </div>
                         <div class="show-list">
                             <ul>
@@ -96,10 +96,7 @@ export default {
                         let arr = []
                         res.data.List.forEach((item) => {
                             if(item.video!=null){
-                                item.url = getThumbPicture(item.fileName);
-                            }
-                            else{
-                                item.url= 'this.src="//qiniu.yunyangbao.cn/logo.jpg"';
+                                item.url = item.video;
                             }
                         })
                         this.total = res.data.number;
