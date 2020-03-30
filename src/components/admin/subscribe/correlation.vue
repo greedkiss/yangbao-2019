@@ -91,12 +91,12 @@
 			</el-table-column>
 			<el-table-column
 				label="购买时间"
-				width="120"
+				width="160"
 				prop="buyTime">
 			</el-table-column>
 			<el-table-column
 				label="来源养殖场"
-				width="120"
+				width="250"
 				prop="farm">
 			</el-table-column>
       <el-table-column
@@ -254,12 +254,6 @@ import { isReqSuccessful } from '@/util/jskit'
                     this.$message.error('请验证检疫合格证号，不能为空或者重复！')
                     }
                 })
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
       },
       //查看图片
       view(index){

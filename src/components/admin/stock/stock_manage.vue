@@ -87,8 +87,20 @@
 					</el-table-column>
 					<el-table-column
 					label="已选货物"
-					width="120"
+					width="110"
 					prop="number">
+					</el-table-column>
+					<el-table-column
+					label="重量"
+					width="85"
+					prop="weight"
+					>
+					</el-table-column>
+					<el-table-column
+						label="价格"
+						width="85"
+						prop="price"
+					>
 					</el-table-column>
 					<el-table-column
 						class="action"
@@ -148,6 +160,12 @@
 					label="重量"
 					width="120"
 					prop="weight"
+				>
+				</el-table-column>
+				<el-table-column
+					label="价格"
+					width="120"
+					prop="price"
 				>
 				</el-table-column>
 				<el-table-column
@@ -230,7 +248,13 @@
 							}
 					})
 			},
-			productNumber (newval) {
+			productNumber(newval) {
+				/**
+					输入取货码的时候，查询数据，找到对应的重量和单价，放到缓存列表
+					此处逻辑，this.allNumber存放之前的所有的号码，然后使用一个Set来保存，
+					遍历正则表达式的匹配结果，当set中不存在的时候，就说明这个值是新添加的，然后将这个值添加到临时列表，并且查询对应的重量和价格
+					当删除的时候，匹配的结果会变短，这个时候我们就可以遍历临时列表，看临时列表中的哪个值是被删除了，这个时候删去即可。
+				*/
 				let reg = /[MSG]\d+[A-Z]/g;
 				let canPush = /[MSG]\d{6,}[A-Z]/g;
 				let res = this.productNumber.match(reg);
@@ -239,19 +263,45 @@
 					this.productNumber = res.join(",");
 				}else{
 					if(newval.length > 1){  
-					this.$message.warning("请输入合法耳牌");
+						this.$message.warning("请输入合法耳牌");
 					}
 				}
 				if(canPushRes){
-					this.allEarTag = [];
-					canPushRes.forEach(v => {
-						this.allEarTag.push({
-							number:v
+					let lastSet = new Set(this.allNumber);
+					let newAdd = [];
+					this.allNumber = [];
+					if(canPushRes.length < this.allEarTag.length){
+						//长度变小，说明删除了，也应该删除临时列表的对应项；
+						//找出被删除的项
+						let allDeleted = this.allEarTag.filter(item => {
+							return canPushRes.indexOf(item.number) == -1;
 						})
-					})
+						allDeleted.forEach(item =>{
+							let index = this.allNumber.indexOf(item);
+							this.allEarTag.splice(index, 1);
+						})
+					}
+					canPushRes.forEach((v, index) => {
+						//当set中没有当前值的时候，说明是新的数据，那么就添加
+						if(!lastSet.has(v) || lastSet.size == 0){
+							newAdd.push({
+								number: v,
+								index
+							});
+							this.allEarTag.push({
+								number:v
+							})
+						}
+						this.allNumber.push(v);
+					});
+					newAdd.forEach(item =>{
+						this.queryPriceAndWeight(item.number, item.index);
+					});
+				}else{
+					this.allNumber = [];
+					this.allEarTag = [];
 				}
 			}
-		
 		},
 		computed:{
 			newProvince(){
@@ -292,23 +342,60 @@
 				defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
 				dialogFormVisible:false,
 				searchCode:null,
-				productNumber:'',
-				allPrice:'',
-				allWeight:'',
+				productNumber:null,
+				allPrice:0 ,
+				allWeight:0 ,
+				listWeight:0 ,
+				listPrice: 0 ,
+				chooseWeight: 0,
+				choosePrice: 0,
 				allEarTag:[],
-				videoSrc:''
+				videoSrc:'',
+				allNumber:[],
 			}
 		},
 
 		methods:{ 
-		//生成订单
+			queryPriceAndWeight(number, index){
+				let id=this.user.userFactory;
+				let param={
+					page:this.page-1,
+					size:10,
+					trademark:number
+				}
+				getstockData(id, param).then(res => {
+					if (isReqSuccessful(res)){
+						let list = res.data.List;
+						if(list && list.length > 0){
+							this.$set(this.allEarTag[index], 'id', list[0].id);
+							if(list[0].weight != null && Number(list[0].weight) >= 0 ){
+								this.$set(this.allEarTag[index], 'weight', list[0].weight);
+								this.listWeight += Number(list[0].weight);
+								this.allWeight = this.listWeight + this.chooseWeight;
+							}else{
+								this.$set(this.allEarTag[index], 'weight', "无相关数据");
+							}
+							if(list[0].price != null && Number(list[0].price) >= 0){
+								this.listPrice += Number(list[0].weight) * Number(list[0].price); 
+								this.allPrice += this.listPrice + this.choosePrice;
+								this.$set(this.allEarTag[index], 'price', list[0].price);
+							}else{
+								this.$set(this.allEarTag[index], 'price', "无相关数据");
+							}
+						}else{
+							this.$set(this.allEarTag[index], 'weight', "无相关数据");
+							this.$set(this.allEarTag[index], 'price', "无相关数据");
+							this.$set(this.allEarTag[index], 'id', -1);
+						}
+					}
+				})
+			},
+			//生成订单
 			submit(){
 				let array = this.multipleSelection;
 				let id=this.user.userFactory;
 				let len=array.length;
 				let sheep='';
-				let sumWeight=0;
-				let sumPrice=0;
 				let divisions=[];
 				for(let i = 0; i < len-1; i++){
 					let weight=array[i].weight;
@@ -316,8 +403,6 @@
 					let erNumber=array[i].partNumber+',';
 					divisions[i]=array[i].id;
 					sheep=sheep+erNumber;
-					sumWeight=sumWeight+weight;
-					sumPrice=sumPrice+price;
 				}
 				let weight = 0;
 				let price = 0;
@@ -325,8 +410,6 @@
 				if(len > 0){
 					erNumber = array[len-1].partNumber;
 					divisions[len-1] = array[len-1].id;
-					sumWeight += weight;
-					sumPrice += price;
 				}
 				sheep += erNumber;
 				if(this.productNumber != ''){
@@ -336,17 +419,20 @@
 						sheep += this.productNumber
 					}
 				}
-				console.log(sheep);
-				return;
+				this.allEarTag.forEach(item =>{
+					if(item.id != -1){
+						divisions.push(item.id);
+					}
+				})
 				let data={
 					slaughterId:id,
 					customerId:this.values1,
 					carId:this.values2,
-					sumPrice,
-					sumWeight,
+					sumPrice:this.allPrice,
+					sumWeight: this.allWeight,
 					divisions,
 					sheep
-				} 
+				}
 				if(data.customerId==""||data.carId==""){
 					this.$message.warning('请完善信息')
 				}else{
@@ -362,6 +448,14 @@
 				
 			},
 			deleteAllEarTag(index){
+				if(this.allEarTag[index].weight != '无相关数据'){
+					this.listWeight -= Number(this.allEarTag[index].weight);
+					this.allWeight = this.listWeight + this.chooseWeight;
+				}
+				if(this.allEarTag[index].weight != '无相关数据'  && this.allEarTag[index].price != "无相关数据"){
+					this.listPrice -=  Number(this.allEarTag[index].weight) *  Number(this.allEarTag[index].price);
+					this.allPrice += this.listPrice + this.choosePrice;
+				}
 				this.allEarTag.splice(index, 1);
 				let str = '';
 				this.allEarTag.forEach(item => {
@@ -422,16 +516,30 @@
 			},
 			//复选框
 			toggleSelection(rows) {
-			if (rows) {
-			rows.forEach(row => {
-				this.$refs.multipleTable.toggleRowSelection(row);
-			});
-			} else {
-			this.$refs.multipleTable.clearSelection();
-			}
+				if (rows) {
+					rows.forEach(row => {
+						this.$refs.multipleTable.toggleRowSelection(row);
+					});
+				} else {
+					this.$refs.multipleTable.clearSelection();
+				}
 			},
 			handleSelectionChange(val) {
-			this.multipleSelection = val;
+				this.multipleSelection = val;
+				let weight = 0;
+				let price = 0;
+				val.forEach(item =>{
+					if(item.weight != "无相关数据" && Number(item.weight) >= 0){
+						weight += Number(item.weight);
+					}
+					if(item.weight != "无相关数据" && Number(item.weight) >= 0 && item.prcie != "无相关数据" && Number(item.price) >= 0 ){
+						price += Number(item.price) * Number(item.weight);
+					}
+				})
+				this.chooseWeight = weight;
+				this.choosePrice = price;
+				this.allWeight = this.listWeight + this.chooseWeight;
+				this.allPrice = this.listPrice + this.choosePrice;
 			},
 			view(index){
 				this.pictureOfCar=this.tableData[index].pictureOfCar
@@ -442,7 +550,7 @@
 				let id=this.user.userFactory;
 				let param={
 					page:this.page-1,
-					size:10
+					size:10,
 				}
 				if(this.searchCode){
 					param.trademark = this.searchCode;
@@ -453,14 +561,14 @@
 								this.tableData = data.List;
 								this.total = data.number;
 							}
-						},)
+						})
 				getCarData(id, param).then(res => {
 							if (isReqSuccessful(res)) {
 								let data = res.data;
 								this.options1 = data.List
 							}
 							
-						},)
+						})
 			},
 			Delete(){
 
@@ -528,7 +636,7 @@
 		align-items center
 		justify-content right
 		.submitOrdertable
-			flex 0 1 30% 
+			flex 0 1 40% 
 		.submitBtn
 			flex 0 1 10%
 	.stockManage-form

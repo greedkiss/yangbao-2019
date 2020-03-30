@@ -60,7 +60,7 @@
 				<div>
 					<div class="inputWrapper">
 						<span class="inputSpan ellipse" size='small'>部件名称</span>
-						<el-input  size="small"  style="width:55% !important" v-model="editPartName" disable></el-input>
+						<el-input  size="small"  style="width:55% !important" v-model="editPartName" disabled="true"></el-input>
 					</div>
 					<div class="inputWrapper">
 						<span class="inputSpan ellipse" style="width:45% !important">价格(元/斤)</span>
@@ -91,6 +91,7 @@
 				showEditDialog:false,
 				editPartName: '',
 				editPartPrice: 0,
+				editTypeCode:'',
 				eidtId: -1,
             }
 		},
@@ -135,20 +136,23 @@
 					id: this.editId,
 					factory: this.user.userFactory,
 					type: this.editPartName,
+					typeCode: this.editTypeCode,
 					price: this.editPartPrice
 				}
 				updatePrice(data).then(res=>{
 					if(isReqSuccessful(res)){
 						this.$message.success("修改成功!");
 						this.showEditDialog = false;
+						this.fetchData()
 					}else{
 						this.$message.error("修改失败");
 					}
-				}).then(this.fetchData());
+				});
 			},
             Edit(index){
-				let item = this.tableData[index]
+				let item = this.tableData[index];
 				this.editId = item.id;
+				this.editTypeCode = item.typeCode;
 				this.editPartName = item.type;
 				this.editPartPrice = item.price;
 				this.showEditDialog = true;

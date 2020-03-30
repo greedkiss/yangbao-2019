@@ -42,6 +42,7 @@
           layout="prev, pager, next"
           :total="total"
           :page-size="12"
+          @current-change="fetchData"
           :current-page.sync="pageNumb">
         </el-pagination>
         </div>
@@ -84,6 +85,7 @@ export default {
                     factory:this.user.userFactory,
                     page: this.pageNumb - 1,
                     size: this.limit,
+                    type: 1,
                 }
                 getManageData(data).then(res => {
                     if(isReqSuccessful(res)) {

@@ -33,12 +33,12 @@
             </el-table-column>
             <el-table-column
                 label="购买时间"
-                width="120"
+                width="160"
                 prop="buyTime">
             </el-table-column>
             <el-table-column
                 label="来源养殖场"
-                width="120"
+                width="250"
                 prop="farm">
             </el-table-column>
             <el-table-column

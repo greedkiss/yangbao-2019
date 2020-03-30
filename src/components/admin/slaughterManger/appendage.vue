@@ -88,7 +88,7 @@
 			</el-table-column>
       	    <el-table-column
 				label="屠宰前时间"
-				width="120"
+				width="160"
 				prop="time">
 			</el-table-column>
             <el-table-column width="120" label="操作">
@@ -103,10 +103,10 @@
     </div>
     <el-dialog title="图片详情"    
         :visible.sync="dialogFormVisible" 
-        width="800px">
+        width="650px">
             <div>
             <el-card :body-style="{ padding: '0px' }">
-                <img :src="pic" class="image" :onerror="defaultImg">
+                <img :src="pic" class="image" :onerror="defaultImg" width="600px">
             </el-card>
             </div>
     </el-dialog>
@@ -240,9 +240,13 @@ export default {
                 let body = await res.json()
                 if (isReqSuccessful(body)) {
                     this.$message.success('上传成功') 
-                    this.fetchData()
+                    this.fetchData();
                     setTimeout(()=>{
                         this.printCode(this.appendageNumber);
+                        this.appendageWeight = null;
+                        this.appendageNumber = null;
+                        this.appendage = null;
+                        this.picSuccess = null;
                     },200)
                 }
                 else{

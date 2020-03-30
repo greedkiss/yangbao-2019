@@ -67,12 +67,12 @@
 			</el-table-column>
       	    <el-table-column
 				label="时间"
-				width="120"
+				width="160"
 				prop="time">
 			</el-table-column>
             <el-table-column
 				label="来源养殖场"
-				width="120"
+				width="250"
 				prop="breedFactory">
 			</el-table-column>
             <el-table-column width="120" label="操作">
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { isReqSuccessful} from '@/util/jskit'
+import { isReqSuccessful, readSerialPort, isInstalled} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
 import {getUserById,getManageData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
@@ -209,11 +209,16 @@ export default {
             }).then(async res => {
                 let body = await res.json()
                 if (isReqSuccessful(body)) {
-                    this.$message.success('上传成功') 
-                    this.fetchData()
-                    setTimeout(()=>{
-                        this.printCode(this.appendageNumber);
-                    },200)
+                    this.$message.success('上传成功'); 
+                    this.fetchData();
+                    this.id = -1;
+                    this.weight = null;
+                    this.file = null;
+                    this.picSuccess = null;
+                    this.tradeMarkEarTag = ''; 
+                    // setTimeout(()=>{
+                    //     this.printCode(this.tradeMarkEarTag);
+                    // },200)
                 }
                 else{
                 this.$message.error('上传失败')
@@ -233,8 +238,8 @@ export default {
             }
             this.tableData = [];
             /**
-            如果是通过扫码输入的数据，进行查询，那么将查询到的数据的ID保存到 dataID中，然后在添加体重和照片的时候直接带上。
-             */
+                如果是通过扫码输入的数据，进行查询，那么将查询到的数据的ID保存到 dataID中，然后在添加体重和照片的时候直接带上。
+            */
             getManageData(data).then(res => {
                 if (isReqSuccessful(res)) {
                     let data = res.data;

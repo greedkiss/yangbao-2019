@@ -31,7 +31,6 @@
                     </el-autocomplete>
                 </div>
 
-
                 <el-input :placeholder="item.placeholder" :class="{block: item.block, mr: item.mr}" :key="i" v-else-if="item.type === 'file'" :value="holder" class="select-file" size="small" disabled @click.native="$refs.erpai[0].click()">
                     <template slot="prepend">{{ item.label || '免疫耳牌号文件:'}}
                         <input type="file" @change="selectFile(item)" hidden ref="erpai">
@@ -157,7 +156,7 @@
 
 
 
-                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectOneCrowd'" class="time el-input-group select" >
+                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectOneCrowd'" class="time el-input-group select" >
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect">
                         <el-radio-group v-model="checkOneList">

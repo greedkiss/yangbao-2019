@@ -96,12 +96,12 @@
                 </el-table-column>
                 <el-table-column
                     label="时间"
-                    width="120"
+                    width="160"
                     prop="time">
                 </el-table-column>
                 <el-table-column
                     label="来源养殖场"
-                    width="120"
+                    width="250"
                     prop="breedFactory">
                 </el-table-column>
                 <el-table-column width="120" label="操作">
@@ -120,10 +120,10 @@
 
         <el-dialog title="图片详情"    
         :visible.sync="dialogFormVisible" 
-        width="800px">
+        width="650px">
             <div>
             <el-card :body-style="{ padding: '0px' }">
-                <img :src="pic" class="image" :onerror="defaultImg">
+                <img :src="pic" class="image" :onerror="defaultImg" width="600px" style="display:block; margin: 0 auto">
             </el-card>
             </div>
         </el-dialog>
@@ -180,7 +180,7 @@ export default {
             })
         },
         view(index){
-            this.pic=this.tableData[index].pic;
+            this.pic=this.tableData[index].video;
             this.dialogFormVisible=true;
         },
     },

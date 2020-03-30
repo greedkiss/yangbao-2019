@@ -41,7 +41,7 @@
 </template>
 <script>
 import SIdentify from '@/components/login/identify'
-import { Login, getAutoSubscribe, postAutoDivision } from '@/util/getdata'
+import { Login, getAutoSubscribe, postAutoDivision, postAutoSlaughter } from '@/util/getdata'
 import { userStr } from '@/util/fetch'
 import { validateName, isReqSuccessful } from '@/util/jskit'
 import { validatePassword } from '@/util/validate'
@@ -121,13 +121,16 @@ export default{
                                 getAutoSubscribe(res.data.factoryId).then(res => {
                                     console.log(res);
                                 })
-                                postAutoDivision(res.data.factoryId, 0).then(res=>{
-                                    console.log(res);
-                                })
                                 postAutoDivision(res.data.factoryId, 1).then(res=>{
                                     console.log(res);
                                 })
                                 postAutoDivision(res.data.factoryId, 2).then(res=>{
+                                    console.log(res);
+                                })
+                                let data = {
+                                    factoryId: res.data.factoryId
+                                }
+                                postAutoSlaughter(data).then(res =>{
                                     console.log(res);
                                 })
                             }
