@@ -9,7 +9,7 @@
         </el-form>
         
         <div style="width:20%; margin:50px auto">
-            <el-button type="primary">确认销售</el-button>
+            <el-button type="primary" @click = "sure">确认销售</el-button>
         </div>
         <el-table :data="tableData">
             <el-table-column
@@ -205,7 +205,8 @@ export default {
                 },)
         },
         sure(index){
-            let id = this.tableData[index].id
+            //let id = this.tableData[index].id
+            let id = this.ordernum;
                 confirmOrderData(id).then(res => {
                     if (isReqSuccessful(res)) {
                         this.fetchData()

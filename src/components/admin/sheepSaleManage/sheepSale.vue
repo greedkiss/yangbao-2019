@@ -645,7 +645,11 @@ export default {
 		//确认销售按钮
 		sureSale(){
 			let theSaleSheep=[];
-			let saleRecordModels=this.multipleSelection;
+			let saleRecordModels = this.multipleSelection.map(item => {
+				let newItem = item;
+				newItem.weight = item.sheep_weight;
+				return newItem;
+			})
 			let	userFactory = this.user.userFactory;
 
 			this.multipleSelection.forEach((item)=>{
@@ -685,7 +689,11 @@ export default {
 		//保存按钮
     goSave(){
 			let theSaleSheep=[];
-			let saleRecordModels=this.multipleSelection;
+			let saleRecordModels = this.multipleSelection.map(item => {
+				let newItem = item;
+				newItem.weight = item.sheep_weight;
+				return newItem;
+			})
 			let	userFactory = this.user.userFactory;
 
 			this.multipleSelection.forEach((item)=>{

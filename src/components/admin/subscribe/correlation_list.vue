@@ -32,14 +32,14 @@
                 prop="weight">
             </el-table-column>
             <el-table-column
-                label="购买时间"
+                label="认购时间"
                 width="160"
                 prop="buyTime">
             </el-table-column>
             <el-table-column
                 label="来源养殖场"
                 width="250"
-                prop="farm">
+                prop="sourceFactory">
             </el-table-column>
             <el-table-column
                 class="action"
@@ -57,6 +57,7 @@
     <el-pagination
                 layout="prev, pager, next"
                 :total="total"
+                :page-size="10"
                 @current-change="fetchData"
                 :current-page.sync="page">
     </el-pagination>
@@ -115,7 +116,7 @@ export default {
                 if (isReqSuccessful(res)) {
                     let data = res.data;
                     this.tableData = data.List
-                    this.total = data.size
+                    this.total = data.number
                 }
                 
             })

@@ -608,7 +608,7 @@ export const getOrderData = (data) => fetch(`/d/order`,data,'POST')
 
 export const deleteOrderData = (id) => fetch(`/d/order/cancel/`+id,'GET')
 
-export const confirmOrderData = (id) => fetch(`/d/order/confirm/`+id,'GET')
+export const confirmOrderData = (id) => fetch(`/d/order/confirm/`+id, {}, 'GET')
 
 //车辆管理
 export const getCarData = (id,data) => fetch(`/vehicle/`+id, data, 'GET')

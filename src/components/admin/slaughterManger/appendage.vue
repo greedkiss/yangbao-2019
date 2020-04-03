@@ -229,7 +229,7 @@ export default {
             form.append('appendage',this.picFlie)
             form.append('operator',this.user.id)
             form.append('operatorName',this.user.userRealname)
-            console.log(form)
+            form.append("factory", this.user.userFactory);
             let headers = {}
             headers[authStr] = window.localStorage.getItem(tokenStr)
             window.fetch(baseUrl + '/slaughter/appendage', {

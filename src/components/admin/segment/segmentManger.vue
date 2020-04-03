@@ -790,7 +790,7 @@ export default {
         handleCurrentChange(currentRow,oldCurrentRow) {
         this.selectRow = currentRow;
         this.carcass.earTag=this.selectRow.fatherNumber
-        this.carcass.carNumber=this.selectRow.appendageNumber
+        this.carcass.carNumber=this.selectRow.kidNumber
       },
         returnback(){
             let pathid = this.$route.params.id

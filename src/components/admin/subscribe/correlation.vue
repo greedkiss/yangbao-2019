@@ -97,7 +97,7 @@
 			<el-table-column
 				label="来源养殖场"
 				width="250"
-				prop="farm">
+				prop="sourceFactory">
 			</el-table-column>
       <el-table-column
                 class="action"
@@ -113,10 +113,11 @@
   </el-table>
 
   <el-pagination
-            layout="prev, pager, next"
-            :total="total"
-            @current-change="fetchData"
-            :current-page.sync="page">
+    layout="prev, pager, next"
+    :total="total" 
+    :page-size="10" 
+    @current-change="fetchData"
+    :current-page.sync="page">
   </el-pagination>
 
   <el-dialog title="图片详情"    
@@ -235,10 +236,7 @@ import { isReqSuccessful } from '@/util/jskit'
               this.captures.forEach((item, index) => {
                     form.append('file', this.$refs.erpai[index].files[0])
               })
-              console.log(form)
-              
               let headers = {}
-              console.log(form);
               headers[authStr] = window.localStorage.getItem(tokenStr)
               window.fetch(baseUrl + '/slaughter/addqarecord', {
                   method: 'POST',
@@ -288,7 +286,7 @@ import { isReqSuccessful } from '@/util/jskit'
             if (isReqSuccessful(res)) {
                 let data = res.data;
                 this.tableData = data.List
-                this.total = data.size
+                this.total = data.number
             }
             
         },)
