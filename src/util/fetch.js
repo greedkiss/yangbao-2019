@@ -15,11 +15,11 @@ import md5 from 'md5'
 export const vedioUrl = 'https://qiniu.yunyangbao.cn/'
 export const wsUrl = 'wss://yunyangbao.cn:9010/websocket'
 // export const wsUrl = 'ws://120.79.79.43:9042/websocket'
-//const baseUrl = 'https://yunyangbao.cn:9010' //生产服务器`
+const baseUrl = 'https://yunyangbao.cn:9010' //生产服务器`
 // const baseUrl = 'http://akun.frp.yunyangbao.cn:9041' 
 // const baseUrl = 'http://guicai.frp.yunyangbao.cn:9041'
 //const baseUrl = 'http://192.168.1.103:9010'//bobo
-const baseUrl = 'http://yinchao.frp.yunyangbao.cn:9041' //超
+//const baseUrl = 'http://yinchao.frp.yunyangbao.cn:9041' //超
 
 const tokenStr = md5('sheep-token')
 const authStr = 'Authorization'
