@@ -1,78 +1,57 @@
 <template>
     <div class="admin-form">
         <div class="card" >
-                <!-- <div class="time el-input-group" style="width:330px">
-                    <span class="time-span ellipse" >屠宰时间</span>
-                    <el-date-picker
-                        v-model="slaughterTime"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        size="small"
-                        type="datetime">
-                    </el-date-picker>
-                </div> -->
                 <div class="formAndCarmera">
                     <div class="formWraaper">
                         <div class="inputWrapper">
-                            <span class="inputSpan ellipse" >选择屠宰羊只</span>
-                            <el-input  size="small" style="width:65% !important" v-model="searchCode"></el-input>
-                        </div>
-                        <div class="inputWrapper">
-                                <span class="inputSpan ellipse" >附属编号</span>
-                                <el-input  size="small" style="width:65% !important" v-model="appendageNumber"></el-input>
+                            <span class="inputSpan ellipse" style="width:35%">选择羊只</span>
+                            <el-input  size="small"  style="width:65% !important" v-model.lazy="tradeMarkEarTag" ></el-input>
                         </div>
                         <div style="margin-top:25px">
-                            
                             <div class="inputWrapper">
-                                <el-button type="primary" size="small" style="width:35%; border-radius:15px" @click="getWeight" >点击获取重量</el-button>
-                                <el-input  size="small" style="width:65% !important" v-model="appendageWeight"></el-input>
+                                <el-button type="primary" size="small" @click="getWeight" style="width:35%; border-radius:15px">点击获取重量</el-button>
+                                <el-input  size="small" style="width:65% !important;" v-model="weight"></el-input>
                             </div>
-                            <div class="inputWrapper">
+                            <div class="inputWrapper" style="margin-left:30px">
                                 <el-button type="primary" size="small" style="width:35%; border-radius:15px" @click="capture()">点击获取照片</el-button>
                                 <el-input size="small" style="width:65% !important" v-model="picSuccess"></el-input>
                             </div>
                         </div>
                         <div class="admin-send" style="margin-top:35px">
                             <template >
-                                <el-button type="primary" @click="submit()">提交/打印</el-button>
+                                <el-button type="primary" @click="submit()">提交</el-button>
                             </template>
                         </div>
                     </div>
-                        
                     <div class="cameraWrapper">
                         <div class="videoWrapper">
                             <video ref="video" id="video" width="320" height="240" autoplay></video>
                         </div>
                         <div class="takePhotoBtn">
                             <!--<el-button size="mini" type="primary" @click="capture()">拍照</el-button>-->
+                            
                             <vue-record-video v-show="false" id="recordBtn" @result="onResult"/>
                         </div>
                         <canvas v-show="false" ref="canvas" id="canvas" width="320" height="240"></canvas>
-                        <!-- <ul>
-                            <li v-for="c in captures" :key="c">
-                                <img v-bind:src="c" height="50" />
-                            </li>
-                        </ul> -->
                     </div>
                 </div>
+
         </div>
-        <el-table
+<div>
+    <el-table 
         :data="tableData"
-        highlight-current-row
-        style="width: 100%;margin-top:20px;"
-        :border="true"
-        @current-change="handleCurrentChange"
-        >
-            <el-table-column
-				type="index">
-			</el-table-column>
+        style="width: 100%">
             <el-table-column
 				label="商标耳牌号"
 				width="120"
-				prop="trademarkEarTag">
-			</el-table-column>
-            <el-table-column
-				label="照片"
+				>
+                <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="chooseID(scope.$index)">{{tableData[scope.$index].trademarkEarTag}}</span>
+                    </div>
+                </template>
+			</el-table-column><el-table-column
+				label="视频"
 				width="120"
 			>
                 <template slot-scope="scope">
@@ -81,43 +60,50 @@
                     </div>
                 </template>
 			</el-table-column>
-			<el-table-column
+            <el-table-column
 				label="重量"
 				width="120"
 				prop="weight">
 			</el-table-column>
       	    <el-table-column
-				label="屠宰前时间"
+				label="时间"
 				width="120"
 				prop="time">
+			</el-table-column>
+            <el-table-column
+				label="来源养殖场"
+				width="120"
+				prop="breedFactory">
 			</el-table-column>
             <el-table-column width="120" label="操作">
                 <template slot-scope="scope">
                     <span size="small" style="cursor:pointer" @click="Delete(scope.row)" >删除</span>
                 </template>
             </el-table-column>
-        </el-table>
-    <div class="block" style="margin-left: 46px">
-        <el-pagination layout="prev, pager, next" :total="total" :page-size="10" @current-change="fetchData" :current-page.sync="page">
-        </el-pagination>
-    </div>
+    </el-table>
+    <el-pagination
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="10"
+        @current-change="fetchData"
+        :current-page.sync="page">
+    </el-pagination>
     <el-dialog title="图片详情"    
-        :visible.sync="dialogFormVisible" 
-        width="800px">
-            <div>
-            <el-card :body-style="{ padding: '0px' }">
-                <img :src="pic" class="image" :onerror="defaultImg">
-            </el-card>
-            </div>
+    :visible.sync="dialogFormVisible" 
+    width="800px">
+        <div>
+            <video :src="videoSrc" style="width:100%" controls="controls" height="400" width="400"></video>
+        </div>
     </el-dialog>
     <div v-show="false"  id="qrcode1" class="qrcode" ref="qrcode"></div>
     </div>
+</div>
 </template>
 
 <script>
-import { isReqSuccessful, readSerialPort, isInstalled } from '@/util/jskit'
+import { isReqSuccessful} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
-import {getUserById,postSlaughter,getAppendageData} from '@/util/getdata'
+import {getUserById,getManageData} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 //getSlaughterManage
@@ -125,9 +111,6 @@ export default {
     components: {
     },
     mounted(){
-        // var myDate=new Date();
-		// var myMonth=myDate.getMonth()+1;
-        // this.slaughterTime=myDate.getFullYear()+"-"+myMonth+"-"+myDate.getDate()+"-"+myDate.getHours()+"-"+myDate.getMinutes();
          let id = this.$route.params.id
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
@@ -153,22 +136,11 @@ export default {
             total:0,
             page:1,
             multipleSelection:[],
-                slaughterTime:null,
-                fatherNumber:null,
-                searchCode:null,
-                appendageNumber:null,
-                appendageWeight:null,
-                appendVideo:{
-                    fileName:null,
-                    file:null
-                },
-
-                kidNumber:null,
-                kidWeight :null,
-                kidVideo:{
-                    fileName:null,
-                    file:null
-                },   
+            slaughterTime:null,
+            fatherNumber:null,
+            tradeMarkEarTag:"",
+            appendageNumber:null,
+            weight:null,
             selectRow:null, 
             isSegment:"1",
             video: {},
@@ -177,33 +149,38 @@ export default {
             picSuccess:'',
             picFlie:null,
             videoFile:null,
-            pic:"",
-            dialogFormVisible:false,
-            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+            debounce:null,
+            dataID: -1,
+            emitWatcher:true,
+            videoSrc:'',
+            dialogFormVisible:false
         }
     },
     watch:{
-        searchCode(newval){
-            let reg = /[MSG]\d+/;
-            let res = this.searchCode.match(reg);
-            if(res){
-                this.searchCode = res[0];
-                //防抖，当长度小于 7 的时候，进行防抖处理，当长度大于7的时候，直接查询
-                if(newval.length < 7){
-                    if(this.debounce != null){
+        tradeMarkEarTag(newval){
+            //当手动点击列表选择ID的时候，不需要触发这个查找
+            if(this.emitWatcher){
+                let reg = /[MSG]\d+/;
+                let res = this.tradeMarkEarTag.match(reg);
+                if(res){
+                    this.tradeMarkEarTag = res[0];
+                    //防抖，当长度小于 7 的时候，进行防抖处理，当长度大于7的时候，直接查询
+                    if(newval.length < 7){
+                        if(this.debounce != null){
+                            clearTimeout(this.debounce);
+                        }
+                        this.debounce = setTimeout(()=>{
+                            this.fetchData();
+                        }, 800);
+                    }else{
                         clearTimeout(this.debounce);
-                    }
-                    this.debounce = setTimeout(()=>{
                         this.fetchData();
-                    }, 800);
-                }else{
-                    clearTimeout(this.debounce);
+                    }
+                }
+                //删除到零的时候，直接查询所有数据
+                if(newval.length == 0){
                     this.fetchData();
                 }
-            }
-            //删除到零的时候，直接查询所有数据
-            if(newval.length == 0){
-                this.fetchData();
             }
         }
     },
@@ -212,27 +189,20 @@ export default {
             this.selectRow = currentRow;
             this.fatherNumber=this.selectRow.trademarkEarTag
             this.appendageNumber=this.fatherNumber+'F';
+            this.kidNumber=this.fatherNumber+'D';
         },
         getnumber(){
             this.appendageNumber=this.fatherNumber+'F';
+            this.kidNumber=this.fatherNumber+'D';
         },
         submit () {
             let form=new FormData();
-            let date = new Date();
-            date = date.getFullYear() + "-" + (date.getMonth() + 1) +"-" +date.getDate() +" "+ date.getHours() + ":" + date.getMinutes() +":" +date.getSeconds();
-            console.log(date)
-            
-            form.append('slaughterTime',date)
-            form.append('fatherNumber',this.fatherNumber )
-            form.append('appendageNumber',this.appendageNumber)
-            form.append('appendageWeight',this.appendageWeight)
-            form.append('appendage',this.picFlie)
-            form.append('operator',this.user.id)
-            form.append('operatorName',this.user.userRealname)
-            console.log(form)
-            let headers = {}
-            headers[authStr] = window.localStorage.getItem(tokenStr)
-            window.fetch(baseUrl + '/slaughter/appendage', {
+            form.append('id',this.dataID);
+            form.append('weight', this.weight);
+            form.append('file', this.picFlie);
+            let headers = {};
+            headers[authStr] = window.localStorage.getItem(tokenStr);
+            window.fetch(baseUrl + '/slaughter/m', {
                 method: 'POST',
                 headers,
                 body: form
@@ -251,24 +221,28 @@ export default {
             })
         },
         async fetchData(){
-			let param = {   
-                    factory:this.user.userFactory,
-                    page: this.page - 1,
-                    size: 10,
-                }
-            if(this.searchCode){
-                param.trademark = this.searchCode
+            let data = {
+                certificate:this.qaId,
+                trademark:this.tradeMarkEarTag,
+                startTime:(this.gmtCreate == null) ? "" : this.gmtCreate[0],
+                endTime:(this.gmtCreate == null) ? "" : this.gmtCreate[1],
+                page:this.page-1,
+                size:10,
+                factory:this.user.userFactory,
+                type:0
             }
-			this.tableData = []
-			getAppendageData(param).then(res => {
+            this.tableData = [];
+            /**
+            如果是通过扫码输入的数据，进行查询，那么将查询到的数据的ID保存到 dataID中，然后在添加体重和照片的时候直接带上。
+             */
+            getManageData(data).then(res => {
                 if (isReqSuccessful(res)) {
-               		this.total = res.data.number // Math.ceil(res.data.number/param.size)*10
-               		let data = res.data.List
-                    if(this.searchCode && this.searchCode.length >= 7 ){
+                    let data = res.data;
+                    if(this.tradeMarkEarTag.length >= 7 ){
                         let flag = false;
-                        for(let i = 0; i < data.length; i++){
-                            if(data[i].trademarkEarTag == this.searchCode){
-                                this.appendageNumber = this.searchCode + 'D';
+                        for(let i = 0; i < data.List.length; i++){
+                            if(data.List[i].trademarkEarTag == this.tradeMarkEarTag){
+                                this.dataID = data.List[i].id;
                                 flag = true;
                                 break;
                             }
@@ -277,9 +251,8 @@ export default {
                             this.$message.warning('没有相关数据');
                         }
                     }
-               		data.forEach((v) => {
-						this.tableData.push(v)
-               		})
+                    this.tableData = data.List;
+                    this.total = data.number
                 }
             })
         },
@@ -289,7 +262,7 @@ export default {
                 return 
             }
             let res = await readSerialPort()
-            this.appendageWeight = res || 0
+            this.weight = res || 0
         },
         async printCode(start){
                 this.qrcodeimgs=[];
@@ -353,9 +326,24 @@ export default {
             }
             return new Blob([u8arr], {type:mime});
         },
+        gotoList(){
+            let id = this.$route.params.id;
+            let path = `/admin/${id}/beforeslaughter/list`;
+            this.$router.push(path);
+        },
+        chooseID(index){
+            this.dataID = this.tableData[index].id;
+            this.emitWatcher = false;
+            this.$nextTick(() => {
+                this.$set(this, "tradeMarkEarTag", this.tableData[index].trademarkEarTag);
+                this.$nextTick(()=>{
+                    this.emitWatcher = true;
+                })
+            })
+        },
         view(index){
-            this.pic=this.tableData[index].video;
-            this.dialogFormVisible=true;
+          this.videoSrc=this.tableData[index].video;
+          this.dialogFormVisible=true;
         },
     }
 }
@@ -385,7 +373,7 @@ export default {
         .cameraWrapper
             flex 0 1 40% 
             .videoWrapper
-                width 100%   
+                100%
             .takePhotoBtn
                 width 80%
                 margin 10px auto

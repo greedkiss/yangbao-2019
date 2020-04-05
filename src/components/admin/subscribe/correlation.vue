@@ -1,17 +1,15 @@
 <template>
 <!--关联检疫证-->
 <div class="admin-form">
-  <div class="card" >
-    <p class="card-title" >胴体管理</p>
-    <div class="border-main">
-        <div class="time" >
-            <span class="time-span ellipse">耳牌号</span>
-            <el-input  size="small" v-model="tradeMarkEarTag"></el-input>
-        </div>
-        <el-button @click="fetchData()" size="mini" type="primary">查询</el-button>
+  <div class="card" >    
         <el-form :inline="true"  class="correlation" style="width:100% ;margin-top:10px" >
             <el-form-item label="">
-                <el-input v-model="qaId" placeholder="" style="width:100%">
+                <el-input v-model="tradeMarkEarTag"  style="width:100%">
+                  <template slot="prepend">认购羊只:</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <el-input v-model="qaId"  style="width:100%">
                   <template slot="prepend">检疫合格证号:</template>
                 </el-input>
             </el-form-item>
@@ -20,11 +18,38 @@
                   <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
                 </el-input>
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary"  @click="submit()">上传关联</el-button>
-            </el-form-item>
+            <el-table
+            :data="allEarTag"
+            style="display:table-caption"
+            stripe
+            max-height="200">
+              <el-table-column
+                type="index"
+                width="50">
+              </el-table-column>
+              <el-table-column
+              label="已选羊只"
+              width="120"
+              prop="number">
+              </el-table-column>
+              <el-table-column
+                class="action"
+                label="操作"
+                align='center'
+                width="80">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <el-button @click="deleteAllEarTag(scope.$index)" type="text">删除</el-button>
+                    </div>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div style="width:10%; margin:0 auto;">
+              <el-form-item>
+                <el-button type="primary"  @click="submit()">提交</el-button>
+              </el-form-item>
+            </div>
         </el-form> 
-    </div>
   </div>
 <!--待选屠宰羊-->
 <div>
@@ -39,7 +64,7 @@
       type="selection"
       width="55">
       </el-table-column>
-            <el-table-column
+      <el-table-column
 				label="商标耳牌号"
 				width="120"
 				prop="tradeMarkEarTag">
@@ -49,65 +74,64 @@
 				width="120"
 				prop="immuneEarTag">
 			</el-table-column>
-			<el-table-column
-				label="购买时间"
-				width="120"
-				prop="buyTime">
-			</el-table-column>
       <el-table-column
-				label="来源地址"
+				label="视频"
 				width="120"
-				prop="address">
-			</el-table-column>
-			<el-table-column
-				label="养殖场"
-				width="120"
-				prop="farm">
-			</el-table-column>
-			<el-table-column
-				label="货主"
-				width="120"
-				prop="master">
-			</el-table-column>
-			<el-table-column
-				label="重量"
-				width="120"
-				prop="weight">
-			</el-table-column>
-     <el-table-column
-				label="图片"
-				width="120"
-				>
+			>
         <template slot-scope="scope">
             <div class="opr" >
                 <span @click="view(scope.$index)">查看</span>
             </div>
         </template>
 			</el-table-column>
+			<el-table-column
+				label="重量"
+				width="120"
+				prop="weight">
+			</el-table-column>
+			<el-table-column
+				label="购买时间"
+				width="120"
+				prop="buyTime">
+			</el-table-column>
+			<el-table-column
+				label="来源养殖场"
+				width="120"
+				prop="farm">
+			</el-table-column>
+      <el-table-column
+                class="action"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <el-button @click="Delete(scope.row, scope.column)" type="text">删除</el-button>
+                    </div>
+                </template>
+      </el-table-column>
   </el-table>
 
-       <el-dialog title="图片详情"    
-					:visible.sync="dialogFormVisible" 
-					width="800px">
-          <div>
-          <el-card :body-style="{ padding: '0px' }">
-          <img :src="pic" class="image" :onerror="defaultImg">
-          </el-card>
-          </div>
-				</el-dialog>
-        
   <el-pagination
             layout="prev, pager, next"
             :total="total"
             @current-change="fetchData"
             :current-page.sync="page">
-        </el-pagination>
+  </el-pagination>
+
+  <el-dialog title="图片详情"    
+    :visible.sync="dialogFormVisible" 
+    width="800px">
+    <div>
+      <video :src="pic" style="width:100%" controls="controls" height="400" width="400"></video>
+    </div>
+  </el-dialog>
   </div>
 </div>  
 </template>
 
 <script>
-import { getUserById,getCorrelationData} from '@/util/getdata'
+import { getUserById, getCorrelationData, deleteCorrelationById} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit' 
 
@@ -124,17 +148,43 @@ import { isReqSuccessful } from '@/util/jskit'
         erpai: '',
         captures: [{model: null , per : 0}],
         tableData:[],
-         qaId:null,
+        qaId:null,
         multipleSelection:[],
         dialogFormVisible:false,
-        tradeMarkEarTag:''
+        tradeMarkEarTag:'',
+        allEarTag:[]
+      }
+    },
+    watch: {
+      tradeMarkEarTag(newval){
+          let reg = /[MSG]\d+/g;
+          let canPush = /[MSG]\d{6,}/g;
+          let res = this.tradeMarkEarTag.match(reg);
+          let canPushRes = this.tradeMarkEarTag.match(canPush);
+          if(res){
+            //全局匹配，res是一个结果数组，将数组转换为字符串
+              this.tradeMarkEarTag = res.join(",");
+          }else{
+            if(newval.length > 1){  
+              this.$message.warning("请输入合法耳牌");
+            }
+          }
+          if(canPushRes){
+            //只有数字在六位以上的号码，才是符合规范的，才可以被放入缓存列表中
+            this.allEarTag = [];
+            canPushRes.forEach(v => {
+              this.allEarTag.push({
+                number:v
+              })
+            })
+          }
       }
     },
     mounted () {
         let id = this.$route.params.id
         getUserById(id).then(res => {
           this.user = res.data.model
-        }).then(this.fetchData)
+        }).then(this.fetchData);
     },
     methods: {
       //复选框
@@ -155,20 +205,27 @@ import { isReqSuccessful } from '@/util/jskit'
           let file = this.$refs.erpai[idx].files[0]
           item.model = file.name
           item.file = file
-          },
+      },
       submit () {
-                let array = this.multipleSelection
-                console.log(array)
-                let len=array.length-1
-                let sheep=''
-                for(let i = 0;i<len;i++){
-                  let erNumber=array[i].tradeMarkEarTag+','
-                  sheep=sheep+erNumber
-                }
-                let erNumber=array[len].tradeMarkEarTag;
+              let array = this.multipleSelection;
+              let len = array.length;
+              let sheep='';
+              for(let i = 0;i < len-1; i++){
+                let erNumber=array[i].tradeMarkEarTag+','
                 sheep=sheep+erNumber
-                console.log(sheep)
-              
+              }
+              let erNumber = '';
+              if(len > 0){
+                erNumber = array[len-1].tradeMarkEarTag;
+              }
+              sheep += erNumber;
+              if(this.tradeMarkEarTag != ''){
+                if(array.length > 0 ){
+                  sheep +=  "," + this.tradeMarkEarTag
+                }else{
+                  sheep += this.tradeMarkEarTag
+                }
+              }
               let form=new FormData()
               let qaId=this.qaId
               form.append('userId', this.$route.params.id)
@@ -205,32 +262,48 @@ import { isReqSuccessful } from '@/util/jskit'
         console.log(file);
       },
       //查看图片
-       view(index){
-            this.pic=this.tableData[index].pic
-            this.dialogFormVisible=true
-            console.log(this.tableData[index].pic)
-        },
+      view(index){
+          this.pic=this.tableData[index].pic;
+          this.dialogFormVisible=true;
+      },
+      Delete(row, column){
+        deleteCorrelationById(row.id).then(res=>{
+          if(isReqSuccessful(res)){
+            this.$message.success("删除成功");
+            this.fetchData();
+          }
+        })
+      },
+      deleteAllEarTag(index){
+        this.allEarTag.splice(index, 1);
+        let str = '';
+        this.allEarTag.forEach(item => {
+          str += item.number;
+        })
+        this.tradeMarkEarTag = str;
+      },
       //加载表格信息
       async fetchData(){
         let id=this.user.userFactory;
         let param={
-            page:this.page-1,
-            size:10
+            type: 0,
+            page: this.page-1,
+            size: 10
         }
         getCorrelationData(id, param).then(res => {
-                    if (isReqSuccessful(res)) {
-                        let data = res.data;
-                        this.tableData = data.List
-                        this.total = data.size
-                    }
-                    
-                },)
-      }
+            if (isReqSuccessful(res)) {
+                let data = res.data;
+                this.tableData = data.List
+                this.total = data.size
+            }
+            
+        },)
+      },
     }
   }
   
 </script>
-<style scope lang="stylus">
+<style scoped lang="stylus">
     .time
         display inline-block
         font-size 0 !important

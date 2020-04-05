@@ -278,6 +278,13 @@ export const postYoungSheep = data => fetch('/over/all/statistics/add/sheep', da
 
  //屠宰加工客户管理
 //  export const getCustomerOfSla = (id) => fetch('/customer/getOne/' + id,'GET')
+export const postPrice = data => fetch(`/slaughter/part/price`, data, 'POST')
+
+export const getPrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'GET') 
+
+export const deletePrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'DELETE') 
+
+export const updatePrice = data => fetch(`/slaughter/part/price/modify`, data, 'POST') 
 
 export const insertSlaughter = data => fetch(`/customer/insert`, data, 'POST')
 
@@ -303,8 +310,12 @@ export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET'
 
 export const searchSlaInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=0`, data, 'POST')
 
+//自动认购
+export const getAutoSubscribe= (id) => fetch('/slaughter/auto/subscribe?factory='+id , null , 'POST')
 
+// 自动分割
 
+export const postAutoDivision= (id, type) => fetch(`/division/auto/division/${type}/?factory=${id}` , null , 'POST')
 
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')
@@ -555,6 +566,9 @@ export const getpicsOfFactory = (data) => fetch(`/QaPic/`, data, 'GET')
 export const getpicsByEarTagOrQaTag = (data) => fetch(`/QaPic/QueryQaPic/`, data, 'GET')
 
 export const deletePicByQaTag = (id,data) => fetch(`/QaPic/delete/${id}/${data}`, data, 'DELETE')
+
+export const deleteCorrelationById = (id) => fetch(`slaughter/subscribe/delete/${id}`, data, 'POST')
+
 
 
 //屠宰前管理

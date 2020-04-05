@@ -165,7 +165,6 @@ import { isReqSuccessful } from '@/util/jskit'
       return {
           tableData:[],
           video:'',
-          filetype:'',
           qaId: '',
           weight:'',
           tradeMarkEarTag: '',
@@ -244,7 +243,7 @@ import { isReqSuccessful } from '@/util/jskit'
       manageEdit2(){
         this.dialogUpdataVisible = false;
         let form=new FormData()
-              form.append('id',this.id )
+              form.append('id',this.id)
               this.captures.forEach((item, index) => {
                     form.append('file', this.$refs.erpai[index].files[0])
               })
@@ -264,15 +263,12 @@ import { isReqSuccessful } from '@/util/jskit'
                     this.$message.error('上传失败')
                     }
                 }).then(this.fetchData)
-              
       },
       selectFile (item, idx) {
           let file = this.$refs.erpai[idx].files[0]
           item.model = file.name
           item.file = file
           },
-     
-      
       //获取数据
       async fetchData(){
         // let startTime, endTime;
@@ -295,7 +291,7 @@ import { isReqSuccessful } from '@/util/jskit'
                         this.video = data.List.video
                     }
                     
-                },)
+        },)
       }
     }
   }
