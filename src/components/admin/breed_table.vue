@@ -1,0 +1,1265 @@
+<template>
+    <div>
+        <div class="admin-list-pass" v-if="!hideFilter && !releaseType ">
+            <div class="area_management" v-if="isWarn">
+				<span class="area_name">省</span>
+				<el-select v-model="value.province" placeholder="省" @change="provinceChoose" v->
+			    <el-option
+			      v-for="item in area.province" 
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item"
+			      >
+			    </el-option>  
+				</el-select>
+					<span class="area_name">市</span>				
+				<el-select v-model="value.city" placeholder="市" @change="cityChoose">
+			    <el-option
+			      v-for="item in area.city"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+				</el-select>
+				<span class="area_name">县</span>		
+				<el-select v-model="value.country" placeholder="县">
+			    <el-option
+			      v-for="item in area.country"
+			      :key="item.value"
+			      :label="item.label"
+			      :value="item">
+			    </el-option>
+			  </el-select>
+			</div>
+            
+            <el-select @change="fetchData()" width="120" v-if="!hidePass&&!isSeleList&&!isWarn" size="mini" v-model="isPass" placeholder="所有数据">
+                <el-option
+                    v-for="(val, key) in options"
+                    :key="val"
+                    :label="key"
+                    :value="val">
+                </el-option>
+            </el-select>
+
+
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis" class="pick-erpai" size="mini" v-model="factoryName">
+                <template slot="prepend">单位名:</template>
+            </el-input>
+            <el-input v-if="!hideEartagFilter&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="eartag">
+                <template slot="prepend">耳牌号:</template>
+            </el-input>
+             <el-input v-if="isListSale" class="pick-erpai" size="mini" v-model="searchSaleID">
+                <template slot="prepend">订单号:</template>
+            </el-input>
+
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="fatherEartag">
+                <template slot="prepend">公耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="motherEartag">
+                <template slot="prepend">母耳牌号:</template>
+            </el-input>
+            <el-input v-if="hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList" class="pick-erpai" size="mini" v-model="kindEartag">
+                <template slot="prepend">子耳牌号:</template>
+            </el-input>
+
+            <el-input v-if="!hideEartagFilter&&!isListSale&&!isWarn&&!isStatis&&!isSlaughterManageList"  class="pick-erpai" size="mini" v-model="checkFlag">
+                <template slot="prepend">批次:</template>
+            </el-input>
+
+            <el-date-picker
+                size="small"
+                v-model="gmtCreate"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                align="right">
+            </el-date-picker>
+
+            <el-button @click="fetchData()" v-if="!isListSale" size="mini" type="primary">查询</el-button>
+            <el-button @click="findTimeAllData()" v-if="isListSale" size="mini" type="primary">查询</el-button>
+            <el-button @click="export2xls()" size="mini" type="primary" icon="el-icon-download"></el-button>
+        </div>
+
+        <el-table v-if="isSeleList"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+
+            <el-table-column label="种公羊">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='eartagOfFather' || th.prop=='fatherTypeName' || th.prop=='fatherColor' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+                
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="种母羊">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='eartagOfMother'||th.prop=='motherTypeName'||th.prop=='motherColor'||th.prop=='manageFlag'||th.prop=='breedingTime'||th.prop=='lambingNumber'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="羔羊/kg">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='newbornWeight'||th.prop=='sex'||th.prop=='trademarkEartag'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="断奶选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='ablactationWeight'||th.prop=='ablactationHeight'||th.prop=='ablactationLength'||th.prop=='ablactationBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="6月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='sixMonthWeight'||th.prop=='sixMonthBodyHeight'||th.prop=='sixMonthBodyLength'||th.prop=='sixMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column>
+            </el-table-column>
+
+            <el-table-column label="12月龄选育/kg/cm">
+                <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if="th.prop=='twelveMonthWeight'||th.prop=='twelveMonthHeight'||th.prop=='twelveMonthLength'||th.prop=='twelveMonthBust'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+            >
+            </el-table-column> 
+            </el-table-column>
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr" v-if="!releaseType && !isCheck">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                        <template>
+                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                            <span @click="deleteItem(scope.$index)">删除</span>
+                        </template>
+                    </div>
+                    <div class="opr" v-else-if="releaseType">
+                        <span  @click="viewPlan(scope.$index)">查看</span>
+                    </div>
+                    <div class="opr" v-else>
+                        <span @click="Spv(1, scope.$index)">通过</span>
+                        <span @click="Spv(0, scope.$index)">拒绝</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <el-table v-if="isSlaughterManageList"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table shortTable"
+            :data="tableData"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='kidNumber'||th.prop=='kidWeight'||th.prop=='appendageNumber'||th.prop=='appendageWeight'||th.prop=='immuneNumber'||th.prop=='fatherNumber'||th.prop=='quarNumber'||th.prop=='breedName'||th.prop=='goodman'||th.prop=='type'"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+
+            <el-table-column
+            label="附属物照片"
+            width="120"
+            v-if="isAppendage"
+            >
+                <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="slauManWatch(scope)">查看</span>
+                    </div>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+            label="胴体照片"
+            width="120"
+            v-if="isKid"
+            >
+                <template slot-scope="scope">
+                    <div class="opr" >
+                        <span @click="slauManWatch(scope)">查看</span>
+                    </div>
+                </template>
+            </el-table-column>
+
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                v-if=" th.prop=='slaughterTime'||th.prop=='operator' "
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="200"
+                
+            >
+            </el-table-column>
+
+            
+            <el-table-column
+                class="action"
+                label="操作"
+                align='center'
+                width="160">
+                <template slot-scope="scope">
+                    <div class="opr">
+                        <span @click="deleteItem(scope.$index)">删除</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
+        <el-table v-if="isListSale"
+            v-loading="load"
+            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            @cell-click="saleListCell"
+            >
+
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="130"
+                
+            >
+            </el-table-column>
+            
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160"
+                >
+                <template slot-scope="scope">
+
+                    <div class="opr" v-if="isSaleOrder">
+                        <span v-if="!hideView" @click="dialogFormVisible = true">查看</span>
+                        
+                        <template>
+                            <span @click="deleteItem(scope.$index)">取消订单</span>
+                        </template>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <el-dialog title="订单详情" 
+					:visible.sync="dialogAllTimeVisible" 
+					width="800px"
+					>
+                    <span>该时间段内有订单：{{timeorder.allorder}}个</span>
+                    <br>
+                    <span>共售出羊肉：{{timeorder.sumWeight}} 斤</span>
+                    <br>
+                    <span>总价值：{{timeorder.allprice}}元</span>
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="closeAllTime()">确认</el-button>
+					</div> 
+				</el-dialog>
+        <el-dialog title="订单详情" 
+					:visible.sync="dialogFormVisible" 
+					width="800px"
+					@open="saleOrderLook(scope.row, scope.column)">
+
+					<el-form :model="orderform" label-position="right">
+
+						<el-col :span='12'>
+						<el-form-item label="重量" :label-width="formLabelWidth" >
+							<el-input v-model="orderform.sumweight" ></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="总金额" :label-width="formLabelWidth">
+							<el-input v-model="orderform.allprice"></el-input>
+						</el-form-item>
+						</el-col>
+
+						<el-alert
+    					title="其他信息"
+    					type="info"
+							:closable="false"
+							center
+							style="height:25px">
+ 						</el-alert>
+
+						 <el-col :span='12'>
+						<el-form-item label="订单ID" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.saleID"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+                        <el-col :span='12'>
+						<el-form-item label="羊只耳牌" style="padding-top:30px" :label-width="formLabelWidth">
+						<el-input v-model="orderform.trademark"  :disabled="true" ></el-input>
+						</el-form-item>
+						</el-col>
+
+
+                        
+
+						<el-col :span='12'>
+						<el-form-item label="养殖场"  :label-width="formLabelWidth">			
+						<el-input v-model="orderform.farm" :disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="客户单位" :label-width="formLabelWidth">				
+						<el-input v-model="orderform.factory" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="数量" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.sums" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="销售时间" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.saleTime" 		:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+						<el-col :span='12'>
+						<el-form-item label="负责人" :label-width="formLabelWidth">			
+						<el-input v-model="orderform.manger"  	:disabled="true"></el-input>
+						</el-form-item>	
+						</el-col>
+
+                        <el-col :span='12'>
+						<el-form-item label="联系方式" :label-width="formLabelWidth">		
+						<el-input v-model="orderform.tele"  	:disabled="true"></el-input>
+						</el-form-item>
+                        </el-col>
+
+						</el-form>
+
+					<div slot="footer" class="dialog-footer">
+						<el-button type="primary" @click="sureSale()">确认销售</el-button>
+					</div>
+				</el-dialog>
+
+
+        
+        <el-table v-if="isBreedList"
+            v-loading="load"
+ v            ref="table"
+            tooltip-effect="dark"
+            class="admin-table"
+            :data="tableData"
+            >
+            <el-table-column
+                show-overflow-tooltip
+                v-for="(th, i) in headers"
+                :key="i" 
+                align='center'
+                :prop="th.prop"
+                :label="th.label"
+                :width="100"
+                
+            >
+            </el-table-column>
+
+            <el-table-column
+                class="action"
+                fixed="right"
+                label="操作"
+                align='center'
+                width="160"
+                v-if="!isWarn&&!isStatis">
+                <template slot-scope="scope">
+                    <div class="opr" v-if="!releaseType && !isCheck">
+                        <span v-if="!hideView" @click="cellClick(scope.row, scope.column)">查看</span>
+                        <template>
+                            <span @click="edit(scope.$index)" v-if="showEdit">编辑</span>
+                            <span @click="deleteItem(scope.$index)">删除</span>
+                        </template>
+                    </div>
+
+                    <div class="opr" v-else-if="releaseType">
+                        <span  @click="viewPlan(scope.$index)">查看</span>
+                    </div>
+                    <div class="opr" v-else>
+                        <span @click="Spv(1, scope.$index)">通过</span>
+                        <span @click="Spv(0, scope.$index)">拒绝</span>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table> 
+
+        <el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            @current-change="fetchData"
+            :current-page.sync="page">
+        </el-pagination>
+
+        <el-dialog
+        title="照片/视频"
+        :visible.sync="slaughterManageVisible"
+        width="30%">
+                <img v-if="isImg" :src="slaughterManageVideo" class="production-video" height="400" width="100%" :onerror="defaultImg">
+                <video v-else :src="slaughterManageVideo" class="production-video" controls="controls" height="400" width="100%"></video>
+        </el-dialog>
+    </div>
+</template>
+
+<script>
+import { isReqSuccessful } from '@/util/jskit'
+import { getUserById, getReleaseByName ,getPlace,sureSaleOrder} from '@/util/getdata'
+import XLSX from 'xlsx'
+import {
+// 监督执行
+    patchWelfare,
+    patchBreeding,
+    patchPrevention,
+    patchDisinfect,
+    patchImmune,
+    patchAntiscolic,
+    patchStage,
+// 专家审核
+    patchProWelfare,
+    patchProPrevention,
+    patchProBreeding,
+    patchProDisinfect,
+    patchProImmune,
+    patchProAntiscolic,
+    patchProStage
+} from '@/util/getdata'
+import Bus from '@/components/bus.js'
+
+export default {
+    props: {
+        // 隐藏操作栏的查看功能
+        hideView: {
+            type: Boolean,
+            default: false
+        },
+        //在商品羊管理界面使用新的查看功能
+        isSaleOrder: {
+            type:Boolean,
+            default:false
+        },
+        isBreedList: {
+            type: Boolean,
+            default: false
+        },
+        isSeleList: {
+            type: Boolean,
+            default: false
+        },
+        isSlaughterManageList:{
+            type: Boolean,
+            default: false
+        },
+        isAppendage:{
+            type: Boolean,
+            default: false
+        },
+        isKid:{
+            type: Boolean,
+            default: false
+        },
+        // 隐藏头部筛选
+        hideFilter: {
+            type: Boolean,
+            default: false
+        },
+        // 跳转路径
+        modpath: {
+            type: String
+        },
+        getData: {
+            type: Function
+        },
+        deleteData: {
+            type: Function,
+            default () {
+                return () => {}
+            }
+        },
+        //确认订单
+        // 审核接口
+        isCheck: {
+            type: Boolean,
+            default: false
+        },
+        headers: {
+            type: Array
+        },
+
+        // 是否显示操作栏的审核功能
+        hidePass: {
+            type: Boolean,
+            default: false
+        },
+        // 跳转路径是否没有prac
+        noPrac: {
+            type: Boolean,
+            default: false
+        },
+        // 代理表头需要转换
+        isAgent: {
+            type: Boolean,
+            default: false
+        },
+        // 方案表
+        releaseType: {
+            type: String,
+            default: ''
+        },
+        showEdit: {
+            type: Boolean,
+            default: true
+        },
+        hideEartagFilter: {
+            type: Boolean,
+            default: false
+        },
+        isListSale:{
+            type: Boolean,
+            default: false
+        },
+        isWarn:{
+            type:Boolean,
+            default: false
+        },
+        isStatis:{
+            type:Boolean,
+            default: false
+        },
+        checkModule: {
+            type: String
+        }
+    },
+
+    watch: {
+        getData (newV) {
+            this.fetchData()
+        }
+    },
+
+    mounted () {
+        let id = this.$route.params.id
+        getUserById(id).then(res => {
+            if (isReqSuccessful(res)) {
+                this.user = res.data.model
+            }
+        }).then(this.fetchData)
+        let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+		let obj = {url}
+		getPlace(obj).then(res => {
+			res.result.forEach((item) =>{
+				item.forEach((ipv)=>{
+					this.area.province.push({
+						label: ipv.fullname,
+						value: ipv.id
+					})
+				})
+			})
+		})
+    },
+
+    data () {
+        return {
+            defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
+            area: {
+				province: [],
+				city: [],
+				country: [],
+				town: []
+            },
+			value: {
+				province: null,
+				city: null,
+				country: null,
+				town: null
+			},
+            load: true, // 是否显示loading动画
+            page: 1, // 当前页码
+            total: 10, // 总共数据条数
+            tableData: [
+                {
+                    id: 1,
+                    manage: '2018-01-01',
+                    eNutritionT: '2018-05-10'
+                }
+            ], // 表格数据
+
+            isPass: null, // 筛选条件-是否通过
+            factoryName: null, // 筛选条件-工厂名称
+            options: { // 表格审核状态列，显示转换映射
+                所有数据: null,
+                未通过: 0,
+                已通过: 1,
+                未审核: 2
+            },
+            slaughterManageVideo: null,
+            eartag: null,
+            gmtCreate: null,
+            motherEartag: null,
+            fatherEartag: null,
+            kindEartag: null,
+            searchSaleID:null,
+            checkFlag: null,
+            dialogFormVisible: false,
+            dialogAllTimeVisible:false,
+            slaughterManageVisible:false,
+            formLabelWidth: '70px',	
+            isImg:true,
+            timeorder:{
+                allprice:0,
+                sumWeight:0,
+                allorder:0
+                },
+            orderform:{
+				farmId:null,
+				factoryId:null,
+                trademark:null,
+				sumweight:0,
+				allprice:0,
+				// saleID:null,
+				farm:null,
+				factory:"请选择客户单位",
+				sums:0,
+				saleTime:null,
+				manger:null,
+				tele:null
+				},
+        }
+    },
+
+    methods: {
+        slauManWatch(scope){
+            if(scope.column.label=='附属物照片'){
+                if(scope.row.appendageVideo!==null){
+                    let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+                    let imgsrc = scope.row.appendageVideo;
+                    if(reg.test(imgsrc)){
+                        let img = new Image();
+                        let urlarr = imgsrc.split("yunyangbao.cn/");
+                        let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+                        img.src = timeMarkUrl;
+                        img.onload = () => {
+                            this.slaughterManageVideo = timeMarkUrl;
+                            this.slaughterManageVisible = true;
+                        }
+                        img.onerror = ()=>{
+                            this.slaughterManageVideo = imgsrc;
+                            this.slaughterManageVisible = true;
+                        }
+                        this.isImg = true;
+                    }else{
+                        this.isImg = false;
+                        this.slaughterManageVideo = imgsrc
+                        this.slaughterManageVisible = true
+                    }
+                }
+                else{
+                    this.$message.error('暂无相关视频！')
+                }
+            }
+            if(scope.column.label=='胴体照片'){
+                if(scope.row.kidVideo!==null){
+                    let reg = /^http.+qiniu\.yunyangbao\.cn.+\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+                    let imgsrc = scope.row.kidVideo;
+                    if(reg.test(scope.row.kidVideo)){
+                        let img = new Image();
+                        let urlarr = imgsrc.split("yunyangbao.cn/");
+                        let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+                        img.src = timeMarkUrl;
+                        img.onload = () => {
+                            this.slaughterManageVideo = timeMarkUrl;
+                            this.slaughterManageVisible = true;
+                        }
+                        img.onerror = ()=>{
+                            this.slaughterManageVideo = imgsrc;
+                            this.slaughterManageVisible = true;
+                        }
+                        this.isImg = true;
+                    }else{
+                        this.isImg = false;
+                        this.slaughterManageVideo = imgsrc
+                        this.slaughterManageVisible=true
+                    }
+                }
+                else{
+                    this.$message.error('暂无相关视频！')
+                }
+            }
+        },
+        provinceChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			console.log(url)
+			this.value.city = null
+			this.value.country = null
+			this.value.town = null
+			if(item.label.indexOf('市') == -1){
+				getPlace(obj).then(res => {
+					this.area.city = []
+					res.result.forEach((item) =>{
+						item.forEach((ipv)=>{
+							this.area.city.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}else{
+					this.value.city = '市辖区'
+					getPlace(obj).then(res => {
+					this.area.country = []
+					res.result.forEach((item) => {
+						item.forEach((ipv)=>{
+							this.area.country.push({
+								label: ipv.fullname,
+								value: ipv.id
+							})
+						})
+					})
+				})
+			}
+		},
+		cityChoose(item){
+			let url = 'https://apis.map.qq.com/ws/district/v1/getchildren?id='+item.value+'&key=DHYBZ-2HQKD-63E4Q-HGKZC-P3GEJ-ISFDM'
+			let obj = {url}
+			this.value.country = null
+			this.value.town = null
+			getPlace(obj).then(res => {
+				this.area.country = []
+				res.result.forEach((item) =>{
+					item.forEach((ipv)=>{
+						this.area.country.push({
+							label: ipv.fullname,
+							value: ipv.id
+						})
+					})
+				})
+			})
+		},
+        export2xls () {
+            if (!this.tableData.length) {
+                this.$message.warning('表格数据为空')
+            }
+
+            let s2ab = s => {
+                if (typeof ArrayBuffer !== 'undefined') {
+                    var buf = new ArrayBuffer(s.length)
+                    var view = new Uint8Array(buf)
+                    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF
+                    return buf
+                } else {
+                    var buf = new Array(s.length)
+                    for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF
+                    return buf
+                }
+            }
+
+            let eBody = this.tableData.slice(0)
+            eBody.forEach(v => {
+                Object.keys(v).forEach(vk => {
+                    let inTable = false
+                    // 有的表头含有 children ，要特殊处理
+                    this.headers.forEach(vh => {
+                        if (vh.children) {
+                            inTable = vh.children.find(v => v.prop === vk)
+                        }
+                    })
+
+                    if (!inTable) {
+                        inTable = this.headers.find(v => v.prop === vk)
+                    }
+                    if (inTable && inTable.label) {
+                        v[inTable.label] = v[vk]
+                    }
+
+                    // this.header 不含有一些公共表头如养殖场 factoryName 等，在这里手动加入
+                    if (!['ispassCheck', 'factoryName', 'gmtCreate', 'remark', 'ispassSup', 'operatorName', 'professorName', 'upassReason', 'supervisorName'].includes(vk)) {
+                        delete v[vk]
+                    } else {
+                        let map = {
+                            ispassCheck: '审核状态',
+                            factoryName: '养殖场',
+                            gmtCreate: '提交时间',
+                            remark: '备注',
+                            ispassSup: '监督执行状态',
+                            operatorName: '操作人员',
+                            professorName: '技术审核',
+                            upassReason: '审核拒绝原因',
+                            supervisorName: '监督执行'
+                        }
+                        v[map[vk]] = v[vk]
+                        delete v[vk]
+                    }
+                })
+            })
+            // console.log(eBody)
+            const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} }
+            const wopts = { bookType: 'biff8', bookSST: false, type: 'binary' }
+            wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(eBody)
+
+            let tmpa = document.createElement("a");
+            let obj = new Blob([s2ab(XLSX.write(wb, wopts))], { type: 'application/octet-stream' })
+            tmpa.download = '下载.xls'
+            tmpa.href = URL.createObjectURL(obj) //绑定a标签
+            tmpa.click() //模拟点击实现下载
+            setTimeout(function () { //延时释放
+                URL.revokeObjectURL(obj) //用URL.revokeObjectURL()来释放这个object URL
+            }, 100)
+        },
+
+        cellClick(row) {
+            let id = row.id
+            let pathid = this.$route.params.id
+            let path = `/admin/${pathid}/${this.modpath}/more?more=${id}`
+            this.$router.push(path)
+        },
+
+  
+      //点击任意一行，即将此行数据放到orderform中去
+            saleListCell(row,column,event,cell){
+            console.log(row)
+            this.orderform.sumweight=row.totalWeight
+            this.orderform.allprice=row.price
+            this.orderform.saleID=row.id
+            this.orderform.farm=this.user.factoryName
+            this.orderform.trademark=row.trademark
+            this.orderform.factory=row.destinationFactoryName
+            this.orderform.sums=row.count
+            this.orderform.saleTime=row.saleTime
+            this.orderform.manger=row.responsiblePerson
+            this.orderform.tele=row.responsiblePersonPhone
+            let param={
+                orderId:row.id,
+            }
+            // getOrderSheepID(id,pram).then(res => {
+            //     if(isReqSuccessful(res)){
+            //         this.orderform.sheepId=res;
+            //     }else{
+            //         this.message.err('请求失败')；
+            //     }
+            // });
+        },
+     //订单查看按钮 
+        saleOrderLook(row,column){ },
+        //确认销售
+        sureSale(){
+            let id= this.user.userFactory;
+            let saleID=this.orderform.saleID;
+			let param = {		
+						saleID
+           				} 
+            sureSaleOrder(id,param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('交易成功')
+                        this.dialogFormVisible=false;
+                        this.fetchData()   
+                    }
+				});
+             
+        },
+
+        // this.updateData(this.edit, data).then(res => {
+        //             if (isReqSuccessful(res)) {
+        //                 patchJump(this.modpath)
+        //             }
+        //             this.disableBtn = false
+        //         }, _ => {
+        //             this.$message.error('修改失败')
+        //             this.disableBtn = false
+        //         })
+        //     }
+        Spv (isPass, idx) {
+            let {id, ispassCheck} = this.tableData[idx]
+            if (ispassCheck !== '未审核') {
+                this.$message.warning('该条记录已审核')
+                return
+            }
+
+            let superviseMap = {
+                welfare: patchWelfare,
+                prevention: patchPrevention,
+                'nutrition/breed': patchBreeding,
+                'nutrition/stage': patchStage,
+                'health/antiscolic': patchAntiscolic,
+                'health/disinfect': patchAntiscolic,
+                'health/immune': patchAntiscolic
+            }
+            let professorMap = {
+                welfare: patchProWelfare,
+                prevention: patchProPrevention,
+                'nutrition/breed': patchProBreeding,
+                'nutrition/stage': patchProStage,
+                'health/antiscolic': patchProAntiscolic,
+                'health/disinfect': patchProAntiscolic,
+                'health/immune': patchProAntiscolic
+            }
+            let data = {
+                unpassReason: '',
+                factoryNum: this.user.userFactory,
+                professor: this.$route.params.id
+            }
+            // userRole 20羊场监督员 
+            if (this.user.userRole == 20) {
+                data.ispassSup = isPass
+                superviseMap[this.checkModule](id, data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('监督执行成功')
+                        // this.tableData[idx].ispassCheck = isPass ? '已执行' : '未执行'
+                    }
+                }, _ => {
+                    this.$message.error('监督执行失败')
+                })
+            } else {
+                data.ispassCheck = isPass
+                professorMap[this.checkModule](id, data).then(res => {
+                    if (isReqSuccessful(res)) {
+                        this.$message.success('审核成功')
+                        this.tableData[idx].ispassCheck = isPass ? '已通过' : '未通过'
+                    }
+                }, _ => {
+                    this.$message.error('审核失败')
+                })
+            }
+        },
+
+        viewPlan (index) {
+            let id = this.tableData[index].id
+            this.$router.push({name: this.modpath, query: {view: id}})
+        },
+
+        async  findTimeAllData(){
+           let param = {
+                page: this.page - 1,
+                size: 15,
+            }
+            if (this.gmtCreate !== null) {
+                console.log(this.gmtCreate)
+                param.startTime = this.gmtCreate[0]
+                param.endTime = this.gmtCreate[1]
+            }
+            let pathid
+            let { userFactory, userRealname, id, factoryName } = this.user
+            // 代理 工厂 游客
+            if (userFactory !== undefined) {
+                pathid = userFactory
+            } else if (id !== undefined) {
+                pathid = id
+            }
+            this.timeorder.allprice=0;
+            this.timeorder.sumWeight=0;
+            this.timeorder.allorder=0;
+            this.load = true
+            this.getData(pathid, param).then(res => {
+                if (isReqSuccessful(res)) {
+                    let data=res.data;
+                    this.tableData = data.List;
+                    this.total = data.size;
+                    let allPrice=0;
+                    let SumWeight=0;
+                    this.tableData.forEach(function(item,index){
+                        allPrice+=Number(item.price);
+                        SumWeight+=Number(item.totalWeight);
+                    })
+                    this.timeorder.allorder= this.tableData.length;
+                    this.timeorder.allprice=allPrice;
+                    this.timeorder.sumWeight=SumWeight;
+                    this.dialogAllTimeVisible=true;
+                    this.load = false
+                }
+                else{
+                this.load =false
+                this.$message.error('获取数据失败')
+                } 
+            }, _ => {
+                this.load = false
+                this.$message.error('获取数据失败')
+            })
+            
+    },
+
+    closeAllTime(){
+        this.dialogAllTimeVisible=false;
+    },
+        async fetchData () {
+            let param = {
+                page: this.page - 1,
+                size: 15,
+            }
+            if (this.isPass !== null) {
+                param.ispassCheck = this.isPass
+            }
+            if (this.factoryName !== null) {
+                param.factoryName = this.factoryName
+            }
+            if (this.gmtCreate !== null) {
+                console.log(this.gmtCreate)
+                param.startTime = this.gmtCreate[0]
+                param.endTime = this.gmtCreate[1]
+            }
+            if (this.eartag !== null) {
+                param.eartag = this.eartag
+            }
+            if (this.motherEartag !== null) {
+                param.motherEartag = this.motherEartag
+            }
+            if (this.fatherEartag !== null) {
+                param.fatherEartag = this.fatherEartag
+            }
+            if (this.kindEartag !== null) {
+                param.kindEartag = this.kindEartag
+            }
+            if (this.checkFlag !== null) {
+                param.checkFlag = this.checkFlag
+            }
+            if (this.value.province !==null) {
+                param.province = this.value.province
+            }
+            if (this.value.city !==null) {
+                param.city = this.value.city
+            }
+            if (this.value.country!==null) {
+                param.country == this.value.country
+            }
+            if(this.searchSaleID!==null){
+                param.saleID = this.searchSaleID
+            }
+
+            let pathid
+            let { userFactory, userRealname, id, factoryName } = this.user
+            // 代理 工厂 游客
+            if (userFactory !== undefined) {
+                pathid = userFactory
+            } else if (id !== undefined) {
+                pathid = id
+            }
+
+            this.load = true
+            if (!this.releaseType) {
+                this.getData(pathid, param).then(res => {
+                    if (isReqSuccessful(res)) {
+                        let data = res.data;
+
+                        if (this.isAgent) {
+                            data.List.forEach(v => {
+                                let map = ['', '省级代理', '市级代理', '县级代理']
+                                v.agentRank = map[v.agentRank]
+                            })
+                        }
+                        let item = data.List[0]
+                        if (item && item.ispassCheck !== null && item.ispassCheck !== undefined) {
+                            data.List.forEach(v => {
+                                let map = ['未通过', '已通过', '未审核']
+                                v.ispassCheck = map[v.ispassCheck]
+                            })
+                        }
+                        if (item && item.killWormDeratization !== undefined) {
+                            data.List.forEach(v => {
+                                let map = ['否', '是']
+                                Object.keys(v).forEach(v2 => {
+                                    if (v[v2] === 0 || v[v2] === 1) {
+                                        v[v2] = map[v[v2]]
+                                    }
+                                })
+                            })
+                        }
+                        if (item && item.materialA !== undefined) {
+                            data.List.forEach(v => {
+                                let map = [
+                                    'materialA',
+                                    'materialM',
+                                    'materialO',
+                                    'materialWM',
+                                    'materialWO',
+                                    'roughageP',
+                                    'roughageD',
+                                    'roughageO',
+                                    'roughageWP',
+                                    'roughageWD',
+                                    'roughageWO',
+                                    'pickingM',
+                                    'pickingR',
+                                    'pickingO'
+                                ]
+                                map.forEach(v2 => {
+                                    if (v[v2] && v[v2].indexOf('[') !== -1) {
+                                        v[v2] = JSON.parse(v[v2]).join(',')
+                                    }
+                                })
+                            })
+                        }
+                        this.tableData = data.List
+                        this.total = data.size
+                        if(this.isSlaughterManageList){
+                                this.total=data.number
+                                console.log(this.total)
+                        }
+                    }
+                    this.load = false
+                }, _ => {
+                    this.load = false
+                    this.$message.error('获取数据失败')
+                })
+            } else {
+                let res = await getReleaseByName(this.releaseType)
+                this.tableData = res.data.List
+                this.total = res.data.size
+                this.load = false
+            }
+        },
+   
+        edit(index, isView) {
+            let id = this.tableData[index].id
+            let path
+            let pathid = this.$route.params.id
+            
+            if (this.noPrac) {
+                if (isView) {
+                    path = `/admin/${pathid}/${this.modpath}?view=${id}`
+                    
+                } else {
+                    path = `/admin/${pathid}/${this.modpath}?edit=${id}`
+                    
+                }
+            } else if (!this.isCheck) {
+                if (isView) {
+                    path = `/admin/${pathid}/${this.modpath}/prac?view=${id}`
+                    
+                } else {
+                    path = `/admin/${pathid}/${this.modpath}/prac?edit=${id}`
+                    
+                }
+            } else {
+                path = `/admin/${pathid}/${this.checkModule}/prac?check=${id}`
+                
+            }
+            this.$router.push(path)
+        },
+
+        deleteItem (index) {
+            if(this.isSaleOrder==true){
+                this.$confirm('将取消此条订单, 是否继续?', '提示', {
+                    type: 'warning'
+                }).then(() => {
+                    let id = this.tableData[index].id
+                    this.deleteData(id).then(res => {
+                        if (isReqSuccessful(res)) {
+                            if(res.data.msg=='订单已经完成，不能取消！'){
+                                this.$message.warning('订单已经完成，不能取消!')
+                                return
+                            }
+                            else{
+                                this.$message.success('取消成功!')
+                                this.fetchData()
+                            }
+                        }
+                    })
+                }).catch(() => {
+                    return false
+                })
+            }
+            else{
+                this.$confirm('将永久删除此条记录, 是否继续?', '提示', {
+                type: 'warning'
+                }).then(() => {
+                    let id = this.tableData[index].id
+                    this.deleteData(id).then(res => {
+                        if (isReqSuccessful(res)) {
+                            this.fetchData()
+                            this.$message.success('删除成功!')
+                        }
+                    })
+                }).catch(() => {
+                    return false
+                })
+            }
+            
+        }
+    }
+}
+</script>
+
+<style lang="stylus">
+@import '~@/assets/css/color'
+.el-table th
+    border-left 2px solid #98c9e6
+    color #fff
+    background-color color-main !important
+</style>
