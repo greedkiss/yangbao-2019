@@ -195,6 +195,8 @@ const ConsumerUnit = () => import('@/components/admin/consumerUnit/index')
 const ConsumerUnitVisual = () => import('@/components/admin/consumerUnit/productionVisual')
 const ConsumerUnitMedia = () => import('@/components/admin/consumerUnit/media')
 const ConsumerCertification = () => import('@/components/admin/consumerUnit/certification')
+const ProductSet = () => import('@/components/admin/productset/productset')
+const ShopManage = () => import('@/components/admin/shopmanage/shopmanage')
 
 //寻找有机
 const FindOrganic = () => import('@/components/organic/index')
@@ -393,8 +395,9 @@ export default new Router({
             {path: 'CUnitVisual', name: 'consumerUnitVisual', component: ConsumerUnitVisual},
             {path: 'cmedia', name: 'consumerUnitMedia', component: ConsumerUnitMedia}, 
             {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
+            {path: 'ShopManage', name: 'ShopManage', component: ShopManage},
             {path: 'outWareManage', name: 'outWareManage', component: OutWareManage},
-            
+            {path: 'productSet', name: 'productSet', component: ProductSet},            
         ]},
         {path: '*', name: 'notfound', component: NotFound}
         

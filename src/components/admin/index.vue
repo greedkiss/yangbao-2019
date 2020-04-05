@@ -272,12 +272,13 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'consumerInfoManage', children: [
                         {label: '基本信息', to: 'consumerunit'},
-                        {label: '用户管理', to: 'account'},
                         {label: '宣传视频', to: 'consumerUnitMedia'},
                         {label: '认证证书', to: 'consumerCertification'},
-                        {label: '生产可视一览', to: 'consumerUnitVisual'}
+                        {label: '生产可视一览', to: 'consumerUnitVisual'},
+                        {label: '常规出品设置', to: 'productSet'},
                     ]},
-                    {label: '出库管理', to: 'outWareManage'},
+                    {label: '消费店管理', to: 'ShopManage'},
+                    {label: '库存一览', to: 'outWareManage'},
                     // {label: '可视系统', to: 'visual', children: [
                     //     {label: '生产可视', to: 'consumerUnitMedia'},
                     //     {label: '生产可视一览', to: 'consumerUnitVisual'},

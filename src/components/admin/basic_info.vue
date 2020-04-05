@@ -156,7 +156,7 @@
 
 
 
-                <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectOneCrowd'" class="time el-input-group select" >
+                 <div :class="{mr: item.mr, block: item.block}" :key="i" v-else-if="item.type === 'selectOneCrowd'" class="time el-input-group select" >
                     <span class="time-span ellipse" :title="item.label" v-text="item.label + ':'"></span>
                    <el-popover placement="right" width="auto" trigger="click" popper-class="trade-select"  ref="tradeSelect">
                         <el-radio-group v-model="checkOneList">

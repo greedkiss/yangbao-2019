@@ -264,7 +264,7 @@ export default {
                 userId: null,
                 telephone: null,
                 roleName: null,
-                passwd: ''
+                passwd: null
             },
             formLabelWidth: '120px',
             dialogVisible: false,
