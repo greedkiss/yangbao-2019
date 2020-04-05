@@ -82,44 +82,35 @@ export default {
                 ]}    
             ],
             adminTree: {
-                label: '客户管理中心',
+                label: '系统管理员中心',
                 children:[
-                    {label: '系统管理员区', to: 'agentone' ,
-                        children:[
-                            {label: '客户关系一览表', to: 'table'},
-                            {label: '代理管理', to: 'agent'},
-                            {label: '养殖客户管理', to: 'farm'},
-                            {label: '屠宰加工客户管理', to: 'slaughter'},
-                            {label: '消费实体客户管理', to: 'consumer'},
-                            {label: '用户管理', to: 'account'},
-                            {label: 'APP新用户申请', to: 'appAccount'},
-                            {label: '角色权限管理', to: 'authrole'},
-                            {label: '短信服务平台', to: 'message'},
-                            {label: '留言统计', to: 'commentsum'},
-                            {label: '专家客户监管', to: 'commentres'},
-                            {label: '发布系统', to: 'release'},
-                            {label: 'app用户手册发布', to:'appVideoUpload' },
-                            {label: '供需调配', to: 'release'},
-                        ]
-                    },
-                    {label: '代理管理员区', to: 'agenttwo' ,
-                        children:[
-                            {label: '客户关系一览表', to: 'table'},
-                            {label: '下级代理管理', to: 'agent'},
-                            {label: '客户管理', to: 'farm'},
-                            {label: '用户管理', to: 'account'},
-                            {label: 'APP新用户申请', to: 'appAccount'},
-                            {label: '角色权限管理', to: 'authrole'},
-                            {label: '专家客户评价结果', to: 'commentres'},
-                        ]
-                    },
-                    {label: '客户管理员区', to: 'agent' ,
-                        children:[
-                            {label: '用户管理', to: 'account'},
-                            {label: '角色权限管理', to: 'authrole'},
-                            {label: '品种管理', to: 'category'},
-                        ]
-                    },
+                    {label: '客户关系一览表', to: 'table'},
+                    {label: '代理管理', to: 'agent'},
+                    {label: '养殖客户管理', to: 'farm'},
+                    {label: '屠宰加工客户管理', to: 'slaughter'},
+                    {label: '消费实体客户管理', to: 'consumer'},
+                    {label: '用户管理', to: 'account'},
+                    {label: 'APP新用户申请', to: 'appAccount'},
+                    {label: '角色权限管理', to: 'authrole'},
+                    {label: '短信服务平台', to: 'message'},
+                    {label: '留言统计', to: 'commentsum'},
+                    {label: '专家客户监管', to: 'commentres'},
+                    {label: '发布系统', to: 'release'},
+                    {label: 'app用户手册发布', to:'appVideoUpload' },
+                    {label: '供需调配', to: 'release'},            
+                ]
+            },
+            agentTree: {
+                label: '代理管理员中心', to: 'agenttwo',
+                children:[
+                    {label: '客户关系一览表', to: 'table'},
+                    {label: '下级代理管理', to: 'agent'},
+                    {label: '养殖客户管理', to: 'farm'},
+                    {label: '屠宰加工客户管理', to: 'slaughter'},
+                    {label: '消费实体客户管理', to: 'consumer'},
+                    {label: '用户管理', to: 'account'},
+                    {label: 'APP新用户申请', to: 'appAccount'},
+                    {label: '专家客户评价结果', to: 'commentres'}
                 ]
             },
             professorTree: {
@@ -140,7 +131,11 @@ export default {
             productionTree: {
                 label: '养殖生产管理中心',
                 children: [
-                    {label: '单位基本信息管理', to: 'farmUnit'},
+                    {label: '单位信息管理', to: 'farmInfo', children: [
+                        {label: '基本信息', to: 'farmUnit'},
+                        {label: '用户管理', to: 'account'},
+                        {label: '品种管理', to: 'category'}
+                    ]},
                     {label: '生产节点智能统计管理', to: 'intelManage', children: [
                         {label: '空怀阶段', to: 'nonpregnant' , children:[
                             {label: '引种应激期' , to: 'nonpregnantOne'},
@@ -232,6 +227,7 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'slaughterInfoManage',children:[
                         {label: '基本信息', to: 'slaughterunit'},
+                        {label: '用户管理', to: 'account'},
                         {label: '宣传视频', to: 'slaughterMedia'},
                         {label: '认证证书', to: 'slaughterCertification'},
                         {label: '生产可视一览', to: 'slaughterUnitVisual'},
@@ -272,6 +268,7 @@ export default {
                 children: [
                     {label: '单位信息管理', to: 'consumerInfoManage', children: [
                         {label: '基本信息', to: 'consumerunit'},
+                        {label: '用户管理', to: 'account'},
                         {label: '宣传视频', to: 'consumerUnitMedia'},
                         {label: '认证证书', to: 'consumerCertification'},
                         {label: '生产可视一览', to: 'consumerUnitVisual'}
@@ -337,7 +334,7 @@ export default {
         })
         //构建树
         // this.buildTree(id)
-        this.treedata.push(this.adminTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
+        this.treedata.push(this.adminTree, this.agentTree, this.professorTree, this.productionTree, this.slaughterTree, this.consumptionTree)
 
       
     },
