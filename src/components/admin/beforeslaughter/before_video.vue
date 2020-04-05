@@ -16,25 +16,9 @@
         <div class="production-view">
             <div class="production-content" v-for="(item, i) in proList" :key="i">
                 <el-card>
-                    <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
+                    <img @click="showPop(item.url, item.trademarkEarTag, item.time)" class="production-image" :src="item.url" :onerror="defaultImg">
                     <p class="production-info" >商标耳牌：{{ item.trademarkEarTag }}</p>
                     <p class="production-info">时间：{{ item.time }}</p>
-                    <el-dialog
-                      :visible.sync="productionShow[i]"
-                      width="50%"
-                      center>
-                        <!-- FIXME: video 标签兼容性处理 -->
-                        <div class="show-detail">
-                            <img class="production-image-detail" :src="item.url" :onerror="defaultImg">
-                        </div>
-                        <div class="show-list">
-                            <ul>
-                                <li><el-tag>耳牌号</el-tag> {{ item.trademarkEarTag }}</li>
-                               <li><el-tag>上传日期</el-tag> {{ item.time }}</li>
-                            </ul>
-                        </div>
-                        
-                    </el-dialog>
                 </el-card>
             </div>
         </div>
@@ -46,6 +30,21 @@
           :current-page.sync="pageNumb">
         </el-pagination>
         </div>
+        <el-dialog
+            :visible.sync="productionShow"
+            width="50%"
+            center>
+            <!-- FIXME: video 标签兼容性处理 -->
+            <div class="show-detail">
+                <img class="production-image-detail" :src="bigPic.url" :onerror="defaultImg">
+            </div>
+            <div class="show-list">
+                <ul>
+                    <li><el-tag>耳牌号</el-tag> {{ bigPic.trademarkEarTag }}</li>
+                    <li><el-tag>上传日期</el-tag> {{ bigPic.time }}</li>
+                </ul>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -66,6 +65,12 @@ export default {
             total: 0,
             limit: 12,
             user:null,
+            productionShow: false,
+            bigPic:{
+                url:"",
+                time:"",
+                earTag:""
+            }
         }
     },
      mounted () {
@@ -75,8 +80,21 @@ export default {
         }).then(this.fetchData)
     },
     methods:{
-        showPop (i) {
-            this.$set(this.productionShow, i, true);
+        showPop (url, trademarkEarTag, time) {
+            let imgsrc = url
+            let img = new Image();
+            let urlarr = imgsrc.split("yunyangbao.cn/");
+            let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+            img.src = timeMarkUrl;
+            img.onload = () => {
+                this.bigPic.url = timeMarkUrl;
+            }
+            img.onerror = () => {
+                this.bigPic.url = url;
+            }
+            this.productionShow = true;
+            this.bigPic.time = time;
+            this.bigPic.trademarkEarTag = trademarkEarTag;
         },
         //获取信息
         async fetchData(){ 

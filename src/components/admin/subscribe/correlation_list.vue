@@ -41,17 +41,17 @@
                 width="250"
                 prop="sourceFactory">
             </el-table-column>
-            <el-table-column
+            <!--<el-table-column
                 class="action"
                 label="操作"
                 align='center'
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <el-button @click="Delete(scope.row, scope.column)" type="text">删除</el-button>
+                        <el-button @click="Delete(scope.$index)" type="text">删除</el-button>
                     </div>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
         </el-table>
 
     <el-pagination
@@ -125,6 +125,27 @@ export default {
             this.pic=this.tableData[index].pic;
             this.dialogFormVisible=true;
         },
+        Delete(index){
+        let id = this.tableData[index].id;
+        this.$confirm('你将删除这条记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          console.log(id)
+          deleteCorrelationById(id).then(res=>{
+            if(isReqSuccessful(res)){
+              this.$message.success("删除成功");
+              this.fetchData();
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '删除失败'
+          });          
+        });
+      },
     },
 
 }

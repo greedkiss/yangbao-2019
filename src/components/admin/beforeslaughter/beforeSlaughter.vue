@@ -77,7 +77,7 @@
 			</el-table-column>
             <el-table-column width="120" label="操作">
                 <template slot-scope="scope">
-                    <span size="small" style="cursor:pointer" @click="Delete(scope.row)" >删除</span>
+                    <span size="small" style="cursor:pointer" @click="Delete(scope.$index)" >报废</span>
                 </template>
             </el-table-column>
     </el-table>
@@ -103,7 +103,7 @@
 <script>
 import { isReqSuccessful, readSerialPort, isInstalled} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
-import {getUserById,getManageData} from '@/util/getdata'
+import {getUserById, getManageData, deleteBeforeSlaughter} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 
 //getSlaughterManage
@@ -224,6 +224,29 @@ export default {
                 this.$message.error('上传失败')
                 }
             })
+        },
+        Delete(index){
+            let data = {
+                id: this.tableData[index].id,
+                factory: this.user.userFactory
+            }
+            this.$confirm('你将删除这条记录, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deleteBeforeSlaughter(data).then(res=>{
+                    if(isReqSuccessful(res)){
+                    this.$message.success("删除成功");
+                    this.fetchData();
+                    }
+                })
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '删除失败'
+            });          
+            });
         },
         async fetchData(){
             let data = {

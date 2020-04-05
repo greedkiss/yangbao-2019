@@ -106,7 +106,7 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <el-button @click="Delete(scope.row, scope.column)" type="text">删除</el-button>
+                        <el-button @click="Delete(scope.$index)" type="text">报废</el-button>
                     </div>
                 </template>
       </el-table-column>
@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import { getUserById, getCorrelationData, deleteCorrelationById} from '@/util/getdata'
+import { getUserById, getCorrelationData, deleteCorrelationById, deleteSubscribe} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit' 
 
@@ -258,13 +258,36 @@ import { isReqSuccessful } from '@/util/jskit'
           this.pic=this.tableData[index].pic;
           this.dialogFormVisible=true;
       },
-      Delete(row, column){
-        deleteCorrelationById(row.id).then(res=>{
-          if(isReqSuccessful(res)){
-            this.$message.success("删除成功");
-            this.fetchData();
-          }
-        })
+      Delete(index){
+        let data = {
+          id: this.tableData[index].id,
+          factory: this.user.userFactory
+        }
+        this.$confirm('你将删除这条记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteSubscribe(data).then(res=>{
+            if(res){
+              if(isReqSuccessful(res)){
+                this.$message.success("删除成功");
+                this.fetchData();
+                return
+              }
+            }else{
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              }); 
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'error',
+            message: '删除失败'
+          });          
+        });
       },
       deleteAllEarTag(index){
         this.allEarTag.splice(index, 1);

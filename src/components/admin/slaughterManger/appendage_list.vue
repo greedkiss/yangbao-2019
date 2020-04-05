@@ -15,7 +15,7 @@
 
 <script>
 import AdminTable from '@/components/admin/breed_table'
-import {deleteSele, getSlaughterAppendageList } from '@/util/getdata'
+import {deleteAppendage, getSlaughterAppendageList } from '@/util/getdata'
 
 export default {
     components: {

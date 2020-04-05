@@ -106,9 +106,10 @@ export default {
                             return
                         }
                         let arr = []
+                        console.log(111)
                         res.data.PicList.forEach((item) => {
-                            item.url = item.qaPic
                             item.qaId = item.qaTag
+                            item.url = item.qaPic
                         })
                         this.proList = res.data.PicList
                         this.total = res.data.number;
@@ -133,11 +134,21 @@ export default {
             })
         },
         showPop (url,qaId,gmtCreate,earTag) {
-            this.bigPic.url = url;
+            let imgsrc = url
+            let img = new Image();
+            let urlarr = imgsrc.split("yunyangbao.cn/");
+            let timeMarkUrl = urlarr[0] + "yunyangbao.cn/timemark_" + urlarr[1]
+            img.src = timeMarkUrl;
+            img.onload = () => {
+                this.bigPic.url = timeMarkUrl;
+            }
+            img.onerror = () => {
+                this.bigPic.url = url;
+            }
+            this.productionShow = true;
             this.bigPic.qaId = qaId;
             this.bigPic.gmtCreate = gmtCreate;
-            this.bigPic.earTag = earTag
-            this.productionShow = true;
+            this.bigPic.earTag = earTag;
 
         },
         async fetchData(){ 
@@ -155,13 +166,12 @@ export default {
                             this.total = 0;
                             return
                         }
-                        let arr = []
                         res.data.PicList.forEach((item) => {
-                            item.url = item.qaPic
                             item.qaId = item.qaTag
+                            item.url = item.qaPic;
                         })
                         this.proList = res.data.PicList
-                        this.total = res.data.number
+                        this.total = res.data.number;
                     }
                 }).catch(_ => {
                     this.$message.error('查询失败')

@@ -310,6 +310,14 @@ export const getSegmentList= (id,data) => fetch('/division/' + id , data , 'GET'
 
 export const searchSlaInfo = (data, page) => fetch(`/customer/queryAll?page=${page}&type=0`, data, 'POST')
 
+export const deleteAppendage = (data) => fetch('/slaughter/delete/appendage', data, 'DELETE')
+
+export const deleteBody = (data) => fetch('/slaughter/delete/body', data, 'DELETE')
+
+export const deleteBeforeSlaughter = (data) => fetch('/slaughter/before/slaughter', data, 'DELETE')
+
+export const deleteSubscribe = (data) => fetch('/slaughter/subscribe/delete', data, 'DELETE')
+
 //自动认购
 export const getAutoSubscribe= (id) => fetch('/slaughter/auto/subscribe?factory='+id , null , 'POST')
 
