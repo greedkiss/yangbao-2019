@@ -264,7 +264,7 @@ export default {
                 userId: null,
                 telephone: null,
                 roleName: null,
-                passwd: null
+                passwd: ''
             },
             formLabelWidth: '120px',
             dialogVisible: false,
@@ -484,12 +484,12 @@ export default {
             })
             if(this.isAdmin){
                 let obj = {
-                            label: "系统管理员",
-                            options: [{
-                                label: "系统管理员",
-                                value: "9"
-                                }]
-                        }
+                    label: "系统管理员",
+                    options: [{
+                        label: "系统管理员",
+                        value: "9"
+                        }]
+                }
                 this.unitOptions.push(obj)
             }
         },
@@ -510,12 +510,12 @@ export default {
             })
             if(this.isAdmin){
                 let obj = {
-                            label: "系统管理员",
-                            options: [{
-                                label: "系统管理员",
-                                value: "9"
-                                }]
-                        }
+                    label: "系统管理员",
+                    options: [{
+                        label: "系统管理员",
+                        value: "9"
+                        }]
+                }
                 this.unitOptions.push(obj)
             }
         },
@@ -595,7 +595,6 @@ export default {
                 warn('请选择单位')
                 return   
             }
-
             this.form.password = md5(this.form.password)
             postUser(this.form).then(res => {
                 if (isReqSuccessful(res)) {
@@ -625,7 +624,7 @@ export default {
                 this.$message.error('密码必须是6-20位字符数字和下划线')
                 return
             }
-            let password = md5(valPa)
+            let password = md5(userPass)
             if (phone && valPh !== true) {
                 this.$message.error('手机号格式不正确')
                 return
