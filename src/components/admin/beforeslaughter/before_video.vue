@@ -58,7 +58,6 @@ export default {
     data () {
         return {
             tradeMarkEarTag:'',
-            productionShow: [],
             defaultImg: 'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
             proList: [],
             pageNumb: 1,
@@ -121,7 +120,6 @@ export default {
                         })
                         this.total = res.data.number;
                         this.proList = res.data.List;
-                        this.productionShow = new Array(arr.length).fill(false);
                     }
                 },)
             }   
