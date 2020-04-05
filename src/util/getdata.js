@@ -349,15 +349,15 @@ export const deleteConsumerMedia = id => fetch('/comsumerEntitySystem/delete/' +
 
 export const getRestaurantId = userId => fetch('/dishes/restaurantId/'+userId)
 
-export const getSetPrdocut = (id,page,size) => fetch(`/dishes/+${id}?page=${page}&size=${size}`)
+export const getSetPrdocut = (id,page,size) => fetch(`/dishes/${id}?page=${page}&size=${size}`)
 
 export const setProduct = (data) => fetch('/dishes/addDishes',data,'POST')
 
-export const deleteProduct = (id) => fetch('/dishes/'+id, null ,'DELETE')
+export const deleteProduct = (data) => fetch('/dishes/delete',data,'POST')
 
 export const deleteWareManageDetailed = (id) => fetch('/d/out/' +id, null ,'DELETE')
 
-export const getProductSet = (id) => fetch('/dishes/getDishType/'+id)
+export const getProductSet = (id) => fetch('/dishes/getDishesType/'+id)
 
 export const submitPrint = (data) => fetch('/d/out/settlement',data,'POST')
 

@@ -282,6 +282,7 @@ export default {
             dishesId: '',   // 所选菜品id
             count: 0,       // 打印计数
             printNumber: 0, // 打印份数
+            mutton: 0,      // 羊肉用量
         }
     },
     watch: {
@@ -532,6 +533,7 @@ export default {
             if(this.currentRow) {
                 this.codeNumber = this.currentRow.partNumber;
                 this.divId = this.currentRow.id;
+                this.count = this.currentRow.counts;
                 this.qrcodeNumber = this.codeNumber + this.count;
                 this.productName = this.currentRow.productName;
             }
@@ -558,7 +560,7 @@ export default {
                         type: 'info',
                         message: '已取消删除'
                     });          
-                    });
+                    }).then(this.getDetailed);
             window.event.stopPropagation();
         },
         // 加载页面时获取菜品
@@ -578,6 +580,7 @@ export default {
                 this.productset.forEach(item => {
                     if(item.dishesName == this.opt2value) {
                         this.dishesId=item.id;
+                        this.mutton = item.mutton;
                     }
                 })
             })
@@ -603,20 +606,14 @@ export default {
                 this.weight = 0;
             }
             // 提交
-            let params = {
-                divisionId: this.divId,
-                customerId: this.user.userFactory,
-                productName: this.productName,
-                dishesId: this.dishesId,
-                weight: parseFloat(this.weight) 
-            };
 
-/*             let form = new FormData();
+            let form = new FormData();
             form.append('divisionId', this.divId);
             form.append('file', this.pic);
             form.append('customerId', this.user.userFactory);
             form.append('productName', this.productName);
             form.append('dishesId', this.dishesId);
+            form.append('partNumber',this.qrcodeNumber)
             form.append('weight', parseFloat(this.weight));
             let headers = {};
             headers[authStr] = window.localStorage.getItem(tokenStr)
@@ -627,28 +624,17 @@ export default {
             }).then(async res => {
                 let body = await res.json()
                 if (isReqSuccessful(body)) {
-                        console.log(body);
-                        this.$message.success('上传成功')
-                }
-                else{
-                    this.$message.error('上传失败')
-                }
-            }) */
-
-            submitPrint(params).then(res => {
-                console.log(res);
-                if (isReqSuccessful(res)) {
-                    let code = res.meta.code;
+                    let code = body.meta.code;
                     if(code === 0){
                         this.$message.warning('提交成功，请打印！')
-                        this.printNumber = res.data.total;
+                        this.printNumber = body.data.total;
                         this.$confirm(`将打印${this.printNumber}份`, '提示', {
                         confirmButtonText: '确定',
                         type: 'warning'
                         }).then(() => {
                             this.$message({
                                 type: 'success',
-                                message: '删除成功!'
+                                message: '成功!'
                             });
                             this.printPage();
                         })
@@ -656,28 +642,32 @@ export default {
                     } else{
                         this.$message.error('提交失败')
                     }
-                    this.opt1value =  this.defaulttype;
-                    this.opt2value = this.defaultname;
                 }
-            }).then(this.getDetailed);           
+                else{
+                    this.$message.error('上传失败')
+                }
+            }).then(this.getDetailed);        
         },
         async printPage() {
                 document.getElementById("qrcode1").innerHTML = "";
+                console.log(this.printNumber);
                 //异步，等待结果
+                let urlCode = '';
                 if(this.printNumber == 1) {
-                    let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.qrcodeNumber}`
+                    urlCode=`http://yunyangbao.cn/#/mS?eT=${this.qrcodeNumber}`
                 } else {
-                    let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
+                    urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
                 }
                 console.log(urlCode);
                 await this.waitqr(urlCode);
                 let src=document.getElementById("qrcode1").children[1].getAttribute("src");
+                let docStr = ''
                 if(this.printNumber == 1) {
-                    let docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px">${this.qrcodeNumber}</p></div>`;
+                    docStr=
+                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/分 扫码溯源</p></div>`;
                 } else {
-                    let docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px">${this.codeNumber}</p></div>`;
+                    docStr=
+                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/分 扫码溯源</p></div>`;
                 }
                 
                 var newWindow=window.open("打印窗口","_blank");			
@@ -687,7 +677,19 @@ export default {
                 styles.innerHTML="" 
                 newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
                 newWindow.print();
-                newWindow.close(); 
+                newWindow.close();
+                // 处理关闭打印后 数据的恢复
+                this.opt1value =  this.defaulttype;
+                this.opt2value = this.defaultname; 
+                if(this.printNumber !== 1) {
+                    this.codeNumber = '';
+                    this.qrcodeNumber = '';
+                    this.weight = '';
+                }
+                this.picSuccess = '';
+                // 提交之后，让二维码的计数加一
+                this.count++;
+                this.qrcodeNumber = this.codeNumber + this.count;
         }
     }
 }

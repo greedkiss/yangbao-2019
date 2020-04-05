@@ -149,23 +149,24 @@ export default {
                 {label: '上传默认图片：',model: 'file',type: 'file'}
             ],
             models: {
-                finish_type: '',
-                finish_name: '',
-                value: '',
-                file: ''
+                finish_type: '',    // 菜品种类
+                finish_name: '',    // 菜品名称
+                value: '',          // 菜品种类
+                file: null            // 默认图片
             },
-            defaultProduct: '0',
-            printQcode: '0',
-            dishesId: -1,
-            tableData: [],
+            defaultProduct: '0',    // 默认产品
+            printQcode: '0',        // 一次性打印二维码
+            dishesId: -1,           // 菜品Id
+            tableData: [],      
             dialogVisible: false,    // 对话框
             showPicSrc: '',     // 查看图片的src
-            total: 10,      // 
-            page: 1,    // 
-            restaurantId: null,
+            total: 10,      // 一页的内容
+            page: 1,    // 当前页数
+            restaurantId: null,     // 餐厅id
         }
     },
     mounted() {
+        // 获取id
         let id = this.$route.params.id;
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
@@ -175,15 +176,6 @@ export default {
                 this.$message.error('获取店铺失败');
             }
         }).then(this.getDetailed());
-/*         getRestaurantId(id).then(res => {
-            console.log(res);
-            let code = res.meta.code;
-            if(code === 0) {
-                this.restaurantId = res.data.restaurantId;
-            } else {
-                this.$message.error('获取店铺失败');
-            }
-        }).then(this.getDetailed()); */
     },
     methods: {
         // 提交表单
@@ -216,10 +208,11 @@ export default {
           this.models.finish_name = '';
           this.models.value = '';
           this.defaultProduct = '0';
-          this.printQcode = '1';
+          this.printQcode = '0';
           this.id = null;
           console.log(this.tableData);
       },
+      // 编辑菜品
       handleEdit(index, row) {
         //console.log(index, row);
         this.models.finish_type = row.dishesType;
@@ -238,16 +231,21 @@ export default {
           type: 'warning'
         }).then(() => {
             console.log(row.id);
-            deleteProduct(row.id).then(res => {
+            deleteProduct({
+                id: String(row.id)
+            }).then(res => {
                 console.log(res);
                 if (isReqSuccessful(res)) {
                     let code = res.meta.code;
                     if(code === 0) {
-                        this.$message('删除成功');
+                        this.$message.success('删除成功');
                     } else {
-                        this.$message('删除失败');
+                        this.$message.error('删除失败');
                     }
                 }
+                this.models.finish_type = '';
+                this.models.finish_name = '';
+                this.models.value = '';
             }).then(this.getDetailed());
         }).catch(() => {
           this.$message({
