@@ -588,7 +588,7 @@ export default {
         getWeight(){
             isInstalled().then(res => {
                 readSerialPort().then(res => {
-                     this.kidWeight = res || 0
+                    sthis.kidWeight = res || 0
                 })
             }, 
             error => {
