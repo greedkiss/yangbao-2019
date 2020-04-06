@@ -211,6 +211,7 @@ export default {
               let form=new FormData()
               let date = new Date();
               date = date.getFullYear() + "-" + (date.getMonth() + 1) +"-" +date.getDate() +" "+ date.getHours() + ":" + date.getMinutes() +":" +date.getSeconds();
+              form.append('factory',this.user.userFactory)
               form.append('slaughterTime',date)
               form.append('fatherNumber',this.fatherNumber )
               form.append('kidNumber',this.kidNumber )

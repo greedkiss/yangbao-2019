@@ -406,6 +406,9 @@ export default {
         },
         isSlaughter(){
             let name = this.$route.name;
+            if(this.$route.path.indexOf('/stock/productOrder') !== -1) {
+                return false;
+            }
             return ['correlation','beforeslaughter','kidMange','appendageMange', 'slaughter','segmentManger', 'stockManage', 'productOrder'].includes(name);
         },
 

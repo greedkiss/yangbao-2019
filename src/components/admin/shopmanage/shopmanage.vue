@@ -194,7 +194,7 @@
 </template>
 
 <script>
-import { isReqSuccessful,isInstalled} from '@/util/jskit'
+import { isReqSuccessful, readSerialPort, isInstalled} from '@/util/jskit'
 import QRCode from 'qrcodejs2'
 import { getUserById,getoutWareManageNum,getoutWareManageDetailed,PostProductNumber,nextPrint,findMakeUpVideo,getProductSet,submitPrint,deleteWareManageDetailed} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
