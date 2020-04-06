@@ -601,6 +601,7 @@ export default {
             this.productset.forEach(item => {
                 if(item.dishesName == this.opt2value) {
                     this.dishesId=item.id;
+                    this.mutton = item.mutton;
                 }
             })
         },
