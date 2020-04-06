@@ -284,13 +284,16 @@ export default {
                 }
             })
         },
-        async getWeight(){
-            if(!isInstalled()){
+        getWeight(){
+            isInstalled().then(res => {
+                readSerialPort().then(res => {
+                     this.kidWeight = res || 0
+                })
+            }, 
+            error => {
+                this.$message.warning('请安装goserial文件并双击运行')
                 window.location='https://qiniu.yunyangbao.cn/goserial.exe'
-                return 
-            }
-            let res = await readSerialPort()
-            this.weight = res || 0
+            })
         },
         async printCode(start){
                 this.qrcodeimgs=[];

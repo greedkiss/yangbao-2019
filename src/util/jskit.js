@@ -355,17 +355,12 @@ export const judgeAuthorization = data => {
 
 //检测工具是否安装和是否开启
 export const isInstalled = () => {
-    fetch('http://localhost:8090/list').then( res => {
-        return true
-    }).catch( res => {
-        return false
-    })
+    return fetch('http://localhost:8090/list')
 }
 
 //读串口数据
-export const readSerialPort = () => {
+export const readSerialPort = async () => {
     fetch('http://localhost:8090/read').then( res => {
-        console.log(res)
         let type = 1, weight = 0, on = 0, temp
         let dv = new DataView(res)
         for(let i = 0; i < dv.byteLength; i++, type++){
