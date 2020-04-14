@@ -28,35 +28,38 @@
       </div>
     <!-- 栏目切换 -->
     <div class="tab-bar">
-      <a :class="{active : isActive}" @click="tabChange(1)">养殖生产溯源</a>
+      <a :class="{active : isActive}" @click="tabChange(1)">养殖生产</a>
       <a :class="{active : isActive2}" @click="tabChange(2)">屠宰加工</a>
-      <a :class="{active : isActive3}" @click="tabChange(3)">终端消费</a>
+      <a :class="{active : isActive3}" @click="tabChange(3)">终端产品
+
+      </a>
     </div>
     <!-- 内容块 -->
     <div v-if="tabShow===1">
     <section class="block block-text-video">
-      <h2>羊场基本信息</h2>
+      <h2>养殖场基本信息</h2>
       <div class="row">
         <div class="field">
-          <label>负责人：</label>
-          <span>{{sheepInfo.responsiblePersonName}}</span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label>联系电话：</label>
-          <span>{{sheepInfo.telNumber}}</span>
-        </div>
-        <div class="field">
-          <label>羊场名称：</label>
+          <label>养殖场名称：</label>
           <span>{{sheepInfo.breedName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>地理位置：</label>
+          <label>负责人：</label>
+          <span>{{sheepInfo.responsiblePersonName}}</span>
+        </div>
+        <div class="field">
+          <label>电话：</label>
+          <span>{{sheepInfo.telNumber}}</span>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>养殖场地址：</label>
           <span>{{sheepInfo.breedLocation}}</span>
-          <a class="map" @click="openMap">
+          <a class="map" @click="goMap(1)">
             导航过去
             <font-awesome-icon icon="map-marker" />
           </a>
@@ -74,11 +77,11 @@
       </div>
     </section>
     <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
-      <b-map height='100%' :mobile="true" :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
+      <b-map height='100%' :mobile="true" ref='bmap1' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
     </section>
     <!-- 内容块  -->
     <section class="block block-text-video">
-      <h2>羊只基本信息</h2>
+      <h2>羊只信息</h2>
       <div class="row">
         <div class="field">
           <label>耳号：</label>
@@ -120,8 +123,19 @@
       </div>
     </section>
     <!-- 内容块 -->
+    <section class="block block-gjzs">
+      <h2>资质证书</h2>
+      <div class="content">
+        <span v-for="(item,index) in auPicture" @click="watchBigPic(item.url,item.name)" :key="index">
+          <img v-if='item' :src="item.url" />
+          <span class="cer-description">{{item.name}}</span>
+        </span>
+
+      </div>
+    </section>
+    <!-- 内容块 -->
     <section class="block block-sc">
-      <h2>生产基本信息</h2>
+      <h2>生产档案</h2>
       <div class="content">
         <div class="items items-1" >
           <div class="item"  @click="open(modules[0].name,modules[0].id)">
@@ -181,12 +195,18 @@
         </div>
         <div class="items items-5">
           <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>检疫</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>宰前</b>
             </a>
           </div>
-          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+          <div class="item slaughter" @click="open2(modules[10].name,modules[10].id)">
             <a class="value" >良</a>
             <a class="text" >
               <b>屠宰</b>
@@ -194,21 +214,21 @@
           </div>
         </div>
         <div class="items items-6">
-          <div class="item" @click="open2(modules[10].name,modules[10].id)">
-            <a class="value" >优</a>
-            <a class="text" >
-              <b>运输</b>
-            </a>
-          </div>
-          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+           <div class="item" @click="open2(modules[11].name,modules[11].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>分割</b>
             </a>
           </div>
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
+            </a>
+          </div>
         </div>
         <div class="items items-7">
-          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+          <div class="item" @click="open2(modules[13].name,modules[13].id)">
             <a class="value" >优</a>
             <a class="text" >
               <b>终端</b>
@@ -219,7 +239,7 @@
     </section>
     <!-- 内容块 -->
     <section class="block block-yzhjzs">
-      <h2>养殖环境追溯</h2>
+      <h2>生产环境</h2>
       <div class="content">
         <span  @click="open('air',11)">
           <img  src="../assets/imgs/mobile/yzhjzs/1.png" />
@@ -236,22 +256,11 @@
       </div>
     </section>
     <!-- 内容块 -->
-    <section class="block block-gjzs">
-      <h2>国家证书</h2>
+    <section class="block block-yhpj">
       <div class="content">
-        
-        <span v-for="(item) in auPicture" @click="watchBigPic(item.url,item.name)">
-          <img v-if='item' :src="item.url" />
-        </span>
-      </div>
-    </section>
-    <!-- 内容块 -->
-    <section class="block block-ptpj">
-      <div class="content">
-        <h3>
+        <h4>
           平台评级
-          <i>/品质认证</i>
-        </h3>
+        </h4>
         <div class="stars">
           <font-awesome-icon icon="star" class="active" />
           <font-awesome-icon icon="star" class="active" />
@@ -263,9 +272,8 @@
     </section>
     <!-- 内容块 -->
     <section class="block block-yhpj">
-      <h2>用户评级</h2>
       <div class="content">
-        <h4>养殖端评级：</h4>
+        <h4>消费者评级</h4>
         <div class="stars">
           <font-awesome-icon icon="star" class="active" />
           <font-awesome-icon icon="star" class="active" />
@@ -274,14 +282,16 @@
           <font-awesome-icon icon="star" />
         </div>
       </div>
-      <a @click="goodSuccess" >
-        点赞
-        <font-awesome-icon icon="thumbs-up" />
-      </a>
-      <a @click="openissue">
-        投诉
-        <font-awesome-icon icon="question" />
-      </a>
+      <div class="goodOrIssue">
+          <a @click="goodSuccess" >
+            点赞
+            <font-awesome-icon icon="thumbs-up" />
+          </a>
+          <a @click="openissue">
+            投诉
+            <font-awesome-icon icon="question" />
+          </a>
+      </div>
     </section>
     </div>
 
@@ -291,25 +301,25 @@
       <h2>屠宰场基本信息</h2>
       <div class="row">
         <div class="field">
-          <label>负责人：</label>
-          <span>{{slaughterInfo.responsiblePersonName}}</span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label>联系电话：</label>
-          <span>{{slaughterInfo.telNumber}}</span>
-        </div>
-        <div class="field">
           <label>屠宰场名称：</label>
           <span>{{slaughterInfo.breedName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>地理位置：</label>
+          <label>负责人：</label>
+          <span>{{slaughterInfo.responsiblePersonName}}</span>
+        </div>
+        <div class="field">
+          <label>电话：</label>
+          <span>{{slaughterInfo.telNumber}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>屠宰场地址：</label>
           <span>{{slaughterInfo.breedLocation}}</span>
-          <a class="map" @click="openMap">
+          <a class="map" @click="goMap(2)">
             导航过去
             <font-awesome-icon icon="map-marker" />
           </a>
@@ -327,42 +337,41 @@
       </div>
     </section>
     <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
-      <b-map height='100%' :mobile="true" :longitude = 'slaughterInfo.longitude' :latitude = 'slaughterInfo.latitude'></b-map>
+      <b-map height='100%' ref="bmap2" :mobile="true" :longitude = 'slaughterInfo.longitude' :latitude = 'slaughterInfo.latitude'></b-map>
     </section>
     <!-- 内容块 -->
     <section class="block block-text-video">
-      <h2>羊只基本信息</h2>
+      <h2>产品信息</h2>
       <div class="row">
         <div class="field">
-          <label>耳号：</label>
-          <span>{{sheepInfo.trademarkEarTag}}</span>
-        </div>
-        <div class="field">
-          <label>颜色：</label>
-          <span>{{sheepInfo.color}}</span>
+          <label>产品编码：</label>
+          <span>{{slaughterInfo.productEncoding}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>品种：</label>
-          <span>{{sheepInfo.typeName}}</span>
-        </div>
-        <div class="field">
-          <label>品类：</label>
-          <span>{{sheepInfo.varietyName}}</span>
+          <label>产品名称：</label>
+           <span>{{slaughterInfo.productName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>体重：</label>
-          <span>{{sheepInfo.weight}}</span>
+          <label>产品重量：</label>
+          <span>{{slaughterInfo.productWeight}}</span>
         </div>
-        <div class="field">
-          <label>月龄：</label>
-          <span>{{sheepInfo.age}}</span>
+        <div class="field produce">
+          <label class="produceTime">出品时间：</label>
+          <span>{{slaughterInfo.divisionTime}}</span>
         </div>
       </div>
       <div class="video">
+        <el-carousel trigger="click" height="400px" indicator-position="outside">
+            <el-carousel-item v-for="item in slaPictures" :key="item">
+              <div ><img class="carouselImg" :src="item" alt="" @click="watchBigPic(item,'产品图像')"/></div>
+            </el-carousel-item>
+        </el-carousel>
+      </div>
+      <!-- <div class="video">
         <video
           id="factoryVideo"
           controls="controls"
@@ -370,11 +379,21 @@
           loop="loop"
           :src="slaughterSheepPics[0]"
           />
+      </div> -->
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-gjzs">
+      <h2>资质证书</h2>
+      <div class="content">
+        <span v-for="(item,index) in auPictureOfSlaught" @click="watchBigPic(item.url,item.name)" :key="index">
+          <img v-if='item' :src="item.url" />
+          <span class="cer-description">{{item.name}}</span>
+        </span>
       </div>
     </section>
     <!-- 内容块 -->
     <section class="block block-sc">
-      <h2>生产基本信息</h2>
+      <h2>生产档案</h2>
       <div class="content">
         <div class="items items-1" >
           <div class="item"  @click="open(modules[0].name,modules[0].id)">
@@ -434,12 +453,18 @@
         </div>
         <div class="items items-5">
           <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>检疫</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>宰前</b>
             </a>
           </div>
-          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+          <div class="item slaughter" @click="open2(modules[10].name,modules[10].id)">
             <a class="value" >良</a>
             <a class="text" >
               <b>屠宰</b>
@@ -447,21 +472,21 @@
           </div>
         </div>
         <div class="items items-6">
-          <div class="item" @click="open2(modules[10].name,modules[10].id)">
-            <a class="value" >优</a>
-            <a class="text" >
-              <b>运输</b>
-            </a>
-          </div>
-          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+           <div class="item" @click="open2(modules[11].name,modules[11].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>分割</b>
             </a>
           </div>
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
+            </a>
+          </div>
         </div>
         <div class="items items-7">
-          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+          <div class="item" @click="open2(modules[13].name,modules[13].id)">
             <a class="value" >优</a>
             <a class="text" >
               <b>终端</b>
@@ -489,22 +514,11 @@
       </div>
     </section>
     <!-- 内容块 -->
-    <section class="block block-gjzs">
-      <h2>国家证书</h2>
+    <section class="block block-yhpj">
       <div class="content">
-        
-        <span v-for="(item) in auPictureOfSlaught" @click="watchBigPic(item.url,item.name)">
-          <img v-if='item' :src="item.url" />
-        </span>
-      </div>
-    </section>
-    <!-- 内容块 -->
-    <section class="block block-ptpj">
-      <div class="content">
-        <h3>
+        <h4>
           平台评级
-          <i>/品质认证</i>
-        </h3>
+        </h4>
         <div class="stars">
           <font-awesome-icon icon="star" class="active" />
           <font-awesome-icon icon="star" class="active" />
@@ -527,42 +541,44 @@
           <font-awesome-icon icon="star" />
         </div>
       </div>
-      <a @click="goodSuccess" >
-        点赞
-        <font-awesome-icon icon="thumbs-up" />
-      </a>
-      <a @click="openissue">
-        投诉
-        <font-awesome-icon icon="question" />
-      </a>
+      <div class="goodOrIssue">
+          <a @click="goodSuccess" >
+            点赞
+            <font-awesome-icon icon="thumbs-up" />
+          </a>
+          <a @click="openissue">
+            投诉
+            <font-awesome-icon icon="question" />
+          </a>
+      </div>
     </section>
     </div>
 
     <!--终端消费-->
   <div v-if="tabShow===3">
     <section class="block block-text-video">
-      <h2>消费终端基本信息</h2>
+      <h2>终端店基本信息</h2>
       <div class="row">
         <div class="field">
-          <label>负责人：</label>
-          <span>{{ConsumerInfo.responsiblePersonName}}</span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label>联系电话：</label>
-          <span>{{ConsumerInfo.telNumber}}</span>
-        </div>
-        <div class="field">
-          <label>终端名称：</label>
+          <label>终端店名称：</label>
           <span>{{ConsumerInfo.breedName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>地理位置：</label>
+          <label>负责人：</label>
+          <span>{{ConsumerInfo.responsiblePersonName}}</span>
+        </div>
+        <div class="field">
+          <label>电话：</label>
+          <span>{{ConsumerInfo.telNumber}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>店面地址：</label>
           <span>{{ConsumerInfo.breedLocation}}</span>
-          <a class="map" @click="openMap">
+          <a class="map" @click="goMap(3)">
             导航过去
             <font-awesome-icon icon="map-marker" />
           </a>
@@ -581,53 +597,60 @@
     </section>
     <!-- 内容块 -->
     <section v-show="mapVisible"  style="height:400px;" class="block block-text-video">
-      <b-map height='100%' :mobile="true" :longitude = 'ConsumerInfo.longitude' :latitude = 'ConsumerInfo.latitude'></b-map>
+      <b-map height='100%'  ref="bmap3" :mobile="true" :longitude = 'ConsumerInfo.longitude' :latitude = 'ConsumerInfo.latitude'></b-map>
     </section>
     <section class="block block-text-video">
-      <h2>羊只基本信息</h2>
+      <h2>产品信息</h2>
       <div class="row">
         <div class="field">
-          <label>耳号：</label>
-          <span>{{sheepInfo.trademarkEarTag}}</span>
-        </div>
-        <div class="field">
-          <label>颜色：</label>
-          <span>{{sheepInfo.color}}</span>
+          <label>产品编码：</label>
+          <span>{{ConsumerInfo.number}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>品种：</label>
-          <span>{{sheepInfo.typeName}}</span>
-        </div>
-        <div class="field">
-          <label>品类：</label>
-          <span>{{sheepInfo.varietyName}}</span>
+          <label>产品名称：</label>
+           <span>{{ConsumerInfo.productName}}</span>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>体重：</label>
-          <span>{{sheepInfo.weight}}</span>
+          <label>羊肉重量：</label>
+          <span>{{ConsumerInfo.mutton}}</span>
         </div>
-        <div class="field">
-          <label>年龄：</label>
-          <span>{{sheepInfo.age}}</span>
+        <div class="field produce">
+          <label class="produceTime">出品时间：</label>
+          <span>{{ConsumerInfo.outTime}}</span>
         </div>
       </div>
       <div class="video">
-        <video
+        <!-- <video
           id="factoryVideo"
           controls="controls"
           muted="muted"
           loop="loop"
           :src="ConsumerSheepPics[0]"
-          />
+          /> -->
+        <el-carousel trigger="click" height="400px" indicator-position="outside">
+            <el-carousel-item v-for="item in consumePictures" :key="item">
+              <div ><img  class="carouselImg" :src="item" alt="" @click="watchBigPic(item,'产品图像')" /></div>
+            </el-carousel-item>
+        </el-carousel>
+      </div>
+    </section>
+    <!-- 内容块 -->
+    <section class="block block-gjzs">
+      <h2>资质证书</h2>
+      <div class="content">
+        <span v-for="(item,index) in auPictureOfConsumer" @click="watchBigPic(item.url,item.name)" :key="index">
+          <img v-if='item' :src="item.url" />
+          <span class="cer-description">{{item.name}}</span>
+        </span>
       </div>
     </section>
     <!-- 内容块 -->
     <section class="block block-sc">
-      <h2>生产基本信息</h2>
+      <h2>生产档案</h2>
       <div class="content">
         <div class="items items-1" >
           <div class="item"  @click="open(modules[0].name,modules[0].id)">
@@ -687,12 +710,18 @@
         </div>
         <div class="items items-5">
           <div class="item" @click="open2(modules[8].name,modules[8].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>检疫</b>
+            </a>
+          </div>
+          <div class="item" @click="open2(modules[9].name,modules[9].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>宰前</b>
             </a>
           </div>
-          <div class="item" @click="open2(modules[9].name,modules[9].id)">
+          <div class="item slaughter" @click="open2(modules[10].name,modules[10].id)">
             <a class="value" >良</a>
             <a class="text" >
               <b>屠宰</b>
@@ -700,21 +729,21 @@
           </div>
         </div>
         <div class="items items-6">
-          <div class="item" @click="open2(modules[10].name,modules[10].id)">
-            <a class="value" >优</a>
-            <a class="text" >
-              <b>运输</b>
-            </a>
-          </div>
-          <div class="item" @click="open2(modules[11].name,modules[11].id)">
+           <div class="item" @click="open2(modules[11].name,modules[11].id)">
             <a class="value" >中</a>
             <a class="text" >
               <b>分割</b>
             </a>
           </div>
+          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+            <a class="value" >优</a>
+            <a class="text" >
+              <b>运输</b>
+            </a>
+          </div>
         </div>
         <div class="items items-7">
-          <div class="item" @click="open2(modules[12].name,modules[12].id)">
+          <div class="item" @click="open2(modules[13].name,modules[13].id)">
             <a class="value" >优</a>
             <a class="text" >
               <b>终端</b>
@@ -742,21 +771,10 @@
       </div>
     </section>
     <!-- 内容块 -->
-    <section class="block block-gjzs">
-      <h2>国家证书</h2>
-      <div class="content">
-        
-        <span v-for="(item) in auPictureOfConsumer" @click="watchBigPic(item.url,item.name)">
-          <img v-if='item' :src="item.url" />
-        </span>
-      </div>
-    </section>
-    <!-- 内容块 -->
-    <section class="block block-ptpj">
+    <section class="block block-yhpj">
       <div class="content">
         <h3>
           平台评级
-          <i>/品质认证</i>
         </h3>
         <div class="stars">
           <font-awesome-icon icon="star" class="active" />
@@ -780,14 +798,17 @@
           <font-awesome-icon icon="star" />
         </div>
       </div>
-      <a @click="goodSuccess" >
-        点赞
-        <font-awesome-icon icon="thumbs-up" />
-      </a>
-      <a @click="openissue">
-        投诉
-        <font-awesome-icon icon="question" />
-      </a>
+      <div class="goodOrIssue">
+          <a @click="goodSuccess" >
+            点赞
+            <font-awesome-icon icon="thumbs-up" />
+          </a>
+          <a @click="openissue">
+            投诉
+            <font-awesome-icon icon="question" />
+          </a>
+      </div>
+
     </section>
     </div>
 
@@ -795,7 +816,7 @@
       title="投诉"
       :visible.sync="issue"
       width="800px"
-      :show-close="true" 
+      :show-close="true"
       height="800px"
       >
         <el-form :model="complaint" style="width:100%">
@@ -817,7 +838,7 @@
 							<el-input  v-model="complaint.name"></el-input>
 						</el-form-item>
           </el-col>
-          
+
            <el-col :span="12">
 						<el-form-item label="联系电话" :label-width="formLabelWidth">
 							<el-input  v-model="complaint.tel"></el-input>
@@ -825,7 +846,7 @@
           </el-col>
 
         </el-form>
-    
+
         <div slot="footer" class="dialog-footer">
           <el-button type="success"  @click="complaintSubmit">提 交</el-button>
         </div>
@@ -838,6 +859,7 @@
       :show-close="false"
       >
       <div class="dialog_btn">
+        <span @click="close('gen')" class="btn_close">关闭</span>
       </div>
       <record-table
         type="table"
@@ -852,6 +874,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('san')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -940,7 +963,7 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      </div>  
+      </div>
     </el-dialog>
     <!-- 消毒 -->
     <el-dialog
@@ -949,6 +972,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('dis')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1007,6 +1031,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('imm')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1074,6 +1099,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('exp')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1135,7 +1161,8 @@
       :visible.sync="dialog.nut"
       width="800px"
       :show-close="false">
-      <div class="dialog_btn">
+       <div class="dialog_btn">
+        <span @click="close('nut')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1238,6 +1265,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('dea')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1317,7 +1345,8 @@
       :visible.sync="dialog.bre"
       width="800px"
       :show-close="false">
-       <div class="dialog_btn">
+      <div class="dialog_btn">
+        <span @click="close('bre')" class="btn_close">关闭</span>
       </div>
       <div class="dialog_table">
         <el-table
@@ -1428,7 +1457,6 @@
             prop="operatorName"
             label="操作员姓名">
           </el-table-column>
-          </el-table-column>
           <el-table-column
             prop="remark"
             label="备注">
@@ -1449,7 +1477,8 @@
       :visible.sync="dialog.air"
       width="800px"
       :show-close="false">
-       <div class="dialog_btn">
+      <div class="dialog_btn">
+        <span @click="close('air')" class="btn_close">关闭</span>
       </div>
         <el-table
           :data="airData"
@@ -1470,14 +1499,15 @@
             width='205px'>
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.wat"
       width="800px"
       :show-close="false">
-       <div class="dialog_btn">
+      <div class="dialog_btn">
+        <span @click="close('wat')" class="btn_close">关闭</span>
       </div>
         <el-table
           :data="watData"
@@ -1495,7 +1525,7 @@
             label="PH值状态">
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
 
     <el-dialog
@@ -1504,6 +1534,7 @@
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
+        <span @click="close('soi')" class="btn_close">关闭</span>
       </div>
         <el-table
           :data="soiData"
@@ -1535,8 +1566,9 @@
           </el-table-column>
         </el-table>
     </el-dialog>
+
     <el-dialog
-        title="国家认证"
+        :title="bigPic.name"
         :visible.sync="dialogBigPicVisible"
         style="margin-top:-50px"
         width="50%"
@@ -1552,16 +1584,38 @@
             </ul>
         </div>
   </el-dialog>
+
+       <!-- 检疫 -->
+        <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.check"
+        width="800px"
+        :show-close="false">
+        <div class="dialog_btn">
+          <span @click="close('check')" class="btn_close">关闭</span>
+        </div>
+      <record-table
+        type="table"
+        title="检疫档案"
+        :data="checkData">
+      </record-table>
+      </el-dialog>
+
+        <!-- 宰前 -->
         <el-dialog
         custom-class="mod_search_dialog"
         :visible.sync="dialog.befsla"
         width="800px"
         :show-close="false">
         <div class="dialog_btn">
-          <span class="btn_print">打印</span>
           <span @click="close('befsla')" class="btn_close">关闭</span>
         </div>
-          <el-table
+      <record-table
+        type="table"
+        title="宰前档案"
+        :data="befslaData">
+      </record-table>
+          <!-- <el-table
             :data="befslaData"
             style="width: 100%">
             <el-table-column
@@ -1594,20 +1648,24 @@
               label="月龄"
               width='120px'>
             </el-table-column>
-          </el-table>
-        
-      </el-dialog>
+          </el-table> -->
 
+      </el-dialog>
+      <!-- 屠宰 -->
       <el-dialog
         custom-class="mod_search_dialog"
         :visible.sync="dialog.sla"
         width="800px"
         :show-close="false">
         <div class="dialog_btn">
-          <span class="btn_print">打印</span>
           <span @click="close('sla')" class="btn_close">关闭</span>
         </div>
-          <el-table
+        <record-table
+        type="table"
+        title="屠宰档案"
+        :data="slaData">
+      </record-table>
+          <!-- <el-table
             :data="slaData"
             style="width: 100%">
             <el-table-column
@@ -1658,57 +1716,102 @@
                   </div>
               </template>
             </el-table-column>
-          </el-table>
-        
+          </el-table> -->
+
       </el-dialog>
 
+    <!-- 分割表格情况 -->
+    <el-dialog
+      custom-class="mod_search_dialog"
+      :visible.sync="dialog.segm2"
+      width="800px"
+      :show-close="false"
+      >
+      <div class="dialog_btn">
+        <span @click="close('segm2')" class="btn_close">关闭</span>
+      </div>
+      <record-table
+        type="table"
+        title="分割"
+        :data="segmData">
+      </record-table>
+    </el-dialog>
+
+      <!-- 分割列表情况 -->
       <el-dialog
         custom-class="mod_search_dialog"
         :visible.sync="dialog.segm"
         width="800px"
         :show-close="false">
         <div class="dialog_btn">
-          <span class="btn_print">打印</span>
           <span @click="close('segm')" class="btn_close">关闭</span>
         </div>
           <el-table
             :data="segmData"
             style="width: 100%">
             <el-table-column
-              prop="fatherNumber"
-              label="商标耳牌号"
-              width='120px'>
-            </el-table-column>
-            <el-table-column
               prop="partNumber"
               label="部件编号"
               width='120px'>
             </el-table-column>
             <el-table-column
-              prop="weight"
-              label="部件重量"
+              prop="partName"
+              label="部件名称"
               width='120px'>
             </el-table-column>
             <el-table-column
-              label="分割视频"
+              prop="weight"
+              label="重量(公斤)"
               width='120px'>
-              <template slot-scope="scope">
-                  <div class="opr" >
-                      <span @click="mediaWatch(scope)">查看</span>
-                  </div>
-              </template>
+            </el-table-column>
+            <el-table-column
+              prop="price"
+              label="价格(元)"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="breedName"
+              label="养殖场"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="responsiblePersonName"
+              label="货主"
+              width='120px'>
+            </el-table-column>
+            <el-table-column
+              prop="responsiblePersonPhone"
+              label="联系电话"
+              width='120px'>
             </el-table-column>
           </el-table>
-        
       </el-dialog>
 
+      <!-- 运输表格情况 -->
+
+      <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.trans2"
+        width="800px"
+        :show-close="false"
+        >
+        <div class="dialog_btn">
+          <span @click="close('trans2')" class="btn_close">关闭</span>
+        </div>
+        <record-table
+          type="table"
+          title="运输"
+          :data="transData">
+        </record-table>
+      </el-dialog>
+
+      <!-- 运输列表情况 -->
       <el-dialog
         custom-class="mod_search_dialog"
         :visible.sync="dialog.trans"
         width="800px"
         :show-close="false">
         <div class="dialog_btn">
-          <span class="btn_print">打印</span>
           <span @click="close('trans')" class="btn_close">关闭</span>
         </div>
           <el-table
@@ -1723,7 +1826,7 @@
 
             <el-table-column
               prop="sumWeight"
-              label="总重量"
+              label="总重量(公斤)"
               width='120px'>
             </el-table-column>
 
@@ -1745,55 +1848,72 @@
               width='120px'>
             </el-table-column>
 
-            <el-table-column
-              label="车牌照片"
-              width='120px'>
-              
-                <template slot-scope="scope">
-                  <div class="opr" >
-                      <span @click="mediaWatchPic(scope)">查看</span>
-                  </div>
-              </template>
-            </el-table-column>
           </el-table>
-        
       </el-dialog>
 
+      <!-- 终端表格情况 -->
+      <el-dialog
+        custom-class="mod_search_dialog"
+        :visible.sync="dialog.end2"
+        width="800px"
+        :show-close="false"
+        >
+        <div class="dialog_btn">
+          <span @click="close('end2')" class="btn_close">关闭</span>
+        </div>
+        <record-table
+          type="table"
+          title="运输"
+          :data="endData">
+        </record-table>
+      </el-dialog>
+
+      <!-- 终端列表情况 -->
       <el-dialog
       custom-class="mod_search_dialog"
       :visible.sync="dialog.end"
       width="800px"
       :show-close="false">
       <div class="dialog_btn">
-        <span class="btn_print">打印</span>
         <span @click="close('end')" class="btn_close">关闭</span>
       </div>
-        <el-table
-          :data="endData"
-          style="width: 100%">
+          <el-table
+            :data="endData"
+            style="width: 100%">
           <el-table-column
             prop="partNumber"
             label="成品编号"
-            width='200px'>
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            prop="dishesName"
+            label="成品名称"
+            width='120px'>
+          </el-table-column>
+          <el-table-column
+            label="成品分量"
+            width='120px'>
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.muttonConsumption }}克/份</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="outBoundTime"
             label="时间"
-            width='200px'>
+            width='120px'>
           </el-table-column>
           <el-table-column
-            label="终端视频"
-            width='200px'>
+            label="图片"
+            width='120px'>
             <template slot-scope="scope">
                   <div class="opr" >
-                      <span @click="mediaWatch(scope)">查看</span>
+                      <span @click="mediaWatchPic(scope)">查看</span>
                   </div>
             </template>
           </el-table-column>
         </el-table>
-      
     </el-dialog>
-    
+
   <!-- <el-dialog
         title="产品地址"
         :visible.sync="mapVisible"
@@ -1803,7 +1923,7 @@
         >
   <div class='bmap'></div>
     <b-map height='100%' :longitude = 'sheepInfo.longitude' :latitude = 'sheepInfo.latitude'></b-map>
-  
+
   </el-dialog> -->
   <el-dialog
   custom-class="mod_search_dialog"
@@ -1829,23 +1949,31 @@
     <span style="margin-top:30px;font-size:30px;">未建立系谱，请完善！</span>
 </el-dialog>
 
-  <el-dialog
+  <!-- <el-dialog
         title="视频"
         :visible.sync="mediaVisible"
         width="80%">
         <div class="show-detail">
             <video :src="mediaUrl" class="production-video" controls="controls" height="500" width="500"></video>
         </div>
-  </el-dialog>             
+  </el-dialog> -->
 
-  <el-dialog
+  <!-- <el-dialog
         title="车辆照片"
         :visible.sync="mediaPicVisible"
         width="80%">
         <div class="show-detail">
             <img  class="production-image-detail" :src="mediaUrl" :onerror="defaultImg">
         </div>
-  </el-dialog> 
+  </el-dialog> -->
+    <el-dialog
+        title="照片"
+        :visible.sync="mediaPicVisible"
+        width="40%">
+        <div class="show-detail">
+            <img  class="production-image-detail" :src="mediaUrl" :onerror="defaultImg">
+        </div>
+  </el-dialog>
   </div>
 </template>
 
@@ -1853,7 +1981,7 @@
 import BMap from './map'
 import RecordTable from './table'
 import QRCode from 'qrcodejs2'
-import {getSheepInfo, getSlaughterInfoByearTag, getConsumerInfoByearTag } from '@/util/getdata'
+import {getSheepInfo, getSlaughterInfoByearTag, getConsumerInfoByearTag,getPicOfTrace } from '@/util/getdata'
 import {getTraceInfo,getTraceAfterSlaughterInfo} from '@/util/getdata'
 import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
@@ -1899,7 +2027,7 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         ConsumerInfo:{
           name:'',
@@ -1908,12 +2036,12 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         slaughterFactoryPics:null,
         consumerFactoryPics:null,
-        slaughterSheepPics:[],
-        ConsumerSheepPics:[],
+        // slaughterSheepPics:[],
+        // ConsumerSheepPics:[],
         defaultImg:'this.src="//qiniu.yunyangbao.cn/logo.jpg"',
         mediaVisible:false,
         mediaPicVisible:false,
@@ -1966,7 +2094,13 @@ export default {
         },
         tab_san: 'first',
         tab_nut: 'first',
-        genData: [
+        checkData: [  // 检疫
+          { name: 'tradeMarkEarTag', fieldName: '商标耳牌号', fieldValue: '', size: 'large'},
+          { name: 'immuneEarTag', fieldName: '免疫耳牌号', fieldValue: '', size: 'large' },
+          { name: 'immuneCertified', fieldName: '检疫合格证号', fieldValue: '', size: 'large' },
+          { name: 'breedFactory', fieldName: '来源养殖场', fieldValue: '', size: 'large' },
+        ],
+        genData: [  //系谱
           { name: 'tradeMarkEartag', fieldName: '商标耳牌', fieldValue: 'M004527' },
           { name: 'breedingSheepBase', fieldName: '种羊基地', fieldValue: '贵州省铜仁市沿河土家族自治县东翔牧业' },
           { name: 'birthTime', fieldName: '初登时间', fieldValue: '2018-01-13 16:24:25' },
@@ -1981,6 +2115,42 @@ export default {
           { name: 'eartagOfMothersMother', fieldName: '母母号', fieldValue: 'M602211' },
           { name: 'typeName', fieldName: '品种名', fieldValue: '黑山羊', size: 'large' },
           { name: 'remark', fieldName: '备注', fieldValue: '', size: 'large' }
+        ],
+        befslaData: [ //宰前
+          {name:'trademarkEarTag',fieldName:'商标耳牌号',fieldValue:'',size: 'large'},
+          {name:'weight',fieldName:'重量(公斤)',fieldValue:'',size: 'large'},
+          {name:'time',fieldName:'时间',fieldValue:'',size: 'large'}
+        ],
+        slaData: [  //屠宰
+             {name:'fatherNumber',fieldName:'商标耳牌号',fieldValue:'',size: 'large'},
+             {name:'carcassProductEncoding',fieldName:'胴体编码',fieldValue:'',size: 'large'},
+             {name:'kidWeight',fieldName:'胴体重量(公斤)',fieldValue:'',size: 'large'},
+             {name:'carcassTime',fieldName:'操作时间',fieldValue:'',size: 'large'},
+             {name:'accessoriesProductEncoding',fieldName:'附属物编码',fieldValue:'',size: 'large'},
+             {name:'appendageWeight',fieldName:'附属物重量(公斤)',fieldValue:'',size: 'large'},
+             {name:'accessoriesTime',fieldName:'操作时间',fieldValue:'',size: 'large'}
+        ],
+        segmData: [   // 分割
+            {name:'partNumber', fieldName:'部件编号',fieldValue:''},
+            {name:'partName', fieldName:'部件名称',fieldValue:''},
+            {name:'weight', fieldName:'重量(公斤)',fieldValue:''},
+            {name:'price', fieldName:'价格(元)',fieldValue:''},
+            {name:'responsiblePersonName', fieldName:'货主',fieldValue:''},
+            {name:'responsiblePersonPhone', fieldName:'联系电话',fieldValue:''},
+            {name:'breedName', fieldName:'养殖场',fieldValue:'',size:'large'},
+        ],
+        transData: [    // 运输
+            {name:'customerName', fieldName:'客户单位名称',fieldValue:''},
+            {name:'sumWeight', fieldName:'总重量(公斤)',fieldValue:''},
+            {name:'partNumber', fieldName:'部件编码',fieldValue:''},
+            {name:'numberPlate', fieldName:'车牌号',fieldValue:''},
+            {name:'driverName', fieldName:'司机名称',fieldValue:''},
+        ],
+        endData: [    // 终端
+            {name:'partNumber', fieldName:'成品编码',fieldValue:''},
+            {name:'dishesName', fieldName:'成品名称',fieldValue:''},
+            {name:'muttonConsumption', fieldName:'成品分量(克/份)',fieldValue:''},
+            {name:'outBoundTime', fieldName:'时间',fieldValue:''},
         ],
         welData: [ // 福利信息
 
@@ -2015,20 +2185,6 @@ export default {
           {
           }
         ],
-        befslaData: [
-
-        ],
-        slaData: [
-        ],
-        segmData: [
-
-        ],
-        transData: [
-
-        ],
-        endData: [
-
-        ],
         item: {
 
         },
@@ -2049,7 +2205,8 @@ export default {
           {icon: 'smile', text: '驱虫', name: 'exp', id: '5'},
           {icon: 'smile', text: '营养', name: 'nut', id: '6'},
           {icon: 'smile', text: '疾病', name: 'dea', id: '7'},
-          {icon: 'smile', text: '配种', name: 'bre', id: '8'},         
+          {icon: 'smile', text: '配种', name: 'bre', id: '8'},
+          {icon: 'smile', text: '检疫', name: 'check', id: '20'},
           {icon: 'smile', text: '宰前', name: 'befsla', id: '21'},
           {icon: 'smile', text: '屠宰', name: 'sla', id: '22'},
           {icon: 'smile', text: '分割', name: 'segm', id: '23'},
@@ -2074,7 +2231,9 @@ export default {
           tel:null,
           thing:null,
         },
-        formLabelWidth: '70px',	
+        formLabelWidth: '70px',
+        slaPictures: [],
+        consumePictures: [],
         }
       },
       created (){
@@ -2084,9 +2243,27 @@ export default {
         if(this.$route.path=='/ms'||this.$route.path=='/mS'){
           this.code = this.$route.query.eT || 'G400457';
         }
+       getPicOfTrace(this.code).then(res => {
+        console.log(res.data)
+        let data = res.data.lists;
+        if(res.meta.code === 0) {
+          for(let i in data) {
+            if(typeof data[i] == 'object') {
+              for(let j in data[i]) {
+                this.slaPictures.push(data[i][j]);
+              }
+            } else {
+              this.slaPictures.push(data[i]);
+            }
+          }
+          console.log('slaPictures:',this.slaPictures);
+        }
+      })
+
       getSheepInfo(this.code).then((re) => {
         let info = this.sheepInfo;
         let data = re.data;
+
         if(data != null){
           info.name = data.model.varietyName;
           info.breedName = data.model.breedName;
@@ -2136,6 +2313,7 @@ export default {
       getSlaughterInfoByearTag(this.code).then(re =>{
         let info = this.slaughterInfo;
         let data = re.data;
+        console.log("getSlaughterInfoByearTag:",data);
         console.log(this.code,data);
         if(data != null){
           info.name = data.factory.type;
@@ -2145,12 +2323,23 @@ export default {
           info.breedLocation = data.factory.simple_address + data.factory.detail_address;
           info.longitude = data.factory.longitude;
           info.latitude = data.factory.latitude;
+          console.log("info:",info);
+          console.log("slaughterFactoryPicsfactoryVideo123:",data);
+          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
+          info.responsiblePersonName=data.factory.responsiblePersonName;
+          //如果没有产品信息，则这后面的取不到0，有报错的现象，那么product【0】后面的赋值会被阻塞
+          info.productEncoding =data.product&& data.product[0].productEncoding;
+          info.productName = data.product&&data.product[0].productName
+          info.productWeight = data.product&&data.product[0].productWeight
+          info.divisionTime = data.product&&data.product[0].outTime
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
-          re.data.sheep.forEach((item) => {
-              this.slaughterSheepPics.push(item.video);
-          })
+          console.log("productPhoto:",data.productPhoto);
+
+          console.log("slaughterFactoryPics.",this.slaughterFactoryPics);
+          // re.data.sheep.forEach((item) => {
+          //     this.slaughterSheepPics.push(item.video);
+          // })
           re.data.certification.forEach(item =>{
             if(item !== null){
               let v={
@@ -2168,24 +2357,31 @@ export default {
             return
         }
       })
-        getConsumerInfoByearTag(this.code).then(re =>{
+      getConsumerInfoByearTag(this.code).then(re =>{
         let info = this.ConsumerInfo;
         let data = re.data;
-        console.log(this.code,data);
+          console.log("getConsumerInfoByearTag.data:",data);
         if(data != null){
-          info.name = data.factory[0].type;
-          info.breedName = data.factory[0].name;
-          info.arriveTime = data.factory[0].date&&data.factory[0].date.slice(0,10);
-          info.telNumber = data.factory[0].charge_person_phone;
-          info.breedLocation = data.factory[0].simple_address + data.factory.detail_address;
-          info.longitude = data.factory[0].longitude;
-          info.latitude = data.factory[0].latitude;
+          info.name = data.factory.type;
+          info.breedName = data.factory.name;
+          info.arriveTime = data.factory.date&&data.factory.date.slice(0,10);
+          info.telNumber = data.factory.charge_person_phone;
+          info.breedLocation = data.factory.simple_address + data.factory.detail_address;
+          info.longitude = data.factory.longitude;
+          info.latitude = data.factory.latitude;
+          info.responsiblePersonName=data.factory.responsiblePersonName;
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          this.consumerFactoryPics = re.data.factoryVideo.pic_address
-          re.data.sheepVideo.forEach((item) => {
-              this.ConsumerSheepPics.push(item);
-          })
+          info.number = data.product.number;
+          info.productName = data.product.productName;
+          info.mutton = data.product.mutton;
+          info.outTime = data.product.outTime;
+          console.log("consumerFactoryPics:",re.data);
+          this.consumePictures = data.productPhoto;
+          this.consumerFactoryPics = re.data.factoryVideo&&re.data.factoryVideo.pic_address
+          // re.data.sheepVideo.forEach((item) => {
+          //     this.ConsumerSheepPics.push(item);
+          // })
           re.data.certification[0].forEach(item =>{
             if(item !== null){
               let v={
@@ -2210,6 +2406,9 @@ export default {
       RecordTable
     },
   methods: {
+          close (name) {
+             this.$set(this.dialog, name, false)
+          },
           tabChange(id){
             if(id===1){
               this.isActive = true
@@ -2272,6 +2471,19 @@ export default {
                   }
             }
       },
+      mediaWatchPic(scope){
+                if(scope.row.pictureOfCar){
+                  this.mediaUrl=scope.row.pictureOfCar
+                  this.mediaPicVisible=true
+                } else if(scope.row.video) {
+                  this.mediaUrl=scope.row.video
+                  console.log(this.mediaUrl);
+                  this.mediaPicVisible=true
+                }
+                else{
+                this.$message.error('暂无相关图片！')
+                }
+      },
     search () {
       if (!this.key) {
         this.$message({
@@ -2293,70 +2505,137 @@ export default {
         this.issue = true;
       },
       open2(name, id){
-        this.$set(this.dialog, name, true);
+        // this.$set(this.dialog, name, true);
+        // 检疫
+        if(id==20){
+            id=6
+            getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
+            this.$set(this.dialog, name, true);
+            let data=res.data
+            console.log("chechData:",data)
+            this.checkData.forEach(el => {
+                if(data.lists.length&&data.lists[0].hasOwnProperty(el.name)){
+                  el.fieldValue = data.lists[0][el.name];
+                }
+            });
+          })
+        }
+        // 宰前
         if(id==21){
             id=1
             getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
-            this.befslaData=[]
-            let data=res.data.lists
-            data.forEach((item) =>{
-              this.befslaData.push(item)
-            })
-          })  
+            this.$set(this.dialog, name, true);
+            let data=res.data
+            console.log("befslaData:",data);
+            this.befslaData.forEach(el => {
+                if(data.lists.length&&data.lists[0].hasOwnProperty(el.name)){
+                  el.fieldValue = data.lists[0][el.name];
+                }
+            });
+          })
         }
+        // 屠宰
         else if(id==22){
           id=2
           getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
-            this.slaData=[]
-            let data=res.data.lists
-            data.forEach((item) =>{
-              this.slaData.push(item)
-            })
-          })  
+            this.$set(this.dialog, name, true);
+            let data=res.data
+            console.log("slaData:",data);
+            this.slaData.forEach(el => {
+                if(data.lists.length&&data.lists[0].hasOwnProperty(el.name)){
+                  el.fieldValue = data.lists[0][el.name];
+                }
+            });
+          })
         }
+        // 分割
         else if(id==23){
           id=3
           getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
-            this.segmData=[]
             let code = this.code
             let data=res.data.lists
-            data.forEach((item) =>{
-              item.fatherNumber = code
-              this.segmData.push(item)
-            })
-          })  
+            if(data.length > 1) {
+              this.$set(this.dialog, name, true);
+              this.segmData=[];
+              data.forEach((item) =>{
+                item.fatherNumber = code
+                this.segmData.push(item)
+              })
+            } else {
+              this.$set(this.dialog, `${name}2`, true);
+                this.segmData.forEach(el => {
+                  if(data[0].hasOwnProperty(el.name)){
+                    el.fieldValue = data[0][el.name];
+                  }
+                });
+            }
+          })
         }
+        // 运输
         else if(id==24){
           id=4
           getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
-            this.transData=[]
             let data=res.data.lists
-            data.forEach((item) =>{
-              this.transData.push(item)
-            })
-          })  
+            if(data.length > 1) {
+              this.$set(this.dialog, name, true);
+              this.transData=[]
+              data.forEach((item) =>{
+                this.transData.push(item)
+              })
+            } else {
+              this.$set(this.dialog, `${name}2`, true);
+                this.transData.forEach(el => {
+                  if(data[0].hasOwnProperty(el.name)){
+                    el.fieldValue = data[0][el.name];
+                  }
+                });
+            }
+          })
         }
+        // 终端
         else if(id==25){
           id=5
           getTraceAfterSlaughterInfo(id,this.code).then((res) =>{
-            this.endData=[]
             let data=res.data.lists
-            data.forEach((item) =>{
-              this.endData.push(item)
-            })
-          })  
+            if(data.length > 1) {
+              this.$set(this.dialog, name, true);
+              this.endData=[]
+              console.log("data：",data);
+              data.forEach((item) =>{
+                //这个判断是在有重量的情况下才化成克单位，否则为空
+                if(item.muttonConsumption){
+                  item.muttonConsumption=Number(item.muttonConsumption)*1000
+                }
+                this.endData.push(item)
+              })
+            } else {
+              this.$set(this.dialog, `${name}2`, true);
+                this.endData.forEach(el => {
+                  if(data[0].hasOwnProperty(el.name)){
+                    el.fieldValue = data[0][el.name];
+                  }
+                });
+                //这个判断是在有重量的情况下才化成克单位，否则为空
+                if(this.endData[2].fieldValue){
+                  this.endData[2].fieldValue=Number(this.endData[2].fieldValue)*1000
+                }
+            }
+            // if(this.end)
+          })
         }
       },
     open (name,id) {
         this.$set(this.dialog, name, true);
         getTraceInfo(id,this.code).then((res) => {
           let data = res.data;
+          console.log("getTraceInfo：",data);
           if(id =='1'){
             if(data.lists.length==0){
               this.$set(this.dialog, name, false)
               this.noGenDataVisible=true
               return
             }
+            console.log("data:",data.lists);
               this.genData.forEach(el => {
                 if(data.lists[0].hasOwnProperty(el.name)){
                   el.fieldValue = data.lists[0][el.name];
@@ -2428,8 +2707,19 @@ export default {
               }
             }
       },
-      openMap(){
-        this.mapVisible = !this.mapVisible;
+      goMap(id){
+        // this.mapVisible = !this.mapVisible;
+        let map;
+        console.log("refs:",this.$refs);
+        if(id===1){
+          map=this.$refs.bmap1;
+        }else if(id===2){
+          map=this.$refs.bmap2;
+        }else{
+          map=this.$refs.bmap3;
+        }
+        console.log("map:",map);
+        map.goBMap();
       },
       goodSuccess(){
         let th=this;
@@ -2482,7 +2772,7 @@ export default {
     z-index: 9999;
   }
 
-  
+
   .bottom-bar {
     position: fixed;
     bottom: 0;
@@ -2518,6 +2808,7 @@ export default {
       }
     }
   }
+
   .ihead{
   text-align:center;
   }
@@ -2600,7 +2891,7 @@ export default {
       padding: 0;
       font-size: 0.18rem;
       font-size:62px;
-      color: #000;
+      color: #0b4496;
     }
   }
 
@@ -2619,7 +2910,7 @@ export default {
         border-bottom: solid 1px #dadada;
         label {
           width: 0.6rem;
-          width: 205px;
+          width: 250px;
           height: 0.3rem;
           height:103px;
           line-height: 0.3rem;
@@ -2627,6 +2918,9 @@ export default {
           font-weight: bold;
           color: #000;
           text-align: left;
+        }
+        .produceTime{
+          width: 210px;
         }
         span {
           width: 0;
@@ -2650,6 +2944,9 @@ export default {
           }
         }
       }
+      .produce{
+        flex:1.3;
+      }
     }
     .video {
       margin-top: 0.08rem;
@@ -2657,6 +2954,10 @@ export default {
       background: #f8f8f8;
       video {
         width: 100%;
+      }
+      .carouselImg{
+        width:90%;
+        height:100%;
       }
     }
   }
@@ -2709,6 +3010,10 @@ export default {
               color: #1ca6f1;
             }
           }
+        }
+        // 单独给屠宰这个圆圈调下距离
+        .slaughter{
+          margin-left:36px;
         }
         &.items-1 {
           padding: 40px 0 0 185px;
@@ -2800,44 +3105,50 @@ export default {
       display: flex;
       justify-content: space-evenly;
       padding: 69px 0;
+      margin-bottom:20px;
       span {
         width: 26vw;
+        height:30vh;
         img {
           width: 100%;
+          height:100%;
+        }
+        .cer-description{
+           font-size: 35px;
         }
       }
     }
   }
 
-  .block-ptpj {
-    .content {
-      display: flex;
-      align-items: flex-end;
-      padding: 69px 0;
-      h3 {
-        margin: 0;
-        padding: 0;
-        font-size: 0.24rem;
-        font-size: 82px;
-        i {
-          font-style: normal;
-          font-size: 0.16rem;
-          font-size: 54px;
-        }
-      }
-      .stars {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-        svg {
-          color: #7c7c7c;
-          &.active {
-            color: #f26b00;
-          }
-        }
-      }
-    }
-  }
+  // .block-ptpj {
+  //   .content {
+  //     display: flex;
+  //     align-items: flex-end;
+  //     padding: 69px 0;
+  //     h3 {
+  //       margin: 0;
+  //       padding: 0;
+  //       font-size: 0.24rem;
+  //       font-size: 82px;
+  //       i {
+  //         font-style: normal;
+  //         font-size: 0.16rem;
+  //         font-size: 54px;
+  //       }
+  //     }
+  //     .stars {
+  //       flex: 1;
+  //       display: flex;
+  //       justify-content: flex-end;
+  //       svg {
+  //         color: #7c7c7c;
+  //         &.active {
+  //           color: #f26b00;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   .block-yhpj {
     .content {
@@ -2848,6 +3159,7 @@ export default {
         margin: 0;
         padding: 0;
         font-size: 48px;
+        color:#0b4496;
       }
       .stars {
         flex: 1;
@@ -2861,27 +3173,31 @@ export default {
         }
       }
     }
-    a {
+    .goodOrIssue{
       display: flex;
-      width: 100%;
-      height: 0.32rem;
-      height:109px;
-      justify-content: center;
-      align-items: center;
-      background: #f26b00;
-      text-decoration: none;
-      color: #fff;
-      &:last-child {
-        margin-top: 27px;
-        background: #fff;
-        border: solid 1px #f26b00;
-        color: #f26b00;
-      }
-      svg {
-        margin-left: 27px;
-      }
+      justify-content: space-around;
+          a {
+            display: flex;
+            width: 45%;
+            border-radius:60px;
+            height:109px;
+            justify-content: center;
+            align-items: center;
+            background: #f26b00;
+            text-decoration: none;
+            color: #fff;
+            &:last-child {
+              background: #fff;
+              border: solid 1px #0b4496;
+              color: #0b4496;
+            }
+            svg {
+              margin-left: 27px;
+            }
+          }
+        }
     }
-  }
+
     .mod_search_dialog{
       padding: 0 30px;
       border:2px solid color-green;
@@ -2892,7 +3208,7 @@ export default {
     .dialog_btn{
       text-align: right;
       font-size: 15px;
-      color: color-green;
+      color:#6aaf08;
       cursor: pointer;
       .btn_print{
         margin-right: 30px;
@@ -2909,9 +3225,9 @@ export default {
         width: 100%;
         top: 5%;
       }
-        
+
     }
-      
-      
+
+
 }
 </style>

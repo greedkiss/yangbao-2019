@@ -280,11 +280,11 @@ export const postYoungSheep = data => fetch('/over/all/statistics/add/sheep', da
 //  export const getCustomerOfSla = (id) => fetch('/customer/getOne/' + id,'GET')
 export const postPrice = data => fetch(`/slaughter/part/price`, data, 'POST')
 
-export const getPrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'GET') 
+export const getPrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'GET')
 
-export const deletePrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'DELETE') 
+export const deletePrice = id => fetch(`/slaughter/part/price/${id}`, {}, 'DELETE')
 
-export const updatePrice = data => fetch(`/slaughter/part/price/modify`, data, 'POST') 
+export const updatePrice = data => fetch(`/slaughter/part/price/modify`, data, 'POST')
 
 export const insertSlaughter = data => fetch(`/customer/insert`, data, 'POST')
 
@@ -495,7 +495,7 @@ export const getAllSheep = (id, data) => fetch('/ds/a/' + id, data)
 
 export const makeDeadSheep = (data) => fetch(`/ds/d/d`, data, 'POST')
 
-export const getSheepBuilding = (id) => fetch('/bc/b/' + id)  
+export const getSheepBuilding = (id) => fetch('/bc/b/' + id)
 
 export const getSheepCol = (id, data) => fetch('/bc/b/' + id + '/' + data, 'GET')
 
@@ -531,7 +531,7 @@ export const changeSaleable = (data) => fetch('/s/c/s', data, 'POST')
 export const modifyBuilding = (data) => fetch('/bc/b/n', data, 'POST')
 
 //商品羊销售管理
-export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET') 
+export const getAllSaleSheep = (id, data) => fetch('/saleOrder/saleAbleSheep/' + id, data,'GET')
 export const findAllSheep = (id, data) => fetch('/saleOrder/allSheep/' + id, data,'GET')
 export const submitSaleSheep= (data) => fetch('/saleOrder/submitedOrder', data, 'POST')
 export const submitSureSaleSheep= (data) => fetch('/saleOrder/add/confirm', data, 'POST')
@@ -670,7 +670,9 @@ export const searchFtyInfo = (data, page) => fetch(`/factory/query?page=${page}`
 
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
-export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
+export const getTraceInfo = (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
+
+export const getPicOfTrace = (tag) => fetch(`/tr/getPicture`,{trademarkEarTag:tag});
 
 export const  getTraceAfterSlaughterInfo= (id,tag) => fetch(`/tr/slaughter/${id}`,{trademarkEarTag:tag});
 

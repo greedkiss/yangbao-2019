@@ -12,7 +12,7 @@
         </span>
         <span v-else class="item_value" :class="{item_hide: !!item.noValue}" :style="{width: `calc(100% - ${getNameWidth(item.fieldNameWidth, item.size, item.noValue)})`}">{{ item.fieldValue }}</span>
       </li>
-    </ul> 
+    </ul>
     <ul v-else-if="type === 'grid'" class="table_grid">
       <li><img class="grid_img" src="/static/processPhoto2.png" alt=""></li>
       <li><img class="grid_img" src="/static/processPhoto4.jpg" alt=""></li>
@@ -62,7 +62,7 @@ export default {
       if(width) {
         return size && size === 'large' ? (parseInt(width)/2) + '%' : width
       } else {
-        return size && size === 'large' ? '20%' : '40%'
+        return size && size === 'large' ? '21%' : '42%'
       }
     }
   }

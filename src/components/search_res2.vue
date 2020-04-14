@@ -180,7 +180,7 @@
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName" @tab-click="handleClick">
               <el-tab-pane label="养殖场" name="first">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -204,7 +204,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -228,7 +228,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -249,7 +249,7 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    
+
                   </div>
               </el-tab-pane>
 
@@ -298,7 +298,7 @@
           <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
-                
+
               </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>养殖端评级</span>
@@ -549,7 +549,7 @@
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName2"  @tab-click="handleClick">
               <el-tab-pane label="养殖场" name="first">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -573,7 +573,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="slaughterInfo.name"></span>
@@ -597,7 +597,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -618,7 +618,7 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="sheepInfo.breedLocation"></span>
                     </div>
-                    
+
                   </div>
               </el-tab-pane>
             </el-tabs>
@@ -666,7 +666,7 @@
           <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
-                
+
               </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>屠宰端评级</span>
@@ -906,7 +906,7 @@
                 </div>
               </div>
         </div>
-       </div> 
+       </div>
         </div>
       </div>
 
@@ -915,7 +915,7 @@
           <el-collapse-item title="基本信息" name="1" class='leftC1'>
             <el-tabs type="card" v-model="currentName3"  @tab-click="handleClick">
               <el-tab-pane label="养殖场" name="first">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -939,7 +939,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="屠宰加工厂" name="second">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="sheepInfo.name"></span>
@@ -963,7 +963,7 @@
                   </div>
               </el-tab-pane>
               <el-tab-pane label="消费店" name="third">
-                  <div class="t-item">     
+                  <div class="t-item">
                     <div>
                       <span class="color-gr">品种:</span>
                       <span v-text="ConsumerInfo.name"></span>
@@ -984,10 +984,10 @@
                       <span class="color-gr">地址:</span>
                       <span v-text="ConsumerInfo.breedLocation"></span>
                     </div>
-                    
+
                   </div>
               </el-tab-pane>
-              
+
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -1033,7 +1033,7 @@
           <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
-                
+
               </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>终端评级</span>
@@ -1104,7 +1104,7 @@
       </div>
     </div>
   </div>
-<!-- 
+<!--
   </el-carousel-item >
 </el-carousel> -->
 
@@ -1113,7 +1113,7 @@
       custom-class="mod_search_dialog"
       :visible.sync="issue"
       width="800px"
-      :show-close="true" 
+      :show-close="true"
       >
       <div class='ihead'>——————投诉——————</div>
       <div class='ibody'>
@@ -1247,7 +1247,7 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      </div>  
+      </div>
     </el-dialog>
     <!-- 消毒 -->
     <el-dialog
@@ -1791,7 +1791,7 @@
             width='205px'>
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
@@ -1818,7 +1818,7 @@
             label="PH值状态">
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
 
     <el-dialog
@@ -1859,7 +1859,7 @@
             width='120px'>
           </el-table-column>
         </el-table>
-      
+
       </el-dialog>
 
       <el-dialog
@@ -1905,7 +1905,7 @@
               width='120px'>
             </el-table-column>
           </el-table>
-        
+
       </el-dialog>
 
       <el-dialog
@@ -1969,7 +1969,7 @@
               </template>
             </el-table-column>
           </el-table>
-        
+
       </el-dialog>
 
       <el-dialog
@@ -2009,7 +2009,7 @@
               </template>
             </el-table-column>
           </el-table>
-        
+
       </el-dialog>
 
       <el-dialog
@@ -2058,7 +2058,7 @@
             <el-table-column
               label="车牌照片"
               width='120px'>
-              
+
                 <template slot-scope="scope">
                   <div class="opr" >
                       <span @click="mediaWatchPic(scope)">查看</span>
@@ -2066,7 +2066,7 @@
               </template>
             </el-table-column>
           </el-table>
-        
+
       </el-dialog>
 
       <el-dialog
@@ -2101,9 +2101,9 @@
             </template>
           </el-table-column>
         </el-table>
-      
+
     </el-dialog>
-    
+
 <el-dialog
         title="国家认证"
         :visible.sync="dialogBigPicVisible"
@@ -2130,7 +2130,7 @@
         <div class="show-detail">
             <video :src="mediaUrl" class="production-video" controls="controls" height="500" width="500"></video>
         </div>
-  </el-dialog>             
+  </el-dialog>
 
   <el-dialog
         title="车辆照片"
@@ -2139,7 +2139,7 @@
         <div class="show-detail">
             <img  class="production-image-detail" :src="mediaUrl" :onerror="defaultImg">
         </div>
-  </el-dialog> 
+  </el-dialog>
 
   <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
 </div>
@@ -2157,7 +2157,7 @@ import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
 export default {
-  
+
     data (){
       return {
         cardOneVision: true,
@@ -2206,7 +2206,7 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         ConsumerInfo:{
           name:'',
@@ -2215,7 +2215,7 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         slaughterFactoryPics:null,
         consumerFactoryPics:null,
@@ -2345,7 +2345,7 @@ export default {
           {icon: 'smile', text: '驱虫', name: 'exp', id: '5'},
           {icon: 'smile', text: '营养', name: 'nut', id: '6'},
           {icon: 'smile', text: '疾病', name: 'dea', id: '7'},
-          {icon: 'smile', text: '配种', name: 'bre', id: '8'},         
+          {icon: 'smile', text: '配种', name: 'bre', id: '8'},
           {icon: 'smile', text: '宰前', name: 'befsla', id: '21'},
           {icon: 'smile', text: '屠宰', name: 'sla', id: '22'},
           {icon: 'smile', text: '分割', name: 'segm', id: '23'},
@@ -2369,7 +2369,7 @@ export default {
       if(this.$route.query.code){
         let reg = /(G|M|S)\d+/;
         this.code = this.$route.query.code.match(reg)[0];
-        console.log(this.code); 
+        console.log(this.code);
       }else{
         this.code =  'G400457';
       }
@@ -2487,7 +2487,7 @@ export default {
             //   title: '消息',
             //   message: '消费终端没有该羊信息'
             // });
-            return 
+            return
         }
       })
       let newBodyHeight = document.body.clientHeight;
@@ -2716,7 +2716,7 @@ export default {
             data.forEach((item) =>{
               this.befslaData.push(item)
             })
-          })  
+          })
         }
         else if(id==22){
           id=2
@@ -2726,7 +2726,7 @@ export default {
             data.forEach((item) =>{
               this.slaData.push(item)
             })
-          })  
+          })
         }
         else if(id==23){
           id=3
@@ -2738,7 +2738,7 @@ export default {
               item.fatherNumber = code
               this.segmData.push(item)
             })
-          })  
+          })
         }
         else if(id==24){
           id=4
@@ -2748,7 +2748,7 @@ export default {
             data.forEach((item) =>{
               this.transData.push(item)
             })
-          })  
+          })
         }
         else if(id==25){
           id=5
@@ -2758,7 +2758,7 @@ export default {
             data.forEach((item) =>{
               this.endData.push(item)
             })
-          })  
+          })
         }
       },
       open (name,id) {
@@ -2867,7 +2867,7 @@ export default {
       order 1
       width 700px
       .video-wrapper
-        flex 1 
+        flex 1
         video
           width 100%
           height 100%
@@ -2882,7 +2882,7 @@ export default {
         border-image-slice 30
         border-image-width 2.6
         margin 0px 20px 0px 20px
-         
+
     .left
       flex 0 1 400px
       order 0
@@ -2972,7 +2972,7 @@ export default {
   border none
 
  .search-contianer
-  .el-input--medium 
+  .el-input--medium
     width 186px
     margin-left 9px
     .el-input__inner
@@ -3009,7 +3009,7 @@ export default {
   border: 0.5px solid #00a0ea
   padding: 8px
   background-color: rgba(0,160,234,0.3)
-  margin 10px 7px 0px 0px    
+  margin 10px 7px 0px 0px
 .swrapper:last-child
   margin-right 0px
 .sleft,.sright
@@ -3176,7 +3176,7 @@ export default {
 .issue
   >div
     background-color rgb(0,46,114)
-    
+
 .leftC
   display flex
   flex-direction column
@@ -3185,7 +3185,7 @@ export default {
     flex 1
   .leftC1
     flex 1
-  .leftC3 
+  .leftC3
     flex 1
     position relative
     .el-collapse-item__wrap
@@ -3264,7 +3264,7 @@ export default {
 .diagonal-content
   position: relative
   right:22px
-  bottom: 10px 
+  bottom: 10px
   width:  70px
   height: 50px
 .diagonal2
@@ -3293,7 +3293,7 @@ export default {
   right:22px
   top:25px
   width:  70px
-  height: 50px  
+  height: 50px
 .arrows3
   position: absolute
   left: 25px
@@ -3306,7 +3306,7 @@ export default {
 .diagonal4
   position: relative
   right:22px
-  bottom: 10px 
+  bottom: 10px
   width:  8%
   height: 50px
 .diagonal-content1
