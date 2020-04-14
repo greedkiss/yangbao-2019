@@ -354,27 +354,26 @@ export const judgeAuthorization = data => {
 }
 
 //检测工具是否安装和是否开启
-export const isInstalled = () => {
-    return fetch('http://localhost:8090/list')
+export const isInstalled =async () => {
+    return await(await fetch('http://localhost:8090/list')).json() 
 }
 
-//读串口数据
+//读串口数据 
 export const readSerialPort = async () => {
-    fetch('http://localhost:8090/read').then( res => {
-        let type = 1, weight = 0, on = 0, temp
-        let dv = new DataView(res)
-        for(let i = 0; i < dv.byteLength; i++, type++){
-            if(dv.getUint8(i, ture) == 255)
-                type = 1, weight = 0, on = 1
-            if(type == 3 && on)
-                weight = weight + (dv.getUint8(i, ture) & 15)*0.001 + (dv.getUint8(i, true) & 240)*0.01
-            if(type == 4 && on)
-                weight = weight + (dv.getUint8(i, ture) & 15)*0.1 + (dv.getUint8(i, true) & 240)/16
-            if(type == 5 && on)
-                weight = weight + (dv.getUint8(i, ture) & 15)*10 + (dv.getUint8(i, true) & 240)*100
-            if(type == 13 && on)
-                return weight.toFixed(3)
-        }
-    })
-
+    let info = await fetch('http://localhost:8090/read')
+    let res = await info.json()
+    let type = 0, weight = 0, on = 0
+    for(let i = 0; i < res.data.length; i+=2, type+=2){
+        console.log(res.data[i], res.data[i+1])
+        if(res.data[i] == 'f' && res.data[i+1] == 'f')
+            on = 1, type = 0
+        if(type == 4 && on)
+            weight = weight + parseInt(res.data[i], 16)*0.01 + parseInt(res.data[i+1], 16)*0.001
+        if(type == 6 && on)
+            weight = weight + parseInt(res.data[i], 16) + parseInt(res.data[i+1], 16)*0.1
+        if(type == 8 && on)
+            weight = weight + parseInt(res.data[i], 16)*100 + parseInt(res.data[i+1], 16)*10
+        if(type == 24 && on)
+            return weight.toFixed(3)
+    }
 }

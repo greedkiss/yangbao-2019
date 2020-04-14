@@ -297,7 +297,7 @@
         <div class='certificate-wrapper rightC2'>
           <div class='cer-name'>资质证书</div>
           <div class='certificate-inner'>
-          <div class='certificate'  v-for="(item) in auPicture"  @click="watchBigPic(item.url,item.name)">
+          <div class='certificate'  v-for="(item) in auPicture" :key="item.url" @click="watchBigPic(item.url,item.name)">
             <div class="cer-picture">
               <img height='100%' v-if='item' :src="item.url"/>
             </div>
@@ -650,7 +650,7 @@
           <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
-                
+
               </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>屠宰端评级</span>
@@ -868,7 +868,7 @@
                 </div>
               </div>
         </div>
-       </div> 
+       </div>
         </div>
       </div>
 
@@ -900,7 +900,7 @@
                   </div>
                 </div>
               </el-tab-pane>
-              
+
             </el-tabs>
           </el-collapse-item>
           <!--<el-collapse-item title="企业信息" name="2">-->
@@ -994,7 +994,7 @@
           <el-collapse-item title="用户评级" name="1" >
             <div class='qrleft'>
               <!-- <div class='qrhead'>用户评级
-                
+
               </div> -->
               <div class="qrcontent">
                 <span class='ratingContent'>终端评级</span>
@@ -1032,7 +1032,7 @@
       </div>
     </div>
   </div>
-<!-- 
+<!--
   </el-carousel-item >
 </el-carousel> -->
 
@@ -1041,7 +1041,7 @@
       custom-class="mod_search_dialog"
       :visible.sync="issue"
       width="800px"
-      :show-close="true" 
+      :show-close="true"
       >
       <div class='ihead'>——————投诉——————</div>
       <div class='ibody'>
@@ -1175,7 +1175,7 @@
             label="操作员名称">
           </el-table-column>
         </el-table>
-      </div>  
+      </div>
     </el-dialog>
     <!-- 消毒 -->
     <el-dialog
@@ -1719,7 +1719,7 @@
             width='205px'>
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
     <el-dialog
       custom-class="mod_search_dialog"
@@ -1746,7 +1746,7 @@
             label="PH值状态">
           </el-table-column>
         </el-table>
-     
+
     </el-dialog>
 
     <el-dialog
@@ -1787,7 +1787,7 @@
             width='120px'>
           </el-table-column>
         </el-table>
-      
+
       </el-dialog>
 
     <!-- 检疫 -->
@@ -2037,9 +2037,9 @@
             </template>
           </el-table-column>
         </el-table>
-      
+
     </el-dialog>
-    
+
 <el-dialog
         title="展示图片"
         :visible.sync="dialogBigPicVisible"
@@ -2066,7 +2066,7 @@
         <div class="show-detail">
             <video :src="mediaUrl" class="production-video" controls="controls" height="500" width="500"></video>
         </div>
-  </el-dialog>             
+  </el-dialog>
 
   <el-dialog
         title="照片"
@@ -2075,7 +2075,7 @@
         <div class="show-detail">
             <img  class="production-image-detail" :src="mediaUrl" :onerror="defaultImg">
         </div>
-  </el-dialog> 
+  </el-dialog>
 
   <div v-show="false" id="qrcode1" class="qrcode" ref="qrcode"></div>
 </div>
@@ -2093,7 +2093,7 @@ import {getAuPicture} from '@/util/getdata'
 import {getSheepVideo} from '@/util/getdata'
 import {getFactoryVideo} from '@/util/getdata'
 export default {
-  
+
     data (){
       return {
         cardOneVision: true,
@@ -2142,7 +2142,7 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         ConsumerInfo:{
           name:'',
@@ -2151,7 +2151,7 @@ export default {
           telNumber:'',
           breedLocation:'',
           longitude:'',
-          latitude:'',        
+          latitude:'',
         },
         slaughterFactoryPics:null,
         consumerFactoryPics:null,
@@ -2489,7 +2489,7 @@ export default {
             //   title: '消息',
             //   message: '消费终端没有该羊信息'
             // });
-            return 
+            return
         }
       })
 
@@ -2956,7 +2956,7 @@ export default {
       order 1
       width 700px
       .video-wrapper
-        flex 1 
+        flex 1
         video
           width 100%
           height 100%
@@ -2971,7 +2971,7 @@ export default {
         border-image-slice 30
         border-image-width 2.6
         margin 0px 20px 0px 20px
-         
+
     .left
       flex 0 1 400px
       order 0
@@ -3061,7 +3061,7 @@ export default {
   border none
 
  .search-contianer
-  .el-input--medium 
+  .el-input--medium
     width 186px
     margin-left 9px
     .el-input__inner
@@ -3098,7 +3098,7 @@ export default {
   border: 0.5px solid #00a0ea
   padding: 8px
   background-color: rgba(0,160,234,0.3)
-  margin 10px 7px 0px 0px    
+  margin 10px 7px 0px 0px
 .swrapper:last-child
   margin-right 0px
 .sleft,.sright
@@ -3265,7 +3265,7 @@ export default {
 .issue
   >div
     background-color rgb(0,46,114)
-    
+
 .leftC
   display flex
   flex-direction column
@@ -3274,7 +3274,7 @@ export default {
     flex 1
   .leftC1
     flex 1
-  .leftC3 
+  .leftC3
     flex 1
     position relative
     .el-collapse-item__wrap
@@ -3353,7 +3353,7 @@ export default {
 .diagonal-content
   position: relative
   right:22px
-  bottom: 10px 
+  bottom: 10px
   width:  70px
   height: 50px
 .diagonal2
@@ -3382,7 +3382,7 @@ export default {
   right:22px
   top:35px
   width:  70px
-  height: 50px  
+  height: 50px
 .arrows3
   position: absolute
   left: 25px
