@@ -124,7 +124,7 @@
     </section>
     <!-- 内容块 -->
     <section class="block block-gjzs">
-      <h2>资质证书</h2>
+      <h2>资质证书</h2> 
       <div class="content">
         <span v-for="(item,index) in auPicture" @click="watchBigPic(item.url,item.name)" :key="index">
           <img v-if='item' :src="item.url" />
@@ -2297,7 +2297,7 @@ export default {
             this.pics.push(re.data.url);
           })
           getFactoryVideo('breeding',this.code).then((re) => {
-            this.videoUrl=re.data.url;
+            this.videoUrl=re.data.url?re.data.url:'aaa';
             // video.play().then(()=>{
             // console.log('可以自动播放');
             // }).catch((err)=>{
@@ -2325,7 +2325,7 @@ export default {
           info.latitude = data.factory.latitude;
           console.log("info:",info);
           console.log("slaughterFactoryPicsfactoryVideo123:",data);
-          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
+          this.slaughterFactoryPics = re.data.factoryVideo.pic_address?re.data.factoryVideo.pic_address:'aaa'
           info.responsiblePersonName=data.factory.responsiblePersonName;
           //如果没有产品信息，则这后面的取不到0，有报错的现象，那么product【0】后面的赋值会被阻塞
           info.productEncoding =data.product&& data.product[0].productEncoding;
@@ -2378,7 +2378,7 @@ export default {
           info.outTime = data.product.outTime;
           console.log("consumerFactoryPics:",re.data);
           this.consumePictures = data.productPhoto;
-          this.consumerFactoryPics = re.data.factoryVideo&&re.data.factoryVideo.pic_address
+          this.consumerFactoryPics = re.data.factoryVideo?re.data.factoryVideo.pic_address:'aaa'
           // re.data.sheepVideo.forEach((item) => {
           //     this.ConsumerSheepPics.push(item);
           // })

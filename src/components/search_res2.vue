@@ -15,7 +15,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo' autoplay="autoplay" :src="videoUrl" controls="controls"  muted loop="loop">
+          <video  id='factoryVideo' autoplay="autoplay" :src="videoUrl ? videoUrl : `aaa`" controls="controls"  muted loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -359,7 +359,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo2' autoplay="autoplay"  muted  :src="slaughterFactoryPics" controls="controls" loop="loop">
+          <video  id='factoryVideo2' autoplay="autoplay"  muted  :src="slaughterFactoryPics ? slaughterFactoryPics : `aaa`" controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
@@ -703,7 +703,7 @@
     <div class="search-contianer">
       <div class="main">
         <div class='video-wrapper'>
-          <video  id='factoryVideo3' autoplay="autoplay"  muted  :src="consumerFactoryPics"   controls="controls" loop="loop">
+          <video  id='factoryVideo3' autoplay="autoplay"  muted  :src="consumerFactoryPics ? consumerFactoryPics : `aaa`"   controls="controls" loop="loop">
           </video>
         </div>
         <div class="pro-manage">生产管理</div>
