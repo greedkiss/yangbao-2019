@@ -575,7 +575,7 @@
             </el-carousel> -->
           <el-carousel height="150px">
             <el-carousel-item v-for="item in slaPictures" :key="item">
-              <div @click="watchBigPic(item,'产品图像')"><img :src="item" alt="" /></div>
+              <div style="margin: 0 auto;" @click="watchBigPic(item,'产品图像')"><img :src="item" alt="" /></div>
             </el-carousel-item>
           </el-carousel>
           </el-collapse-item>
@@ -917,7 +917,7 @@
             </el-carousel> -->
           <el-carousel height="150px">
             <el-carousel-item v-for="item in consumePictures" :key="item">
-              <div @click="watchBigPic(item,'产品图像')"><img :src="item" alt="" /></div>
+              <div style="margin: 0 auto;" @click="watchBigPic(item,'产品图像')"><img :src="item" alt="" /></div>
             </el-carousel-item>
           </el-carousel>
           </el-collapse-item>
@@ -2367,6 +2367,21 @@ export default {
         let data = re.data;
         console.log(this.code,data);
         if(data != null){
+          getAuPicture(this.code).then((re) => {
+            re.data.list.forEach((item) => {
+              let v={
+                url:item.address,
+                name:item.certification
+              }
+              this.auPicture.push(v);
+            })
+          })
+          getSheepVideo('breeding',this.code).then((re) => {
+            this.pics.push(re.data.url);
+          })
+          getFactoryVideo('breeding',this.code).then((re) => {
+            this.videoUrl=re.data.url;
+          })
           info.name = data.model.varietyName;
           info.breedName = data.model.breedName;
           info.arriveTime = data.model.createTime&&data.model.createTime.slice(0,10);
@@ -2386,28 +2401,6 @@ export default {
           let EarTag={
             tradeMarkEartag:this.code
           }
-          getAuPicture(this.code).then((re) => {
-            re.data.list.forEach((item) => {
-              let v={
-                url:item.address,
-                name:item.certification
-              }
-              this.auPicture.push(v);
-            })
-          })
-          getSheepVideo('breeding',this.code).then((re) => {
-            this.pics.push(re.data.url);
-          })
-          getFactoryVideo('breeding',this.code).then((re) => {
-            this.videoUrl=re.data.url;
-            // video.play().then(()=>{
-            // console.log('可以自动播放');
-            // }).catch((err)=>{
-            //     console.log(err);
-            //     console.log("不允许自动播放");
-            //     video.muted=true;
-            // });
-          })
         }else{
             this.$notify.info({
               title: '消息',
@@ -2428,10 +2421,12 @@ export default {
           info.longitude = data.factory.longitude;
           info.latitude = data.factory.latitude;
           info.responsiblePersonName=data.factory.responsiblePersonName;
-          info.productEncoding = data.product[0].productEncoding;
-          info.productName = data.product[0].productName
-          info.productWeight = data.product[0].productWeight
-          info.outTime = data.product[0].outTime
+          if(data.product) {
+            info.productEncoding = data.product[0].productEncoding;
+            info.productName = data.product[0].productName
+            info.productWeight = data.product[0].productWeight
+            info.outTime = data.product[0].outTime
+          }
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           this.slaughterFactoryPics = re.data.factoryVideo.pic_address
