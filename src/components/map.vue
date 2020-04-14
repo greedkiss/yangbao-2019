@@ -40,6 +40,7 @@ export default {
         }
     },
 	mounted() {
+		this.repaint()
 	},
 	methods: {
 		getCity(address) {

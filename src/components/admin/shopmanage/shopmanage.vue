@@ -601,6 +601,7 @@ export default {
             this.productset.forEach(item => {
                 if(item.dishesName == this.opt2value) {
                     this.dishesId=item.id;
+                    this.mutton = item.mutton;
                 }
             })
         },
@@ -667,10 +668,10 @@ export default {
                 let docStr = ''
                 if(this.printNumber == 1) {
                     docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/分 扫码溯源</p></div>`;
+                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/份 扫码溯源</p></div>`;
                 } else {
                     docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/分 扫码溯源</p></div>`;
+                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/份 扫码溯源</p></div>`;
                 }
                 
                 var newWindow=window.open("打印窗口","_blank");			

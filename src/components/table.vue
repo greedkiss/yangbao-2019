@@ -62,7 +62,7 @@ export default {
       if(width) {
         return size && size === 'large' ? (parseInt(width)/2) + '%' : width
       } else {
-        return size && size === 'large' ? '20%' : '40%'
+        return size && size === 'large' ? '21%' : '42%'
       }
     }
   }

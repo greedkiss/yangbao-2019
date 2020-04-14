@@ -54,7 +54,7 @@ export default {
             if(arguments.length===1){
                 this.qrcodeimgs=[];
                 this.codeNumber=start;
-                let urlCode=`http://yyb8.cn/#/mS?eT=${this.codeNumber}`
+                let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
                 document.getElementById("qrcode1").innerHTML = "";
                 //异步，等待结果
                 await this.waitqr(urlCode);
@@ -104,7 +104,7 @@ export default {
                     this.qrcodeimgs=[];//重置二维码地址数组
                     for(let i=startNum;i<=endNum;i++){
                         this.codeNumber= letter+i
-                        let urlCode=`http://yyb8.cn/#/mS?eT=${this.codeNumber}`
+                        let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
                         document.getElementById("qrcode1").innerHTML = "";
                         //异步，等待结果
                         await this.waitqr(urlCode);

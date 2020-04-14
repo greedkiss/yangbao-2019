@@ -670,7 +670,9 @@ export const searchFtyInfo = (data, page) => fetch(`/factory/query?page=${page}`
 
 export const getSheepInfo = (tag) => fetch('/tr',{trademarkEarTag:tag});
 
-export const  getTraceInfo= (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
+export const getTraceInfo = (id,tag) => fetch(`/tr/product/${id}`,{trademarkEarTag:tag});
+
+export const getPicOfTrace = (tag) => fetch(`/tr/getPicture`,{trademarkEarTag:tag});
 
 export const  getTraceAfterSlaughterInfo= (id,tag) => fetch(`/tr/slaughter/${id}`,{trademarkEarTag:tag});
 

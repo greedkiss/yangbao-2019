@@ -115,7 +115,7 @@
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful} from '@/util/jskit'
 import BasicInfo from '@/components/admin/basic_info'
-import { getUserById,getRestaurantId,getSetPrdocut,setProduct,deleteProduct } from '@/util/getdata'
+import { getUserById,getSetPrdocut,setProduct,deleteProduct } from '@/util/getdata'
 
 export default {
     components: {
@@ -248,7 +248,7 @@ export default {
                 this.models.value = '';
             }).then(this.getDetailed());
         }).catch(() => {
-          this.$message({
+          this.$message({ 
             type: 'info',
             message: '已取消删除'
           });          
@@ -257,7 +257,9 @@ export default {
       // 获取表格数据
         getDetailed(){
             let page = this.page - 1,size = 10;
-            getSetPrdocut(54,page,size).then(res => {
+            getSetPrdocut(this.restaurantId
+            
+            ,page,size).then(res => {
                 if (isReqSuccessful(res)) {
                     console.log(res.data);
                     this.total = res.data.data.total;
