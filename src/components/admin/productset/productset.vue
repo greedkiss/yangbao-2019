@@ -47,9 +47,11 @@
             width="150">
             </el-table-column>
             <el-table-column
-            label="羊肉用量（斤/分）"
-            prop="mutton"
+            label="羊肉用量（克/份）"
             width="150">
+                <template slot-scope="scope">
+                    <span>{{scope.row.mutton*1000}}</span>
+                </template>
             </el-table-column>
             <el-table-column
             label="默认图片"
@@ -145,7 +147,7 @@ export default {
             },
                 //{label: '成品种类', type: 'text', model: 'finish_type'},
                 {label: '成品名称', type: 'text', model: 'finish_name'},
-                {label: '羊肉用量（斤/分）', type: 'text', model: 'value'},
+                {label: '羊肉用量（克/份）', type: 'text', model: 'value'},
                 {label: '上传默认图片：',model: 'file',type: 'file'}
             ],
             models: {
@@ -163,6 +165,7 @@ export default {
             total: 10,      // 一页的内容
             page: 1,    // 当前页数
             restaurantId: null,     // 餐厅id
+            rId: null
         }
     },
     mounted() {
@@ -170,12 +173,14 @@ export default {
         let id = this.$route.params.id;
         getUserById(id).then(res => {
             if (isReqSuccessful(res)) {
+                console.log(res.data)
 				this.user = res.data.model
-                this.restaurantId = this.user.userFactory
+                this.rId = this.restaurantId = this.user.userFactory
+                console.log(this.restaurantId,this.rId)
             } else {
                 this.$message.error('获取店铺失败');
             }
-        }).then(this.getDetailed());
+        }).then(this.getDetailed);
     },
     methods: {
         // 提交表单
@@ -186,7 +191,7 @@ export default {
           form.append('id',Number(this.dishesId));
           form.append('dishesType',this.models.finish_type);
           form.append('dishesName',this.models.finish_name);
-          form.append('mutton',String(parseFloat(this.models.value)));
+          form.append('mutton',String(parseFloat(this.models.value)/1000));
           form.append('isEnable',Number(this.defaultProduct));
           form.append('isDisposable',Number(this.printQcode));
           let headers= {}
@@ -217,7 +222,7 @@ export default {
         //console.log(index, row);
         this.models.finish_type = row.dishesType;
         this.models.finish_name = row.dishesName;
-        this.models.value = parseFloat(row.mutton);
+        this.models.value = parseFloat(row.mutton)*1000;
         this.models.file = row.picture;
         this.defaultProduct = String(row.isEnable);
         this.printQcode = String(row.isDisposable);
@@ -257,9 +262,7 @@ export default {
       // 获取表格数据
         getDetailed(){
             let page = this.page - 1,size = 10;
-            getSetPrdocut(this.restaurantId
-            
-            ,page,size).then(res => {
+            getSetPrdocut(this.rId,page,size).then(res => {
                 if (isReqSuccessful(res)) {
                     console.log(res.data);
                     this.total = res.data.data.total;

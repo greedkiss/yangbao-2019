@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-form outWare">
+    <div class="admin-form outWare" v-loading="shopLoading">
         <div class="border-main">
             <div class="formAndCarmera">
                 <div class="formWraaper">
@@ -116,7 +116,7 @@
                 </el-table-column>
 
                 <el-table-column
-                    label="产品重量"
+                    label="产品重量(公斤)"
                     width="120"
                     prop="weight">
                 </el-table-column>
@@ -130,11 +130,11 @@
                 <el-table-column
                     label="来源单位"
                     width="240"
-                    prop="breedName">
+                    prop="slaughterName">
                 </el-table-column>
 
                 <el-table-column
-                    label="剩余分量"
+                    label="剩余分量(公斤)"
                     width="120"
                     prop="residualWeight">
                 </el-table-column>
@@ -283,6 +283,7 @@ export default {
             count: 0,       // 打印计数
             printNumber: 0, // 打印份数
             mutton: 0,      // 羊肉用量
+            shopLoading: false,
         }
     },
     watch: {
@@ -440,8 +441,8 @@ export default {
 		qrcode (codeNumber) {
 
 			let qrcode = new QRCode(this.$refs.qrcode, {
-                width: 300,
-                height:300,
+                width: 260,
+                height:260,
                 text: codeNumber
 			})
 
@@ -610,7 +611,7 @@ export default {
                 this.weight = 0;
             }
             // 提交
-
+            this.shopLoading = true;
             let form = new FormData();
             form.append('divisionId', this.divId);
             form.append('file', this.pic);
@@ -626,6 +627,7 @@ export default {
                 headers,
                 body: form
             }).then(async res => {
+                this.shopLoading = false;
                 let body = await res.json()
                 if (isReqSuccessful(body)) {
                     let code = body.meta.code;
@@ -668,10 +670,10 @@ export default {
                 let docStr = ''
                 if(this.printNumber == 1) {
                     docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/份 扫码溯源</p></div>`;
+                    `<div style="page-break-after:always; width:80px"><canvas height="260" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.qrcodeNumber}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
                 } else {
                     docStr=
-                    `<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.opt2value} ${this.mutton}斤/份 扫码溯源</p></div>`;
+                    `<div style="page-break-after:always; width:80px"><canvas height="260" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.qrcodeNumber}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
                 }
                 
                 var newWindow=window.open("打印窗口","_blank");			

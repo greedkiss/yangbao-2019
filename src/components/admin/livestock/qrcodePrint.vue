@@ -6,7 +6,7 @@
 
             <div class="border-main">
                 <div class="time">
-                    <span class="time-span ellipse">单个耳牌号</span>
+                    <span class="time-span ellipse">单个{{label}}</span>
                     <el-input  size="small" v-model="earTag"></el-input>
                 </div>
                 <el-button type="primary" size="small" @click.prevent="printCode(earTag)">打印</el-button>
@@ -17,11 +17,11 @@
 
             <div class="border-main">
                 <div class="time">
-                    <span class="time-span ellipse">起始耳牌号</span>
+                    <span class="time-span ellipse">起始{{label}}</span>
                     <el-input  size="small" v-model="earTagStart"></el-input>
                 </div>
                 <div class="time" style="margin-left:-40px">
-                    <span class="time-span ellipse">终止耳牌号</span>
+                    <span class="time-span ellipse">终止{{label}}</span>
                     <el-input  size="small" v-model="earTagEnd"></el-input>
                 </div>
                 <el-button 
@@ -46,7 +46,18 @@ export default {
             earTagEnd:null,
             codeNumber:null,
             qrcodeimgs:[],
-            fullscreenLoading: false
+            fullscreenLoading: false,
+            label: ''
+        }
+    },
+    mounted() {
+        let path = this.$route.path;
+        if(path.indexOf('/livestock')!==-1) {
+            this.label = '耳牌号';
+        } else if(path.indexOf('/shop')!==-1) {
+            this.label = '出品码';
+        } else {
+            this.label = '产品码';
         }
     },
     methods: {

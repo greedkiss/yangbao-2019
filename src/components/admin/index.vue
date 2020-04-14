@@ -235,7 +235,7 @@ export default {
                         //{label: '生产流程设置', to: 'slaughterProcessSet'},
                         {label: '库存统计', to: 'slaughterAllStock'},
                         {label: '价格设置', to: 'priceSet'},
-                        {label: '二维码打印', to: 'livestockQrcode'}
+                        {label: '二维码打印', to: 'slaughterQrcode'}
                     ]},
 
                     {label: '认购管理', to: 'subscription',children:[
@@ -278,7 +278,7 @@ export default {
                         {label: '认证证书', to: 'consumerCertification'},
                         {label: '生产可视一览', to: 'consumerUnitVisual'},
                         {label: '常规出品设置', to: 'productSet'},
-                        {label: '二维码打印', to: 'livestockQrcode'}
+                        {label: '二维码打印', to: 'shopQrcode'}
                     ]},
                     {label: '消费店管理', to: 'ShopManage'},
                     {label: '库存一览', to: 'outWareManage'},

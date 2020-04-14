@@ -389,6 +389,7 @@ export default new Router({
             {path: 'stock/productOrder', name: 'productOrder', component: productOrder},
             {path: 'stock/stockManage/list', name: 'orderManage', component: OrderManage},
             {path: 'stock/vehicleManage', name: 'vehicleManage', component: VehicleManage},
+            {path: 'slaughter/qrcodePrint', name: 'slaughterQrcode', component: LivestockQrcode},
 
             //消费实体管理平台
             {path: 'consumerUnit', name: 'consumerunit', component: ConsumerUnit},
@@ -397,7 +398,8 @@ export default new Router({
             {path: 'CCertify', name: 'consumerCertification', component: ConsumerCertification},  
             {path: 'ShopManage', name: 'ShopManage', component: ShopManage},
             {path: 'outWareManage', name: 'outWareManage', component: OutWareManage},
-            {path: 'productSet', name: 'productSet', component: ProductSet},            
+            {path: 'productSet', name: 'productSet', component: ProductSet}, 
+            {path: 'shop/qrcodePrint', name: 'shopQrcode', component: LivestockQrcode},           
         ]},
         {path: '*', name: 'notfound', component: NotFound}
         

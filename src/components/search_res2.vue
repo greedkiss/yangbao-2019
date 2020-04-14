@@ -2019,7 +2019,7 @@
             label="成品分量"
             width='120px'>
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ Number(scope.row.muttonConsumption)*500 }}克/份</span>
+              <span style="margin-left: 10px">{{ Number(scope.row.muttonConsumption)*1000 }}克/份</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -2264,10 +2264,10 @@ export default {
         slaData: [  // 屠宰
             {name:'fatherNumber',fieldName:'商标耳牌号',fieldValue:'',size: 'large'},
             {name:'carcassProductEncoding',fieldName:'胴体编码',fieldValue:'',size: 'large'},
-            {name:'kidWeight',fieldName:'胴体重量',fieldValue:'',size: 'large'},
+            {name:'kidWeight',fieldName:'胴体重量(公斤)',fieldValue:'',size: 'large'},
             {name:'carcassTime',fieldName:'操作时间',fieldValue:'',size: 'large'},
             {name:'accessoriesProductEncoding',fieldName:'附属物编码',fieldValue:'',size: 'large'},
-            {name:'appendageWeight',fieldName:'附属物重量',fieldValue:'',size: 'large'},
+            {name:'appendageWeight',fieldName:'附属物重量(公斤)',fieldValue:'',size: 'large'},
             {name:'accessoriesTime',fieldName:'操作时间',fieldValue:'',size: 'large'}
         ],
         segmData: [   // 分割
@@ -2289,7 +2289,7 @@ export default {
         endData: [    // 终端
             {name:'partNumber', fieldName:'成品编码',fieldValue:''},
             {name:'dishesName', fieldName:'成品名称',fieldValue:''},
-            {name:'muttonConsumption', fieldName:'成品分量',fieldValue:''},
+            {name:'muttonConsumption', fieldName:'成品分量(克/份)',fieldValue:''},
             {name:'outBoundTime', fieldName:'时间',fieldValue:''},
         ],
         item: {
@@ -2359,7 +2359,6 @@ export default {
               this.slaPictures.push(data[i]);
             }
           }
-          console.log('hhh',this.slaPictures);
         }
       })
 
@@ -2436,9 +2435,9 @@ export default {
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           this.slaughterFactoryPics = re.data.factoryVideo.pic_address
-          re.data.sheep.forEach((item) => {
+/*           re.data.sheep.forEach((item) => {
               this.slaughterSheepPics.push(item.video);
-          })
+          }) */
           re.data.certification.forEach(item =>{
             if(item !== null){
               let v={
@@ -2832,7 +2831,11 @@ export default {
               this.$set(this.dialog, `${name}2`, true);
                 this.endData.forEach(el => {
                   if(data[0].hasOwnProperty(el.name)){
-                    el.fieldValue = data[0][el.name];
+                    if(el.name === 'muttonConsumption') {
+                      el.fieldValue = Number(data[0][el.name])*1000;
+                    } else {
+                      el.fieldValue = data[0][el.name];
+                    }
                   }
                 });                
             }
