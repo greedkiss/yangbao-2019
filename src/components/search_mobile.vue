@@ -72,7 +72,7 @@
           controls="controls"
           muted="muted"
           loop="loop"
-          :src="videoUrl"
+          :src="videoUrl ? videoUrl : `aaa`"
         />
       </div>
     </section>
@@ -332,7 +332,7 @@
           controls="controls"
           muted="muted"
           loop="loop"
-          :src="slaughterFactoryPics"
+          :src="slaughterFactoryPics ? slaughterFactoryPics : `aaa`"
         />
       </div>
     </section>
@@ -591,7 +591,7 @@
           controls="controls"
           muted="muted"
           loop="loop"
-          :src="consumerFactoryPics"
+          :src="consumerFactoryPics ? consumerFactoryPics : `aaa`"
         />
       </div>
     </section>
@@ -615,7 +615,7 @@
       </div>
       <div class="row">
         <div class="field">
-          <label>羊肉重量：</label>
+          <label>羊肉用量：</label>
           <span>{{ConsumerInfo.mutton}}</span>
         </div>
         <div class="field produce">
@@ -2297,7 +2297,7 @@ export default {
             this.pics.push(re.data.url);
           })
           getFactoryVideo('breeding',this.code).then((re) => {
-            this.videoUrl=re.data.url?re.data.url:'aaa';
+            this.videoUrl=re.data.url;
             // video.play().then(()=>{
             // console.log('可以自动播放');
             // }).catch((err)=>{
@@ -2325,7 +2325,7 @@ export default {
           info.latitude = data.factory.latitude;
           console.log("info:",info);
           console.log("slaughterFactoryPicsfactoryVideo123:",data);
-          this.slaughterFactoryPics = re.data.factoryVideo.pic_address?re.data.factoryVideo.pic_address:'aaa'
+          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
           info.responsiblePersonName=data.factory.responsiblePersonName;
           //如果没有产品信息，则这后面的取不到0，有报错的现象，那么product【0】后面的赋值会被阻塞
           info.productEncoding =data.product&& data.product[0].productEncoding;
@@ -2374,11 +2374,11 @@ export default {
           console.log('latitude',info.latitude)
           info.number = data.product.number;
           info.productName = data.product.productName;
-          info.mutton = data.product.mutton;
+          info.mutton = data.product.mutton?Number(data.product.mutton)*1000 + `克/份`:data.product.mutton;
           info.outTime = data.product.outTime;
           console.log("consumerFactoryPics:",re.data);
           this.consumePictures = data.productPhoto;
-          this.consumerFactoryPics = re.data.factoryVideo?re.data.factoryVideo.pic_address:'aaa'
+          this.consumerFactoryPics = re.data.factoryVideo.pic_address
           // re.data.sheepVideo.forEach((item) => {
           //     this.ConsumerSheepPics.push(item);
           // })

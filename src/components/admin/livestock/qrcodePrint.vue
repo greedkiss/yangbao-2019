@@ -165,7 +165,7 @@ export default {
 				});
             },
         waitDocument(thisWindow,src,number){
-            let docStr=`<div style="page-break-after:always; width:100px"><canvas height="300" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px"">${number}</p></div></div>`
+            let docStr=`<div style="page-break-after:always; width:100px"><canvas height="250" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6);margin-top:-5px"">${number}</p></div></div>`
             thisWindow.document.write(docStr);
             return new Promise((resolve)=>{
 					setTimeout(resolve,10)
@@ -173,8 +173,8 @@ export default {
         },
 		qrcode (codeNumber) {
 			let qrcode = new QRCode(this.$refs.qrcode, {
-			width: 300,
-			height:300,
+			width: 250,
+			height:250,
 			text: codeNumber
 			})
       },

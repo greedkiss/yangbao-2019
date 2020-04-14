@@ -441,8 +441,8 @@ export default {
 		qrcode (codeNumber) {
 
 			let qrcode = new QRCode(this.$refs.qrcode, {
-                width: 260,
-                height:260,
+                width: 250,
+                height:250,
                 text: codeNumber
 			})
 
@@ -659,31 +659,55 @@ export default {
                 console.log(this.printNumber);
                 //异步，等待结果
                 let urlCode = '';
-                if(this.printNumber == 1) {
-                    urlCode=`http://yunyangbao.cn/#/mS?eT=${this.qrcodeNumber}`
-                } else {
-                    urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
-                }
-                console.log(urlCode);
-                await this.waitqr(urlCode);
-                let src=document.getElementById("qrcode1").children[1].getAttribute("src");
                 let docStr = ''
                 if(this.printNumber == 1) {
-                    docStr=
-                    `<div style="page-break-after:always; width:80px"><canvas height="260" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.qrcodeNumber}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
+                    urlCode=`http://yunyangbao.cn/#/mS?eT=${this.qrcodeNumber}`;
+                    console.log(urlCode);
+                    await this.waitqr(urlCode);
+                    let src=document.getElementById("qrcode1").children[1].getAttribute("src");
+                     docStr=
+                    `<div style="page-break-after:always; width:130px"><canvas height="250" style="display: none;"></canvas><div style="margin-top:-5px;"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px;margin-left:-25px;">${this.qrcodeNumber}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
+                    var newWindow=window.open("打印窗口","_blank");			
+                    newWindow.document.write(docStr);
+                    var styles=document.createElement("style");
+                    styles.setAttribute('type','text/css');//media="print"
+                    styles.innerHTML="" 
+                    newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+                    newWindow.print();
+                    newWindow.close();
                 } else {
-                    docStr=
-                    `<div style="page-break-after:always; width:80px"><canvas height="260" style="display: none;"></canvas><div style="margin-top:-5px; text-align:center"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px">${this.qrcodeNumber}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
-                }
-                
-                var newWindow=window.open("打印窗口","_blank");			
-                newWindow.document.write(docStr);
-                var styles=document.createElement("style");
-                styles.setAttribute('type','text/css');//media="print"
-                styles.innerHTML="" 
-                newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
-                newWindow.print();
-                newWindow.close();
+                    const loading = this.$loading({
+                        lock: true,
+                        text: '正在加载二维码，请稍后！',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    this.qrcodeimgs=[];//重置二维码地址数组
+                    for(let i=1;i<=this.printNumber;i++){
+                        let qNumber = `${this.codeNumber}${i}`;
+                        let urlCode=`http://yunyangbao.cn/#/mS?eT=${qNumber}`
+                        document.getElementById("qrcode1").innerHTML = "";
+                        //异步，等待结果
+                        await this.waitqr(urlCode);
+                        let o={
+                            src:document.getElementById("qrcode1").children[1].getAttribute("src"),
+                            codeNumber: qNumber
+                        }
+                        this.qrcodeimgs.push(o);//将每一个二维码地址以及编号推入数组中
+                    }
+                    loading.close();
+                    let newWindow=window.open("打印窗口","_blank");		
+                    //并发执行所有的waitDocument函数，提高效率
+                    const promises = this.qrcodeimgs.map((qrcodeimg) => this.waitDocument(newWindow , qrcodeimg.src , qrcodeimg.codeNumber))
+                    Promise.all(promises).then(res => {
+                        var styles=document.createElement("style");
+                        styles.setAttribute('type','text/css');//media="print";
+                        styles.innerHTML="" ;
+                        newWindow.document.getElementsByTagName('head')[0].appendChild(styles);
+                        newWindow.print();
+                        newWindow.close();
+                    })
+                }                
                 // 处理关闭打印后 数据的恢复
                 this.opt1value =  this.defaulttype;
                 this.opt2value = this.defaultname; 
@@ -696,7 +720,14 @@ export default {
                 // 提交之后，让二维码的计数加一
                 this.count++;
                 this.qrcodeNumber = this.codeNumber + this.count;
-        }
+        },
+        waitDocument(thisWindow,src,number){
+            let docStr=`<div style="page-break-after:always; width:130px"><canvas height="250" style="display: none;"></canvas><div style="margin-top:-5px;"><img alt="Scan me!" src="${src}"style="display: block;" width="95"><p style="font-size:10px; transform:scale(0.6,0.6); margin-top:-5px;margin-left:-25px;">${number}${this.opt2value}${Number(this.mutton)*1000}克/份</p></div>`;
+            thisWindow.document.write(docStr);
+            return new Promise((resolve)=>{
+					setTimeout(resolve,10)
+				});
+        },
     }
 }
 </script>

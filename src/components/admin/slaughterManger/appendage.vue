@@ -301,7 +301,7 @@ export default {
         async printCode(start){
                 this.qrcodeimgs=[];
                 this.codeNumber=start;
-                let urlCode=`http://yyb8.cn/#/mS?eT=${this.codeNumber}`
+                let urlCode=`http://yunyangbao.cn/#/mS?eT=${this.codeNumber}`
                 document.getElementById("qrcode1").innerHTML = "";
                 //异步，等待结果
                 await this.waitqr(urlCode);

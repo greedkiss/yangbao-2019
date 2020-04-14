@@ -2466,11 +2466,11 @@ export default {
           info.number = data.product.number;
           info.productName = data.product.productName;
           info.outTime = data.product.outTime;
-          info.mutton = data.product.mutton;
+          info.mutton = data.product.mutton?Number(data.product.mutton)*1000 + `克/份`:data.product.mutton;
           this.consumePictures = data.productPhoto;
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
-          this.consumerFactoryPics = re.data.factoryVideo[0].pic_address
+          this.consumerFactoryPics = re.data.factoryVideo.pic_address
           re.data.sheepVideo.forEach((item) => {
               this.ConsumerSheepPics.push(item);
           })
