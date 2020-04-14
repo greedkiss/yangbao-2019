@@ -2041,7 +2041,7 @@
     </el-dialog>
     
 <el-dialog
-        title="资质证书"
+        title="展示图片"
         :visible.sync="dialogBigPicVisible"
         style="margin-top:-50px"
         width="50%"
