@@ -329,7 +329,7 @@
         </div>
         <div class="o_sheep_line" >
             <div>
-                <ve-line :data="chartData" :settings="chartSettings" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
+                <ve-line :data="chartData" :settings="chartSettings" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' top='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
             </div>
         </div>
         <div class="o_detail">
