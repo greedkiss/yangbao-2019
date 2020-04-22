@@ -52,7 +52,8 @@ export const getRegion = (q, cb) => {
     let regions = [
         {value: '省级代理'},
         {value: '市级代理'},
-        {value: '县级代理'}
+        {value: '县级代理'},
+        {value: '镇级代理'}
     ]
     cb(regions)
 }

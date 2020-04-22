@@ -323,7 +323,7 @@ export const getAutoSubscribe= (id) => fetch('/slaughter/auto/subscribe?factory=
 
 // 自动分割
 
-export const postAutoDivision= (id, type) => fetch(`/division/auto/division/${type}?factory=${id}` , null , 'POST')
+export const postAutoDivision= (id) => fetch(`/division/auto/division?factory=${id}` , null , 'POST')
 
 //消费实体 因为屠宰加工和消费实体在一张表中，所以提交,查询接口不变
 export const insertConsumer = data => fetch(`/customer/insert`, data, 'POST')

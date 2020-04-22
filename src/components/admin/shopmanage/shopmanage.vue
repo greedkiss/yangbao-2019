@@ -618,7 +618,8 @@ export default {
             form.append('customerId', this.user.userFactory);
             form.append('productName', this.productName);
             form.append('dishesId', this.dishesId);
-            form.append('partNumber',this.qrcodeNumber)
+            form.append('partNumber',this.codeNumber);
+            form.append('counts',this.count);
             form.append('weight', parseFloat(this.weight));
             let headers = {};
             headers[authStr] = window.localStorage.getItem(tokenStr)
@@ -683,7 +684,7 @@ export default {
                         background: 'rgba(0, 0, 0, 0.7)'
                     });
                     this.qrcodeimgs=[];//重置二维码地址数组
-                    for(let i=1;i<=this.printNumber;i++){
+                    for(let i=this.count;i<=this.printNumber;i++){
                         let qNumber = `${this.codeNumber}${i}`;
                         let urlCode=`http://yunyangbao.cn/#/mS?eT=${qNumber}`
                         document.getElementById("qrcode1").innerHTML = "";

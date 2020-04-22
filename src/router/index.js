@@ -236,7 +236,7 @@ export default new Router({
         // 联系我们
         {path: '/contact', name: 'contact', component:Contact},
         //寻找有机
-        {path: '/findOrganic', name: 'findorganic', component: FindOrganic},
+        {path: '/findOrganic', name: 'findorganic', meta:{isKeepAlive: true}, component: FindOrganic},
 
         {path:'/law', name:'law', component: Law},
 

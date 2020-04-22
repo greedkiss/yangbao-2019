@@ -1,6 +1,9 @@
 <template>
     <div id="app" style="height:100%">
-        <router-view v-if='reloadFlag' @searchTo='reload' @closeHnF="closeHnF"/>
+        <keep-alive>
+            <router-view v-if='reloadFlag && $route.meta.isKeepAlive' @searchTo='reload' @closeHnF="closeHnF"/>
+        </keep-alive>
+        <router-view v-if='reloadFlag && !$route.meta.isKeepAlive' @searchTo='reload' @closeHnF="closeHnF"/>
     </div>
 </template>
 

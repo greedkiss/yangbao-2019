@@ -645,7 +645,7 @@ export default {
 
                         if (this.isAgent) {
                             data.List.forEach(v => {
-                                let map = ['', '省级代理', '市级代理', '县级代理']
+                                let map = ['', '省级代理', '市级代理', '县级代理', '镇级代理']
                                 v.agentRank = map[v.agentRank]
                             })
                         }

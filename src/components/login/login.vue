@@ -121,10 +121,7 @@ export default{
                                 getAutoSubscribe(res.data.factoryId).then(res => {
                                     console.log(res);
                                 })
-                                postAutoDivision(res.data.factoryId, 1).then(res=>{
-                                    console.log(res);
-                                })
-                                postAutoDivision(res.data.factoryId, 2).then(res=>{
+                                postAutoDivision(res.data.factoryId).then(res=>{
                                     console.log(res);
                                 })
                                 let data = {

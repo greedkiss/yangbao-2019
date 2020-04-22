@@ -386,7 +386,7 @@ export default {
             unitId: null,
             disableBtn: false,
             openIsDisabled:true,
-            map: ['', '省级代理', '市级代理', '县级代理'],
+            map: ['', '省级代理', '市级代理', '县级代理', '镇级代理'],
             intel:0,
             intel_com:false,
              pickerOptions1: {

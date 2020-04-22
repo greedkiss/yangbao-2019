@@ -418,6 +418,9 @@ export default {
   components: {
     OMap,VeLine
   },
+  activated() {
+    console.log('keep-alive');
+  },
   data() {
      this.chartSettings = {
           dimension: ['month'],
