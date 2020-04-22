@@ -66,7 +66,9 @@
                 <el-card>
                     <i v-if="item.filetype === 1" class="el-icon-caret-right video-icon "></i>
                     <img @click="showPop(i)" class="production-image" :src="item.url" :onerror="defaultImg">
-                    <p class="production-info" v-if="!isDiagnose&&!isSlaughter&&!isConsumer">商标耳牌：{{ item.brand }}</p>
+                    <p class="production-info" v-if="item.brand&&!isDiagnose&&!isSlaughter&&!isConsumer">商标耳牌：{{ item.brand }}</p>
+                    <p v-if="item.filetype===1 && item.brand===''" class="production-info">视频类型:羊场视频</p>
+                    <p v-if="item.filetype===9" class="production-info">视频类型:羊群视频</p>
                     <p v-if="isSale||isSlaughter||isConsumer" class="production-info">时间：{{ item.udate }}</p>
                     <p  v-if="!isSale&&!isSlaughter&&!isConsumer" class="production-info">时间：{{ item.time }}</p>
                     <el-dialog
