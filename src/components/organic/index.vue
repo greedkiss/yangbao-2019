@@ -174,9 +174,9 @@
               <td>
                 <span v-text="detail.breed_sheep_supply"></span>
               </td>
-              <td>
+<!--               <td>
                 <span v-text="detail.slaughter_sheep_supply"></span>
-              </td>
+              </td> -->
               <td>
                 <span v-text="detail.slaughter_sheep_demand"></span>
               </td>
@@ -209,9 +209,9 @@
               <td>
                 <span v-text="detail.breed_meat_supply"></span>
               </td>
-              <td>
+<!--               <td>
                 <span v-text="detail.slaughter_meat_supply"></span>
-              </td>
+              </td> -->
               <td>
                 <span v-text="detail.slaughter_meat_demand"></span>
               </td>
@@ -240,13 +240,12 @@
                 style="color: #01ffff; font-size: 12px;background: #001e85;border:0px;border-left:1px solid #0090d4"
                 colspan="2"
               >供求</th>
-              <!-- <td class="o_noBack">供求</td> -->
               <td>
                 <div class="o_font">供</div>
               </td>
-              <td>
+<!--               <td>
                 <div class="o_font">供</div>
-              </td>
+              </td> -->
               <td>
                 <div class="o_font">求</div>  
               </td>
@@ -275,7 +274,7 @@
                 style="color: #01ffff; font-size: 12px;background: #001e85; border:0px; border-left:1px solid #0090d4;"
                 colspan="2"
               >厂家(个)</th>
-              <td colspan="2" class="o_double">
+              <td colspan="1" class="o_double">
                 <div class="o_font">养殖厂</div>
               </td>
               <td colspan="2" class="o_double">
@@ -304,7 +303,7 @@
                 colspan="1"
               ></th>
               <td style="border:0px;border-bottom:1px solid #0090d4">&nbsp;</td>
-              <td colspan="2" class="o_double">
+              <td colspan="1" class="o_double">
                 <div class="o_font">{{sum.breed}}</div>
               </td>
               <td colspan="2" class="o_double">

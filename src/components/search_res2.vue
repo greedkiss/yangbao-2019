@@ -2430,9 +2430,6 @@ export default {
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           this.slaughterFactoryPics = re.data.factoryVideo.pic_address
-/*           re.data.sheep.forEach((item) => {
-              this.slaughterSheepPics.push(item.video);
-          }) */
           re.data.certification.forEach(item =>{
             if(item !== null){
               let v={

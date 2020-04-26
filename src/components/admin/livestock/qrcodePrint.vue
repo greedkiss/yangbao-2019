@@ -158,10 +158,10 @@ export default {
 
 		//获取二维码
 		waitqr(codeNumber){
-                //先调用qrcode,生成二维码，然后0.01秒之后返回成功
+                //先调用qrcode,生成二维码，然后0.05秒之后返回成功
 				this.qrcode(codeNumber)
 				return new Promise((resolve)=>{
-					setTimeout(resolve,10)
+					setTimeout(resolve,50)
 				});
             },
         waitDocument(thisWindow,src,number){

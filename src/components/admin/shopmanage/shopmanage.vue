@@ -432,10 +432,10 @@ export default {
 
 		//获取二维码
 		waitqr(codeNumber){
-                //先调用qrcode,生成二维码，然后0.1秒之后返回成功
+                //先调用qrcode,生成二维码，然后0.05秒之后返回成功
 				this.qrcode(codeNumber)
 				return new Promise((resolve)=>{
-					setTimeout(resolve,100)
+					setTimeout(resolve,50)
 				});
 			},
 		qrcode (codeNumber) {
@@ -684,7 +684,7 @@ export default {
                         background: 'rgba(0, 0, 0, 0.7)'
                     });
                     this.qrcodeimgs=[];//重置二维码地址数组
-                    for(let i=this.count;i<=this.printNumber;i++){
+                    for(let i=this.count;i<this.printNumber+this.count;i++){
                         let qNumber = `${this.codeNumber}${i}`;
                         let urlCode=`http://yunyangbao.cn/#/mS?eT=${qNumber}`
                         document.getElementById("qrcode1").innerHTML = "";
