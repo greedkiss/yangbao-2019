@@ -2265,20 +2265,20 @@ export default {
         let data = re.data;
 
         if(data != null){
-          info.name = data.model.varietyName;
-          info.breedName = data.model.breedName;
-          info.arriveTime = data.model.createTime&&data.model.createTime.slice(0,10);
-          info.telNumber = data.model.phone;
-          info.breedLocation = data.model.breedLocation + data.model.breedLocationDetail;
-          info.longitude = data.model.longitude;
-          info.latitude = data.model.latitude;
-          info.responsiblePersonName=data.model.responsiblePersonName
-          info.trademarkEarTag=data.model.trademarkEarTag
-          info.color=data.model.color
-          info.varietyName=data.model.typeName
-          info.typeName=data.model.varietyName
-          info.weight=data.model.weight
-          info.age=data.model.age
+          info.name = data.model&&data.model.varietyName;
+          info.breedName = data.model&&data.model.breedName;
+          info.arriveTime = data.model&&data.model.createTime&&data.model.createTime.slice(0,10);
+          info.telNumber = data.model&&data.model.phone;
+          info.breedLocation = data.model&&(data.model.breedLocation + data.model.breedLocationDetail);
+          info.longitude = data.model&&data.model.longitude;
+          info.latitude = data.model&&data.model.latitude;
+          info.responsiblePersonName=data.model&&data.model.responsiblePersonName
+          info.trademarkEarTag=data.model&&data.model.trademarkEarTag
+          info.color=data.model&&data.model.color
+          info.varietyName=data.model&&data.model.typeName
+          info.typeName=data.model&&data.model.varietyName
+          info.weight=data.model&&data.model.weight
+          info.age=data.model&&data.model.age
           console.log('long',info.longitude)
           console.log('latitude',info.latitude)
           let EarTag={
@@ -2316,17 +2316,17 @@ export default {
         console.log("getSlaughterInfoByearTag:",data);
         console.log(this.code,data);
         if(data != null){
-          info.name = data.factory.type;
-          info.breedName = data.factory.name;
+          info.name = data.factory&&data.factory.type;
+          info.breedName = data.factory&&data.factory.name;
           info.arriveTime = data.factory.date&&data.factory.date.slice(0,10);
-          info.telNumber = data.factory.charge_person_phone;
-          info.breedLocation = data.factory.simple_address + data.factory.detail_address;
-          info.longitude = data.factory.longitude;
-          info.latitude = data.factory.latitude;
+          info.telNumber = data.factory&&data.factory.charge_person_phone;
+          info.breedLocation = data.factory&&(data.factory.simple_address + data.factory.detail_address);
+          info.longitude = data.factory&&data.factory.longitude;
+          info.latitude = data.factory&&data.factory.latitude;
           console.log("info:",info);
           console.log("slaughterFactoryPicsfactoryVideo123:",data);
-          this.slaughterFactoryPics = re.data.factoryVideo.pic_address
-          info.responsiblePersonName=data.factory.responsiblePersonName;
+          this.slaughterFactoryPics = re.data.factoryVideo&&re.data.factoryVideo.pic_address
+          info.responsiblePersonName=data.factory&&data.factory.responsiblePersonName;
           //如果没有产品信息，则这后面的取不到0，有报错的现象，那么product【0】后面的赋值会被阻塞
           info.productEncoding =data.product&& data.product[0].productEncoding;
           info.productName = data.product&&data.product[0].productName

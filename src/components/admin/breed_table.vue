@@ -268,7 +268,7 @@
                 width="160">
                 <template slot-scope="scope">
                     <div class="opr">
-                        <span @click="deleteItem(scope.$index)">删除</span>
+                        <span @click="deleteItem(scope.$index)" style="color:red;">报废</span>
                     </div>
                 </template>
             </el-table-column>

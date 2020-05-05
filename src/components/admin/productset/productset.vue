@@ -140,7 +140,7 @@ export default {
         return {
             items: [       
                 {
-                label: '图片类型',
+                label: '出品类型',
                 model: 'finish_type',
                 type: 'select',
                 fetchSuggestions: getType,

@@ -318,6 +318,7 @@ export const deleteBeforeSlaughter = (data) => fetch('/slaughter/before/slaughte
 
 export const deleteSubscribe = (data) => fetch('/slaughter/subscribe/delete', data, 'DELETE')
 
+
 //自动认购
 export const getAutoSubscribe= (id) => fetch('/slaughter/auto/subscribe?factory='+id , null , 'POST')
 
@@ -368,6 +369,12 @@ export const deleteWareManageDetailed = (id) => fetch('/d/out/' +id, null ,'DELE
 export const getProductSet = (id) => fetch('/dishes/getDishesType/'+id)
 
 export const submitPrint = (data) => fetch('/d/out/settlement',data,'POST')
+
+export const deleteDataFromFactory = (data) => fetch('/d/out/deleteSheep', data, 'DELETE')
+
+export const getFromFactoryData = (id,data) => fetch(`/d/out/`+ id , data, 'GET')
+
+export const getSlaughterHistory = (id,data) => fetch('/d/out/slaughterHistory/' + id,data,'GET')
 
 /**
  * 动物福利

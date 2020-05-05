@@ -30,6 +30,7 @@
                                 <el-button slot="append" icon="el-icon-search">搜索</el-button>
                             </el-input> -->
                             <el-button v-if="isSlaughter()" class="admin-hl hl-btn" type="primary" style="margin-right:20px; float:right;" @click="gotoSlaughterList(module, 1)">{{ module.label }}列表</el-button>
+                            <el-button v-if="isShop()" class="admin-hl hl-btn" type="primary" style="margin-right:20px; float:right;" @click="gotoSlaughterList(module, 1)">详情列表</el-button>
                         </div>
 
                         <div class="main-content">
@@ -269,7 +270,7 @@ export default {
                 ]
             },
             consumptionTree: {
-                label: '消费实体管理中心',
+                label: '终端实体管理中心',
                 children: [
                     {label: '单位信息管理', to: 'consumerInfoManage', children: [
                         {label: '基本信息', to: 'consumerunit'},
@@ -280,7 +281,8 @@ export default {
                         {label: '常规出品设置', to: 'productSet'},
                         {label: '二维码打印', to: 'shopQrcode'}
                     ]},
-                    {label: '消费店管理', to: 'ShopManage'},
+                    {label: '直购羊只屠宰管理', to: 'breedSlaughterMange'},
+                    {label: '终端销售管理', to: 'ShopManage'},
                     {label: '库存一览', to: 'outWareManage'},
                     // {label: '可视系统', to: 'visual', children: [
                     //     {label: '生产可视', to: 'consumerUnitMedia'},
@@ -412,6 +414,10 @@ export default {
                 return false;
             }
             return ['correlation','beforeslaughter','kidMange','appendageMange', 'slaughter','segmentManger', 'stockManage', 'productOrder'].includes(name);
+        },
+        isShop() {
+            let name = this.$route.name
+            return ['breedSlaughterMange'].includes(name);
         },
 
         changeActive (item, isTo) {

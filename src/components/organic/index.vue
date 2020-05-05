@@ -209,15 +209,15 @@
               <td>
                 <span v-text="detail.breed_meat_supply"></span>
               </td>
-<!--               <td>
-                <span v-text="detail.slaughter_meat_supply"></span>
-              </td> -->
               <td>
                 <span v-text="detail.slaughter_meat_demand"></span>
               </td>
               <td>
-                <span v-text="detail.process_meat_supply"></span>
+                <span v-text="detail.slaughter_meat_supply"></span>
               </td>
+<!--               <td>
+                <span v-text="detail.process_meat_supply"></span>
+              </td> -->
               <td>
                 <span v-text="detail.process_meat_demand"></span>
               </td>
@@ -428,7 +428,9 @@ export default {
           种母羊:'种母羊:0',
           种公羊:'种公羊:0',
           商品羊:'商品羊:0',
-          羔羊:'羔羊:0'          
+          羔羊:'羔羊:0',
+          后备种母羊: '后备种母羊:0',
+          后备种公羊: '后备种公羊:0',        
         },
         //可以通过生命周期，在页面加载的时候，从后台请求当前的羊只数量，然后改变legendName后面的数量
         yAxisName: ['只数'],
@@ -445,11 +447,11 @@ export default {
       }
     return {
         chartData: {
-          columns: ['month', '种母羊','种公羊', '商品羊', '羔羊'],
+          columns: ['month', '种母羊','种公羊', '商品羊', '羔羊', '后备种母羊', '后备种公羊'],
           rows: []
         },
         yAxis : {
-              name:'数量(只)',
+              name:'',
               axisLabel: {
                   show: true,
                   textStyle: {
@@ -486,7 +488,8 @@ export default {
             legend: {
               top:20,
               textStyle:{
-              color:'#808C94'
+                color:'#808C94',
+                fontSize: 10
               }
             },
           },
@@ -684,6 +687,7 @@ export default {
       this.$router.push({ path: "/search", query: { code: item } });
     },
     changeColor(id) {
+      console.log(this.factoryType);
       this.eartagList = [];
       if (id) {
         //总存栏
@@ -695,7 +699,7 @@ export default {
           let simpleAddress = this.geographic.province + this.geographic.city + this.geographic.district
           getLocationSheep(simpleAddress).then(res => {
             res.data.sheeps.forEach(item =>{
-              this.eartagList.push(item.trademarkEarTag)
+              this.eartagList.push(item)
             })
             this.corpation.chargeMan = "";
             this.corpation.phone = "";
@@ -703,6 +707,7 @@ export default {
           }else {
           if (this.factoryType) {
             getFactoryInformation(this.factoryId).then(res => {
+              console.log(res.data);
               res.data.sheeps.forEach(item => {
                 if (item != null) {
                   this.eartagList.push(item.trademarkEarTag);
@@ -718,6 +723,7 @@ export default {
             });
           } else {
             getCustomerInformation(this.factoryId).then(res => {
+              console.log(res.data);
               if (res.data.factory !== null) {
                 this.corpation.phone =
                   res.data.responsiblePerson.contactPersonPhone;
@@ -739,9 +745,7 @@ export default {
           let simpleAddress = this.geographic.province + this.geographic.city + this.geographic.district
           getLocationSheep(simpleAddress).then(res => {
             res.data.sheeps.forEach(item =>{
-              if(item.canSale){
-                _this.eartagList.push(item.trademarkEarTag)
-              }
+                _this.eartagList.push(item)
             })
           });
         } else {
@@ -809,19 +813,24 @@ export default {
       this.data = [];
       this.items = [];
       let _this = this 
+      console.log(simpleAddress);
       getLocationSheep(simpleAddress).then(res => {
           _this.saleAll = 0;
           res.data.sheeps.forEach(item =>{
-            if(item){
+            _this.eartagList.push(item)
+/*             if(item){
               if(item.canSale){
                 _this.saleAll++
               }
-            }
+            } */
           })
           _this.liveAll = res.data.count;
       });
       getCustomerByAddress(message).then(res => {
         //this.getCount()
+        console.log('gcba',res.data);
+        this.corpation.chargeMan = res.data.agent.userRealname;
+        this.corpation.phone = res.data.agent.userTelephone;
         if (res.data.factories.length != 0) { 
           res.data.factories.forEach(item => {
             let coordinates = [];
@@ -888,18 +897,10 @@ export default {
             })
         }
         this.detail = {};
-        if (res.data.total_output_sheep != 0) {
           this.total.total_output_sheep = res.data.total_output_sheep;
-        }
-        if (res.data.total_demand_sheep != 0) {
           this.total.total_demand_sheep = res.data.total_demand_sheep;
-        }
-        if (res.data.total_output_meat != 0) {
           this.total.total_output_meat = res.data.total_output_meat;
-        }
-        if (res.data.total_demand_meat != 0) {
           this.total.total_demand_meat = res.data.total_demand_meat;
-        }
         if (res.data.statistics["养殖厂"].output != 0) {
           this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output;
         }
@@ -990,6 +991,7 @@ export default {
         }
       });
       getDataOfChartByAddress(message).then(res =>{
+            console.log('a',res.data);
             let row = this.chartData.rows
             let youngsheep = res.data['羔羊']
             let ewe = res.data['种母羊']
@@ -1132,18 +1134,10 @@ export default {
           });
         }
         _this.detail = {};
-        if (res.data.total_output_sheep != 0) {
-          _this.total.total_output_sheep = res.data.total_output_sheep;
-        }
-        if (res.data.total_demand_sheep != 0) {
-          _this.total.total_demand_sheep = res.data.total_demand_sheep;
-        }
-        if (res.data.total_output_meat != 0) {
-          _this.total.total_output_meat = res.data.total_output_meat;
-        }
-        if (res.data.total_demand_meat != 0) {
-          _this.total.total_demand_meat = res.data.total_demand_meat;
-        }
+        _this.total.total_output_sheep = res.data.total_output_sheep;
+        _this.total.total_demand_sheep = res.data.total_demand_sheep;
+        _this.total.total_output_meat = res.data.total_output_meat;
+        _this.total.total_demand_meat = res.data.total_demand_meat;
         if (res.data.statistics["养殖厂"].output != 0) {
           _this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output;
         }
@@ -1233,6 +1227,7 @@ export default {
           _this.sum.breed = res.data.statistics["养殖厂"].count;
         }
       })
+      console.log('addr',simpleAddress)
       getLocationSheep(simpleAddress).then(res => {
         _this.saleAll = 0;
         res.data.sheeps.forEach(item =>{
@@ -1350,7 +1345,7 @@ export default {
 		width 100%
 		margin-top -30px
 		.o_left
-			width 59%
+			width 53%
 			float left
 			.area_info
 				font-size 15px
@@ -1435,7 +1430,7 @@ export default {
 				padding-top 10px
 				.o_boxOut
 					padding-top 2.5vh
-					width 91%
+					width 97%
 					height calc(90vh - 200px)
 					height -moz-calc(90vh - 200px)
 					height -webkit-calc(90vh - 200px)
@@ -1481,7 +1476,6 @@ export default {
 		.o_middle
 			img
 				float left
-				margin-left -60px
 				height calc(80vh - 50px)
 				height -moz-calc(80vh - 50px)
 				height -webkit-calc(80vh - 50px)
@@ -1490,9 +1484,9 @@ export default {
 			float right
 			color #00c5dd
 			text-align center
-			width 41%
+			width 43%
 			.o_sune
-				float right
+				float left
 				margin-right 3.2vw
 				margin-top -25px
 				font-size 12px
@@ -1507,7 +1501,7 @@ export default {
 						width 100%
 						td, th
 							border 1px solid #0090d4
-							width 4.0vw
+							width 4.5vw
 							height 19px
 							// min-width 67.5px
 					.o_cline

@@ -197,6 +197,8 @@ const ConsumerUnitMedia = () => import('@/components/admin/consumerUnit/media')
 const ConsumerCertification = () => import('@/components/admin/consumerUnit/certification')
 const ProductSet = () => import('@/components/admin/productset/productset')
 const ShopManage = () => import('@/components/admin/shopmanage/shopmanage')
+const BreedSlaughterMange = () => import('@/components/admin/breedSlaughterManage/breedSlaughterManage.vue')
+const BSMlist = () => import('@/components/admin/breedSlaughterManage/bSM_list.vue')
 
 //寻找有机
 const FindOrganic = () => import('@/components/organic/index')
@@ -399,7 +401,9 @@ export default new Router({
             {path: 'ShopManage', name: 'ShopManage', component: ShopManage},
             {path: 'outWareManage', name: 'outWareManage', component: OutWareManage},
             {path: 'productSet', name: 'productSet', component: ProductSet}, 
-            {path: 'shop/qrcodePrint', name: 'shopQrcode', component: LivestockQrcode},           
+            {path: 'shop/qrcodePrint', name: 'shopQrcode', component: LivestockQrcode},    
+            {path: 'breedSlaughterMange', name: 'breedSlaughterMange', component: BreedSlaughterMange},       
+            {path: 'breedSlaughterMange/list',name: 'breedSlaughterMangeList',component: BSMlist},
         ]},
         {path: '*', name: 'notfound', component: NotFound}
         

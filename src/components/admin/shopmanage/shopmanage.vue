@@ -22,7 +22,7 @@
                         <div class="flex-border">
                             <div class="label">
                                 <div class="button">
-                                    <button @click="getWeight">点击获取重量</button>
+                                    <button @click="getWeight">点击获取重量(克)</button>
                                 </div>
                             </div>
                             <div class="input">
@@ -284,6 +284,7 @@ export default {
             printNumber: 0, // 打印份数
             mutton: 0,      // 羊肉用量
             shopLoading: false,
+            time: 0     // 打印时间
         }
     },
     watch: {
@@ -589,7 +590,7 @@ export default {
         getWeight(){
             isInstalled().then(res => {
                 readSerialPort().then(res => {
-                    this.weight = res || 0
+                    this.weight = (res * 1000) || 0
                 })
             }, 
             error => {
@@ -620,7 +621,7 @@ export default {
             form.append('dishesId', this.dishesId);
             form.append('partNumber',this.codeNumber);
             form.append('counts',this.count);
-            form.append('weight', parseFloat(this.weight));
+            form.append('weight', parseFloat(this.weight)/1000);
             let headers = {};
             headers[authStr] = window.localStorage.getItem(tokenStr)
             window.fetch(baseUrl + '/d/out/settlement', {
@@ -634,7 +635,7 @@ export default {
                     let code = body.meta.code;
                     if(code === 0){
                         this.$message.warning('提交成功，请打印！')
-                        this.printNumber = body.data.total;
+                        this.time = this.printNumber = body.data.total;
                         this.$confirm(`将打印${this.printNumber}份`, '提示', {
                         confirmButtonText: '确定',
                         type: 'warning'
@@ -679,7 +680,7 @@ export default {
                 } else {
                     const loading = this.$loading({
                         lock: true,
-                        text: '正在加载二维码，请稍后！',
+                        text: `正在加载二维码，请等待${Number(this.time)*0.05}秒！`,
                         spinner: 'el-icon-loading',
                         background: 'rgba(0, 0, 0, 0.7)'
                     });
@@ -695,6 +696,7 @@ export default {
                             codeNumber: qNumber
                         }
                         this.qrcodeimgs.push(o);//将每一个二维码地址以及编号推入数组中
+                        //this.time--;
                     }
                     loading.close();
                     let newWindow=window.open("打印窗口","_blank");		
@@ -710,8 +712,7 @@ export default {
                     })
                 }                
                 // 处理关闭打印后 数据的恢复
-                this.opt1value =  this.defaulttype;
-                this.opt2value = this.defaultname; 
+                this.getProduct();
                 if(this.printNumber !== 1) {
                     this.codeNumber = '';
                     this.qrcodeNumber = '';

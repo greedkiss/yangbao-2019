@@ -1,49 +1,33 @@
 <template>
-<!--关联检疫证-->
+<!--养殖屠宰管理-->
 <div class="admin-form">
-  <div class="card" v-loading="loading">    
+  <div class="card" v-loading="loading" >    
         <el-form :inline="true"  class="correlation" style="width:100% ;margin-top:10px" >
             <el-form-item label="">
-                <el-input v-model="tradeMarkEarTag"  style="width:100%">
-                  <template slot="prepend">认购羊只:</template>
+                <el-input placeholder="请输入/扫入认购羊只" v-model="tradeMarkEarTag"  style="width:100%">
+                  <template slot="prepend">商标耳牌号:&nbsp;&nbsp;&nbsp;&nbsp;</template>
                 </el-input>
             </el-form-item>
             <el-form-item label="">
-                <el-input v-model="qaId"  style="width:100%">
-                  <template slot="prepend">检疫合格证号:</template>
+                <el-input placeholder="请输入胴体重量" v-model="cWeight"  style="width:100%">
+                  <template slot="prepend">胴体重量(公斤):&nbsp;&nbsp;</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <el-input placeholder="请输入附属物重量" v-model="aWeight"  style="width:100%">
+                  <template slot="prepend">附属物重量(公斤):</template>
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-input v-for="(item, i) in captures" :key="i" class="select-file" style="width:337px"  @click.native="$refs.erpai[i].click()" :value="item.model">
-                  <template slot="prepend">上传检疫合格证:<input type="file" @change="selectFile(item, i)" hidden ref="erpai"></template>
+                <el-input placeholder="请上传胴体图片" v-for="(item, i) in cphotos" :key="i" class="select-file" style="width:100%"  @click.native="$refs.cphoto[i].click()" :value="item.model">
+                  <template slot="prepend">胴体图片:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" @change="selectFile(item, i)" hidden ref="cphoto"></template>
                 </el-input>
             </el-form-item>
-            <el-table
-            :data="allEarTag"
-            style="display:table-caption"
-            stripe
-            max-height="200">
-              <el-table-column
-                type="index"
-                width="50">
-              </el-table-column>
-              <el-table-column
-              label="已选羊只"
-              width="120"
-              prop="number">
-              </el-table-column>
-              <el-table-column
-                class="action"
-                label="操作"
-                align='center'
-                width="80">
-                <template slot-scope="scope">
-                    <div class="opr">
-                        <el-button @click="deleteAllEarTag(scope.$index)" type="text">删除</el-button>
-                    </div>
-                </template>
-              </el-table-column>
-            </el-table>
+            <el-form-item>
+                <el-input placeholder="请上传附属物图片" v-for="(item, i) in aphotos" :key="i" class="select-file" style="width:100%"  @click.native="$refs.aphoto[i].click()" :value="item.model">
+                  <template slot="prepend">附属物图片:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" @change="selectFile2(item, i)" hidden ref="aphoto"></template>
+                </el-input>
+            </el-form-item>
             <div style="width:10%; margin:0 auto;">
               <el-form-item>
                 <el-button type="primary"  @click="submit()">提交</el-button>
@@ -54,27 +38,24 @@
 <!--待选屠宰羊-->
 <div>
     <el-table 
-    ref="multipleTable"
     :data="tableData"
-    tooltip-effect="dark"
+    ref="singleTable"
     style="width: 100%"
-    @selection-change="handleSelectionChange">
-      <el-table-column
-      label="关联"
-      type="selection"
-      width="55">
-      </el-table-column>
+    highlight-current-row
+    @current-change="handleCurrentChange">
       <el-table-column
 				label="商标耳牌号"
 				width="120"
 				prop="tradeMarkEarTag">
 			</el-table-column>
 			<el-table-column
-				label="免疫耳牌号"
-				width="120"
-				prop="immuneEarTag">
+				label="来源养殖场"
+        align='center'
+				width="250"
+				prop="sourceFactory">
 			</el-table-column>
       <el-table-column
+        align='center'
 				label="视频"
 				width="120"
 			>
@@ -84,20 +65,18 @@
             </div>
         </template>
 			</el-table-column>
-			<el-table-column
-				label="重量"
-				width="120"
-				prop="weight">
-			</el-table-column>
+
 			<el-table-column
 				label="购买时间"
 				width="160"
+        align='center'
 				prop="buyTime">
 			</el-table-column>
 			<el-table-column
-				label="来源养殖场"
-				width="250"
-				prop="sourceFactory">
+				label="体重"
+				width="120"
+        align='center'
+				prop="weight">
 			</el-table-column>
       <el-table-column
                 class="action"
@@ -132,7 +111,7 @@
 </template>
 
 <script>
-import { getUserById, getCorrelationData, deleteCorrelationById, deleteSubscribe} from '@/util/getdata'
+import { getUserById, getFromFactoryData, deleteCorrelationById, deleteDataFromFactory} from '@/util/getdata'
 import { baseUrl, authStr, tokenStr } from '@/util/fetch'
 import { isReqSuccessful } from '@/util/jskit' 
 
@@ -146,40 +125,17 @@ import { isReqSuccessful } from '@/util/jskit'
         user: null,
         disableAll: false,
         pictureStyle: '',
-        erpai: '',
-        captures: [{model: null , per : 0}],
+        cphoto: '',
+        cphotos: [{model: null , per : 0}],
+        aphoto: '',
+        aphotos: [{model: null , per : 0}],
         tableData:[],
-        qaId:null,
-        multipleSelection:[],
+        cWeight: null,
+        aWeight: null,
         dialogFormVisible:false,
         tradeMarkEarTag:'',
-        allEarTag:[],
-        loading: false
-      }
-    },
-    watch: {
-      tradeMarkEarTag(newval){
-          let reg = /[MSG]\d+/g;
-          let canPush = /[MSG]\d{6,}/g;
-          let res = this.tradeMarkEarTag.match(reg);
-          let canPushRes = this.tradeMarkEarTag.match(canPush);
-          if(res){
-            //全局匹配，res是一个结果数组，将数组转换为字符串
-              this.tradeMarkEarTag = res.join(",");
-          }else{
-            if(newval.length > 1){  
-              this.$message.warning("请输入合法耳牌");
-            }
-          }
-          if(canPushRes){
-            //只有数字在六位以上的号码，才是符合规范的，才可以被放入缓存列表中
-            this.allEarTag = [];
-            canPushRes.forEach(v => {
-              this.allEarTag.push({
-                number:v
-              })
-            })
-          }
+        weight: '',
+        loading: false,
       }
     },
     mounted () {
@@ -189,71 +145,72 @@ import { isReqSuccessful } from '@/util/jskit'
         }).then(this.fetchData);
     },
     methods: {
-      //复选框
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
+      setCurrent(row) {
+        this.$refs.singleTable.setCurrentRow(row);
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
+      handleCurrentChange(val) {
+        //console.log(val);
+        this.currentRow = val;
+        this.tradeMarkEarTag = val.tradeMarkEarTag;
+        this.weight = val.weight;
       },
       //上传图片并关联检疫合格证号
       selectFile (item, idx) {
-          let file = this.$refs.erpai[idx].files[0]
+          let file = this.$refs.cphoto[idx].files[0]
+          item.model = file.name
+          item.file = file
+      },
+      selectFile2 (item, idx) {
+          let file = this.$refs.aphoto[idx].files[0]
           item.model = file.name
           item.file = file
       },
       submit () {
               this.loading = true;
-              let array = this.multipleSelection;
-              let len = array.length;
-              let sheep='';
-              for(let i = 0;i < len-1; i++){
-                let erNumber=array[i].tradeMarkEarTag+','
-                sheep=sheep+erNumber
-              }
-              let erNumber = '';
-              if(len > 0){
-                erNumber = array[len-1].tradeMarkEarTag;
-              }
-              sheep += erNumber;
-              if(this.tradeMarkEarTag != ''){
-                if(array.length > 0 ){
-                  sheep +=  "," + this.tradeMarkEarTag
-                }else{
-                  sheep += this.tradeMarkEarTag
-                }
-              }
               let form=new FormData()
-              let qaId=this.qaId
-              form.append('userId', this.$route.params.id)
-              form.append('eartags',sheep )
-              form.append('qaId',qaId )
-              form.append('factoryId', this.user.userFactory)
-              this.captures.forEach((item, index) => {
-                    form.append('file', this.$refs.erpai[index].files[0])
+              if(!this.cWeight) {
+                this.cWeight = this.weight * 45 / 95;
+              }
+              if(!this.aWeight) {
+                this.aWeight = this.weight * 20 / 95;
+              }
+              form.append('carcassWeight',this.cWeight)
+              form.append('appendageWeight',this.aWeight)
+              form.append('operator',this.user.id)
+              form.append('operatorName',this.user.userRealname)
+              form.append('fatherNumber',this.tradeMarkEarTag)
+              form.append('restaurantId', this.user.userFactory)
+              this.cphotos.forEach((item, index) => {
+                    form.append('carcassPhoto', this.$refs.cphoto[index].files[0])
               })
+              this.aphotos.forEach((item, index) => {
+                    form.append('appendagePhoto', this.$refs.aphoto[index].files[0])
+              })
+              console.log(form);
               let headers = {}
               headers[authStr] = window.localStorage.getItem(tokenStr)
-              window.fetch(baseUrl + '/slaughter/addqarecord', {
+              window.fetch(baseUrl + '/d/out/automaticSlaughter', {
                   method: 'POST',
                   headers,
                   body: form
               }).then(async res => {
+                  this.loading = false;
                   let body = await res.json()
                     if (isReqSuccessful(body)) {
-                        this.$message.success('上传成功')
+                        this.$message.success('提交成功')
+                        this.tradeMarkEarTag = '';
+                        this.weight = '';
+                        this.cWeight = '';
+                        this.aWeight = '';
+                        this.cphoto = '';
+                        this.aphoto = '';
+                        this.cphotos = [{model: null , per : 0}];
+                        this.aphotos = [{model: null , per : 0}];
                         this.fetchData()
                      }
                     else{
-                    this.$message.error('请验证检疫合格证号，不能为空或者重复！')
+                    this.$message.error('提交失败')
                     }
-                    this.loading = false;
                 })
       },
       //查看图片
@@ -271,7 +228,7 @@ import { isReqSuccessful } from '@/util/jskit'
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteSubscribe(data).then(res=>{
+          deleteDataFromFactory(data).then(res=>{
             if(res){
               if(isReqSuccessful(res)){
                 this.$message.success("删除成功");
@@ -292,14 +249,6 @@ import { isReqSuccessful } from '@/util/jskit'
           });          
         });
       },
-      deleteAllEarTag(index){
-        this.allEarTag.splice(index, 1);
-        let str = '';
-        this.allEarTag.forEach(item => {
-          str += item.number;
-        })
-        this.tradeMarkEarTag = str;
-      },
       //加载表格信息
       async fetchData(){
         let id=this.user.userFactory;
@@ -308,14 +257,14 @@ import { isReqSuccessful } from '@/util/jskit'
             page: this.page-1,
             size: 10
         }
-        getCorrelationData(id, param).then(res => {
+        getFromFactoryData(id, param).then(res => {
             if (isReqSuccessful(res)) {
                 let data = res.data;
                 this.tableData = data.List
                 this.total = data.number
             }
             
-        },)
+        })
       },
     }
   }
