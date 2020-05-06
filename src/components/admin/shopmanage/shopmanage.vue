@@ -719,6 +719,7 @@ export default {
                     this.weight = '';
                 }
                 this.picSuccess = '';
+                this.pic = null;
                 // 提交之后，让二维码的计数加一
                 this.count++;
                 this.qrcodeNumber = this.codeNumber + this.count;

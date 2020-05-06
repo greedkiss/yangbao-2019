@@ -159,24 +159,22 @@
           </table>
         </div>
         <div class="o_message">
-          <table class="o_snDetail" sgtyle="border-bottom:1px solid #0090d4" >
+          <table class="o_snDetail" sgtyle="border-bottom:1px solid #0090d4">
             <tr>
               <th colspan="11" class="table_head">实时供求发布</th>
             </tr>
             <tr>
-               
-            <th 
+              <th
                 rowspan="1"
                 style="color: #01ffff; font-size: 12px;background: #001e85;border:0px; border-left:1px solid #0090d4"
                 colspan="2"
-                
               >活羊(只)</th>
               <td>
                 <span v-text="detail.breed_sheep_supply"></span>
               </td>
-<!--               <td>
+              <!--               <td>
                 <span v-text="detail.slaughter_sheep_supply"></span>
-              </td> -->
+              </td>-->
               <td>
                 <span v-text="detail.slaughter_sheep_demand"></span>
               </td>
@@ -215,9 +213,9 @@
               <td>
                 <span v-text="detail.slaughter_meat_supply"></span>
               </td>
-<!--               <td>
+              <!--               <td>
                 <span v-text="detail.process_meat_supply"></span>
-              </td> -->
+              </td>-->
               <td>
                 <span v-text="detail.process_meat_demand"></span>
               </td>
@@ -235,7 +233,7 @@
               </td>
             </tr>
             <tr>
-            <th
+              <th
                 rowspan="1"
                 style="color: #01ffff; font-size: 12px;background: #001e85;border:0px;border-left:1px solid #0090d4"
                 colspan="2"
@@ -243,11 +241,11 @@
               <td>
                 <div class="o_font">供</div>
               </td>
-<!--               <td>
+              <!--               <td>
                 <div class="o_font">供</div>
-              </td> -->
+              </td>-->
               <td>
-                <div class="o_font">求</div>  
+                <div class="o_font">求</div>
               </td>
               <td>
                 <div class="o_font">供</div>
@@ -269,7 +267,7 @@
               </td>
             </tr>
             <tr>
-            <th
+              <th
                 rowspan="1"
                 style="color: #01ffff; font-size: 12px;background: #001e85; border:0px; border-left:1px solid #0090d4;"
                 colspan="2"
@@ -280,7 +278,7 @@
               <td colspan="2" class="o_double">
                 <div class="o_font">屠宰厂</div>
               </td>
-              <td >
+              <td>
                 <div class="o_font">加工厂</div>
               </td>
               <td>
@@ -309,27 +307,39 @@
               <td colspan="2" class="o_double">
                 <div class="o_font">{{sum.slaughter}}</div>
               </td>
-              <td >
-                <div class="o_font">{{sum.process}}</div></td>
-              <td >
+              <td>
+                <div class="o_font">{{sum.process}}</div>
+              </td>
+              <td>
                 <div class="o_font">{{sum.dining}}</div>
               </td>
-              <td >
+              <td>
                 <div class="o_font">{{sum.meat}}</div>
               </td>
-              <td >
+              <td>
                 <div class="o_font">{{sum.cook}}</div>
               </td>
-              <td >
+              <td>
                 <div class="o_font">{{sum.market}}</div>
               </td>
             </tr>
           </table>
         </div>
-        <div class="o_sheep_line" >
-            <div>
-                <ve-line :data="chartData" :settings="chartSettings" :grid="grid" :yAxis="yAxis" :xAxis="xAxis" width="590px" height='220px' top='220px' :mark-line="markLine" :extend="chartExtend"></ve-line>
-            </div>
+        <div class="o_sheep_line">
+          <div>
+            <ve-line
+              :data="chartData"
+              :settings="chartSettings"
+              :grid="grid"
+              :yAxis="yAxis"
+              :xAxis="xAxis"
+              width="590px"
+              height="220px"
+              top="220px"
+              :mark-line="markLine"
+              :extend="chartExtend"
+            ></ve-line>
+          </div>
         </div>
         <div class="o_detail">
           <div class="o_inside">
@@ -391,15 +401,15 @@
         >黔ICP备18003179号</a>
         <br />
       </p>
-    </footer> -->
+    </footer>-->
   </div>
 </template>
 <script>
 import pcaa from "area-data/pcaa";
 import OMap from "./o_map";
-import VeLine from  'v-charts/lib/line'
-import { baseUrl, authStr, tokenStr } from '@/util/fetch'
-import 'echarts/lib/component/markLine'
+import VeLine from "v-charts/lib/line";
+import { baseUrl, authStr, tokenStr } from "@/util/fetch";
+import "echarts/lib/component/markLine";
 // import getPlace from './method.js'
 import {
   getCustomerByAddress,
@@ -415,88 +425,97 @@ import {
 } from "@/util/getdata";
 export default {
   components: {
-    OMap,VeLine
+    OMap,
+    VeLine
   },
   activated() {
-    console.log('keep-alive');
+    console.log("keep-alive");
   },
   data() {
-     this.chartSettings = {
-          dimension: ['month'],
-          xAxisType: 'time',
-          legendName: {
-          种母羊:'种母羊:0',
-          种公羊:'种公羊:0',
-          商品羊:'商品羊:0',
-          羔羊:'羔羊:0',
-          后备种母羊: '后备种母羊:0',
-          后备种公羊: '后备种公羊:0',        
-        },
-        //可以通过生命周期，在页面加载的时候，从后台请求当前的羊只数量，然后改变legendName后面的数量
-        yAxisName: ['只数'],
-        min:[1,2]
-      }
-        this.grid = {
-        show: true,
-        top: 50,
-        left: 10,
-        backgroundColor: '#001e85',
-        borderColor: '#01ffff',
-        right:'7%',
-        height:"75%"
-      }
+    this.chartSettings = {
+      dimension: ["month"],
+      xAxisType: "time",
+      legendName: {
+        种母羊: "种母羊:0",
+        种公羊: "种公羊:0",
+        商品羊: "商品羊:0",
+        羔羊: "羔羊:0",
+        后备种母羊: "后备种母羊:0",
+        后备种公羊: "后备种公羊:0"
+      },
+      //可以通过生命周期，在页面加载的时候，从后台请求当前的羊只数量，然后改变legendName后面的数量
+      yAxisName: ["只数"],
+      min: [1, 2]
+    };
+    this.grid = {
+      show: true,
+      top: 50,
+      left: 10,
+      backgroundColor: "#001e85",
+      borderColor: "#01ffff",
+      right: "7%",
+      height: "75%"
+    };
     return {
-        chartData: {
-          columns: ['month', '种母羊','种公羊', '商品羊', '羔羊', '后备种母羊', '后备种公羊'],
-          rows: []
+      chartData: {
+        columns: [
+          "month",
+          "种母羊",
+          "种公羊",
+          "商品羊",
+          "羔羊",
+          "后备种母羊",
+          "后备种公羊"
+        ],
+        rows: []
+      },
+      yAxis: {
+        name: "",
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: "#01ffff"
+          }
         },
-        yAxis : {
-              name:'',
-              axisLabel: {
-                  show: true,
-                  textStyle: {
-                      color: '#01ffff'
-                  }
-              },
-              nameTextStyle:{
-                color:'#01ffff'
-              }
+        nameTextStyle: {
+          color: "#01ffff"
+        }
+      },
+      xAxis: {
+        min: 1,
+        name: "月份",
+        nameLocation: "end",
+        nameTextStyle: {
+          color: "#01ffff"
         },
-        xAxis : {
-            min:1,
-            name:'月份',
-            nameLocation:'end',
-            nameTextStyle:{
-              color:'#01ffff'
-            },
-            axisLabel: {
-                show: true,
-                textStyle: {
-                    color: '#01ffff',
-                    align:'left'
-                    }
-            },
-        },
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: "#01ffff",
+            align: "left"
+          }
+        }
+      },
       markLine: {
         lineStyle: {
           show: true,
-          color: '#808C94',
-          type: 'dashed'
+          color: "#808C94",
+          type: "dashed"
         }
       },
       chartExtend: {
-            legend: {
-              top:20,
-              textStyle:{
-                color:'#808C94',
-                fontSize: 10
-              }
-            },
-          },
-      geographic:{
-        province:null,
-        city:null,
-        district:null
+        legend: {
+          top: 20,
+          textStyle: {
+            color: "#808C94",
+            fontSize: 10
+          }
+        }
+      },
+      geographic: {
+        province: null,
+        city: null,
+        district: null
       },
       sum: {
         market: "",
@@ -540,7 +559,7 @@ export default {
         town: ""
       },
       data: [],
-      place: { lan:0,lon:0,level: 11 },
+      place: { lan: 0, lon: 0, level: 11 },
       mapCenter: {
         lon: 0,
         lan: 0,
@@ -581,7 +600,7 @@ export default {
     };
   },
   created() {
-    this.getXYbyIP()
+    this.getXYbyIP();
     //.then(this.getCount())
   },
   mounted() {
@@ -598,16 +617,16 @@ export default {
         });
       });
     });
-    let row = this.chartData.rows
-    let date = new Date()
-    let month = date.getMonth()+1
-    for(let i =1; i<=month; i++){
-      let obj = { 'month': i,  '种母羊': 0,  '种公羊': 0, '商品羊': 0,  '羔羊': 0}
-      row.push(obj)
+    let row = this.chartData.rows;
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    for (let i = 1; i <= month; i++) {
+      let obj = { month: i, 种母羊: 0, 种公羊: 0, 商品羊: 0, 羔羊: 0 };
+      row.push(obj);
     }
-    for(let i = month+1; i<=12; i++){
-      let obj = { 'month': i}
-      row.push(obj)
+    for (let i = month + 1; i <= 12; i++) {
+      let obj = { month: i };
+      row.push(obj);
     }
     //this.getXYbyIP()
     //this.search(1);
@@ -696,15 +715,18 @@ export default {
         this.$refs.one.style.color = "#2c9aef";
         this.$refs.one.style.background = "rgba(255,255,255,0.01)";
         if (this.factoryId == -1) {
-          let simpleAddress = this.geographic.province + this.geographic.city + this.geographic.district
+          let simpleAddress =
+            this.geographic.province +
+            this.geographic.city +
+            this.geographic.district;
           getLocationSheep(simpleAddress).then(res => {
-            res.data.sheeps.forEach(item =>{
-              this.eartagList.push(item)
-            })
+            res.data.sheeps.forEach(item => {
+              this.eartagList.push(item);
+            });
             this.corpation.chargeMan = "";
             this.corpation.phone = "";
           });
-          }else {
+        } else {
           if (this.factoryType) {
             getFactoryInformation(this.factoryId).then(res => {
               console.log(res.data);
@@ -715,10 +737,8 @@ export default {
               });
               this.getCount(this.factoryId);
               if (res.data.factory !== null) {
-                this.corpation.chargeMan =
-                res.data.factory.contactPersonName;
-                this.corpation.phone = 
-                res.data.factory.contactPersonPhone;
+                this.corpation.chargeMan = res.data.factory.contactPersonName;
+                this.corpation.phone = res.data.factory.contactPersonPhone;
               }
             });
           } else {
@@ -733,8 +753,7 @@ export default {
               this.getCount(this.factoryId);
             });
           }
-          }
-        
+        }
       } else {
         //可销售羊只
         this.$refs.one.style.color = "black";
@@ -742,11 +761,15 @@ export default {
         this.$refs.two.style.color = "#2c9aef";
         this.$refs.two.style.background = "rgba(255,255,255,0.01)";
         if (this.factoryId == -1) {
-          let simpleAddress = this.geographic.province + this.geographic.city + this.geographic.district
+          let simpleAddress =
+            this.geographic.province +
+            this.geographic.city +
+            this.geographic.district;
+          _this.eartagList = [];
           getLocationSheep(simpleAddress).then(res => {
-            res.data.sheeps.forEach(item =>{
-                _this.eartagList.push(item)
-            })
+            res.data.sheeps.forEach(item => {
+              _this.eartagList.push(item);
+            });
           });
         } else {
           getSalableSheep(this.factoryId).then(res => {
@@ -766,7 +789,7 @@ export default {
     },
     search(start) {
       let message = {};
-      let simpleAddress = ''
+      let simpleAddress = "";
       if (start) {
         let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超";
         message = { type, simpleAddress: "", detailAddress: "" };
@@ -774,19 +797,19 @@ export default {
         if (this.value.province != "") {
           this.mapCenter.level = 5;
           simpleAddress += this.value.province.label;
-          this.geographic.province = this.value.province.label
+          this.geographic.province = this.value.province.label;
           if (simpleAddress.indexOf("市") != -1) {
             this.mapCenter.level = 6;
             simpleAddress += this.value.city;
           } else if (this.value.city != "") {
             this.mapCenter.level = 11;
             simpleAddress += this.value.city.label;
-            this.geographic.district = this.value.city.label
+            this.geographic.district = this.value.city.label;
           }
         }
         if (this.value.country != "") {
           simpleAddress += this.value.country.label;
-          this.geographic.district = this.value.country.label
+          this.geographic.district = this.value.country.label;
         }
         let detailAddress = this.value.town;
         let type = "";
@@ -806,32 +829,33 @@ export default {
           !this.style.checked6 &&
           !this.style.checked7
         )
-        type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,";
+          type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,";
         type = type.substring(0, type.lastIndexOf(","));
         message = { type, simpleAddress, detailAddress };
       }
       this.data = [];
       this.items = [];
-      let _this = this 
+      let _this = this;
       console.log(simpleAddress);
       getLocationSheep(simpleAddress).then(res => {
-          _this.saleAll = 0;
-          res.data.sheeps.forEach(item =>{
-            _this.eartagList.push(item)
-/*             if(item){
+        _this.saleAll = 0;
+        _this.eartagList = [];
+        res.data.sheeps.forEach(item => {
+          _this.eartagList.push(item);
+          /*             if(item){
               if(item.canSale){
                 _this.saleAll++
               }
             } */
-          })
-          _this.liveAll = res.data.count;
+        });
+        _this.liveAll = res.data.count;
       });
       getCustomerByAddress(message).then(res => {
         //this.getCount()
-        console.log('gcba',res.data);
+        console.log("gcba", res.data);
         this.corpation.chargeMan = res.data.agent.userRealname;
         this.corpation.phone = res.data.agent.userTelephone;
-        if (res.data.factories.length != 0) { 
+        if (res.data.factories.length != 0) {
           res.data.factories.forEach(item => {
             let coordinates = [];
             let type = "Point";
@@ -879,28 +903,30 @@ export default {
           });
         }
         //当没有factory时候定位mapcenter
-        if(res.data.customers.length == 0 && res.data.factories.length == 0){
-            console.log(simpleAddress,"地理位置")
-            let url = "https://api.map.baidu.com/geocoding/v3/?address=" +
-            simpleAddress + "&output=json&ak=BMsRuPgitTR8eMopPH7FraZSz0t5HP9X&callback=showLocation"
-            let new_this = this
-            $.ajax({
-              url: url,
-              type: "POST",
-              dataType: "JSONP",
-              async: true, 
-              cache: true,
-              success: function(data) {
-                new_this.mapCenter.lon = data.result.location.lng
-                new_this.mapCenter.lan = data.result.location.lat
-              }
-            })
+        if (res.data.customers.length == 0 && res.data.factories.length == 0) {
+          console.log(simpleAddress, "地理位置");
+          let url =
+            "https://api.map.baidu.com/geocoding/v3/?address=" +
+            simpleAddress +
+            "&output=json&ak=BMsRuPgitTR8eMopPH7FraZSz0t5HP9X&callback=showLocation";
+          let new_this = this;
+          $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSONP",
+            async: true,
+            cache: true,
+            success: function(data) {
+              new_this.mapCenter.lon = data.result.location.lng;
+              new_this.mapCenter.lan = data.result.location.lat;
+            }
+          });
         }
         this.detail = {};
-          this.total.total_output_sheep = res.data.total_output_sheep;
-          this.total.total_demand_sheep = res.data.total_demand_sheep;
-          this.total.total_output_meat = res.data.total_output_meat;
-          this.total.total_demand_meat = res.data.total_demand_meat;
+        this.total.total_output_sheep = res.data.total_output_sheep;
+        this.total.total_demand_sheep = res.data.total_demand_sheep;
+        this.total.total_output_meat = res.data.total_output_meat;
+        this.total.total_demand_meat = res.data.total_demand_meat;
         if (res.data.statistics["养殖厂"].output != 0) {
           this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output;
         }
@@ -990,73 +1016,65 @@ export default {
           this.sum.breed = res.data.statistics["养殖厂"].count;
         }
       });
-      getDataOfChartByAddress(message).then(res =>{
-            console.log('a',res.data);
-            let row = this.chartData.rows
-            let youngsheep = res.data['羔羊']
-            let ewe = res.data['种母羊']
-            let ram = res.data['种公羊']
-            let saleSheep = res.data['商品羊']
-            let len = Object.getOwnPropertyNames(youngsheep).length
-            let top = this.chartSettings.legendName
-            for(let i=1 ; i<=len ; i++){
-              if(youngsheep[i]!==null){
-                row[i-1]['羔羊'] = youngsheep[i]
-              }
-              else {
-                row[i-1]['羔羊'] = 0
-              }
-              if(ewe[i]!==null){
-                row[i-1]['种母羊'] = ewe[i]
-              }
-              else {
-                row[i-1]['种母羊'] = 0
-              }
-              if(ram[i]!==null){
-                row[i-1]['种公羊'] = ram[i]
-              }
-              else {
-                row[i-1]['种公羊'] = 0
-              }
-              if(saleSheep[i]!==null){
-                row[i-1]['商品羊'] = saleSheep[i]
-              }
-              else {
-                row[i-1]['商品羊'] = 0
-              }
-              if(i==len){
-                if(youngsheep[i]!==null){
-                  top['羔羊']=`羔羊:${youngsheep[i]}`
-                  row[i-1]['羔羊'] = youngsheep[i]
-                  }
-                else{
-                  top['羔羊']='羔羊:0'
-                  }
-                if(ewe[i]!==null){
-                  top['种母羊']=`种母羊:${ewe[i]}`
-                  row[i-1]['种母羊'] = ewe[i]
-                  console.log(row[i-1]['种母羊'])
-                }
-                else{
-                  top['种母羊']='种母羊:0'
-                }
-                if(ram[i]!==null){
-                  top['种公羊']=`种公羊:${ram[i]}`
-                  row[i-1]['种公羊'] = ram[i]
-                }
-                else{
-                  top['种公羊']='种公羊:0'
-                }
-                if(saleSheep[i]!==null){
-                  top['商品羊']=`商品羊:${saleSheep[i]}`
-                  row[i-1]['商品羊'] = saleSheep[i]
-                }
-                else{
-                  top['商品羊']='商品羊:0'
-                }
-              }
+      getDataOfChartByAddress(message).then(res => {
+        console.log("a", res.data);
+        let row = this.chartData.rows;
+        let youngsheep = res.data["羔羊"];
+        let ewe = res.data["种母羊"];
+        let ram = res.data["种公羊"];
+        let saleSheep = res.data["商品羊"];
+        let len = Object.getOwnPropertyNames(youngsheep).length;
+        let top = this.chartSettings.legendName;
+        for (let i = 1; i <= len; i++) {
+          if (youngsheep[i] !== null) {
+            row[i - 1]["羔羊"] = youngsheep[i];
+          } else {
+            row[i - 1]["羔羊"] = 0;
+          }
+          if (ewe[i] !== null) {
+            row[i - 1]["种母羊"] = ewe[i];
+          } else {
+            row[i - 1]["种母羊"] = 0;
+          }
+          if (ram[i] !== null) {
+            row[i - 1]["种公羊"] = ram[i];
+          } else {
+            row[i - 1]["种公羊"] = 0;
+          }
+          if (saleSheep[i] !== null) {
+            row[i - 1]["商品羊"] = saleSheep[i];
+          } else {
+            row[i - 1]["商品羊"] = 0;
+          }
+          if (i == len) {
+            if (youngsheep[i] !== null) {
+              top["羔羊"] = `羔羊:${youngsheep[i]}`;
+              row[i - 1]["羔羊"] = youngsheep[i];
+            } else {
+              top["羔羊"] = "羔羊:0";
             }
-        })
+            if (ewe[i] !== null) {
+              top["种母羊"] = `种母羊:${ewe[i]}`;
+              row[i - 1]["种母羊"] = ewe[i];
+              console.log(row[i - 1]["种母羊"]);
+            } else {
+              top["种母羊"] = "种母羊:0";
+            }
+            if (ram[i] !== null) {
+              top["种公羊"] = `种公羊:${ram[i]}`;
+              row[i - 1]["种公羊"] = ram[i];
+            } else {
+              top["种公羊"] = "种公羊:0";
+            }
+            if (saleSheep[i] !== null) {
+              top["商品羊"] = `商品羊:${saleSheep[i]}`;
+              row[i - 1]["商品羊"] = saleSheep[i];
+            } else {
+              top["商品羊"] = "商品羊:0";
+            }
+          }
+        }
+      });
     },
     getXYbyIP() {
       let _this = this;
@@ -1066,596 +1084,590 @@ export default {
         url: url,
         type: "POST",
         dataType: "JSONP",
-        async: true, 
+        async: true,
         cache: true,
         success: function(data) {
           _this.place.lon = data.content.point.x;
           _this.place.lan = data.content.point.y;
-          _this.geographic.province = data.content.address_detail.province
-          _this.geographic.city = data.content.address_detail.city
-          _this.geographic.district = data.content.address_detail.district
-           let detailAddress =""
-          console.log(_this.geographic,111)
-          let simpleAddress = ''
-          simpleAddress = _this.geographic.province + _this.geographic.city + _this.geographic.district
-          console.log(_this.geographic.province)
-          let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,"
+          _this.geographic.province = data.content.address_detail.province;
+          _this.geographic.city = data.content.address_detail.city;
+          _this.geographic.district = data.content.address_detail.district;
+          let detailAddress = "";
+          console.log(_this.geographic, 111);
+          let simpleAddress = "";
+          simpleAddress =
+            _this.geographic.province +
+            _this.geographic.city +
+            _this.geographic.district;
+          console.log(_this.geographic.province);
+          let type = "养殖厂,屠宰厂,加工厂,鲜肉,餐饮,熟食,商超,";
           let message = {
             simpleAddress,
             detailAddress,
             type
-          }
-          getCustomerByAddress(message).then((res) =>{
+          };
+          getCustomerByAddress(message).then(res => {
             if (res.data.factories.length != 0) {
-          res.data.factories.forEach(item => {
-            let coordinates = [];
-            let type = "Point";
-            if (item.longitude != null) {
-              _this.mapCenter.lon = item.longitude;
-              coordinates.push(item.longitude);
-            }
-            if (item.latitude != null) {
-              _this.mapCenter.lan = item.latitude;
-              coordinates.push(item.latitude);
-            }
-            let geometry = { type, coordinates };
-            let count = 3;
-            _this.data.push({ geometry, count });
-            let id = item.id;
-            let name = item.breedName;
-            let style = 1; //1表示羊场
-            _this.items.push({ id, name, style });
-          });
-        }
-        if (res.data.customers.length != 0) {
-          res.data.customers.forEach(item => {
-            let coordinates = [];
-            let type = "Point";
-            if (item.longitude != null) {
-              _this.mapCenter.lon = item.longitude;
-              coordinates.push(item.longitude);
-            }
-            if (item.latitude != null) {
-              _this.mapCenter.lan = item.latitude;
-              coordinates.push(item.latitude);
-            }
-            let geometry = { type, coordinates };
-            let count;
-            if (item.type == "屠宰厂" || item.type == "加工厂") {
-              count = 1;
-            } else {
-              count = 2;
-            }
-            _this.data.push({ geometry, count });
-            let id = item.id;
-            let name = item.name;
-            let style = 0; //0表示屠宰加工消费
-            _this.items.push({ id, name, style });
-          });
-        }
-        _this.detail = {};
-        _this.total.total_output_sheep = res.data.total_output_sheep;
-        _this.total.total_demand_sheep = res.data.total_demand_sheep;
-        _this.total.total_output_meat = res.data.total_output_meat;
-        _this.total.total_demand_meat = res.data.total_demand_meat;
-        if (res.data.statistics["养殖厂"].output != 0) {
-          _this.detail.breed_sheep_supply = res.data.statistics["养殖厂"].output;
-        }
-        if (res.data.statistics["屠宰厂"].output_sheep != 0) {
-          _this.detail.slaughter_sheep_supply =
-            res.data.statistics["屠宰厂"].output_sheep;
-        }
-        if (res.data.statistics["屠宰厂"].demand_sheep != 0) {
-          _this.detail.slaughter_sheep_demand =
-            res.data.statistics["屠宰厂"].demand_sheep;
-        }
-        if (res.data.statistics["加工厂"].output_sheep != 0) {
-          _this.detail.process_sheep_supply =
-            res.data.statistics["加工厂"].output_sheep;
-        }
-        if (res.data.statistics["加工厂"].demand_sheep != 0) {
-          _this.detail.process_sheep_demand =
-            res.data.statistics["加工厂"].demand_sheep;
-        }
-        if (res.data.statistics["餐饮"].demand_sheep != 0) {
-          _this.detail.dining_sheep_demand =
-            res.data.statistics["餐饮"].demand_sheep;
-        }
-        if (res.data.statistics["鲜肉"].demand_sheep != 0) {
-          _this.detail.meat_sheep_demand =
-            res.data.statistics["鲜肉"].demand_sheep;
-        }
-        if (res.data.statistics["熟食"].demand_sheep != 0) {
-          _this.detail.cook_sheep_demand =
-            res.data.statistics["鲜肉"].demand_sheep;
-        }
-        if (res.data.statistics["商超"].demand_sheep != 0) {
-          _this.detail.market_sheep_demand =
-            res.data.statistics["商超"].demand_sheep;
-        }
-        if (res.data.statistics["屠宰厂"].output_meat != 0) {
-          _this.detail.slaughter_meat_supply =
-            res.data.statistics["屠宰厂"].output_meat;
-        }
-        if (res.data.statistics["屠宰厂"].demand_meat != 0) {
-          _this.detail.slaughter_meat_demand =
-            res.data.statistics["屠宰厂"].demand_meat;
-        }
-        if (res.data.statistics["加工厂"].output_meat != 0) {
-          _this.detail.process_meat_supply =
-            res.data.statistics["加工厂"].output_meat;
-        }
-        if (res.data.statistics["加工厂"].demand_meat != 0) {
-          _this.detail.process_meat_demand =
-            res.data.statistics["加工厂"].demand_meat;
-        }
-        if (res.data.statistics["餐饮"].demand_meat != 0) {
-          _this.detail.dining_meat_demand =
-            res.data.statistics["餐饮"].demand_meat;
-        }
-        if (res.data.statistics["鲜肉"].demand_meat != 0) {
-          _this.detail.meat_meat_demand =
-            res.data.statistics["鲜肉"].demand_meat;
-        }
-        if (res.data.statistics["熟食"].demand_meat != 0) {
-          _this.detail.cook_meat_demand =
-            res.data.statistics["鲜肉"].demand_meat;
-        }
-        if (res.data.statistics["商超"].demand_meat != 0) {
-          _this.detail.market_meat_demand =
-            res.data.statistics["商超"].demand_meat;
-        }
-        if (res.data.statistics["商超"].count != 0) {
-          _this.sum.market = res.data.statistics["商超"].count;
-        }
-        if (res.data.statistics["熟食"].count != 0) {
-          _this.sum.cook = res.data.statistics["熟食"].count;
-        }
-        if (res.data.statistics["鲜肉"].count != 0) {
-          _this.sum.meat = res.data.statistics["鲜肉"].count;
-        }
-        if (res.data.statistics["餐饮"].count != 0) {
-          _this.sum.dining = res.data.statistics["餐饮"].count;
-        }
-        if (res.data.statistics["加工厂"].count != 0) {
-          _this.sum.process = res.data.statistics["加工厂"].count;
-        }
-        if (res.data.statistics["屠宰厂"].count != 0) {
-          _this.sum.slaughter = res.data.statistics["屠宰厂"].count;
-        }
-        if (res.data.statistics["养殖厂"].count != 0) {
-          _this.sum.breed = res.data.statistics["养殖厂"].count;
-        }
-      })
-      console.log('addr',simpleAddress)
-      getLocationSheep(simpleAddress).then(res => {
-        _this.saleAll = 0;
-        res.data.sheeps.forEach(item =>{
-          _this.eartagList.push(item.trademarkEarTag)
-          if(item.canSale){
-            _this.saleAll++
-          }
-        })
-        _this.liveAll = res.data.count;
-        _this.corpation.chargeMan = "";
-        _this.corpation.phone = "";
-      });
-          getDataOfChartByAddress(message).then(res =>{
-                let row = _this.chartData.rows
-                let youngsheep = res.data['羔羊']
-                let ewe = res.data['种母羊']
-                let ram = res.data['种公羊']
-                let saleSheep = res.data['商品羊']
-                let len = Object.getOwnPropertyNames(youngsheep).length
-                let top = _this.chartSettings.legendName
-                for(let i=1 ; i<=len ; i++){
-                  if(youngsheep[i]!==null){
-                    row[i-1]['羔羊'] = youngsheep[i]
-                  }
-                  else {
-                    row[i-1]['羔羊'] = 0
-                  }
-                  if(ewe[i]!==null){
-                    row[i-1]['种母羊'] = ewe[i]
-                  }
-                  else {
-                    row[i-1]['种母羊'] = 0
-                  }
-                  if(ram[i]!==null){
-                    row[i-1]['种公羊'] = ram[i]
-                  }
-                  else {
-                    row[i-1]['种公羊'] = 0
-                  }
-                  if(saleSheep[i]!==null){
-                    row[i-1]['商品羊'] = saleSheep[i]
-                  }
-                  else {
-                    row[i-1]['商品羊'] = 0
-                  }
-                  if(i==len){
-                    if(youngsheep[i]!==null){
-                      top['羔羊']=`羔羊:${youngsheep[i]}`
-                      }
-                    else{
-                      top['羔羊']='羔羊:0'
-                      }
-                  }
-                  if(i==len){
-                    if(ewe!==null){
-                      top['种母羊']=`种母羊:${ewe[i]}`
-                    }
-                    else{
-                      top['种母羊']='种母羊:0'
-                    }
-                    
-                  }
-                  if(i==len){
-                    if(ram[i]!==null){
-                      top['种公羊']=`种公羊:${ram[i]}`
-                    }
-                    else{
-                      top['种公羊']='种公羊:0'
-                    }
-                  }
-                  if(i==len){
-                    if(saleSheep[i]!==null){
-                      top['商品羊']=`商品羊:${saleSheep[i]}`
-                    }
-                    top['商品羊']='商品羊:0'
-                  }
+              res.data.factories.forEach(item => {
+                let coordinates = [];
+                let type = "Point";
+                if (item.longitude != null) {
+                  _this.mapCenter.lon = item.longitude;
+                  coordinates.push(item.longitude);
                 }
-
-            })
+                if (item.latitude != null) {
+                  _this.mapCenter.lan = item.latitude;
+                  coordinates.push(item.latitude);
+                }
+                let geometry = { type, coordinates };
+                let count = 3;
+                _this.data.push({ geometry, count });
+                let id = item.id;
+                let name = item.breedName;
+                let style = 1; //1表示羊场
+                _this.items.push({ id, name, style });
+              });
+            }
+            if (res.data.customers.length != 0) {
+              res.data.customers.forEach(item => {
+                let coordinates = [];
+                let type = "Point";
+                if (item.longitude != null) {
+                  _this.mapCenter.lon = item.longitude;
+                  coordinates.push(item.longitude);
+                }
+                if (item.latitude != null) {
+                  _this.mapCenter.lan = item.latitude;
+                  coordinates.push(item.latitude);
+                }
+                let geometry = { type, coordinates };
+                let count;
+                if (item.type == "屠宰厂" || item.type == "加工厂") {
+                  count = 1;
+                } else {
+                  count = 2;
+                }
+                _this.data.push({ geometry, count });
+                let id = item.id;
+                let name = item.name;
+                let style = 0; //0表示屠宰加工消费
+                _this.items.push({ id, name, style });
+              });
+            }
+            _this.detail = {};
+            _this.total.total_output_sheep = res.data.total_output_sheep;
+            _this.total.total_demand_sheep = res.data.total_demand_sheep;
+            _this.total.total_output_meat = res.data.total_output_meat;
+            _this.total.total_demand_meat = res.data.total_demand_meat;
+            if (res.data.statistics["养殖厂"].output != 0) {
+              _this.detail.breed_sheep_supply =
+                res.data.statistics["养殖厂"].output;
+            }
+            if (res.data.statistics["屠宰厂"].output_sheep != 0) {
+              _this.detail.slaughter_sheep_supply =
+                res.data.statistics["屠宰厂"].output_sheep;
+            }
+            if (res.data.statistics["屠宰厂"].demand_sheep != 0) {
+              _this.detail.slaughter_sheep_demand =
+                res.data.statistics["屠宰厂"].demand_sheep;
+            }
+            if (res.data.statistics["加工厂"].output_sheep != 0) {
+              _this.detail.process_sheep_supply =
+                res.data.statistics["加工厂"].output_sheep;
+            }
+            if (res.data.statistics["加工厂"].demand_sheep != 0) {
+              _this.detail.process_sheep_demand =
+                res.data.statistics["加工厂"].demand_sheep;
+            }
+            if (res.data.statistics["餐饮"].demand_sheep != 0) {
+              _this.detail.dining_sheep_demand =
+                res.data.statistics["餐饮"].demand_sheep;
+            }
+            if (res.data.statistics["鲜肉"].demand_sheep != 0) {
+              _this.detail.meat_sheep_demand =
+                res.data.statistics["鲜肉"].demand_sheep;
+            }
+            if (res.data.statistics["熟食"].demand_sheep != 0) {
+              _this.detail.cook_sheep_demand =
+                res.data.statistics["鲜肉"].demand_sheep;
+            }
+            if (res.data.statistics["商超"].demand_sheep != 0) {
+              _this.detail.market_sheep_demand =
+                res.data.statistics["商超"].demand_sheep;
+            }
+            if (res.data.statistics["屠宰厂"].output_meat != 0) {
+              _this.detail.slaughter_meat_supply =
+                res.data.statistics["屠宰厂"].output_meat;
+            }
+            if (res.data.statistics["屠宰厂"].demand_meat != 0) {
+              _this.detail.slaughter_meat_demand =
+                res.data.statistics["屠宰厂"].demand_meat;
+            }
+            if (res.data.statistics["加工厂"].output_meat != 0) {
+              _this.detail.process_meat_supply =
+                res.data.statistics["加工厂"].output_meat;
+            }
+            if (res.data.statistics["加工厂"].demand_meat != 0) {
+              _this.detail.process_meat_demand =
+                res.data.statistics["加工厂"].demand_meat;
+            }
+            if (res.data.statistics["餐饮"].demand_meat != 0) {
+              _this.detail.dining_meat_demand =
+                res.data.statistics["餐饮"].demand_meat;
+            }
+            if (res.data.statistics["鲜肉"].demand_meat != 0) {
+              _this.detail.meat_meat_demand =
+                res.data.statistics["鲜肉"].demand_meat;
+            }
+            if (res.data.statistics["熟食"].demand_meat != 0) {
+              _this.detail.cook_meat_demand =
+                res.data.statistics["鲜肉"].demand_meat;
+            }
+            if (res.data.statistics["商超"].demand_meat != 0) {
+              _this.detail.market_meat_demand =
+                res.data.statistics["商超"].demand_meat;
+            }
+            if (res.data.statistics["商超"].count != 0) {
+              _this.sum.market = res.data.statistics["商超"].count;
+            }
+            if (res.data.statistics["熟食"].count != 0) {
+              _this.sum.cook = res.data.statistics["熟食"].count;
+            }
+            if (res.data.statistics["鲜肉"].count != 0) {
+              _this.sum.meat = res.data.statistics["鲜肉"].count;
+            }
+            if (res.data.statistics["餐饮"].count != 0) {
+              _this.sum.dining = res.data.statistics["餐饮"].count;
+            }
+            if (res.data.statistics["加工厂"].count != 0) {
+              _this.sum.process = res.data.statistics["加工厂"].count;
+            }
+            if (res.data.statistics["屠宰厂"].count != 0) {
+              _this.sum.slaughter = res.data.statistics["屠宰厂"].count;
+            }
+            if (res.data.statistics["养殖厂"].count != 0) {
+              _this.sum.breed = res.data.statistics["养殖厂"].count;
+            }
+          });
+          console.log("addr", simpleAddress);
+          getLocationSheep(simpleAddress).then(res => {
+            _this.saleAll = 0;
+            _this.eartagList = [];
+            res.data.sheeps.forEach(item => {
+              _this.eartagList.push(item.trademarkEarTag);
+              if (item.canSale) {
+                _this.saleAll++;
+              }
+            });
+            _this.liveAll = res.data.count;
+            _this.corpation.chargeMan = "";
+            _this.corpation.phone = "";
+          });
+          getDataOfChartByAddress(message).then(res => {
+            let row = _this.chartData.rows;
+            let youngsheep = res.data["羔羊"];
+            let ewe = res.data["种母羊"];
+            let ram = res.data["种公羊"];
+            let saleSheep = res.data["商品羊"];
+            let len = Object.getOwnPropertyNames(youngsheep).length;
+            let top = _this.chartSettings.legendName;
+            for (let i = 1; i <= len; i++) {
+              if (youngsheep[i] !== null) {
+                row[i - 1]["羔羊"] = youngsheep[i];
+              } else {
+                row[i - 1]["羔羊"] = 0;
+              }
+              if (ewe[i] !== null) {
+                row[i - 1]["种母羊"] = ewe[i];
+              } else {
+                row[i - 1]["种母羊"] = 0;
+              }
+              if (ram[i] !== null) {
+                row[i - 1]["种公羊"] = ram[i];
+              } else {
+                row[i - 1]["种公羊"] = 0;
+              }
+              if (saleSheep[i] !== null) {
+                row[i - 1]["商品羊"] = saleSheep[i];
+              } else {
+                row[i - 1]["商品羊"] = 0;
+              }
+              if (i == len) {
+                if (youngsheep[i] !== null) {
+                  top["羔羊"] = `羔羊:${youngsheep[i]}`;
+                } else {
+                  top["羔羊"] = "羔羊:0";
+                }
+              }
+              if (i == len) {
+                if (ewe !== null) {
+                  top["种母羊"] = `种母羊:${ewe[i]}`;
+                } else {
+                  top["种母羊"] = "种母羊:0";
+                }
+              }
+              if (i == len) {
+                if (ram[i] !== null) {
+                  top["种公羊"] = `种公羊:${ram[i]}`;
+                } else {
+                  top["种公羊"] = "种公羊:0";
+                }
+              }
+              if (i == len) {
+                if (saleSheep[i] !== null) {
+                  top["商品羊"] = `商品羊:${saleSheep[i]}`;
+                }
+                top["商品羊"] = "商品羊:0";
+              }
+            }
+          });
         },
         error: function(data) {}
-      })
-    },
-
+      });
+    }
   }
 };
 </script>
 <style lang="stylus">
 .o_organic
-	overflow hidden
-	height 100%
-	background url(https://qiniu.yunyangbao.cn/searchBack.png) no-repeat center
-	background-size cover
-	color #01ffff
-	.head
-		padding-top 20px
-		text-align center
-		.o_logo
-			display inline
-			.logo_info
-				vertical-align middle
-				height 60px
-		.o_title
-			display inline
-			line-height 20px
-			color #01ffff
-			font-size 1.675em
-			font-weight bold
-		.o_bottom
-			position relative
-			top -40px
-	.organic_body
-		color #00c5dd
-		font-size 15px
-		width 100%
-		margin-top -30px
-		.o_left
-			width 53%
-			float left
-			.area_info
-				font-size 15px
-				span
-					padding-left 3.4%
-				.el-select
-					width 16%
-					.el-input .el-select__caret
-						color #01ffff
-				.el-input__inner
-					height 26px
-					background-color #002e72
-					border 1px solid #01ffff
-					border-radius 0px
-					color #6d9dfb
-				.el-autocomplete
-					width 16%
-				span
-					vertical-align middle
-				.area_select
-					display inline-block
-			
-			.o_check
-				font-size 14px
-				margin-top 20px
-				margin-left 20px
-				.el-checkbox+.el-checkbox
-					margin-left 15px
-				.el-checkbox
-					color #9cdbe1
-				.el-checkbox__inner
-					background-color rgba(0,0,0,0)
-				.el-checkbox__label
-					font-size 12px
-				.o_farm
-					padding-left 10px
-					width 13%
-					height 60px
-					float left
-					text-align center
-					background url(../../assets/imgs/farm.png) no-repeat center
-					background-size 100% 50px
-					.f_top
-						position relative
-						top -10px
-						p
-							line-height 6px
-				.o_slaughter
-					width 23%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/slaughter.png) no-repeat center
-					background-size 100% 50px
-					.s_top
-						position relative
-						top -10px
-						p
-							line-height 8px
-				.o_customer
-					width 38%
-					height 60px
-					float left
-					margin-left 10px
-					text-align center
-					background url(../../assets/imgs/customer.png) no-repeat center
-					background-size 100% 50px
-					.c_top
-						position relative
-						top -7px
-						p
-							line-height 5px
-				.o_search
-					img
-						padding-left 10px
-						padding-top 7px
-						width 87px
-						cursor pointer
-			.o_map
-				padding-left 20px
-				padding-top 10px
-				.o_boxOut
-					padding-top 2.5vh
-					width 97%
-					height calc(90vh - 200px)
-					height -moz-calc(90vh - 200px)
-					height -webkit-calc(90vh - 200px)
-					height calc(90vh - 200px)
-					background url(../../assets/imgs/mapBack.png) no-repeat center
-					background-size 100% 100%
-					.map_detail
-						width 94%
-						height 96%
-						margin 0 auto
-			.o_introduce
-				width 80px
-				height 60px
-				background white
-				position relative
-				top -80px
-				left 40px
-				color black
-				.o_red
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background red
-					border-radius 50%
-				.o_blue
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background green
-					border-radius 50%
-				.o_yellow
-					margin-left 4px
-					display inline-block
-					width 10px
-					height 10px
-					background yellow
-					border-radius 50%
-				span
-					font-size 10px
-					webkit-transform scale(0.83)
-		.o_middle
-			img
-				float left
-				height calc(80vh - 50px)
-				height -moz-calc(80vh - 50px)
-				height -webkit-calc(80vh - 50px)
-				height calc(80vh - 50px)
-		.right
-			float right
-			color #00c5dd
-			text-align center
-			width 43%
-			.o_sune
-				float left
-				margin-right 3.2vw
-				margin-top -25px
-				font-size 12px
-				.outTable
-					table-layout fixed
-					border-collapse collapse
-					.o_none
-						background-color rgba(0,0,0,0)
-						border 1px solid rgba(0,0,0,0)
-						border-bottom 1px solid #0090d4
-					tr
-						width 100%
-						td, th
-							border 1px solid #0090d4
-							width 4.5vw
-							height 19px
-							// min-width 67.5px
-					.o_cline
-						background url(../../assets/imgs/tableBack.png) no-repeat center
-						background-size 106% 106%
-						tr
-							th
-								border 0px
-								height 14px		
-			.o_message
-				float right
-				.o_snDetail
-					table-layout fixed
-					margin-top 10px
-					margin-right 3.2vw
-					font-size 12px
-					border-collapse collapse
-					tr
-						.table_head
-							color #040d2a
-							height 30px
-							background-color #2c9aef
-							line-height 30px
-							font-size 16px
-							font-weight bold
-						td, th
-							background-color #001e85 
-							border 1px solid #0090d4
-							width 7vw
-							height 19px
-							// min-width 30px
-            th 
-              text-align left
-						.o_font
-							font-size 10px
-							-webkit-transform scale(0.83)
-						.o_noBack
-							font-size 10px
-							-webkit-transform scale(0.83)
-							border 0px
-							background-color rgba(0,0,0,0)
-							width 6vw
-							text-align right
-							padding-right 10px
-						.o_total
-							background-color #eb6100
-			.o_sheep_line
-        z-index -1
-        font-size 12px
-				margin-top 10px
-        margin-left 20px
-  			height calc(85vh - 250px)
-				height -moz-calc(85vh - 250px)
-				height -webkit-calc(85vh - 250px)
-				height calc(85vh - 250px)
-				float right
-				width 99%
-			.o_detail
-				font-size 12px
-				margin-top 220px
-				float right
-				width 99%
-				margin-right 5%
-				height calc(85vh - 470px)
-				height -moz-calc(85vh - 470px)
-				height -webkit-calc(85vh - 470px)
-				height calc(85vh - 470px)
-				background url(../../assets/imgs/mapBack.png) no-repeat center
-				background-size 100% 100%
-				padding-top 2%
-				.o_inside
-					margin 0 auto
-					height 92%
-					width 92%
-					border 2px solid #021e86
-					.containerHead
-						float left
-						width 60%
-						height 56px
-						background rgba(255,255,255,0.01)
-						// .total_num
-						// 	padding-top 5px
-						// 	width 100%
-						// 	float left
-						// 	color #f29512
-						// 	//border-bottom 1px dotted #f29512
-						// 	text-align left
-						// 	font-size 14px
-						.chargeTitle
-							padding-top 5px
-							height 25px
-							font-size 12px
-							background rgba(44,154,239,0.1)
-							.chargeman
-								float left
-								width 44%
-							.chargephone
-								float left
-								width 50%
-						.choseStyleOne,.choseStyleTwo
-							float left
-							border 0.5px solid #7fcdf4
-							width 49.5%
-							height 25px
-							text-align center
-							line-height 25px
-							cursor pointer
-						.choseStyleOne
-							background-color #7fcdf4
-							color black
-					.o_container
-						overflow auto
-						float left
-						width 60%
-						height calc(100%- 56px)
-						background rgba(255,255,255,0.01)
-						text-align left
-						overflow: -moz-hidden-unscrollable;
-						-ms-overflow-style: none//IE 10+滚动条
-						overflow: -moz-scrollbars-none//firefox
-					.o_company::-webkit-scrollbar { display: none }::-webkit-scrollbar { display: none }
-					.o_aside
-						//overflow-x scroll
-						white-space nowrap
-						overflow auto
-						float left
-						width 40%
-						height 100%
-						background-color #021e86
-						text-align left
-						.o_company
-							cursor pointer
-							height 20px
-							line-height 20px
-							background-color #021e86
-							overflow: -moz-hidden-unscrollable;
-							-ms-overflow-style: none//IE 10+滚动条
-							overflow: -moz-scrollbars-none//firefox
-						.o_company:hover
-							background-color #00b8ee
-							color #00459e
-						.o_company::-webkit-scrollbar { display: none }
-	.o_foot
-		height 40px
-		background rgba(0,0,0,0)
-		text-align center
-		width 100%
-		position absolute
-		bottom 10px
-		font-size 10px
-		border-top 1px #01ffff solid
-		color #028ca5
-		.foot_mess
-			margin 0
-		    line-height 15px
-		    text-align center
+  overflow: hidden
+  height: 100%
+  background: url('https://qiniu.yunyangbao.cn/searchBack.png') no-repeat center // qiniu.yunyangbao.cn/searchBack.png) no-repeat center
+  background-size: cover
+  color: #01ffff
+  .head
+    padding-top: 20px
+    text-align: center
+    .o_logo
+      display: inline
+      .logo_info
+        vertical-align: middle
+        height: 60px
+    .o_title
+      display: inline
+      line-height: 20px
+      color: #01ffff
+      font-size: 1.675em
+      font-weight: bold
+    .o_bottom
+      position: relative
+      top: -40px
+  .organic_body
+    color: #00c5dd
+    font-size: 15px
+    width: 100%
+    margin-top: -30px
+    .o_left
+      width: 53%
+      float: left
+      .area_info
+        font-size: 15px
+        span
+          padding-left: 3.4%
+        .el-select
+          width: 16%
+          .el-input .el-select__caret
+            color: #01ffff
+        .el-input__inner
+          height: 26px
+          background-color: #002e72
+          border: 1px solid #01ffff
+          border-radius: 0px
+          color: #6d9dfb
+        .el-autocomplete
+          width: 16%
+        span
+          vertical-align: middle
+        .area_select
+          display: inline-block
+      .o_check
+        font-size: 14px
+        margin-top: 20px
+        margin-left: 20px
+        .el-checkbox+.el-checkbox
+          margin-left: 15px
+        .el-checkbox
+          color: #9cdbe1
+        .el-checkbox__inner
+          background-color: rgba(0, 0, 0, 0)
+        .el-checkbox__label
+          font-size: 12px
+        .o_farm
+          padding-left: 10px
+          width: 13%
+          height: 60px
+          float: left
+          text-align: center
+          background: url('../../assets/imgs/farm.png') no-repeat center
+          background-size: 100% 50px
+          .f_top
+            position: relative
+            top: -10px
+            p
+              line-height: 6px
+        .o_slaughter
+          width: 23%
+          height: 60px
+          float: left
+          margin-left: 10px
+          text-align: center
+          background: url('../../assets/imgs/slaughter.png') no-repeat center
+          background-size: 100% 50px
+          .s_top
+            position: relative
+            top: -10px
+            p
+              line-height: 8px
+        .o_customer
+          width: 38%
+          height: 60px
+          float: left
+          margin-left: 10px
+          text-align: center
+          background: url('../../assets/imgs/customer.png') no-repeat center
+          background-size: 100% 50px
+          .c_top
+            position: relative
+            top: -7px
+            p
+              line-height: 5px
+        .o_search
+          img
+            padding-left: 10px
+            padding-top: 7px
+            width: 87px
+            cursor: pointer
+      .o_map
+        padding-left: 20px
+        padding-top: 10px
+        .o_boxOut
+          padding-top: 2.5vh
+          width: 97%
+          height: calc(90vh - 200px)
+          height: -moz-calc(90vh - 200px)
+          height: -webkit-calc(90vh - 200px)
+          height: calc(90vh - 200px)
+          background: url('../../assets/imgs/mapBack.png') no-repeat center
+          background-size: 100% 100%
+          .map_detail
+            width: 94%
+            height: 96%
+            margin: 0 auto
+      .o_introduce
+        width: 80px
+        height: 60px
+        background: white
+        position: relative
+        top: -80px
+        left: 40px
+        color: black
+        .o_red
+          margin-left: 4px
+          display: inline-block
+          width: 10px
+          height: 10px
+          background: red
+          border-radius: 50%
+        .o_blue
+          margin-left: 4px
+          display: inline-block
+          width: 10px
+          height: 10px
+          background: green
+          border-radius: 50%
+        .o_yellow
+          margin-left: 4px
+          display: inline-block
+          width: 10px
+          height: 10px
+          background: yellow
+          border-radius: 50%
+        span
+          font-size: 10px
+          webkit-transform: scale(0.83)
+    .o_middle
+      img
+        float: left
+        height: calc(80vh - 50px)
+        height: -moz-calc(80vh - 50px)
+        height: -webkit-calc(80vh - 50px)
+        height: calc(80vh - 50px)
+    .right
+      float: right
+      color: #00c5dd
+      text-align: center
+      width: 43%
+      .o_sune
+        float: left
+        margin-right: 3.2vw
+        margin-top: -25px
+        font-size: 12px
+        .outTable
+          table-layout: fixed
+          border-collapse: collapse
+          .o_none
+            background-color: rgba(0, 0, 0, 0)
+            border: 1px solid rgba(0, 0, 0, 0)
+            border-bottom: 1px solid #0090d4
+          tr
+            width: 100%
+            td, th
+              border: 1px solid #0090d4
+              width: 4.5vw
+              height: 19px
+              // min-width 67.5px
+          .o_cline
+            background: url('../../assets/imgs/tableBack.png') no-repeat center
+            background-size: 106% 106%
+            tr
+              th
+                border: 0px
+                height: 14px
+      .o_message
+        float: right
+        .o_snDetail
+          table-layout: fixed
+          margin-top: 10px
+          margin-right: 3.2vw
+          font-size: 12px
+          border-collapse: collapse
+          tr
+            .table_head
+              color: #040d2a
+              height: 30px
+              background-color: #2c9aef
+              line-height: 30px
+              font-size: 16px
+              font-weight: bold
+            td, th
+              background-color: #001e85
+              border: 1px solid #0090d4
+              width: 7vw
+              height: 19px
+              // min-width 30px
+th, text-align left
+  .o_font
+    font-size: 10px
+    -webkit-transform: scale(0.83)
+  .o_noBack
+    font-size: 10px
+    -webkit-transform: scale(0.83)
+    border: 0px
+    background-color: rgba(0, 0, 0, 0)
+    width: 6vw
+    text-align: right
+    padding-right: 10px
+  .o_total
+    background-color: #eb6100
+.o_sheep_line, z-index -1, font-size 12px
+  margin-top: 10px
+margin-left 20px, height calc(85vh - 250px)
+  height: -moz-calc(85vh - 250px)
+  height: -webkit-calc(85vh - 250px)
+  height: calc(85vh - 250px)
+  float: right
+  width: 99%
+.o_detail
+  font-size: 12px
+  margin-top: 220px
+  float: right
+  width: 99%
+  margin-right: 5%
+  height: calc(85vh - 470px)
+  height: -moz-calc(85vh - 470px)
+  height: -webkit-calc(85vh - 470px)
+  height: calc(85vh - 470px)
+  background: url('../../assets/imgs/mapBack.png') no-repeat center
+  background-size: 100% 100%
+  padding-top: 2%
+  .o_inside
+    margin: 0 auto
+    height: 92%
+    width: 92%
+    border: 2px solid #021e86
+    .containerHead
+      float: left
+      width: 60%
+      height: 56px
+      background: rgba(255, 255, 255, 0.01)
+      // .total_num
+      // padding-top 5px
+      // width 100%
+      // float left
+      // color #f29512
+      // //border-bottom 1px dotted #f29512
+      // text-align left
+      // font-size 14px
+      .chargeTitle
+        padding-top: 5px
+        height: 25px
+        font-size: 12px
+        background: rgba(44, 154, 239, 0.1)
+        .chargeman
+          float: left
+          width: 44%
+        .chargephone
+          float: left
+          width: 50%
+      .choseStyleOne, .choseStyleTwo
+        float: left
+        border: 0.5px solid #7fcdf4
+        width: 49.5%
+        height: 25px
+        text-align: center
+        line-height: 25px
+        cursor: pointer
+      .choseStyleOne
+        background-color: #7fcdf4
+        color: black
+    .o_container
+      overflow: auto
+      float: left
+      width: 60%
+      height: calc(100% - 56px)
+      background: rgba(255, 255, 255, 0.01)
+      text-align: left
+      overflow: -moz-hidden-unscrollable
+      -ms-overflow-style: none // IE 10+滚动条
+      overflow: -moz-scrollbars-none // firefox
+    .o_company::-webkit-scrollbar
+      display: none
+    ::-webkit-scrollbar
+      display: none
+    .o_aside
+      // overflow-x scroll
+      white-space: nowrap
+      overflow: auto
+      float: left
+      width: 40%
+      height: 100%
+      background-color: #021e86
+      text-align: left
+      .o_company
+        cursor: pointer
+        height: 20px
+        line-height: 20px
+        background-color: #021e86
+        overflow: -moz-hidden-unscrollable
+        -ms-overflow-style: none // IE 10+滚动条
+        overflow: -moz-scrollbars-none // firefox
+      .o_company:hover
+        background-color: #00b8ee
+        color: #00459e
+      .o_company::-webkit-scrollbar
+        display: none
+.o_foot
+  height: 40px
+  background: rgba(0, 0, 0, 0)
+  text-align: center
+  width: 100%
+  position: absolute
+  bottom: 10px
+  font-size: 10px
+  border-top: 1px #01ffff solid
+  color: #028ca5
+  .foot_mess
+    margin: 0
+  line-height: 15px
+  text-align: center
 </style>
