@@ -76,13 +76,13 @@
             <el-table-column
 				label="养殖场"
 				width="120"
-				prop="farm">
+				prop="breedName">
 			</el-table-column>
 
             <el-table-column
 				label="货主"
 				width="120"
-				prop="master">
+				prop="goodman">
 			</el-table-column>
       
  </el-table>
